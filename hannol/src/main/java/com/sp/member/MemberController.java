@@ -36,15 +36,16 @@ public class MemberController {
 			) {
 		
 		Member dto=service.loginMember(userId);
-		if(dto==null ||  !  userPwd.equals(dto.getPwd())) {
+		if(dto==null ||  !  userPwd.equals(dto.getMemberPwd())) {
 			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
 			return ".member.login";
 		}
 		
 		// 세션에 로그인 정보 저장
 		SessionInfo info=new SessionInfo();
-		info.setUserId(dto.getId());
-		info.setUserName(dto.getName());
+		info.setUsersCode(dto.getUsersCode());
+		info.setMemberId(dto.getMemberId());
+		info.setMemberName(dto.getMemberName());
 		
 		session.setMaxInactiveInterval(30*60); // 세션유지시간 30분, 기본:30분
 		
