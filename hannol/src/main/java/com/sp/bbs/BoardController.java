@@ -11,5 +11,6 @@ public class BoardController {
 		model.addAttribute("subMenu", "1");
 		return ".four.menu2.bbs.list";
 	}
+	
 }
 
