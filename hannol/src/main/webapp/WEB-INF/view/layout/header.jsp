@@ -16,8 +16,8 @@
                 <a href="<%=cp%>/member/member"><span class="glyphicon glyphicon-user"></span> 회원가입</a>
             </c:if>
             <c:if test="${not empty sessionScope.member}">
-                <span style="color:blue;">${sessionScope.member.userName}</span>님 <i></i>
-                <c:if test="${sessionScope.member.userId=='admin'}">
+                <span style="color:blue;">${sessionScope.member.memberName}</span>님 <i></i>
+                <c:if test="${sessionScope.member.memberId=='admin'}">
                     <a href="#">관리자</a> <i></i>
                 </c:if>
                 <a href="#"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
