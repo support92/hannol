@@ -3,6 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 	<select id="loginMember" parameterType="String" resultType="com.sp.member.Member">
-		SELECT usersCode, memberId, memberPwd, memberName, enabled FROM member1 WHERE memberId=#{memberId}
+		SELECT usersCode, memberId, memberPwd, memberName, authority FROM member1 WHERE memberId=#{memberId} AND enabled=1
 	</select>
 </mapper>
