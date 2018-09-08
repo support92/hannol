@@ -9,5 +9,10 @@ public class GiftShopController {
 	public String giftShopList() throws Exception{
 		return ".four.menu9.list";
 	}
+	
+	@RequestMapping(value="/giftshop/article")
+	public String articleFrom() throws Exception{
+		return ".four.menu9.article";
+	}
 
 }
