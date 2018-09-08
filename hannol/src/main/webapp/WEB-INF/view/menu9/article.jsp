@@ -10,6 +10,11 @@
 	list-style:none;
 	margin-top:15px;
 }
+
+.carousel-inner> .item> img{
+	margin: 0px auto;
+}
+
 </style>
 
 <script>
@@ -20,6 +25,7 @@ jQuery(document).ready(function($) {
 		var id = this.id.substr(this.id.lastIndexOf("-") + 1);
 		var id = parseInt(id);
 		$('#myCarousel').carousel(id);
+		$('#myCarousel').carousel('pause');
 	});
 
 });
@@ -36,30 +42,22 @@ jQuery(document).ready(function($) {
               <!-- Carousel items -->
               <div class="carousel-inner">
                 <div class="active item" data-slide-number="0">
-                  <img src="http://placehold.it/770x300&text=one">
+                  <img src="<%=cp %>/resource/images/kingbob.jpg">
                 </div>
 
                 <div class="item" data-slide-number="1">
-                  <img src="http://placehold.it/770x300&text=two">
+                  <img src="<%=cp %>/resource/images/kingbob.jpg">
                 </div>
 
                 <div class="item" data-slide-number="2">
-                  <img src="http://placehold.it/770x300&text=three">
+                  <img src="<%=cp %>/resource/images/kingbob.jpg">
                 </div>
 
                 <div class="item" data-slide-number="3">
-                  <img src="http://placehold.it/770x300&text=four">
+                  <img src="<%=cp %>/resource/images/kingbob.jpg">
                 </div>
 
               </div>
-            
-              <!-- Carousel nav -->
-              <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-              </a>
-              <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-              </a>
             </div>
           </div>
 
@@ -71,44 +69,6 @@ jQuery(document).ready(function($) {
           		<button type="button" class="btn btn-danger">구매하기</button>
           	</div>
           </div>
-
-          <div id="slide-content" style="display: none;">
-            <div id="slide-content-0">
-              <h2>Slider One</h2>
-              <p>Lorem Ipsum Dolor</p>
-              <p class="sub-text">October 24 2014 - <a href="#">Read more</a></p>
-            </div>
-
-            <div id="slide-content-1">
-              <h2>Slider Two</h2>
-              <p>Lorem Ipsum Dolor</p>
-              <p class="sub-text">October 24 2014 - <a href="#">Read more</a></p>
-            </div>
-
-            <div id="slide-content-2">
-              <h2>Slider Three</h2>
-              <p>Lorem Ipsum Dolor</p>
-              <p class="sub-text">October 24 2014 - <a href="#">Read more</a></p>
-            </div>
-
-            <div id="slide-content-3">
-              <h2>Slider Four</h2>
-              <p>Lorem Ipsum Dolor</p>
-              <p class="sub-text">October 24 2014 - <a href="#">Read more</a></p>
-            </div>
-
-            <div id="slide-content-4">
-              <h2>Slider Five</h2>
-              <p>Lorem Ipsum Dolor</p>
-              <p class="sub-text">October 24 2014 - <a href="#">Read more</a></p>
-            </div>
-
-            <div id="slide-content-5">
-              <h2>Slider Six</h2>
-              <p>Lorem Ipsum Dolor</p>
-              <p class="sub-text">October 24 2014 - <a href="#">Read more</a></p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -118,19 +78,19 @@ jQuery(document).ready(function($) {
       <!-- Bottom switcher of slider -->
       <ul class="hide-bullets">
         <li class="col-sm-2">
-          <a class="thumbnail" id="carousel-selector-0"><img src="http://placehold.it/170x100&text=one"></a>
+          <a class="thumbnail" id="carousel-selector-0"><img src="<%=cp %>/resource/images/kingbob.jpg"></a>
         </li>
 
         <li class="col-sm-2">
-          <a class="thumbnail" id="carousel-selector-1"><img src="http://placehold.it/170x100&text=two"></a>
+          <a class="thumbnail" id="carousel-selector-1"><img src="<%=cp %>/resource/images/kingbob.jpg"></a>
         </li>
 
         <li class="col-sm-2">
-          <a class="thumbnail" id="carousel-selector-2"><img src="http://placehold.it/170x100&text=three"></a>
+          <a class="thumbnail" id="carousel-selector-2"><img src="<%=cp %>/resource/images/kingbob.jpg"></a>
         </li>
 
         <li class="col-sm-2">
-          <a class="thumbnail" id="carousel-selector-3"><img src="http://placehold.it/170x100&text=four"></a>
+          <a class="thumbnail" id="carousel-selector-3"><img src="<%=cp %>/resource/images/kingbob.jpg"></a>
         </li>
       </ul>
     </div>
