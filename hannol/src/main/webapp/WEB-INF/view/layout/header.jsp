@@ -46,11 +46,11 @@
                        <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">회사소개<span class="caret"></span></a>
                               <ul class="dropdown-menu">
-                                  <li><a href="<%=cp%>/company/info#">인사말</a></li>
+                                  <li><a href="<%=cp%>/company/info">인사말</a></li>
                                   <li><a href="<%=cp%>/company/way">오시는길</a></li>
                                   <li><a href="#">가이드맵</a></li>
                                   <li><a href="#">이용요금</a></li>
-                                  <li><a href="#">제휴카드</a></li>
+                                  <li><a href="<%=cp%>/company/card">제휴카드</a></li>
                                   <li><a href="#">인재채용</a></li>
                               </ul>
                           </li>
@@ -98,7 +98,7 @@
                               </ul>
                           </li>
                           <li>
-                            <a href="#">기프트샵</a>
+                            <a href="<%=cp%>/giftshop/list">기프트샵</a>
                       </li>
                           <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">소통<span class="caret"></span></a>
@@ -175,12 +175,12 @@
                        <li><a href="#">편의시설</a></li>
                    </ul>
                </li>
-               <li><a href="#">기프트샵</a></li>
+               <li><a href="<%=cp%>/giftshop/list">기프트샵</a></li>
             <li>
                <a href="#">소통</a>
                    <ul>
                        <li><a href="<%=cp%>/bbs/list">공지</a></li>
-                       <li><a href="#">이벤트</a></li>
+                       <li><a href="#">이벤트</a></li>                       
                        <li><a href="#">FAQ</a></li>
                        <li><a href="#">1:1문의</a></li>
                        <li><a href="#">후기</a></li>

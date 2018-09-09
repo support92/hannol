@@ -16,11 +16,7 @@ $(function(){
 </script>
 
 <div class="list-group">
-       <div class="list-group-item lefthead"><i></i> 회사소개</div>
-       <a href="<%=cp%>/company/info" class="list-group-item">인사말</a>
-       <a href="<%=cp%>/company/way" class="list-group-item">오시는길</a>
-       <a href="#" class="list-group-item">가이드맵</a>
-       <a href="#" class="list-group-item">이용요금</a>
-       <a href="<%=cp%>/company/card" class="list-group-item">제휴카드</a>
-       <a href="#" class="list-group-item">인재채용</a>
+       <div class="list-group-item lefthead"><i></i>기프트샵</div>
+       <a href="<%=cp%>/giftshop/list" class="list-group-item">전체</a>
+       <a href="#" class="list-group-item">테마별</a>
 </div>

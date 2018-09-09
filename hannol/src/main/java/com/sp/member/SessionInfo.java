@@ -5,7 +5,7 @@ public class SessionInfo {
 	private long usersCode;
 	private String memberId;
 	private String memberName;
-	private int enabled;
+	private String authority;
 	
 	public long getUsersCode() {
 		return usersCode;
@@ -25,11 +25,12 @@ public class SessionInfo {
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
-	public int getEnabled() {
-		return enabled;
+	public String getAuthority() {
+		return authority;
 	}
-	public void setEnabled(int enabled) {
-		this.enabled = enabled;
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
+	
 	
 }
