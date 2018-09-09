@@ -6,51 +6,113 @@
    String cp = request.getContextPath();
 %>
 
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+function cardDetail(){
+	
+	$("#cardModal").modal();
+}
+
+</script>
+
 <style type="text/css">
-.btnLike {
-    color:#333333;
-    font-weight:500;
-    font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
-    border:1px solid #cccccc;
-    background-color:#ffffff;
-    text-align:center;
-    cursor:pointer;
-    padding:3px 10px 5px;
-    border-radius:4px;
+
+.cardImage{
+	width: 19em;
+	height: 90%;
+}
+
+.cardImage_dialog{
+	width: 15em;
+	height: 80%;
+}
+
+.col-xs-8:after{
+	content:''; display:block; clear:both;
+}
+
+.col-xs-offset-2{
+	width: 40%;
+}
+
+.col-xs-8{
+ 	float: none;
+ 	margin: 10px auto;
+}
+
+.boxIn{
+	width:100%;
+    white-space:pre-line;
+    background-color:#F6F6F6;
+    
 }
 </style>
 
 <div class="bodyFrame2">
     <div class="body-title">
-          <h3><span class="glyphicon glyphicon-tower"></span> ${menu} </h3>
+          <h3><span class="glyphicon glyphicon-credit-card"></span> 제휴카드 </h3>
+    </div>	
+    
+    <div class="col-xs-8 col-xs-offset-2">
+  		<div class="input-group">
+            <input type="hidden" name="search_param" value="all" id="search_param">         
+            <input type="text" class="form-control" name="x" placeholder="검색할 키워드를 입력해 주세요...">
+            <span class="input-group-btn">
+                <button class="btn btn-default btn-info" type="button"><span class="glyphicon glyphicon-search"></span></button>
+            </span>
+        </div>
     </div>
     
     <div>
-		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
-		   <tr height="40">
-		      <td align="center">
-		          <form name="searchForm" action="" method="post">
-		              <select name="searchKey" class="selectField">
-		                  <option value="subject">제목</option>
-		                  <option value="userName">작성자</option>
-		                  <option value="content">내용</option>
-		                  <option value="created">등록일</option>
-		            </select>
-		            <input type="text" name="searchValue" class="boxTF">
-		            <button type="button" class="btn" onclick="searchList()">검색</button>
-		        </form>
-		      </td>
-		   </tr>
-		</table>
-		
-		<table  style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
+		<table  style="width: 100%; height: 13em; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
 		  <tr align="center" height="100em" style="border-bottom: 1px solid #cccccc;"> 
-		      <td width="30%" bgcolor="#cccccc"><img src="<%=cp%>/resource/images/disk.gif"></td>
-		      <td width="50%" align="left" style="padding-left: 1em">
-		           	대강대강 설명
+		      <td rowspan="2" width="30%"><img src="<%=cp%>/resource/images/card.jpg" class="cardImage"></td>
+		      <td width="55%" height="10%" align="left" style="padding-left: 1em; padding-right: 1em;">
+		           	<span style="font-weight: bold;">Disney 카드</span>
 		      </td>
-		      <td width="20%" bgcolor="#cccccc">
-		      	 <button type="button" class="btn" onclick="">상세정보</button>
+		      <td rowspan="2" width="15%">
+		      	 <button type="button" class="btn btn-default btn-info" onclick="cardDetail()">상세정보</button>
+		      	 
+		      	 <div style="display: none;" id="cardModal" role="dialog" class="modal" tabindex="-1">
+		      	 <div class="modal-dialog" style="width: 40%">
+		      	 <div class="modal-content">
+		      	 	<div class="modal-header">
+ 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  						<span aria-hidden="true">×</span></button>
+ 						<h3 class="modal-title" id="myModalLabel" style="font-weight: bold;"><img src="<%=cp%>/resource/images/sc_logo.PNG" width="20px" height="25px"> SC 제일은행 (Standard Chartered)</h3>
+					</div>
+					<div class="modal-body">
+						<div>
+							<div align="left" style="position: relative; float: left; width: 40%;">
+								<div><img width="50%" src="<%=cp%>/resource/images/card.jpg" class="cardImage_dialog"></div>						
+							</div>
+							<div align="left" style="position: relative; float: left; width: 60%;">
+								<span style="font-weight: bold;">Disney 카드<br></span>
+								<span style="font-weight: bold;">이용혜택<br></span>
+								<span>- 자유이용권 50%(본인에 한함. 전 놀이공원 1일, 1회)</span>
+							</div>
+						</div>
+						
+						<div>
+							<div class="boxIn" align="left" style="clear: both; padding: 10px;">- 서비스 이용 직전월 해당카드 이용금액(1일~말일) 30만원 이상 이용 실적이 있는 회원
+							- 신규 발급회원인 경우 사용등록월을 포함하여 2개월간 할인이 적용됩니다. 
+							- 1일 1회 연간 각 놀이공원 3회 이용가능
+							- 타 놀이공원 당일 중복할인 불가
+ 							</div>
+						</div>
+					
+					
+					</div>
+					</div>
+					</div>
+				</div>
+		      </td>
+		  </tr>
+		  <tr style="border-bottom: 1px solid #cccccc;">
+		  	  <td width="55%" height="90%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em;"><span style="font-weight: bold;">은행명</span>
+					- SC 제일은행 (Standard Chartered)
+				<span style="font-weight: bold;">이용혜택</span>
+					- 자유이용권 50%(본인에 한함. 전 놀이공원 1일, 1회)
 		      </td>
 		  </tr>
 
@@ -61,14 +123,6 @@
 			<td align="center">
 		        1 2 3
 			</td>
-		   </tr>
-		</table>
-		
-		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
-		   <tr height="40">
-		      <td align="right" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/';">글올리기</button>
-		      </td>
 		   </tr>
 		</table>
     </div>
