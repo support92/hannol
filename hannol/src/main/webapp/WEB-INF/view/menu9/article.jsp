@@ -8,10 +8,13 @@
 
 <style>
 .giftLeftLayout{
+	float : left;
 	width: 50%;
 }
 
 .giftRightLayout{
+	float : left;
+	padding : 15px;
 	width: 50%;
 }
 
@@ -54,10 +57,36 @@
 	width : 100%;
 }
 
-@media (max-width: 767px) and (min-width: 320px){
-	content:''; display:block; clear:both;
+.itemSubject{
+	font-size: 20px;
 }
 
+.itemPrice{
+	font-size: 14px;
+}
+
+.itemPrice{
+	font-weight: bold;
+}
+
+.giftItemDetail{
+	width: 100%;
+	display: inline-block;
+}
+
+.itemCount{
+	margin: 15px 0px;
+}
+
+.giftItemDetail > img{
+	width: 100%;
+}
+
+@media (max-width: 767px){
+	.giftLeftLayout {
+    width : 100%;
+	}
+}
 </style>
 
 <div class="giftLeftLayout">
@@ -95,14 +124,6 @@
                 <img src='http://placehold.it/400x200&text=slide9' alt='' />
             </div>
         </div>
-            
-        <!-- Controls -->
-        <a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
-            <span class='glyphicon glyphicon-chevron-left'></span>
-        </a>
-        <a class='right carousel-control' href='#carousel-custom' data-slide='next'>
-            <span class='glyphicon glyphicon-chevron-right'></span>
-        </a>
     </div>
     
     <!-- Indicators -->
@@ -119,7 +140,30 @@
     </ol>
 </div>
 </div>
-<div class="giftRightLayout"></div>
+<div class="giftRightLayout">
+	<div class="itemSubject">미니언즈 킹밥</div>
+	<div class="itemPrice">30,000원</div>
+	<div class="itemCount">
+		<div>수량</div>
+		<button type="button" class="btn btn-default">-</button>
+		<input type="text" value="1">
+		<button type="button" class="btn btn-default">+</button>
+	</div>
+	<div>
+		<div class="itemPrice">총상품금액 : 30,000원</div>
+		
+	</div>
+	<div style="margin: 0px auto;">
+	
+		<button type="button" class="btn btn-default">장바구니</button>
+		
+		<button type="button" class="btn btn-danger">구매하기</button>
+	</div>
+</div>
+
+<div class="giftItemDetail">
+	<img alt="" src="<%=cp%>/resource/images/itemDetail.jpg">
+</div>
 
 
 
