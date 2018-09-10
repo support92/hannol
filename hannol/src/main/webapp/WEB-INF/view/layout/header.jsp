@@ -103,7 +103,7 @@
                           <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">소통<span class="caret"></span></a>
                               <ul class="dropdown-menu">
-                                  <li><a href="<%=cp%>/bbs/list">공지</a></li>
+                                  <li><a href="<%=cp%>/notice/list">공지</a></li>
                                   <li><a href="#">이벤트</a></li>
                                   <li><a href="#">FAQ</a></li>
                                   <li><a href="#">1:1문의</a></li>
