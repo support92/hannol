@@ -14,7 +14,7 @@
 </ol>
 
 <!-- Wrapper for slides -->
-<div class="carousel-inner" role="listbox">
+<div class="carousel-inner main_slide" role="listbox">
   <div class="item active">
     <img src="<%=cp%>/resource/images/slideImg01.jpg" alt="첫번째 슬라이드">
     <div class="carousel-caption">

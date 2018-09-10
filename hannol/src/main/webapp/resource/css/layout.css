@@ -334,7 +334,7 @@
 	
 	
 	/**main**/
-	.carousel-inner{
+	.carousel-inner.main_slide{
 		width:200%;
 		margin-left:-46%;
 	}
