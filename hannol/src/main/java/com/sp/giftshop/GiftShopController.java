@@ -13,6 +13,7 @@ public class GiftShopController {
 	@RequestMapping(value="/giftshop/article")
 	public String articleFrom() throws Exception{
 		return ".four.menu9.article";
+		
 	}
 
 }
