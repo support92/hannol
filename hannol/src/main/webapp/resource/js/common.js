@@ -12,11 +12,6 @@ $(function(){
 			$(".all_menu_box").slideUp();
 		}
 	});
-	
-	//이미지 슬라이드
-	$('.carousel').carousel({
-	  interval: 2000
-	});
 });
 
 
