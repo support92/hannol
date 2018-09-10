@@ -129,7 +129,7 @@ select::-ms-expand {   display: none; }
     	<div style="width: 100%">
 		    <div class="col-lg-4">
 		      <div class="thumbnail">
-		        <a href="#">
+		        <a href="<%=cp%>/giftshop/article">
 		           <img src="<%=cp %>/resource/images/kingbob.jpg" alt="Lights" style="width:100%">
 		           <span class="itemTitle">한놀 마스코트 볼펜</span>
 		        </a>
