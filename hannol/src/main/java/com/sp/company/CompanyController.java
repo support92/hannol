@@ -18,9 +18,4 @@ public class CompanyController {
 		return ".four.menu1.company.way";
 	}
 	
-	@RequestMapping(value="/company/card")
-	public String card(Model model) throws Exception {
-		model.addAttribute("subMenu", "5");
-		return ".four.menu1.company.card";
-	}
 }

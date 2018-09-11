@@ -50,7 +50,7 @@
                                   <li><a href="<%=cp%>/company/way">오시는길</a></li>
                                   <li><a href="#">가이드맵</a></li>
                                   <li><a href="#">이용요금</a></li>
-                                  <li><a href="<%=cp%>/company/card">제휴카드</a></li>
+                                  <li><a href="<%=cp%>/card/list">제휴카드</a></li>
                                   <li><a href="#">인재채용</a></li>
                               </ul>
                           </li>
