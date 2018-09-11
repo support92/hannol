@@ -8,14 +8,13 @@
 
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
-function cardDetail(){
-	
+function cardDetail(){	
 	$("#cardModal").modal();
 }
 
 </script>
-
-<style type="text/css">
+ 
+<style type="text/css"> 
 
 .cardImage{
 	width: 19em;
@@ -23,9 +22,9 @@ function cardDetail(){
 }
 
 .cardImage_dialog{
-	width: 15em;
+	width: 17em;
 	height: 80%;
-}
+} 
 
 .col-xs-8:after{
 	content:''; display:block; clear:both;
@@ -45,6 +44,38 @@ function cardDetail(){
     white-space:pre-line;
     background-color:#F6F6F6;
     
+}
+
+@media (min-width: 320px) and (max-width: 1144px ) {
+   .cardImage_dialog{
+		width: 100%;
+		height: 80%;
+	}
+	
+	.modal-dialog{
+		width: 40%
+	}	
+
+}
+
+@media ( min-width : 1145px) {
+	.modal-dialog{
+		width: 496px;
+	}
+	.cardImage_dialog{
+		width: 17em;
+		height: 80%;
+	}
+	#modalcard{ 
+		position: relative;
+		float: left;
+		width: 50%;
+	}
+	#modalcontent{
+		position: relative;
+		float: left;
+		width: 50%;
+	}
 }
 </style>
 
@@ -67,52 +98,53 @@ function cardDetail(){
 		<table  style="width: 100%; height: 13em; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
 		  <tr align="center" height="100em" style="border-bottom: 1px solid #cccccc;"> 
 		      <td rowspan="2" width="30%"><img src="<%=cp%>/resource/images/card.jpg" class="cardImage"></td>
-		      <td width="55%" height="10%" align="left" style="padding-left: 1em; padding-right: 1em;">
-		           	<span style="font-weight: bold;">Disney 카드</span>
+		      <td colspan="2" width="70%" height="20%" align="left" style="padding-left: 1em; padding-right: 1em;">
+		           	<h4 style="font-weight: bold;">Disney 카드</h4>
 		      </td>
-		      <td rowspan="2" width="15%">
+		  </tr>
+		  <tr style="border-bottom: 1px solid #cccccc;">
+		  	  <td width="55%" height="80%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em;"><span style="font-weight: bold;">은행명</span>
+					- SC 제일은행 (Standard Chartered)
+				<span style="font-weight: bold;">이용혜택</span>
+					- 자유이용권 50%(본인에 한함. 전 놀이공원 1일, 1회)
+		      </td>
+		      
+		      <td width="15%">
 		      	 <button type="button" class="btn btn-default btn-info" onclick="cardDetail()">상세정보</button>
 		      	 
 		      	 <div style="display: none;" id="cardModal" role="dialog" class="modal" tabindex="-1">
-		      	 <div class="modal-dialog" style="width: 40%">
+		      	 <div class="modal-dialog">
 		      	 <div class="modal-content">
 		      	 	<div class="modal-header">
  						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
   						<span aria-hidden="true">×</span></button>
- 						<h3 class="modal-title" id="myModalLabel" style="font-weight: bold;"><img src="<%=cp%>/resource/images/sc_logo.PNG" width="20px" height="25px"> SC 제일은행 (Standard Chartered)</h3>
+ 						<h4 class="modal-title" id="myModalLabel" style="font-weight: bold;"><img src="<%=cp%>/resource/images/sc_logo.PNG" width="20px" height="25px"> SC 제일은행 (Standard Chartered)</h4>
 					</div>
 					<div class="modal-body">
 						<div>
-							<div align="left" style="position: relative; float: left; width: 40%;">
+							<div id="modalcard" style="margin-bottom: 10px;">
 								<div><img width="50%" src="<%=cp%>/resource/images/card.jpg" class="cardImage_dialog"></div>						
 							</div>
-							<div align="left" style="position: relative; float: left; width: 60%;">
+							<div id="modalcontent">
 								<span style="font-weight: bold;">Disney 카드<br></span>
 								<span style="font-weight: bold;">이용혜택<br></span>
-								<span>- 자유이용권 50%(본인에 한함. 전 놀이공원 1일, 1회)</span>
+								<span>- 자유이용권 50%</span>
+								<span>	(본인에 한함. 전 놀이공원 1일, 1회)</span>
 							</div>
 						</div>
 						
-						<div>
-							<div class="boxIn" align="left" style="clear: both; padding: 10px;">- 서비스 이용 직전월 해당카드 이용금액(1일~말일) 30만원 이상 이용 실적이 있는 회원
+						
+						<div class="boxIn" align="left" style="clear: both; padding: 10px;">- 서비스 이용 직전월 해당카드 이용금액(1일~말일) 30만원 이상 이용 실적이 있는 회원
 							- 신규 발급회원인 경우 사용등록월을 포함하여 2개월간 할인이 적용됩니다. 
 							- 1일 1회 연간 각 놀이공원 3회 이용가능
 							- 타 놀이공원 당일 중복할인 불가
- 							</div>
-						</div>
+ 						</div>
 					
 					
 					</div>
 					</div>
 					</div>
 				</div>
-		      </td>
-		  </tr>
-		  <tr style="border-bottom: 1px solid #cccccc;">
-		  	  <td width="55%" height="90%" align="left" style="white-space:pre-line; padding-left: 1em; padding-right: 1em;"><span style="font-weight: bold;">은행명</span>
-					- SC 제일은행 (Standard Chartered)
-				<span style="font-weight: bold;">이용혜택</span>
-					- 자유이용권 50%(본인에 한함. 전 놀이공원 1일, 1회)
 		      </td>
 		  </tr>
 
