@@ -82,7 +82,7 @@
 		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 		   <tr height="35">
 		   <td align="left" width="100">
-		          <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
 		      </td>
 			<td align="center">
 			        <c:if test="${dataCount==0 }">등록된 게시물이 없습니다.</c:if>
