@@ -202,7 +202,7 @@ select {
 								<label class="line-title">카드종류</label>
 								<div style="display: inline;">
 									<select>
-										<option>카드 선택 </option>
+										<option>카드 선택</option>
 									</select>
 								</div>
 							</li>
@@ -210,10 +210,24 @@ select {
 								<label class="line-title">할부기간</label>
 								<div style="display: inline;">
 									<select>
-										<option>카드 선택 </option>
+										<option>일시불</option>
+										<option>2개월(무이자)</option>
+										<option>3개월(무이자)</option>
+										<option>4개월</option>
+										<option>5개월</option>
+										<option>6개월</option>
+										<option>7개월</option>
+										<option>8개월</option>
+										<option>9개월</option>
+										<option>10개월</option>
+										<option>11개월</option>
+										<option>12개월</option>
 									</select>
 									<span style="display: inline-block; margin-left: 10px; vertical-align: center; color:#888888;">*할부는 50,000원 이상만 가능합니다.</span>
 									<div style="margin-left: 20px; margin-top: 10px;" class="pay-section-info">무이자 할부 혜택 ▼</div>
+									<div style="margin-left: 20px; margin-top: 5px;">
+										<img src="<%=cp%>/resource/images/pay_section.png">
+									</div>
 								</div>
 							</li>
 						</ul>
@@ -223,7 +237,13 @@ select {
 		</table>
 		
 		<div style="margin-top: 5px;">
-			<input type="checkbox"><span style="vertical-align: center;"> (필수) 구매조건 확인 및 결제대행 서비스 약관 동의</span>
+			<input type="checkbox"><span style="vertical-align: center;"> (필수) 구매조건 확인 및 결제대행 서비스 약관 동의</span><a>[보기]</a>
+			<div><span style="color: red;">구매조건 확인 및 결제대행 서비스 약관에 동의하셔야 합니다.</span></div>
+		</div>
+		<div style="marmargin-top: 5px; margin-left: 15px;">
+			<div><span>서비스 이용 약관 동의</span></div>								
+			<div><span>개인정보 수집 및 이용 동의</span></div>								
+			<div><span>개인정보 제공 및 위탁 동의</span></div>							
 		</div>
 		
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
