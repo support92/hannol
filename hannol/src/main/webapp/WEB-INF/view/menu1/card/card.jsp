@@ -90,7 +90,7 @@ function searchList() {
     	<div class="col-xs-8 col-xs-offset-2">
 			<div class="input-group">
 				<input type="hidden" name="searchKey" value="all">         
-			    <input type="text" style="height:30px;" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
+			    <input type="text" class="form-control" name="searchValue" placeholder="검색할 키워드를 입력해 주세요...">
 			    <span class="input-group-btn">
 			    	<button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
 				</span>
@@ -144,7 +144,6 @@ function searchList() {
 								<span style="font-weight: bold; display: block;">이용혜택</span>
 								<span style="display: block;">- 자유이용권 ${dto.discount}%</span>
 								<span style="display: block;">(본인에 한함. 전 놀이공원 1일, 1회)</span>
-								<br>
 								<span style="display: block;">${dto.startDate} ~ ${dto.endDate}</span>
 							</div>
 						</div>
@@ -167,7 +166,7 @@ function searchList() {
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr height="40">
 		      <td align="left" width="100">
-		          <button type="button" class="btn btn-default btn-info" onclick="javascript:location.href='<%=cp%>/card/list';">새로고침</button>
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/card/list';">새로고침</button>
 		      </td>
 		      <td align="center">
 		      	&nbsp;

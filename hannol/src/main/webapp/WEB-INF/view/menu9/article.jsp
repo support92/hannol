@@ -157,7 +157,7 @@
 	
 		<button type="button" class="btn btn-default">장바구니</button>
 		
-		<button type="button" class="btn btn-danger">구매하기</button>
+		<button type="button" class="btn btn-danger" onclick="javascript:location.href='<%=cp%>/pay/list';">구매하기</button>
 	</div>
 </div>
 
