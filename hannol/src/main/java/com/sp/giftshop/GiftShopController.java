@@ -15,10 +15,4 @@ public class GiftShopController {
 		return ".four.menu9.article";
 		
 	}
-	
-	@RequestMapping(value="/pay/list")
-	public String payList() throws Exception{
-		return ".four.menu9.pay.list";
-		
-	}
 }

@@ -110,19 +110,45 @@ select {
     vertical-align: middle;
     background: #55575f;
 }
-
-.pay-section-info {
-    width: 110px;
-    height: 20px;
-    padding: 2px 13px 0 5px;
-    border: solid 1px #b6b9c1;
-    line-height: 13px;
-    letter-spacing: -1px;
-    color: #55575f;
-    cursor: default;
-    background-color: #fff;
-}
+s}
 </style>
+
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#readTermsInfo").click(function(){
+		$("#terms-info").slideUp();
+		if(!$(this).next().is(":visible"))
+		{
+			$(this).next().slideDown();
+		}else{
+			$(this).next().slideUp();
+		}
+	})
+})
+
+$(function(){
+	$("input:checkbox[id='termsCheck']").click(function(){
+		if($("input:checkbox[id='termsCheck']").is(":checked")){
+			$("#alerCheck").hide();
+		}
+	})
+})
+
+function isTermsCheck(){
+	var str = $("#cardSelect option:checked").val();
+    if(!str) {
+        alert("카드사를 선택하세요.");
+        $("#cardSelect").focus();
+        return;
+    }else if($("input:checkbox[id='termsCheck']").is(":checked")){
+    	$("#payModal").modal();
+	}else{
+		$("#alerCheck").show();
+	}
+}
+
+</script>
 
 <div class="bodyFrame2">
     <div class="body-title">
@@ -158,6 +184,7 @@ select {
 		    </colgroup>
 		  
 		  <tbody>
+		  		<c:if test="${dto.gubunCode == 1}">
 				<tr class="table_col">
 					<th class="col_title">총 상품 가격</th>
 					<td>
@@ -168,17 +195,18 @@ select {
 					<th class="col_title">쿠폰</th>
 					<td>
 						<div style="display: inline; padding-left: 15px;">
-						<select>
+						<select id="couponSelect">
 							<option>사용안함</option>
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
+							<c:if test="${couponCount > 0}">
+								<c:forEach var="i" begin="1" end="${couponCount}">
+									<option>${i}</option>
+								</c:forEach>
+							</c:if>
 						</select>
 						</div>
 						<div style="display: inline-block; padding-left: 15px;">
-							<span>적용 가능한 할인 쿠폰이 2개 있습니다.</span>
-							<!-- <span>적용 가능한 할인쿠폰이 없습니다.</span> -->
+							<c:if test="${couponCount > 0}"><span>적용 가능한 할인 쿠폰이 ${couponCount}개 있습니다.</span></c:if>
+							<c:if test="${couponCount == 0}"><span>적용 가능한 할인쿠폰이 없습니다.</span></c:if>
 						</div>
 					</td>
 				</tr>
@@ -188,6 +216,7 @@ select {
 						<strong class="price">0원</strong>
 					</td>
 				</tr>
+				</c:if>
 				<tr class="table_col">
 					<th class="col_title">총 결제 금액</th>
 					<td>
@@ -201,10 +230,25 @@ select {
 							<li class="pay-type-section">
 								<label class="line-title">카드종류</label>
 								<div style="display: inline;">
-									<select>
-										<option>카드 선택</option>
+									<select id="cardSelect">
+										<option value="">카드 선택</option>
+										<option value="현대">현대 카드</option>
+										<option value="신한">신한 카드</option>
+										<option value="우리">우리 카드</option>
+										<option value="BC">BC 카드</option>
+										<option value="씨티">씨티 카드</option>
+										<option value="롯데">롯데 카드</option>
+										<option value="국민">국민 카드</option>
+										<option value="농협">농협 카드</option>
+										<option value="하나">하나 카드</option>
+										<option value="삼성">삼성 카드</option>
 									</select>
 								</div>
+								<c:if test="${dto.gubunCode == 1}">
+								<div style="display: inline-block; padding-left: 10px;">
+									<span style="color:#888888;">* 제휴카드는 카드 선택시 자동으로 제휴할인이 적용됩니다.</span>
+								</div>
+								</c:if>
 							</li>
 							<li class="pay-type-section">
 								<label class="line-title">할부기간</label>
@@ -223,28 +267,27 @@ select {
 										<option>11개월</option>
 										<option>12개월</option>
 									</select>
-									<span style="display: inline-block; margin-left: 10px; vertical-align: center; color:#888888;">*할부는 50,000원 이상만 가능합니다.</span>
-									<div style="margin-left: 20px; margin-top: 10px;" class="pay-section-info">무이자 할부 혜택 ▼</div>
-									<div style="margin-left: 20px; margin-top: 5px;">
-										<img src="<%=cp%>/resource/images/pay_section.png">
+									<span style="display: inline-block; margin-left: 10px; vertical-align: center; color:#888888;">* 할부는 50,000원 이상만 가능합니다.</span>
+									<div style="margin-left: 20px; margin-top: 10px;">
+										<img width="70%;" src="<%=cp%>/resource/images/pay_section.png">
 									</div>
 								</div>
 							</li>
-						</ul>
+						</ul> 
 					</td>
 				</tr>
 		  </tbody>
 		</table>
 		
 		<div style="margin-top: 5px;">
-			<input type="checkbox"><span style="vertical-align: center;"> (필수) 구매조건 확인 및 결제대행 서비스 약관 동의</span><a>[보기]</a>
-			<div><span style="color: red;">구매조건 확인 및 결제대행 서비스 약관에 동의하셔야 합니다.</span></div>
+			<input id="termsCheck" type="checkbox"><span style="vertical-align: center;"> (필수) 구매조건 확인 및 결제대행 서비스 약관 동의</span><a id="readTermsInfo" style="cursor: pointer;">  [보기]</a>
+			<div id="terms-info" style="margin-left: 15px; display: none;">
+				<div><span>서비스 이용 약관 동의</span></div>								
+				<div><span>개인정보 수집 및 이용 동의</span></div>								
+				<div><span>개인정보 제공 및 위탁 동의</span></div>							
+			</div>
 		</div>
-		<div style="marmargin-top: 5px; margin-left: 15px;">
-			<div><span>서비스 이용 약관 동의</span></div>								
-			<div><span>개인정보 수집 및 이용 동의</span></div>								
-			<div><span>개인정보 제공 및 위탁 동의</span></div>							
-		</div>
+		<div id="alerCheck" style="display: none;"><span style="color: red; margin-top: 5px; margin-left: 15px;">구매조건 확인 및 결제대행 서비스 약관에 동의하셔야 합니다.</span></div>		
 		
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   <tr>
@@ -254,11 +297,48 @@ select {
 		   </tr>
 		   <tr height="40">
 		      <td align="center" width="100">
-		          <button type="button" class="btn btn-danger" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/pay/pay';">결제하기</button>
+		          <button id="payButton" type="button" class="btn btn-danger" style="font-weight: bold;" onclick="isTermsCheck();">결제하기</button>
 		      </td>
 		   </tr>
 		</table>
-		
     </div>
+    
+    
+    <div style="display: none;" id="payModal" role="dialog" class="modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+		    	<div class="modal-header">
+ 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  					<span aria-hidden="true">×</span></button>
+ 					<h4 class="modal-title" id="myModalLabel" style="font-weight: bold;">
+ 						결제하기
+ 					</h4>
+				</div>
+				<div class="modal-body">
+					<div>
+						<div id="modalcard" style="margin-bottom: 10px;">
+							<div>
+								<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+								<c:if test="${not empty dto.saveFilename}"><img src="/hannolAdmin/uploads/card/${dto.saveFilename}" class="cardImage" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
+							</div>						
+						</div>
+						<div id="modalcontent">
+							<h4 style="font-weight: bold; display: block;">${dto.cardName}</h4>
+							<br>
+							<span style="font-weight: bold; display: block;">이용혜택</span>
+							<span style="display: block;">- 자유이용권 ${dto.discount}%</span>
+							<span style="display: block;">(본인에 한함. 전 놀이공원 1일, 1회)</span>
+							<span style="display: block;">${dto.startDate} ~ ${dto.endDate}</span>
+						</div>
+					</div>
+					<div class="boxIn" align="left" style="clear: both; padding: 10px;">
+						${dto.memo}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    
 
 </div>   
