@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sp.member.SessionInfo;
 
@@ -39,5 +40,15 @@ public class PayController {
 		model.addAttribute("couponCount", couponCount);
 
 		return ".four.menu9.pay.list";
+	}
+	
+	@RequestMapping(value = "/pay/insertPay", method = RequestMethod.POST)
+	public String createdSubmit(Pay dto, HttpSession session, Model model) throws Exception {
+		
+		// 구분 코드에 따라서 어느 디비 사용할지 변경
+		service.insertGift(dto);
+		model.addAttribute("dto", dto);
+		
+		return "redirect:/card/result";
 	}
 }

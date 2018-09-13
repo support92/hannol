@@ -110,7 +110,24 @@ select {
     vertical-align: middle;
     background: #55575f;
 }
-s}
+
+.modal_th {
+    width: 30%;
+    border: solid #e4e4e4;
+    border-width: 0 1px 1px 0;
+    padding: 7px 10px 7px 15px;
+    font-weight: bold;
+    text-align: left;
+    background: #f4f4f4;
+}
+
+.modal_td {
+	width: 70%;
+    border-bottom: 1px solid #e4e4e4;
+    padding: 10px 16px;
+}
+
+}
 </style>
 
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
@@ -148,13 +165,120 @@ function isTermsCheck(){
 	}
 }
 
+$(function() {
+    $(".nextInput").keyup (function () {
+        var charLimit = $(this).attr("maxlength");
+        if (this.value.length >= charLimit) {
+            $(this).next('.nextInput').focus();
+            return false;
+        }
+    });
+});
+
+/* input type이 패스워드인경우 */
+$(function() { 
+	$("input").keypress(
+		function (event) { 
+			if (event.which && (event.which <= 47 || event.which >= 58) && event.which != 8) 
+			{ 
+				event.preventDefault(); 
+			} 
+	});
+}); 
+/* input type이 text인경우 */
+function onlyNumber(event){
+    event = event || window.event;
+    var keyID = (event.which) ? event.which : event.keyCode;
+    if ( (keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105) || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+        return;
+    else
+        return false;
+}
+ 
+function removeChar(event) {
+    event = event || window.event;
+    var keyID = (event.which) ? event.which : event.keyCode;
+    if ( keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39 ) 
+        return;
+    else
+        event.target.value = event.target.value.replace(/[^0-9]/g, "");
+}
+
+function isValidMM(){
+	var data = $("input[name='validM']").val();
+	var regexp = /[12][0-9]/;
+    if(! regexp.test(data))
+        return false;
+
+    if(data<1||data>12) 
+    	return false;
+		
+	return true;  
+}
+
+function validOk() {
+    var f = document.modalForm;
+
+	var str = f.cardNum1.value;
+    if(!str || str.length != 4) {
+        f.cardNum1.focus();
+        return;
+    }
+    
+    var str = f.cardNum2.value;
+    if(!str || str.length != 4) {
+        f.cardNum2.focus();
+        return;
+    }
+    
+    var str = f.cardNum3.value;
+    if(!str || str.length != 4) {
+        f.cardNum3.focus();
+        return;
+    }
+    
+    var str = f.cardNum4.value;
+    if(!str || str.length != 4) {
+        f.cardNum4.focus();
+        return;
+    }
+
+    var str = f.validM.value;
+    var valid = isValidMM();
+    if(!str || str.length != 2 || !valid) {
+        f.validM.focus();
+        return;
+    }
+
+    var str = f.validY.value;
+    if(!str || str.length != 2) {
+        f.validY.focus();
+        return;
+    }
+
+    var str = f.pwd.value;
+    if(!str || str.length != 2) {
+        f.pwd.focus();
+        return;
+    }
+
+    var str = f.cvcNum.value;
+    if(!str || str.length != 3) {
+        f.cvcNum.focus();
+        return;
+    }
+    
+	f.action="<%=cp%>/pay/insertPay";
+    f.submit();
+}
+
 </script>
 
 <div class="bodyFrame2">
     <div class="body-title">
           <h3><span class="glyphicon glyphicon-credit-card"></span> 결제 </h3>
     </div>
-    
+    <form role="form" name="modalForm" method="post"> 
     <div>
 	    <h2 class="custom_h2">상품정보</h2>
 		<table class="custom_table">
@@ -310,35 +434,78 @@ function isTermsCheck(){
 		    	<div class="modal-header">
  					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
   					<span aria-hidden="true">×</span></button>
- 					<h4 class="modal-title" id="myModalLabel" style="font-weight: bold;">
- 						결제하기
- 					</h4>
+ 					<div align="center">
+ 						<h4 class="modal-title" id="myModalLabel">신용카드</h4>
+ 					</div>
 				</div>
 				<div class="modal-body">
-					<div>
-						<div id="modalcard" style="margin-bottom: 10px;">
-							<div>
-								<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/NoCard.PNG" class="cardImage" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
-								<c:if test="${not empty dto.saveFilename}"><img src="/hannolAdmin/uploads/card/${dto.saveFilename}" class="cardImage" onerror="this.src='<%=cp%>/resource/images/NoCard.PNG'"></c:if>
-							</div>						
-						</div>
-						<div id="modalcontent">
-							<h4 style="font-weight: bold; display: block;">${dto.cardName}</h4>
-							<br>
-							<span style="font-weight: bold; display: block;">이용혜택</span>
-							<span style="display: block;">- 자유이용권 ${dto.discount}%</span>
-							<span style="display: block;">(본인에 한함. 전 놀이공원 1일, 1회)</span>
-							<span style="display: block;">${dto.startDate} ~ ${dto.endDate}</span>
-						</div>
-					</div>
-					<div class="boxIn" align="left" style="clear: both; padding: 10px;">
-						${dto.memo}
-					</div>
+					<table class="custom_table" style="border-bottom: 2px solid #cecece;">
+		  				<tbody>
+							<tr>
+								<th class="modal_th">상품명</th>
+								<td class="modal_td">프린세스 빌리지 - 신데렐라 왕관</td>
+							</tr>
+							<tr>
+								<th class="modal_th">상품금액</th>
+								<td class="modal_td">23,000원</td>
+							</tr>
+		  				</tbody>
+					</table>
+					
+					<table class="custom_table" style="border-bottom: 2px solid #cecece; margin-top: 10px;">
+		  				<tbody>
+							<tr>
+								<th class="modal_th">카드종류</th>
+								<td class="modal_td">국민카드</td>
+							</tr>
+							<tr>
+								<th class="modal_th">카드번호</th>
+								<td class="modal_td">
+									<div>
+										<input type="password" name="cardNum1" id="cardNum1" size="8" maxlength="4" class="nextInput" tabindex="1" placeholder="****"> - 
+										<input type="password" name="cardNum2" id="cardNum2" size="8" maxlength="4" class="nextInput" tabindex="1" placeholder="****"> - 
+										<input type="password" name="cardNum3" id="cardNum3" size="8" maxlength="4" class="nextInput" tabindex="1" placeholder="****"> - 
+										<input type="password" name="cardNum4" id="cardNum4" size="8" maxlength="4" class="nextInput" tabindex="1" placeholder="****">
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th class="modal_th">유효기간</th>
+								<td class="modal_td">
+									<input type="text" name="validM" id="validM" size="4" maxlength="2" class="nextInput" onkeydown="return onlyNumber(event)" onkeyup="return removeChar(event)" tabindex="1" placeholder="MM"> / 
+									<input type="text" name="validY" id="validY" size="4" maxlength="2" class="nextInput" onkeydown="return onlyNumber(event)" onkeyup="return removeChar(event)" tabindex="1" placeholder="YY">
+								</td>
+							</tr>
+							<tr>
+								<th class="modal_th">비밀번호</th>
+								<td class="modal_td">
+									<input type="password" name="pwd" id="pwd" size="3" maxlength="2" tabindex="1" placeholder="**">**
+								</td>
+							</tr>
+							<tr>
+								<th class="modal_th">CVC</th>
+								<td class="modal_td">
+									<input type="password" name="cvcNum" id="cvcNum" size="4" maxlength="3" tabindex="1" placeholder="***"> 뒤 3자리 입력
+								</td>
+							</tr>
+							<tr>
+								<th class="modal_th">할부기간</th>
+								<td class="modal_td">일시불</td>
+							</tr>
+		  				</tbody>
+					</table>
+					
+					<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+		   				<tr height="40">
+		      				<td align="center" width="100">
+		          				<button id="payButton" type="button" class="btn btn-danger" style="font-weight: bold;" onclick="validOk();">확인</button>
+		     	 				<button id="payButton" type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;" onclick="isTermsCheck();">취소</button>
+		     	 			</td>
+		   				</tr>
+					</table>
 				</div>
 			</div>
 		</div>
 	</div>
-    
-    
-
-</div>   
+  </form>  
+s</div>   

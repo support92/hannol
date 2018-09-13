@@ -24,4 +24,15 @@ public class PayServiceImpl implements PayService {
 		return result;
 	}
 
+	@Override
+	public int insertGift(Pay dto) throws Exception {
+		int result = 0;
+		try {
+			result = dao.insertData("pay.insertPay", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }
