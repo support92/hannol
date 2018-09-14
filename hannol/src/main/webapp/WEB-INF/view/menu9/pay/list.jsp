@@ -67,9 +67,9 @@
 
 .price {
     display: inline-block;
-    width: 100px;
-    padding-left: 15px;
+    padding-left: 17px;
     padding-bottom: 10px;
+    width: 55px;
 }
 
 .table_col{
@@ -132,6 +132,8 @@ select {
 
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
+
+
 $(function(){
 	$("#readTermsInfo").click(function(){
 		$("#terms-info").slideUp();
@@ -173,6 +175,42 @@ $(function() {
             return false;
         }
     });
+});
+
+$(function(){
+	$("select").not("#paySectionSelect").change(function(){
+		var couponCount = $("#couponSelect option:selected").val();
+		var price = $("#payPrice").text();
+		var card = $("#cardSelect option:selected").val();
+		
+		var url = "<%=cp%>/pay/price";
+		var query = "couponCount="+couponCount+"&price="+price+"&card="+card;
+
+		
+		$.ajax({
+			type : "post",
+			url : url,
+			data : query,
+			dataType : "json",
+			success : function(data){
+				var dcPrice = data.dcPrice;
+				var payPrice = data.payPrice;
+				$("#dcPrice").html(dcPrice);
+				$("#payPrice").html(payPrice);
+			},
+			beforeSend : function(jqXHR){
+				jqXHR.setRequestHeader("AJAX", true);
+			},
+			error : function(jqXHR){
+				if(jqXHR.status == 403){
+					location.href="<%=cp%>/member/login";
+					return;
+				}
+				
+				console.log(jqXHR.responseText);
+			}
+		});
+	});
 });
 
 /* input type이 패스워드인경우 */
@@ -283,12 +321,12 @@ function validOk() {
 	    <h2 class="custom_h2">상품정보</h2>
 		<table class="custom_table">
 		  <tbody>
-			<%-- <c:forEach var="vo" items="${list}"> --%>
+			<c:forEach var="dto" items="${itemPaylist}">
 				<tr>
-					<td class="custom_col1">프린세스 빌리지 - 신데렐라 왕관</td>
-					<td class="customer_col2">각 15000원 / 수량 2개</td>
+					<td class="custom_col1">${dto.goodsName}</td>
+					<td class="customer_col2">각 ${dto.goodsPrice}원 / 수량 ${dto.quantity}개</td>
 				</tr>
-			<%-- </c:forEach> --%>
+			</c:forEach>
 		  </tbody>
 		</table>
 		
@@ -308,22 +346,21 @@ function validOk() {
 		    </colgroup>
 		  
 		  <tbody>
-		  		<c:if test="${dto.gubunCode == 1}">
 				<tr class="table_col">
 					<th class="col_title">총 상품 가격</th>
 					<td>
-						<strong class="price">23,000원</strong>
+						<strong id="price" class="price" >${price}</strong><strong class="price">원</strong>
 					</td>
 				</tr>
 				<tr class="table_col">
 					<th class="col_title">쿠폰</th>
 					<td>
-						<div style="display: inline; padding-left: 15px;">
-						<select id="couponSelect">
-							<option>사용안함</option>
+						<div style="display:inline; padding-left: 15px;">
+						<select id="couponSelect" ${dto.parentCode == 1? '':"disabled='disabled'"}>
+							<option value="0">사용안함</option>
 							<c:if test="${couponCount > 0}">
 								<c:forEach var="i" begin="1" end="${couponCount}">
-									<option>${i}</option>
+									<option value="${i}">${i}</option>
 								</c:forEach>
 							</c:if>
 						</select>
@@ -337,14 +374,13 @@ function validOk() {
 				<tr class="table_col">
 					<th class="col_title">할인 금액</th>
 					<td>
-						<strong class="price">0원</strong>
+						<strong id="dcPrice" class="price">0</strong><strong class="price">원</strong>
 					</td>
 				</tr>
-				</c:if>
 				<tr class="table_col">
 					<th class="col_title">총 결제 금액</th>
 					<td>
-						<strong class="price" style="color: red;">23,000원</strong>
+						<strong id="payPrice" class="price" style="color: red;">${price}</strong><strong class="price" style="color: red;">원</strong>
 					</td>
 				</tr>
 				<tr class="table_col">
@@ -377,7 +413,7 @@ function validOk() {
 							<li class="pay-type-section">
 								<label class="line-title">할부기간</label>
 								<div style="display: inline;">
-									<select>
+									<select id="paySectionSelect">
 										<option>일시불</option>
 										<option>2개월(무이자)</option>
 										<option>3개월(무이자)</option>
@@ -498,8 +534,8 @@ function validOk() {
 					<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   				<tr height="40">
 		      				<td align="center" width="100">
-		          				<button id="payButton" type="button" class="btn btn-danger" style="font-weight: bold;" onclick="validOk();">확인</button>
-		     	 				<button id="payButton" type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;" onclick="isTermsCheck();">취소</button>
+		          				<button type="button" class="btn btn-danger" style="font-weight: bold;" onclick="validOk();">확인</button>
+		     	 				<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;" onclick="isTermsCheck();">취소</button>
 		     	 			</td>
 		   				</tr>
 					</table>

@@ -11,4 +11,5 @@
 				AND endDate >= #{curDate}
 		]]>
 	</select>
+
 </mapper> 

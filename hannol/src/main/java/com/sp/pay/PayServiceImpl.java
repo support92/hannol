@@ -13,6 +13,12 @@ public class PayServiceImpl implements PayService {
 	CommonDAO dao;
 	
 	@Override
+	public Map<String, Object> list() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public int couponCount(Map<String, Object> map) throws Exception {
 		int result = 0;
 		try {
