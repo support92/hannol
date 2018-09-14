@@ -86,12 +86,144 @@
 	width: 100%;
 }
 
+
+
 @media (max-width: 767px){
 	.giftLeftLayout {
     width : 100%;
 	}
 }
+
+/*상품구분, 상품가격*/
+.goodsGubun, .div-price, .div-quat, .div-total{
+	font-size: 16px;
+	margin-bottom: 2px;
+}
+
+/*상품명*/
+.goodsName{
+	font-size: 30px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+/*상품 가격*/
+.giftPrice{
+	font-size: 30px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+/*상품 수량*/
+
+.quantity{
+	margin-bottom: 20px;
+	height: 20px; 
+	
+}
+
+.ipt_count_chk{
+	padding: 1px 4px 1px;
+	height: 21px;
+	width: 40px;
+	margin-left: 21px;
+	text-align: center;
+	position: absolute;
+}
+
+.btn_minus{
+	position: absolute;
+	width: 21px;
+	height: 21px;
+	line-height : 21px;
+	background: url(/hannol/resource/images/minus.png) no-repeat -1px -1px;
+	border: 0 none;
+}
+
+.btn_plus{
+	right: 0;
+	position: absolute;
+	width: 387px;
+	height: 21px;
+	line-height : 21px;
+	background: url(/hannol/resource/images/plus.png) no-repeat -1px -1px;
+	border: 0 none;
+}
+
+
+.btn_plus, .btn_minus{
+	outline: none;
+}
+
+/*총 가격*/
+.div-tPrice{
+	font-size: 30px;
+	font-weight: bold;
+	color : red;
+	margin-bottom: 20px; 
+	float: right;
+}
+
+.div-btn{
+	clear: both;
+	float: right;
+}
+
+.div-btn button{
+	width: 130px;	
+}
+
 </style>
+
+<script>
+$(function(){
+	var count = $(".ipt_count_chk").val();
+	var price = "${dto.price}";
+	var total = count*price;
+	var quantity = "${dto.quantity}";
+	
+	$(".div-tPrice").html(numberWithCommas(total)+"원");
+	
+	$(".btn_minus").click(function(){
+		var count = $(".ipt_count_chk").val();
+		if(Number(count)-1<1){
+			alert("최소수량은 1개 이상입니다.");
+			return;
+		}
+		
+		$(".ipt_count_chk").val(Number(count)-1);
+		var count = $(".ipt_count_chk").val();
+		var total = count*price;
+		$(".div-tPrice").html(numberWithCommas(total)+"원");
+		
+	});
+	
+	$(".btn_plus").click(function(){
+		var count = $(".ipt_count_chk").val();
+		if(Number(quantity)<Number(count)+1){
+			alert("현재 구매 가능 수량은 "+quantity+"개 입니다.");
+			return;
+		}
+		
+		if(Number(count)+1>4){
+			alert("최대수량은 4개 입니다.");
+			return;
+		}
+		
+		$(".ipt_count_chk").val(Number(count)+1);
+		var count = $(".ipt_count_chk").val();
+		var total = count*price;
+		$(".div-tPrice").html(numberWithCommas(total)+"원");
+	});
+	
+});
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+</script>
 
 <script>
 $(function(){
@@ -122,31 +254,27 @@ $(function(){
 </div>
 </div>
 <div class="giftRightLayout">
-	<div class="itemSubject">${dto.goodsName}</div>
-	<div class="itemPrice"><fmt:formatNumber value="${dto.price}" type="number"/>원</div>
-	<c:if test="${dto.quantity!=0 }">
-		<div>수량</div>
-		<button type="button" class="btn btn-default">-</button>
-		<input type="text" value="1">
-		<button type="button" class="btn btn-default">+</button>
-	</c:if>
-	<c:if test="${dto.quantity==0 }">
-		<div class="itemCount">
-			<div>수량</div>
-			<div>품절</div>
-		</div>
-	</c:if>
-	<div>
-		<div class="itemPrice">총상품금액 : </div>
-		
+	<div id="goodsGubun" class="goodsGubun">[${dto.gubunName }]</div>
+	<div id="goodsName" class="goodsName">${dto.goodsName}</div>
+	<div class="div-price">가격</div>
+	<div id="price" class="giftPrice"><fmt:formatNumber value="${dto.price}" type="number" pattern="#,###원"/></div>
+	<div class="div-quat">수량</div>
+	<div id="quantity" class="quantity">
+		<button type="button" class="btn_minus">
+			<span class="hide">수량감소</span>
+		</button>
+		<input type="text" value="1" class="ipt_count_chk" id="">
+		<button type="button" class="btn_plus">
+			<span class="hide">수량증가</span>
+		</button>
 	</div>
-	<div style="margin: 0px auto;">
+	<div class="div-total">총 상품금액</div>
+	<div class="div-tPrice"></div>
 	
-		<button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/giftshop/list?${dataQuery}';">돌아가기</button>
-	
-		<button type="button" class="btn btn-default">장바구니</button>
-		
-		<button type="button" class="btn btn-danger" onclick="javascript:location.href='<%=cp%>/pay/list';">구매하기</button>
+	<div class="div-btn">
+		<button class="btn btn-default">돌아가기</button>
+		<button class="btn btn-default">장바구니</button>
+		<button class="btn btn-danger">구매하기</button>
 	</div>
 </div>
 
