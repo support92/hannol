@@ -1,4 +1,7 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+﻿<%@page import="java.util.ArrayList"%>
+<%@page import="com.sp.pay.Pay"%>
+<%@page import="java.util.List"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -26,7 +29,7 @@
     margin: 10px 0 0;
     overflow: auto;
     position: static;
-    text-align: left;
+    text-align: center;
     white-space: nowrap;
     width: 100%;
 }
@@ -89,7 +92,7 @@
 
 
 @media (max-width: 767px){
-	.giftLeftLayout {
+	.giftLeftLayout, .giftRightLayout {
     width : 100%;
 	}
 }
@@ -119,6 +122,8 @@
 .quantity{
 	margin-bottom: 20px;
 	height: 20px; 
+	position: relative;
+	width: 82px;
 	
 }
 
@@ -138,12 +143,13 @@
 	line-height : 21px;
 	background: url(/hannol/resource/images/minus.png) no-repeat -1px -1px;
 	border: 0 none;
+	left: 0;
 }
 
 .btn_plus{
 	right: 0;
 	position: absolute;
-	width: 387px;
+	width: 21px;
 	height: 21px;
 	line-height : 21px;
 	background: url(/hannol/resource/images/plus.png) no-repeat -1px -1px;
@@ -170,8 +176,9 @@
 }
 
 .div-btn button{
-	width: 130px;	
+	width: 103px;	
 }
+
 
 </style>
 
@@ -180,8 +187,6 @@ $(function(){
 	var count = $(".ipt_count_chk").val();
 	var price = "${dto.price}";
 	var total = count*price;
-	var quantity = "${dto.quantity}";
-	
 	$(".div-tPrice").html(numberWithCommas(total)+"원");
 	
 	$(".btn_minus").click(function(){
@@ -200,11 +205,6 @@ $(function(){
 	
 	$(".btn_plus").click(function(){
 		var count = $(".ipt_count_chk").val();
-		if(Number(quantity)<Number(count)+1){
-			alert("현재 구매 가능 수량은 "+quantity+"개 입니다.");
-			return;
-		}
-		
 		if(Number(count)+1>4){
 			alert("최대수량은 4개 입니다.");
 			return;
@@ -227,9 +227,81 @@ function numberWithCommas(x) {
 
 <script>
 $(function(){
+	var goodsCode = "${dto.goodsCode}";
+	var goodsName = "${dto.goodsName}";
+	var goodsPrice = "${dto.price}";
+	var gubunCode = "${dto.gubunCode}";
+	var gubunName = "${dto.gubunName}";
+	var parentCode = "${dto.parentCode}";
+	
 	$(".item").eq(0).addClass("active");
 	$(".mCustomScrollbar").children().eq(0).addClass("active");
+	
+
+	$(".btn-back").click(function(){
+		location.href="<%=cp%>/giftshop/list?${dataQuery}";
+	});
+	
+	$(".btn-cart").click(function(){
+		var data = "goodsCode="+goodsCode+"&quantity="+$(".ipt_count_chk").val();
+		var url = "<%=cp%>/giftshop/insertCart";
+		
+		$.ajax({
+			type:"POST"
+			,url:url
+			,data: data
+			,success:function(data) {		
+				
+			}
+		    ,error:function(e) {
+		    	console.log(e.responseText);
+		    }
+		});
+	});
+	
+	$(".btn-giftSale").click(function(){
+		
+		<%-- 
+		var quantity= $(".ipt_count_chk").val();
+		var data = "goodsCode="+goodsCode+"&goodsName="+encodeURIComponent(goodsName)+"&goodsPrice="+goodsPrice+"&quantity="+quantity+"&gubunCode="+gubunCode+"&gubunName="+encodeURIComponent(gubunName)+"&parentCode="+parentCode;
+		
+		var item = [];
+		item.push({
+			itemPay : {
+				goodsCode : goodsCode,
+				goodsName : goodsName,
+				goodsPrice : goodsPrice,
+				quantity : quantity,
+				gubunCode : gubunCode,
+				gubunName : gubunName,
+				parentCode : parentCode				
+			}
+			
+		});
+		var url = "<%=cp%>/pay/list";
+		
+		$.ajax({
+			type:"POST"
+			,url:url
+			,data: JSON.stringify(item)
+			,contentType:"application/json; charset=utf-8"
+			,success:function(data) {		
+				
+			}
+		    ,error:function(e) {
+		    	console.log(e.responseText);
+		    }
+		});
+		
+		var url = "<%=cp%>/pay/list?"+JSON.stringify(item);
+		console.log(url);
+		location.href=url;  --%>
+		
+		
+	});
+	
 });
+
 </script>
 
 <div class="giftLeftLayout">
@@ -239,7 +311,7 @@ $(function(){
         <div class='carousel-inner'>
         <c:forEach items="${dto.fileList}" var="itemImg">
         	<div class='item'>
-                <img style="width: 400px;" src='/hannolAdmin/uploads/giftShopGoods/${itemImg.SAVEFILENAME}' alt="${itemImg.ORIGINALFILENAME}" onerror="this.src='<%=cp%>/resource/images/noimage.png'"/>
+                <img style="width: 100%;" src='/hannolAdmin/uploads/giftShopGoods/${itemImg.SAVEFILENAME}' alt="${itemImg.ORIGINALFILENAME}" onerror="this.src='<%=cp%>/resource/images/noimage.png'"/>
             </div>
         </c:forEach>
         </div>
@@ -258,23 +330,23 @@ $(function(){
 	<div id="goodsName" class="goodsName">${dto.goodsName}</div>
 	<div class="div-price">가격</div>
 	<div id="price" class="giftPrice"><fmt:formatNumber value="${dto.price}" type="number" pattern="#,###원"/></div>
-	<div class="div-quat">수량</div>
-	<div id="quantity" class="quantity">
-		<button type="button" class="btn_minus">
-			<span class="hide">수량감소</span>
-		</button>
-		<input type="text" value="1" class="ipt_count_chk" id="">
-		<button type="button" class="btn_plus">
-			<span class="hide">수량증가</span>
-		</button>
-	</div>
-	<div class="div-total">총 상품금액</div>
-	<div class="div-tPrice"></div>
+		<div class="div-quat">수량</div>
+		<div id="quantity" class="quantity">
+			<button type="button" class="btn_minus">
+				<span class="hide">수량감소</span>
+			</button>
+			<input type="text" value="1" class="ipt_count_chk" id="">
+			<button type="button" class="btn_plus">
+				<span class="hide">수량증가</span>
+			</button>
+		</div>
+		<div class="div-total">총 상품금액</div>
+		<div class="div-tPrice"></div>
 	
 	<div class="div-btn">
-		<button class="btn btn-default">돌아가기</button>
-		<button class="btn btn-default">장바구니</button>
-		<button class="btn btn-danger">구매하기</button>
+		<button type="button" class="btn btn-default btn-back">돌아가기</button>
+		<button type="button" class="btn btn-default btn-cart" data-item="${dto.goodsCode}">장바구니</button>
+		<button type="button" class="btn btn-danger btn-giftSale" data-item="${dto.goodsCode}">구매하기</button>
 	</div>
 </div>
 

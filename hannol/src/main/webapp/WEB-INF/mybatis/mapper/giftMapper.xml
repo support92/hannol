@@ -125,4 +125,8 @@
 		WHERE g.goodsCode = #{goodsCode}
 	</select>
 	
+	<insert id="insertCart" parameterType="map">
+	    INSERT INTO cart(cartCode, quantity, goodsCode, usersCode) 
+    	VALUES (cart_seq.NEXTVAL, #{quantity}, #{goodsCode}, #{usersCode})
+	</insert>	
 </mapper>

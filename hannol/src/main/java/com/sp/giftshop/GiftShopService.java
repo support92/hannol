@@ -13,4 +13,5 @@ public interface GiftShopService {
 	public GiftShop readGoods(int goodsCode) throws Exception;
 	public int deleteFiles(Map<String,Object> map) throws Exception;
 	public int updateGiftGoods(GiftShop dto, String pathname) throws Exception;
+	public int insertCart(Map<String, Object> map) throws Exception;
 }
