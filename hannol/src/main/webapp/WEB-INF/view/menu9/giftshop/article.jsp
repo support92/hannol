@@ -316,7 +316,8 @@ $(function(){
 		var url = "<%=cp%>/pay/list?"+JSON.stringify(item);
 		console.log(url);
 		location.href=url;  --%>
-		
+		var url = "<%=cp%>/pay/list";
+		location.href=url;
 		
 	});
 	

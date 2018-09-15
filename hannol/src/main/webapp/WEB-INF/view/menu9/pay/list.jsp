@@ -178,6 +178,13 @@ $(function() {
 });
 
 $(function(){
+	$("#paySectionSelect").change(function(){
+		var sectionType = $("#paySectionSelect option:selected").val();
+		$("#paySectionType").html(sectionType);
+	});
+});
+
+$(function(){
 	$("select").not("#paySectionSelect").change(function(){
 		var couponCount = $("#couponSelect option:selected").val();
 		var price = $("#payPrice").text();
@@ -414,18 +421,18 @@ function validOk() {
 								<label class="line-title">할부기간</label>
 								<div style="display: inline;">
 									<select id="paySectionSelect">
-										<option>일시불</option>
-										<option>2개월(무이자)</option>
-										<option>3개월(무이자)</option>
-										<option>4개월</option>
-										<option>5개월</option>
-										<option>6개월</option>
-										<option>7개월</option>
-										<option>8개월</option>
-										<option>9개월</option>
-										<option>10개월</option>
-										<option>11개월</option>
-										<option>12개월</option>
+										<option value="일시불">일시불</option>
+										<option value="2개월">2개월(무이자)</option>
+										<option value="3개월">3개월(무이자)</option>
+										<option value="4개월">4개월</option>
+										<option value="5개월">5개월</option>
+										<option value="6개월">6개월</option>
+										<option value="7개월">7개월</option>
+										<option value="8개월">8개월</option>
+										<option value="9개월">9개월</option>
+										<option value="10개월">10개월</option>
+										<option value="11개월">11개월</option>
+										<option value="12개월">12개월</option>
 									</select>
 									<span style="display: inline-block; margin-left: 10px; vertical-align: center; color:#888888;">* 할부는 50,000원 이상만 가능합니다.</span>
 									<div style="margin-left: 20px; margin-top: 10px;">
@@ -479,11 +486,15 @@ function validOk() {
 		  				<tbody>
 							<tr>
 								<th class="modal_th">상품명</th>
-								<td class="modal_td">프린세스 빌리지 - 신데렐라 왕관</td>
+								<td class="modal_td">
+								<c:forEach var="dto" items="${itemPaylist}">
+									${dto.goodsName}/
+								</c:forEach>
+								</td>
 							</tr>
 							<tr>
 								<th class="modal_th">상품금액</th>
-								<td class="modal_td">23,000원</td>
+								<td class="modal_td">${payPrice}</td>
 							</tr>
 		  				</tbody>
 					</table>
@@ -526,7 +537,7 @@ function validOk() {
 							</tr>
 							<tr>
 								<th class="modal_th">할부기간</th>
-								<td class="modal_td">일시불</td>
+								<td id="paySectionType" class="modal_td">일시불</td>
 							</tr>
 		  				</tbody>
 					</table>

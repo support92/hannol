@@ -13,8 +13,12 @@ public class Pay {
 	private int price; // 할인전
 	private int dcPrice;
 	private int payPrice; //할인후
-	
-	
+	private String payWay;
+	//카드 결제 정보
+	private String cardCo;
+	private String cardNum;
+	private String status;
+	private String paySection;
 	public int getGubunCode() {
 		return gubunCode;
 	}
@@ -45,6 +49,18 @@ public class Pay {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	public String getGubunName() {
+		return gubunName;
+	}
+	public void setGubunName(String gubunName) {
+		this.gubunName = gubunName;
+	}
+	public int getParentCode() {
+		return parentCode;
+	}
+	public void setParentCode(int parentCode) {
+		this.parentCode = parentCode;
+	}
 	public int getPrice() {
 		return price;
 	}
@@ -63,16 +79,34 @@ public class Pay {
 	public void setPayPrice(int payPrice) {
 		this.payPrice = payPrice;
 	}
-	public String getGubunName() {
-		return gubunName;
+	public String getPayWay() {
+		return payWay;
 	}
-	public void setGubunName(String gubunName) {
-		this.gubunName = gubunName;
+	public void setPayWay(String payWay) {
+		this.payWay = payWay;
 	}
-	public int getParentCode() {
-		return parentCode;
+	public String getCardCo() {
+		return cardCo;
 	}
-	public void setParentCode(int parentCode) {
-		this.parentCode = parentCode;
+	public void setCardCo(String cardCo) {
+		this.cardCo = cardCo;
+	}
+	public String getCardNum() {
+		return cardNum;
+	}
+	public void setCardNum(String cardNum) {
+		this.cardNum = cardNum;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getPaySection() {
+		return paySection;
+	}
+	public void setPaySection(String paySection) {
+		this.paySection = paySection;
 	}
 }
