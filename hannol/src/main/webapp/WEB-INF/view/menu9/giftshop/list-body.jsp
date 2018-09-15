@@ -26,7 +26,7 @@
 		</div>
 	</c:forEach>
 </div>
-<div style="width: 100%; text-align: center; margin: 0px auto;">${paging}</div>
+<div class="div-paging" style="width: 100%; text-align: center; margin: 0px auto; clear: both;">${paging}</div>
 
 
 

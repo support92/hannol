@@ -87,6 +87,10 @@ select::-ms-expand {
 .body-title h3 {
 	margin-bottom: 0px;
 }
+
+.div-paging ul{
+	margin: 0px auto;
+}
 </style>
 
 <script type="text/javascript">
