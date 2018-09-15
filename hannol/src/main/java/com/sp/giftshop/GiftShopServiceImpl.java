@@ -223,4 +223,15 @@ public class GiftShopServiceImpl implements GiftShopService {
 		}
 		return result;
 	}
+
+	@Override
+	public int dataCountCart(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("gift.readCartOne", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
 }

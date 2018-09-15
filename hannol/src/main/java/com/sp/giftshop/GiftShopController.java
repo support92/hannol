@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtil;
+import com.sp.member.SessionInfo;
 
 @Controller("giftshop.giftShopController")
 public class GiftShopController {
@@ -131,7 +132,31 @@ public class GiftShopController {
 	@ResponseBody
 	public  Map<String, Object> insertCart(@RequestParam int goodsCode, @RequestParam int quantity, HttpSession session){
 		
+		String state = "false";
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		long usersCode = info.getUsersCode();
+		
 		Map<String, Object> model = new HashMap<>();
+		model.put("goodsCode", goodsCode);
+		model.put("quantity", quantity);
+		model.put("usersCode", usersCode);
+		
+		try {
+			int result = service.dataCountCart(model);
+			System.out.println(result);
+			if(result==0) {
+				service.insertCart(model);
+				state = "true";
+			}else {
+				state = "already";
+			}
+			
+			model.put("state", state);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		
 		return model;
 	}
 	

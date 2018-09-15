@@ -234,6 +234,11 @@ $(function(){
 	var gubunName = "${dto.gubunName}";
 	var parentCode = "${dto.parentCode}";
 	
+	
+	$(".btn-ctn").click(function(){
+		$("#companyModel").dialog("close");
+	});
+	
 	$(".item").eq(0).addClass("active");
 	$(".mCustomScrollbar").children().eq(0).addClass("active");
 	
@@ -250,7 +255,20 @@ $(function(){
 			type:"POST"
 			,url:url
 			,data: data
+			,dataType : "json"
 			,success:function(data) {		
+				if(data.state=="true"){
+					$("#companyModel").dialog({
+						title : "장바구니 담기",
+						width : 300,
+						height : 300,
+						modal : true
+					});
+				}else if(data.state="already"){
+					alert("이미 존재하는 상품입니다.");
+				}else{
+					alert("장바구니에 추가하지 못했습니다. 다시 시도해 주세요");
+				}
 				
 			}
 		    ,error:function(e) {
@@ -258,6 +276,8 @@ $(function(){
 		    }
 		});
 	});
+	
+	
 	
 	$(".btn-giftSale").click(function(){
 		
@@ -352,6 +372,15 @@ $(function(){
 
 <div class="giftItemDetail">
 	${dto.content}
+</div>
+
+<div id="companyModel" class="modal">
+	<div style="text-align: center; margin: 90px 0px;">선택하신 상품을 장바구니에 담았습니다.</div>
+	<div style="text-align: center;">
+		<button type="button" class="btn btn-default btn-ctn">계속쇼핑</button>
+		<button type="button" class="btn btn-danger btn-move-cart">장바구니</button>
+	</div>
+	
 </div>
 
 

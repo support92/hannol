@@ -129,4 +129,10 @@
 	    INSERT INTO cart(cartCode, quantity, goodsCode, usersCode) 
     	VALUES (cart_seq.NEXTVAL, #{quantity}, #{goodsCode}, #{usersCode})
 	</insert>	
+	
+	<select id="readCartOne" parameterType="map" resultType="Integer">
+	    SELECT COUNT(quantity) quantity From cart
+		WHERE usersCode=#{usersCode} and goodsCode=#{goodsCode}
+	</select>	
+		
 </mapper>
