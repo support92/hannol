@@ -181,8 +181,18 @@ $(function(){
 	$("#paySectionSelect").change(function(){
 		var sectionType = $("#paySectionSelect option:selected").val();
 		$("#paySectionType").html(sectionType);
+		$("#paySection").val(sectionType);
 	});
 });
+
+$(function(){
+	$("#cardSelect").change(function(){
+		var cardType = $("#cardSelect option:selected").val();
+		$("#cardType").html(cardType);
+		$("#cardCo").val(cardType);
+	});
+});
+
 
 $(function(){
 	$("select").not("#paySectionSelect").change(function(){
@@ -251,7 +261,7 @@ function removeChar(event) {
 
 function isValidMM(){
 	var data = $("input[name='validM']").val();
-	var regexp = /[12][0-9]/;
+	var regexp = /[01][0-9]/;
     if(! regexp.test(data))
         return false;
 
@@ -387,7 +397,7 @@ function validOk() {
 				<tr class="table_col">
 					<th class="col_title">총 결제 금액</th>
 					<td>
-						<strong id="payPrice" class="price" style="color: red;">${price}</strong><strong class="price" style="color: red;">원</strong>
+						<strong id="payPrice" class="price" style="color: red;">${payPrice}</strong><strong class="price" style="color: red;">원</strong>
 					</td>
 				</tr>
 				<tr class="table_col">
@@ -493,8 +503,8 @@ function validOk() {
 								</td>
 							</tr>
 							<tr>
-								<th class="modal_th">상품금액</th>
-								<td class="modal_td">${payPrice}</td>
+								<th class="modal_th">결제금액</th>
+								<td class="modal_td">${payPrice}원</td>
 							</tr>
 		  				</tbody>
 					</table>
@@ -503,7 +513,7 @@ function validOk() {
 		  				<tbody>
 							<tr>
 								<th class="modal_th">카드종류</th>
-								<td class="modal_td">국민카드</td>
+								<td id="cardType" class="modal_td"></td>
 							</tr>
 							<tr>
 								<th class="modal_th">카드번호</th>
@@ -545,6 +555,11 @@ function validOk() {
 					<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 		   				<tr height="40">
 		      				<td align="center" width="100">
+		      					<input type="hidden" name="price" value="${price}">
+		      					<input type="hidden" name="payPrice" value="${payPrice}">
+		      					<input type="hidden" name="dcPrice" value="${dcPrice}">
+		      					<input type="hidden" id="cardCo" name="cardCo">
+		      					<input type="hidden" id="paySection" name="paySection">
 		          				<button type="button" class="btn btn-danger" style="font-weight: bold;" onclick="validOk();">확인</button>
 		     	 				<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;" onclick="isTermsCheck();">취소</button>
 		     	 			</td>
@@ -555,4 +570,4 @@ function validOk() {
 		</div>
 	</div>
   </form>  
-s</div>   
+</div>   

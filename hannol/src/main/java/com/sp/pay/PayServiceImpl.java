@@ -31,6 +31,23 @@ public class PayServiceImpl implements PayService {
 	}
 
 	@Override
+	public int insertPay(Pay dto) throws Exception {
+		int result = 0;
+		try {
+			int seq = dao.selectOne("pay.seq");
+			dto.setPayCode(seq);
+			
+			result = dao.insertData("pay.insertPay", dto);
+			dao.insertData("pay.insertPayInfo", dto);
+			dao.insertData("pay.insertCardInfo", dto);
+			
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+	
+	@Override
 	public int insertGift(Pay dto) throws Exception {
 		int result = 0;
 		try {

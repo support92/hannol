@@ -86,6 +86,8 @@ public class PayController {
 
 		model.addAttribute("couponCount", couponCount);
 		model.addAttribute("price", price);
+		model.addAttribute("payPrice", price);
+		model.addAttribute("dcPrice", 0);
 		model.addAttribute("itemPaylist", itemPaylist);
 
 		return ".four.menu9.pay.list";
@@ -117,9 +119,27 @@ public class PayController {
 	@RequestMapping(value = "/pay/insertPay", method = RequestMethod.POST)
 	public String createdSubmit(Pay dto, HttpSession session, Model model) throws Exception {
 
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		dto.setUsersCode(info.getUsersCode());
+		
+		//할인쿠폰을 사용했으면 dto.setPayWay("신용카드+할인쿠폰");
+		dto.setPayWay("신용카드");
+		
+		// 카드번호
+		String cardNum2 = dto.getCardNum2();
+		cardNum2 = cardNum2.substring(0,2)+"**";
+		String cardNum = dto.getCardNum1()+"-"+cardNum2+"-****-"+dto.getCardNum4();
+		dto.setCardNum(cardNum);
+		dto.setState("승인완료");
+		
+		if(dto.getPaySection() == null || dto.getPaySection().length() == 0)
+			dto.setPaySection("일시불");
+		
+		service.insertPay(dto);
+		
 		// 구분 코드에 따라서 어느 디비 사용할지 변경
-		service.insertGift(dto);
-		model.addAttribute("dto", dto);
+		/*service.insertGift(dto);
+		model.addAttribute("dto", dto);*/
 
 		return "redirect:/card/result";
 	}

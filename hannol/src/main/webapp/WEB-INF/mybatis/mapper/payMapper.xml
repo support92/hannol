@@ -2,6 +2,10 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="pay">
+	<select id="seq" resultType="Integer">
+			SELECT payment_seq.NEXTVAL FROM dual
+	</select>
+
 	<select id="couponCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*),0) 
 		FROM coupon
@@ -11,5 +15,20 @@
 				AND endDate >= #{curDate}
 		]]>
 	</select>
+
+	<insert id="insertPay" parameterType="com.sp.pay.Pay">
+		INSERT INTO payment(payCode, price, dcPrice, usersCode)
+		VALUES(#{payCode}, #{price}, #{dcPrice}, #{usersCode})
+	</insert>
+	
+	<insert id="insertPayInfo" parameterType="com.sp.pay.Pay">
+		INSERT INTO payInfo(payCode, payWay, payPrice)
+		VALUES(#{payCode}, #{payWay}, #{payPrice})
+	</insert>
+	
+	<insert id="insertCardInfo" parameterType="com.sp.pay.Pay">
+		INSERT INTO cardInfo(payCode, cardCo, cardNum, state, paySection)
+		VALUES(#{payCode}, #{cardCo}, #{cardNum}, #{state}, #{paySection})
+	</insert>
 
 </mapper> 
