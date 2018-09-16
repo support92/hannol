@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String cp=request.getContextPath();
+	int n = 0;
 %>
 
 <style>
@@ -340,9 +341,17 @@ function validOk() {
 		  <tbody>
 			<c:forEach var="dto" items="${itemPaylist}">
 				<tr>
-					<td class="custom_col1">${dto.goodsName}</td>
-					<td class="customer_col2">각 ${dto.goodsPrice}원 / 수량 ${dto.quantity}개</td>
+					<td class="custom_col1">
+						<input type="hidden" name="plist[<%=n%>].goodsCode" value="${dto.goodsCode}">
+						<input type="hidden" name="plist[<%=n%>].goodsName" value="${dto.goodsName}">
+						${dto.goodsName}
+					</td>
+					<td class="customer_col2">
+						<input type="hidden" name="plist[<%=n%>].quantity" value="${dto.quantity}">
+						각 ${dto.goodsPrice}원 / 수량 ${dto.quantity}개
+					</td>
 				</tr>
+			<% n++; %>
 			</c:forEach>
 		  </tbody>
 		</table>

@@ -135,6 +135,12 @@ public class PayController {
 		if(dto.getPaySection() == null || dto.getPaySection().length() == 0)
 			dto.setPaySection("일시불");
 		
+		System.out.println("size : "+dto.getPlist().size());
+		for(int i=0; i<dto.getPlist().size(); i++) {
+			System.out.println(dto.getPlist().get(i).getGoodsName());
+			System.out.println(dto.getPlist().get(i).getQuantity());
+		}
+		
 		service.insertPay(dto);
 		
 		// 구분 코드에 따라서 어느 디비 사용할지 변경

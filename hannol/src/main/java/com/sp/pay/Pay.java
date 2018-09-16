@@ -1,5 +1,7 @@
 package com.sp.pay;
 
+import java.util.List;
+
 public class Pay {
 	// 받아올 데이터
 	private int gubunCode;
@@ -24,6 +26,15 @@ public class Pay {
 	private String paySection;
 	private int payCode;
 	private long usersCode;
+	
+	private List<Pay> plist;
+	public List<Pay> getPlist() {
+		return plist;
+	}
+
+	public void setPlist(List<Pay> plist) {
+		this.plist = plist;
+	}
 
 	public String getCardNum1() {
 		return cardNum1;

@@ -40,6 +40,7 @@ public class PayServiceImpl implements PayService {
 			result = dao.insertData("pay.insertPay", dto);
 			dao.insertData("pay.insertPayInfo", dto);
 			dao.insertData("pay.insertCardInfo", dto);
+			dao.insertData("pay.insertPaymentInfo", dto);
 			
 		} catch (Exception e) {
 			throw e;

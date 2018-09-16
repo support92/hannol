@@ -30,5 +30,15 @@
 		INSERT INTO cardInfo(payCode, cardCo, cardNum, state, paySection)
 		VALUES(#{payCode}, #{cardCo}, #{cardNum}, #{state}, #{paySection})
 	</insert>
+	
+	<insert id="insertPaymentInfo" parameterType="com.sp.pay.Pay">
+		INSERT INTO paymentInfo(paymentCode, payCode, goodsCode, quantity)
+		SELECT paymentInfo_seq.NEXTVAL, a.*
+		FROM(
+		<foreach collection="plist" item="plist" index="index" separator=" UNION ALL " close=")a;">
+			SELECT #{payCode}, #{plist.goodsCode}, #{plist.quantity}
+			FROM DUAL
+		</foreach>
+	</insert>
 
 </mapper> 
