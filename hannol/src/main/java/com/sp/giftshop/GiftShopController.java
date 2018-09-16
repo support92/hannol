@@ -128,6 +128,7 @@ public class GiftShopController {
 		model.addAttribute("dataQuery", dataQuery);
 		return ".four.menu9.giftshop.article";
 	}
+	
 	@RequestMapping(value="/giftshop/insertCart")
 	@ResponseBody
 	public  Map<String, Object> insertCart(@RequestParam int goodsCode, @RequestParam int quantity, HttpSession session){
@@ -158,6 +159,11 @@ public class GiftShopController {
 		
 		
 		return model;
+	}
+	
+	@RequestMapping(value="/giftshop/cart")
+	public String cartForm() throws Exception{
+		return ".four.menu9.giftshop.cart";
 	}
 	
 }

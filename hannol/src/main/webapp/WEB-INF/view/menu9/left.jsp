@@ -18,5 +18,4 @@ $(function(){
 <div class="list-group">
        <div class="list-group-item lefthead"><i></i>기프트샵</div>
        <a href="<%=cp%>/giftshop/list" class="list-group-item">전체</a>
-       <a href="#" class="list-group-item">테마별</a>
 </div>
