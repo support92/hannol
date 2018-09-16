@@ -105,6 +105,11 @@
 	float: left;
 }
 
+.num_box{
+	width:72px; 
+	margin:0 auto;
+}
+
 .cart_one button{
 	padding: 5px;
 }
@@ -164,7 +169,7 @@
 						</span>
 					</td>
 					<td class="cart_list tb_th">
-						<div>
+						<div class="num_box">
 							<button type="button" class="btn_minus"></button>
 							<input type="text" class="quantity" value="1">
 							<button type="button" class="btn_plus"></button>
