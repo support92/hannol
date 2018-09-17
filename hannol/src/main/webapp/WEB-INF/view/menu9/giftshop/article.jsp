@@ -280,45 +280,7 @@ $(function(){
 	
 	
 	$(".btn-giftSale").click(function(){
-		
-		<%-- 
-		var quantity= $(".ipt_count_chk").val();
-		var data = "goodsCode="+goodsCode+"&goodsName="+encodeURIComponent(goodsName)+"&goodsPrice="+goodsPrice+"&quantity="+quantity+"&gubunCode="+gubunCode+"&gubunName="+encodeURIComponent(gubunName)+"&parentCode="+parentCode;
-		
-		var item = [];
-		item.push({
-			itemPay : {
-				goodsCode : goodsCode,
-				goodsName : goodsName,
-				goodsPrice : goodsPrice,
-				quantity : quantity,
-				gubunCode : gubunCode,
-				gubunName : gubunName,
-				parentCode : parentCode				
-			}
-			
-		});
-		var url = "<%=cp%>/pay/list";
-		
-		$.ajax({
-			type:"POST"
-			,url:url
-			,data: JSON.stringify(item)
-			,contentType:"application/json; charset=utf-8"
-			,success:function(data) {		
-				
-			}
-		    ,error:function(e) {
-		    	console.log(e.responseText);
-		    }
-		});
-		
-		var url = "<%=cp%>/pay/list?"+JSON.stringify(item);
-		console.log(url);
-		location.href=url;  --%>
-		var url = "<%=cp%>/pay/list";
-		location.href=url;
-		
+		$("#saleForm").submit();
 	});
 	
 });
@@ -347,28 +309,39 @@ $(function(){
 </div>
 </div>
 <div class="giftRightLayout">
-	<div id="goodsGubun" class="goodsGubun">[${dto.gubunName }]</div>
-	<div id="goodsName" class="goodsName">${dto.goodsName}</div>
-	<div class="div-price">가격</div>
-	<div id="price" class="giftPrice"><fmt:formatNumber value="${dto.price}" type="number" pattern="#,###원"/></div>
-		<div class="div-quat">수량</div>
-		<div id="quantity" class="quantity">
-			<button type="button" class="btn_minus">
-				<span class="hide">수량감소</span>
-			</button>
-			<input type="text" value="1" class="ipt_count_chk" id="">
-			<button type="button" class="btn_plus">
-				<span class="hide">수량증가</span>
-			</button>
+	<form action="<%=cp%>/pay/list" method="post" id="saleForm">
+		<div id="goodsGubun" class="goodsGubun">[${dto.gubunName }]</div>
+		<div id="goodsName" class="goodsName">${dto.goodsName}</div>
+		<div class="div-price">가격</div>
+		<div id="price" class="giftPrice"><fmt:formatNumber value="${dto.price}" type="number" pattern="#,###원"/></div>
+			<div class="div-quat">수량</div>
+			<div id="quantity" class="quantity">
+				<button type="button" class="btn_minus">
+					<span class="hide">수량감소</span>
+				</button>
+				<input type="text" value="1" class="ipt_count_chk" name="quantity">
+				<button type="button" class="btn_plus">
+					<span class="hide">수량증가</span>
+				</button>
+			</div>
+			<div class="div-total">총 상품금액</div>
+			<div class="div-tPrice"></div>
+		
+		<div class="div-btn">
+			<button type="button" class="btn btn-default btn-back">돌아가기</button>
+			<button type="button" class="btn btn-default btn-cart" data-item="${dto.goodsCode}">장바구니</button>
+			<button type="button" class="btn btn-danger btn-giftSale" data-item="${dto.goodsCode}">구매하기</button>
 		</div>
-		<div class="div-total">총 상품금액</div>
-		<div class="div-tPrice"></div>
-	
-	<div class="div-btn">
-		<button type="button" class="btn btn-default btn-back">돌아가기</button>
-		<button type="button" class="btn btn-default btn-cart" data-item="${dto.goodsCode}">장바구니</button>
-		<button type="button" class="btn btn-danger btn-giftSale" data-item="${dto.goodsCode}">구매하기</button>
-	</div>
+		
+		<div class="div-hidden">
+			<input type="hidden" name="goodsCode" value="${dto.goodsCode}">
+			<input type="hidden" name="gubunCode" value="${dto.gubunCode}">
+			<input type="hidden" name="goodsName" value="${dto.goodsName}">
+			<input type="hidden" name="goodsPrice" value="${dto.price}">
+			<input type="hidden" name="gubunName" value="${dto.gubunName}">
+			<input type="hidden" name="parentCode" value="${dto.parentCode}">
+		</div>
+	</form>
 </div>
 
 <div class="giftItemDetail">
