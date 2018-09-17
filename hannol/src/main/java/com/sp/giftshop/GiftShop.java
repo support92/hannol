@@ -13,10 +13,12 @@ public class GiftShop {
 	private long gubunCode;
 	private String gubunName;
 	private long parentCode;
+	private long cartCode;
 	private int quantity;
 	private int likeCount;
 	private String content;
 	private String thumbnail;
+	private String usersCode;
 	private List<Map<String, Object>> fileList;
 	private List<String> saveFileName;
 	private List<String> orignalFileName;
@@ -78,6 +80,14 @@ public class GiftShop {
 		this.parentCode = parentCode;
 	}
 
+	public long getCartCode() {
+		return cartCode;
+	}
+
+	public void setCartCode(long cartCode) {
+		this.cartCode = cartCode;
+	}
+
 	public int getQuantity() {
 		return quantity;
 	}
@@ -108,6 +118,14 @@ public class GiftShop {
 
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+
+	public String getUsersCode() {
+		return usersCode;
+	}
+
+	public void setUsersCode(String usersCode) {
+		this.usersCode = usersCode;
 	}
 
 	public List<Map<String, Object>> getFileList() {

@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
    String cp = request.getContextPath();
+   int totalPrice = 0;
 %>
 
 <style>
@@ -118,7 +119,160 @@
 </style>
 
 <script>
+$(function(){
+	getTotalPrice();
+	
+	$(".btn_minus").click(function(){
+		var $cnt = $(this).closest(".num_box").children(".quantity");
+		var itemCount = $cnt.val();
+		
+		if(Number(itemCount-1) < 1){
+			alert("최소 수량은 1개입니다.");
+			return;
+		}
+		
+		$cnt.val(Number(itemCount-1));
+		$cnt.attr("value", Number(itemCount-1));
+		var price = $cnt.attr("data-price");
+		var itemPrice =Number(price)*Number(itemCount-1);
+		$(this).closest(".cart_list").next().html(numberWithCommas(itemPrice)+"원");
+		
+		getTotalPrice();
+	});
+	
+	$(".btn_plus").click(function(){
+		var $cnt = $(this).closest(".num_box").children(".quantity");
+		var itemCount = $cnt.val();
+		
+		if(Number(itemCount)+Number(1) > 4){
+			alert("최대 수량은 4개입니다.");
+			return;
+		}
+		
+		$cnt.val(Number(itemCount)+Number(1));
+		$cnt.attr("value", Number(itemCount)+Number(1));
+		var price = $cnt.attr("data-price");
+		var itemPrice =Number(price)*(Number(itemCount)+Number(1));
+		$(this).closest(".cart_list").next().html(numberWithCommas(itemPrice)+"원");
+		
+		getTotalPrice();
+	});
+	
+	$(".item-delete").click(function(){
+		
+		if(!confirm("정말 삭제하시겠습니까?")){
+			return;
+		}
 
+		var data = "cartCode="+$(this).attr("data-cartCode");
+		var url = "<%=cp%>/giftshop/deleteCart";
+		var $btn = $(this);
+		
+		$.ajax({
+			type:"POST"
+			,url:url
+			,data: data
+			,success:function(data) {
+				if(data.state=="true"){
+					$btn.closest("tr").remove();				
+				}else{
+					alert("삭제에 실패했습니다. 다시 시도해 주세요");
+				}
+			}
+		    ,error:function(e) {
+		    	console.log(e.responseText);
+		    }
+		});
+		
+	});
+});
+
+
+$(function(){
+	$("#checkbox_all").click(function(){
+		var $checkBox = $( "input[name='select_item']");
+		
+		if($checkBox==undefined){
+			return;
+		}
+		
+		if($checkBox.length != undefined){
+			for(var i=0; i<$checkBox.length; i++){
+				if($("#checkbox_all").is(":checked")){
+					$($checkBox[i]).prop('checked', true);
+					$("#input-delete-all").prop('checked', true);
+				}else{
+					$($checkBox[i]).prop('checked', false);
+					$("#input-delete-all").prop('checked', false);
+				}
+			}
+		}else{
+			if($("#checkbox_all").is(":checked")){
+				$("#checkbox_all").prop('checked', true);
+			}else{
+				$("#checkbox_all").prop('checked', false);
+			}
+		}
+		
+		getTotalPrice();
+	});
+	
+
+	
+	$(".btn-delete-all").click(function(){
+		if(!confirm("정말로 삭제하시겠습니까?")){
+			return;
+		}
+		
+		var sql ="";
+		$(".tb input[name='select_item']").each(function(){
+			if($(this).is(":checked")){
+				sql+="cartCode="+$(this).attr("data-cartCode")+"&";
+			}
+		});
+
+		var url = "<%=cp%>/giftshop/deleteCart";
+		
+		$.ajax({
+			type:"POST"
+			,url:url
+			,data: sql
+			,success:function(data) {
+				if(data.state=="true"){
+					location.href="<%=cp%>/giftshop/cart";			
+				}else{
+					alert("삭제에 실패했습니다. 다시 시도해 주세요");
+				}
+			}
+		    ,error:function(e) {
+		    	console.log(e.responseText);
+		    }
+		});		
+	});
+});
+
+$(function(){
+	$(".tb input[name='select_item']").click(function(){
+		getTotalPrice();
+	});
+});
+
+function getTotalPrice(){
+	var $input = $( "input[name='quantity']");
+	var totalPrice = 0;
+	$input.each(function(){
+		if($(this).closest("tr").find("input[name='select_item']").is(":checked")){
+			totalPrice += Number($(this).attr("data-price")*$(this).val());
+		}
+	});
+	
+	$(".th_price").html(numberWithCommas(totalPrice)+"원");
+	
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 </script>
 
 <div class="bodyFrame2">
@@ -133,7 +287,7 @@
 			<thead>
 				<tr>
 					<th>
-						<input type="checkbox" id="checkbox_all" class="">
+						<input type="checkbox" id="checkbox_all">
 					</th>
 					<th class="tb_th" style="width: 40%">
 						상품/정보
@@ -150,45 +304,54 @@
 				</tr>
 			</thead>
 			<tbody>
+			<c:if test="${empty list }">
 				<tr>
 					<td class="cart_list" colspan="5">
 						장바구니에 담겨있는 상품이 없습니다.
 					</td>
 				</tr>
+			</c:if>
+			
+			<c:if test="${not empty list}">
+				<c:forEach var="dto" items="${list}">
+					<tr data-cartCode="${dto.cartCode}">
+						<td class="cart_list">
+							<input type="checkbox" name="select_item" id="select_item" data-cartCode="${dto.cartCode}">
+						</td>
+						<td class="cart_list tb_th" style="text-align: left;">
+							<span>
+								<img src="/hannolAdmin/uploads/giftShopGoods/${dto.thumbnail}" onerror="this.src='<%=cp%>/resource/images/noimage.png'" width="50" height="50">
+							</span>
+							<span>
+								[${dto.gubunName }] ${dto.goodsName }
+							</span>
+						</td>
+						<td class="cart_list tb_th">
+							<div class="num_box">
+								<button type="button" class="btn_minus"></button>
+								<input type="text" class="quantity" value="${dto.quantity}" data-price="${dto.price}" name="quantity">
+								<button type="button" class="btn_plus"></button>
+							</div>
+						</td>
+						<td class="cart_list tb_th" style="font-weight: bold;">
+							<fmt:formatNumber value="${dto.price* dto.quantity}" type="number" pattern="#,###원"/>
+						</td>
+						<td class="cart_list cart_one">
+							<button type="button" class="btn btn-default item-delete" data-cartCode="${dto.cartCode}">삭제하기</button>
+							<button type="button" class="btn btn-danger" data-cartCode="${dto.cartCode}">주문하기</button>
+						</td>
+					</tr>
+				</c:forEach>
+			</c:if>
 				
-				<tr>
-					<td class="cart_list">
-						<input type="checkbox">
-					</td>
-					<td class="cart_list tb_th" style="text-align: left;">
-						<span>
-							<img src="<%=cp%>/resource/images/noimage.png" width="50" height="50">
-						</span>
-						<span>
-							[니모] 니모봉제가방
-						</span>
-					</td>
-					<td class="cart_list tb_th">
-						<div class="num_box">
-							<button type="button" class="btn_minus"></button>
-							<input type="text" class="quantity" value="1">
-							<button type="button" class="btn_plus"></button>
-						</div>
-					</td>
-					<td class="cart_list tb_th" style="font-weight: bold;">
-						40,000원
-					</td>
-					<td class="cart_list cart_one">
-						<button type="button" class="btn btn-default">삭제하기</button>
-						<button type="button" class="btn btn-danger">주문하기</button>
-					</td>
-				</tr>
+				
+				
 			</tbody>
 		</table>
 	</div>
 	
 	<div class="check_all">
-		<input type="checkbox">
+		<input type="checkbox" id="input-delete-all">
 		<button type="button" class="btn btn-default btn-delete-all">선택삭제</button>
 	</div>
 	
@@ -205,7 +368,7 @@
 			<tbody>
 				<tr>
 					<td class="th_price">
-						00,000원
+						원
 					</td>
 				</tr>
 			</tbody>

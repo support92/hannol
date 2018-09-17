@@ -162,8 +162,34 @@ public class GiftShopController {
 	}
 	
 	@RequestMapping(value="/giftshop/cart")
-	public String cartForm() throws Exception{
+	public String cartForm(HttpSession session, Model model) throws Exception{
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		long usersCode = info.getUsersCode();
+		if(usersCode==0) {
+			return "redirect:/member/member";
+		}
+		
+		List<GiftShop> list = service.listCart(usersCode);
+		model.addAttribute("list", list);
 		return ".four.menu9.giftshop.cart";
 	}
+	
+	@RequestMapping(value="/giftshop/deleteCart")
+	@ResponseBody
+	public Map<String, Object> deleteCart(long[] cartCode,  HttpSession session) throws Exception{
+		String state = "true";
+		System.out.println();
+		
+		int result = service.deleteCart(cartCode);
+		Map<String, Object> model = new HashMap<>();
+
+		if(result==0) {
+			state = "false";
+		}
+		
+		model.put("state", state);
+		return model;
+	}
+	
 	
 }

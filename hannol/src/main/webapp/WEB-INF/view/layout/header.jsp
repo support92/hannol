@@ -13,7 +13,7 @@
         <div class="login header-login">
             <c:if test="${empty sessionScope.member}">
                 <a href="<%=cp%>/member/login"><span class="glyphicon glyphicon-log-in"></span> 로그인</a> <i></i>
-                <a href="<%=cp%>/member/member"><span class="glyphicon glyphicon-user"></span> 회원가입</a>
+                <a href="<%=cp%>/member/member"><span class="glyphicon glyphicon-user"></span> 회원가입</a> 
             </c:if>
             <c:if test="${not empty sessionScope.member}">
                 <span style="color:blue;">${sessionScope.member.memberName}</span>님 <i></i>
@@ -21,7 +21,8 @@
                     <a href="#">관리자</a> <i></i>
                 </c:if>
                 <a href="#"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
-            	<a href="<%=cp%>/mypage/info">마이페이지</a>
+            	<a href="<%=cp%>/mypage/info">마이페이지</a><i></i>
+            	<a href="<%=cp%>/giftshop/cart"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a>
             </c:if>
         </div>
         <div class="clear"></div>

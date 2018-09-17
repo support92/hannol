@@ -234,4 +234,37 @@ public class GiftShopServiceImpl implements GiftShopService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<GiftShop> listCart(long usersCode) throws Exception {
+		List<GiftShop> list = null;
+		try {
+			list = dao.selectList("gift.cartList", usersCode);
+			for(GiftShop dto : list) {
+				Map<String, Object> imgMap = null;
+				imgMap = dao.selectOne("gift.readGoodsImg", dto.getGoodsCode());
+				
+				if(imgMap != null) {
+					dto.setThumbnail((String)imgMap.get("SAVEFILENAME"));
+				}
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public int deleteCart(long[] cartCode) throws Exception {
+		int result = 0;
+		try {
+			for(int i=0; i<cartCode.length; i++) {
+				result = dao.deleteData("gift.deleteCart", cartCode[i]);
+			}
+			
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
 }

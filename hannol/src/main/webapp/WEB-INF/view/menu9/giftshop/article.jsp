@@ -192,6 +192,7 @@ $(function(){
 	$(".btn_minus").click(function(){
 		var count = $(".ipt_count_chk").val();
 		if(Number(count)-1<1){
+			$(".ipt_count_chk").val("1");
 			alert("최소수량은 1개 이상입니다.");
 			return;
 		}
@@ -206,11 +207,33 @@ $(function(){
 	$(".btn_plus").click(function(){
 		var count = $(".ipt_count_chk").val();
 		if(Number(count)+1>4){
+			$(".ipt_count_chk").val("4");
 			alert("최대수량은 4개 입니다.");
 			return;
 		}
 		
 		$(".ipt_count_chk").val(Number(count)+1);
+		var count = $(".ipt_count_chk").val();
+		var total = count*price;
+		$(".div-tPrice").html(numberWithCommas(total)+"원");
+	});
+	
+	
+	
+	$(".ipt_count_chk").change(function() {
+		var count = $(".ipt_count_chk").val();
+		if(Number(count)>4){
+			 $(".ipt_count_chk").val("1");
+			alert("최대수량은 4개 입니다.");
+			return;
+		}
+		
+		if(Number(count)<1){
+			$(".ipt_count_chk").val("1");
+			alert("최소수량은 1개 이상입니다.");
+			return;
+		}
+		
 		var count = $(".ipt_count_chk").val();
 		var total = count*price;
 		$(".div-tPrice").html(numberWithCommas(total)+"원");
@@ -237,6 +260,10 @@ $(function(){
 	
 	$(".btn-ctn").click(function(){
 		$("#companyModel").dialog("close");
+	});
+	
+	$(".btn-move-cart").click(function(){
+		location.href ="<%=cp%>/giftshop/cart";
 	});
 	
 	$(".item").eq(0).addClass("active");
