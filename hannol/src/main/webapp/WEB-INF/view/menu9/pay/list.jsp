@@ -339,7 +339,7 @@ function validOk() {
 	    <h2 class="custom_h2">상품정보</h2>
 		<table class="custom_table">
 		  <tbody>
-			<c:forEach var="dto" items="${itemPaylist}">
+			<c:forEach var="dto" items="${dto}">
 				<tr>
 					<td class="custom_col1">
 						<input type="hidden" name="plist[<%=n%>].goodsCode" value="${dto.goodsCode}">
@@ -382,7 +382,7 @@ function validOk() {
 					<th class="col_title">쿠폰</th>
 					<td>
 						<div style="display:inline; padding-left: 15px;">
-						<select id="couponSelect" ${dto.parentCode == 1? '':"disabled='disabled'"}>
+						<select id="couponSelect" ${gubunCode == 1? '':"disabled='disabled'"}>
 							<option value="0">사용안함</option>
 							<c:if test="${couponCount > 0}">
 								<c:forEach var="i" begin="1" end="${couponCount}">
@@ -430,7 +430,7 @@ function validOk() {
 										<option value="삼성">삼성 카드</option>
 									</select>
 								</div>
-								<c:if test="${dto.gubunCode == 1}">
+								<c:if test="${gubunCode == 1}">
 								<div style="display: inline-block; padding-left: 10px;">
 									<span style="color:#888888;">* 제휴카드는 카드 선택시 자동으로 제휴할인이 적용됩니다.</span>
 								</div>
@@ -506,7 +506,7 @@ function validOk() {
 							<tr>
 								<th class="modal_th">상품명</th>
 								<td class="modal_td">
-								<c:forEach var="dto" items="${itemPaylist}">
+								<c:forEach var="dto" items="${dto}">
 									${dto.goodsName}/
 								</c:forEach>
 								</td>
@@ -569,6 +569,7 @@ function validOk() {
 		      					<input type="hidden" name="dcPrice" value="${dcPrice}">
 		      					<input type="hidden" id="cardCo" name="cardCo">
 		      					<input type="hidden" id="paySection" name="paySection">
+		      					<input type="hidden" id="curDate" name="curDate">
 		          				<button type="button" class="btn btn-danger" style="font-weight: bold;" onclick="validOk();">확인</button>
 		     	 				<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;" onclick="isTermsCheck();">취소</button>
 		     	 			</td>

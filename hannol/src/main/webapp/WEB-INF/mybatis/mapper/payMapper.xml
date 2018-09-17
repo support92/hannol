@@ -31,14 +31,24 @@
 		VALUES(#{payCode}, #{cardCo}, #{cardNum}, #{state}, #{paySection})
 	</insert>
 	
-	<insert id="insertPaymentInfo" parameterType="com.sp.pay.Pay">
+	<update id="insertPaymentInfo" parameterType="com.sp.pay.Pay">
 		INSERT INTO paymentInfo(paymentCode, payCode, goodsCode, quantity)
 		SELECT paymentInfo_seq.NEXTVAL, a.*
 		FROM(
-		<foreach collection="plist" item="plist" index="index" separator=" UNION ALL " close=")a;">
+		<foreach collection="plist" item="plist" index="index" separator=" UNION ALL " close=")a">
 			SELECT #{payCode}, #{plist.goodsCode}, #{plist.quantity}
 			FROM DUAL
 		</foreach>
-	</insert>
+	</update>
+	
+	<update id="insertGift" parameterType="com.sp.pay.Pay">
+		INSERT INTO gift(giftCode, endDate, payCode, goodsCode)
+		SELECT gift_seq.NEXTVAL, a.*
+		FROM(
+		<foreach collection="plist" item="plist" index="index" separator=" UNION ALL " close=")a">
+			SELECT #{plist.endDate}, #{payCode}, #{plist.goodsCode}
+			FROM dual
+		</foreach>
+	</update>
 
 </mapper> 

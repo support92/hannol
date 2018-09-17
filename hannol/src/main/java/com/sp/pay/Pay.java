@@ -28,6 +28,20 @@ public class Pay {
 	private long usersCode;
 	
 	private List<Pay> plist;
+	private String curDate;
+	private String endDate;
+	
+	
+	
+	
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
 	public List<Pay> getPlist() {
 		return plist;
 	}
