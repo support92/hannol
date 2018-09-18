@@ -2,5 +2,15 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ticket">
-	
+	<select id="listTicket" resultType="com.sp.ticket.Ticket">
+	SELECT goodsCode, goodsName, price as goodsPrice, state, gubunCode 
+	FROM goods
+	WHERE gubunCode IN (
+	    SELECT gubuncode FROM goodsgubun 
+	    WHERE gubuncode != 1
+	    START WITH gubuncode=1                                  
+	    CONNECT BY PRIOR gubuncode=parentcode
+	)AND state=1
+	ORDER BY gubunCode DESC, price DESC
+	</select>
 </mapper>
