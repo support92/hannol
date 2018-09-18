@@ -1,8 +1,12 @@
 package com.sp.coupon;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtilGeneral;
 import com.sp.member.SessionInfo;
-import com.sp.notice.Notice;
 
 @Controller("coupon.couponcontroller")
 public class CouponController {
@@ -87,6 +92,7 @@ public class CouponController {
 		}
 
 		String paging = util.paging(current_page, total_page);
+		
 
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
@@ -97,4 +103,39 @@ public class CouponController {
 		return "/menu3/mypage/couponList-body";
 
 	}
+
+	@RequestMapping(value = "/mypage/ajaxCouponUse", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> price(@RequestParam(value = "giftCode") int giftCode) throws Exception {
+
+		Coupon dto = service.readGiftCoupon(giftCode);
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		Date date = new Date();
+		String curDate = format.format(date);
+
+		dto.setUseDate(curDate);
+
+		int result = service.updateGiftCoupon(dto);
+
+		Map<String, Object> model = new HashMap<>();
+		if (result == 1) {
+			service.updateGoodsCount(dto.getGoodsCode());
+			int goodsCount = service.goodsCount(dto.getGoodsCode());
+			
+			if(goodsCount == 0) {
+				model.put("state", "noGoods");
+				return model;
+			}
+			
+			model.put("gubunName", dto.getGubunName());
+			model.put("goodsName", dto.getGoodsName());
+			model.put("curDate", curDate);
+		}
+
+		return model;
+	}
+	
+	
 }
+

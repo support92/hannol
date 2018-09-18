@@ -144,16 +144,16 @@ $(function(){
 		}else{
 			$(this).next().slideUp();
 		}
-	})
-})
+	});
+});
 
 $(function(){
 	$("input:checkbox[id='termsCheck']").click(function(){
 		if($("input:checkbox[id='termsCheck']").is(":checked")){
 			$("#alerCheck").hide();
 		}
-	})
-})
+	});
+});
 
 function isTermsCheck(){
 	var str = $("#cardSelect option:checked").val();

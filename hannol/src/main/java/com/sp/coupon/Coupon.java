@@ -9,6 +9,7 @@ public class Coupon {
 	private String gubunName;
 	private int payCode;
 	private int goodsCode;
+	private int quantity;
 
 	public int getListNum() {
 		return listNum;
@@ -74,4 +75,11 @@ public class Coupon {
 		this.goodsCode = goodsCode;
 	}
 
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 }

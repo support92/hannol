@@ -16,15 +16,38 @@
 	<select id="ajaxGiftCouponList" parameterType="map" resultType="com.sp.coupon.Coupon">
 		SELECT * FROM (
     		SELECT ROWNUM rnum, tb.* FROM(
-        		SELECT g.payCode, usersCode, giftCode, TO_CHAR(endDate,'YYYY-MM-DD') endDate, TO_CHAR(useDate,'YYYY-MM-DD') useDate, goodsName, gubunName 
+        		SELECT g.payCode, usersCode, giftCode, TO_CHAR(endDate,'YYYY-MM-DD') endDate, 
+                    TO_CHAR(useDate,'YYYY-MM-DD') useDate, goodsName, gubunName, quantity 
         		FROM gift g
         		JOIN payment p ON g.payCode = p.payCode
         		JOIN goods gs ON g.goodsCode = gs.goodsCode
+                JOIN goodsCount gc ON gc.goodsCode = gs.goodsCode
         		JOIN goodsGubun gg ON gs.gubunCode = gg.gubunCode
         		WHERE usersCode = #{usersCode}
         <![CDATA[
     		)tb WHERE ROWNUM <= #{end}
 		)WHERE rnum >= #{start}
 		]]>
+	</select>
+	
+	<select id="readGiftCoupon" parameterType="Integer" resultType="com.sp.coupon.Coupon">
+		SELECT giftCode, endDate, useDate, payCode, g.goodsCode, goodsName, gubunName 
+		FROM gift g
+		JOIN goods gs ON g.goodsCode = gs.goodsCode
+		JOIN goodsGubun gg ON gs.gubunCode = gg.gubunCode
+		WHERE giftCode = #{giftCode}
+	</select>
+	
+	<update id="updateGiftCoupon" parameterType="com.sp.coupon.Coupon">
+		UPDATE gift SET useDate = #{useDate}
+		WHERE giftCode = #{giftCode}
+	</update>
+	
+	<update id="updateGoodsCount" parameterType="Integer">
+		UPDATE goodsCount SET quantity = quantity-1 WHERE goodsCode = #{goodsCode}
+	</update>
+	
+	<select id="goodsCount" parameterType="Integer" resultType="Integer">
+		SELECT quantity FROM goodsCount WHERE goodsCode = #{goodsCode}
 	</select>
 </mapper>

@@ -180,6 +180,6 @@ public class PayController {
 		
 		model.addAttribute("dto", dto);*/
 		
-		return ".four.menu9.mypage.paylist";
+		return ".four.menu3.mypage.paylist";
 	}
 }

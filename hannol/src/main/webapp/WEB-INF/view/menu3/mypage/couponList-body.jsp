@@ -20,7 +20,7 @@
 		  	<thead class="thead-light">
 		    	<tr>
 		      	<th scope="col">쿠폰번호</th> <!-- 시리얼번호 -->
-		      	<th scope="col">내용</th>
+		      	<th scope="col">상품명</th>
 		      	<th scope="col">만료일</th>
 		      	<th scope="col">사용여부</th>
 		      	<th scope="col">사용일</th>
@@ -30,20 +30,51 @@
 			  <c:forEach var="dto" items="${list}">
 			    <tr>
 			      <th scope="row">${dto.listNum}
-			      <input type="hidden" name="giftCode" value="${dto.giftCode}">
 			      </th>
-			      <td>${dto.gubunName}-${dto.goodsName}</td>
+			      <td>
+			      	<div id="useName${dto.giftCode}">
+			      	<c:if test="${dto.quantity eq 0}"><div style="color: red;">${dto.gubunName}-${dto.goodsName}(품절!)</div></c:if>
+			      	<c:if test="${not empty dto.useDate and (dto.quantity gt 0)}"><div style="color: gray;">${dto.gubunName}-${dto.goodsName}</div></c:if>
+			      	<c:if test="${empty dto.useDate and (dto.quantity gt 0)}"><a id="useCoupon" style="color: black; cursor: pointer;" data-couponCode='${dto.giftCode}'>${dto.gubunName}-${dto.goodsName}</a></c:if>
+			      	</div>
+			      </td>
 			      <td>${dto.endDate}</td>
 			      <td>
-			      	<c:if test="${not empty dto.useDate}">
-			      		사용
-			      	</c:if>
-			      	<c:if test="${empty dto.useDate}">
-			      		미사용
-			      	</c:if>
+			      	<div id="useState${dto.giftCode}">
+			      		<c:if test="${not empty dto.useDate}">
+			      			사용
+			      		</c:if>
+			      		<c:if test="${empty dto.useDate}">
+			      			미사용
+			      		</c:if>
+			      	</div>
 			      </td>
-			      <td>${dto.useDate}</td>
+			      <td><div id="useDate${dto.giftCode}">${dto.useDate}</div></td>
 			    </tr>
+			    
+			    <div style="display: none;" id="couponModal${dto.giftCode}" role="dialog" class="modal" tabindex="-1">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+		    				<div class="modal-header">
+ 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  								<span aria-hidden="true">×</span></button>
+ 								<div align="center">
+ 									<h5 class="modal-title" id="myModalLabel">해당 쿠폰을 사용하시겠습니까?</h5>
+ 								</div>
+							</div>
+							<div class="modal-body">
+									<div align="center" style="margin: 30px auto;">
+										<h5>${dto.gubunName} - ${dto.goodsName}</h5>
+									</div>
+									<div align="center" style="width: 100%; margin: 30px auto; border-spacing: 0px;">
+		   								<button id="useCouponButton" type="button" class="btn btn-info" style="font-weight: bold;" data-couponCode='${dto.giftCode}'>사용</button>
+		     	 						<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;">취소</button>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 			   </c:forEach>
 		  	</tbody>
 		</table>

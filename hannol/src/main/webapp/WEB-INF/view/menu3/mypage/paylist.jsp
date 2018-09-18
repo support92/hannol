@@ -86,7 +86,7 @@
 
 <div class="bodyFrame2">
     <div class="body-title">
-          <h3><span class="glyphicon glyphicon-credit-card"></span> 결제완료 </h3>
+          <h3><span class="glyphicon glyphicon-list-alt"></span> 구매내역 </h3>
     </div>
     <div align="center">
 	    <h2 class="custom_h2">상품의 결제가 성공적으로 완료되었습니다.</h2>

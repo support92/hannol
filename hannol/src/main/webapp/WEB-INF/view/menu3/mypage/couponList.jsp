@@ -53,6 +53,47 @@ function listPage(page, couponType){
 	    }
 	});
 }
+
+$("body").on("click", "#useCoupon", function(){
+	var couponCode = $(this).attr("data-couponCode");	
+	$("#couponModal"+couponCode).modal();
+});
+
+$("body").on("click", "#useCouponButton", function(){
+	var giftCode = $(this).attr("data-couponCode");	/* giftCode */
+	var url = "<%=cp%>/mypage/ajaxCouponUse"
+	var data = "giftCode="+giftCode;
+	
+	$.ajax({
+		type : "post",
+		url : url,
+		data : data,
+		dataType : "json",
+		success : function(data){
+			if(data.state=="noGoods"){
+				location.href = "<%=cp%>/mypage/couponList";
+			}else{
+				$("#useName"+giftCode).html("<div style='color: gray;'>"+data.gubunName+"-"+data.goodsName+"</div>");	
+				$("#useDate"+giftCode).html(data.curDate);		
+				if(data.curDate != null)
+					$("#useState"+giftCode).html("사용");
+				
+				$("#couponModal"+giftCode).modal('hide');
+			}
+		},
+		beforeSend : function(jqXHR){
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error : function(jqXHR){
+			if(jqXHR.status == 403){
+				location.href="<%=cp%>/member/login";
+				return;
+			}
+			
+			console.log(jqXHR.responseText);
+		}
+	});
+});
 </script>
 
 <div class="bodyFrame2">
@@ -80,7 +121,5 @@ function listPage(page, couponType){
 	</div>
 
 	<div class="couponList" style="width: 100%;">
-    	
-
 	</div>
 </div>
