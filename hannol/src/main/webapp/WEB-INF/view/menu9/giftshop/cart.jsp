@@ -330,6 +330,13 @@ function numberWithCommas(x) {
 							<div class="num_box">
 								<button type="button" class="btn_minus"></button>
 								<input type="text" class="quantity" value="${dto.quantity}" data-price="${dto.price}" name="quantity">
+								<input type="hidden" value="${dto.gubunCode}" name="gubunCode">
+								<input type="hidden" value="${dto.goodsCode}" name="goodsCode">
+								<input type="hidden" value="${dto.goodsName}" name="goodsName">
+								<input type="hidden" value="${dto.price}" name="goodsPrice">
+								<input type="hidden" value="${dto.gubunName}" name="gubunName">
+								<input type="hidden" value="${dto.parentCode}" name="parentCode">
+								<input type="hidden" value="${dto.cartCode}" name="cartCode">
 								<button type="button" class="btn_plus"></button>
 							</div>
 						</td>

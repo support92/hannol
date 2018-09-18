@@ -10,6 +10,7 @@ public class PayOrder {
 	private List<Integer> quantity;
 	private List<String> gubunName;
 	private List<Integer> parentCode;
+	private List<Integer> cartCode;
 
 	public List<Integer> getGubunCode() {
 		return gubunCode;
@@ -65,6 +66,14 @@ public class PayOrder {
 
 	public void setParentCode(List<Integer> parentCode) {
 		this.parentCode = parentCode;
+	}
+
+	public List<Integer> getCartCode() {
+		return cartCode;
+	}
+
+	public void setCartCode(List<Integer> cartCode) {
+		this.cartCode = cartCode;
 	}
 
 }
