@@ -88,58 +88,71 @@
     <div class="body-title">
           <h3><span class="glyphicon glyphicon-list-alt"></span> 구매내역 </h3>
     </div>
-    <div align="center">
-	    <h2 class="custom_h2">상품의 결제가 성공적으로 완료되었습니다.</h2>
-	    
-	    <table class="custom_table" style="margin-top: 30px;">
-		  	<tbody>
-				<tr>
-					<th class="table_th">결제금액</th>
-					<td class="table_td">${dto.payPrice}원</td>
-				</tr>
-				<tr>
-					<th class="table_th">결제카드</th>
-					<td class="table_td">${dto.cardCo}</td>
-				</tr>
-				<tr>
-					<th class="table_th">카드번호</th>
-					<td class="table_td">${dto.cardNum}</td>
-				</tr>
-				<tr>
-					<th class="table_th">결제일자</th>
-					<td class="table_td">${dto.payDate}</td>
-				</tr>
-		  	</tbody>
-		</table>
-		
-		<table class="custom_table2" style="margin-top: 30px;">
+    
+    <div class="alert alert-info">
+    	<i class="glyphicon glyphicon-info-sign"></i>
+       		 최근 6개월 동안의 구매내역을 조회하실 수 있습니다.<br>
+        <i class="glyphicon glyphicon-info-sign"></i>
+        	이용권 구매 취소 시 해당 매직패스도 같이 취소가 됩니다.
+    </div> 
+    
+    <div>
+		<table class="table">
+			    <colgroup>
+			        <col style="width: 10%; text-align:center">
+			        <col style="text-align:center">
+			        <col style="width: 15%; text-align:center">
+			        <col style="width: 10%; text-align:center">
+			        <col style="width: 10%; text-align:center">
+			        <col style="width: 10%; text-align:center">
+			        <col style="width: 15%; text-align:center">
+			    </colgroup>
+    
+		  <thead class="thead-light">
+		    <tr>
+		      <th scope="col">구분</th>
+		      <th scope="col">상품명</th>
+		      <th scope="col">가격</th>
+		      <th scope="col">구매일</th>
+		      <th scope="col">수량</th>
+		      <th scope="col">현재상태</th>
+		      <th scope="col"></th>
+		    </tr>
+		  </thead>
 		  <tbody>
-				<tr>
-					<th class="table_th2">상품금액</th>
-					<th class="table_th2">할인금액</th>
-					<th class="table_th2" style="color: red;">총 결제금액</th>
-				</tr>
-				<tr>
-					<td class="table_td2">
-						${dto.price}원
-					</td>
-					<td class="table_td2">
-						${dto.dcPrice}원
-					</td>
-					<td class="table_td2" style="color: red;">
-						${dto.payPrice}원
-					</td>
-				</tr>
+			  <c:forEach var="vo" items="${noticeList}">
+			    <tr>
+			      <th scope="row">공지</th>
+			      <td><a href="${articleUrl}&num=${vo.noticeCode}">${vo.subject}</a></td>
+			      <td>${vo.name}</td>
+			      <td>${vo.created}</td>
+			    </tr>
+			  </c:forEach>
+		  
+			  	<c:forEach var="dto" items="${list}">
+			    <tr>
+			      <th scope="row">${dto.listNum}</th>
+			      <td><a href="${articleUrl}&num=${dto.noticeCode}">${dto.subject}</a></td>
+			      <td>${dto.name}</td>
+			      <td>${dto.created}</td>
+			    </tr>
+			    </c:forEach>
+			    
 		  </tbody>
 		</table>
 		
-		<table style="width: 100%; margin: 20px auto; border-spacing: 0px;">
-		   	<tr height="40">
-		      	<td align="center" width="100">
-		          	<button type="button" class="btn btn-danger" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/mypage/paylist'">구매내역 확인</button>
-		     	 	<button type="button" class="btn btn-default" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/giftshop/list'">쇼핑 계속하기</button>
-		     	 </td>
-		   	</tr>
+		
+		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+		   <tr height="35">
+		   <td align="left" width="100">
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
+		      </td>
+			<td align="center">
+			        <c:if test="${dataCount==0}">최근 구매내역이 없습니다.</c:if>
+			        <c:if test="${dataCount!=0}">${paging}</c:if>
+			 </td>
+		   </tr>
 		</table>
-	</div>
+		
+    </div>
 </div>   
