@@ -214,7 +214,7 @@ $(function(){
 			}
 		}
 		
-		var $items = $(this).closest("tr").find(".num_box").find("input");
+		var $items = $(this).closest("table").find(".num_box").find("input");
 		if(!$(this).is(":checked")){
 			$items.each(function(){
 				$(this).prop("disabled", true);
@@ -336,7 +336,7 @@ function numberWithCommas(x) {
 			<thead>
 				<tr>
 					<th>
-						<input type="checkbox" id="checkbox_all">
+						<input type="checkbox" id="checkbox_all" checked>
 					</th>
 					<th class="tb_th" style="width: 40%">
 						상품/정보
@@ -365,7 +365,7 @@ function numberWithCommas(x) {
 				<c:forEach var="dto" items="${list}">
 					<tr data-cartCode="${dto.cartCode}">
 						<td class="cart_list">
-							<input type="checkbox" name="select_item" id="select_item" data-cartCode="${dto.cartCode}">
+							<input type="checkbox" name="select_item" id="select_item" data-cartCode="${dto.cartCode}" checked>
 						</td>
 						<td class="cart_list tb_th" style="text-align: left;">
 							<span>
@@ -405,8 +405,8 @@ function numberWithCommas(x) {
 	</div>
 	
 	<div class="check_all">
-		<input type="checkbox" id="input-delete-all">
-		<button type="button" class="btn btn-default btn-delete-all">선택삭제</button>
+		<input type="checkbox" id="input-delete-all" checked>
+		<button type="button" class="btn btn-default btn-delete-all" >선택삭제</button>
 	</div>
 	
 	<div class="div_total">
