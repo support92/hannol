@@ -72,6 +72,9 @@ public class PayController {
 			pay.setQuantity(dto.getQuantity().get(i));
 			pay.setGubunName(dto.getGubunName().get(i));
 			pay.setParentCode(dto.getParentCode().get(i));
+			System.out.println(dto.getCartCode());
+			if(dto.getCartCode() != null)
+				pay.setCartCode(dto.getCartCode().get(i));
 
 			list.add(pay);
 		}
@@ -161,7 +164,9 @@ public class PayController {
 	
 	@RequestMapping(value = "/pay/result")
 	public String result(@RequestParam(value="payCode")int payCode, Model model) throws Exception {
-		System.out.println(payCode);
+		Pay dto = service.readResult(payCode);
+		
+		model.addAttribute("dto", dto);
 		
 		return ".four.menu9.pay.result";
 	}

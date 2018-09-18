@@ -42,10 +42,21 @@ public class PayServiceImpl implements PayService {
 			dao.insertData("pay.insertCardInfo", dto);
 			dao.updateData("pay.insertPaymentInfo", dto);
 			dao.updateData("pay.insertGift", dto);
+			dao.deleteData("pay.deleteCart", dto);
 		} catch (Exception e) {
 			throw e;
 		}
 		return result;
+	}
+	
+	public Pay readResult(int payCode) throws Exception{
+		Pay dto = null;
+		try {
+			dto = dao.selectOne("pay.readResult", payCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
 	}
 	
 	@Override

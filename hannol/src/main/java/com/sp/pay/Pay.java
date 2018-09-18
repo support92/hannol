@@ -3,7 +3,7 @@ package com.sp.pay;
 import java.util.List;
 
 public class Pay {
-	// 받아올 데이터
+	// 받아오는 데이터
 	private int gubunCode;
 	private int goodsCode;
 	private String goodsName;
@@ -11,12 +11,12 @@ public class Pay {
 	private int quantity;
 	private String gubunName;
 	private int parentCode;
-	// 결재 정보 저장용
-	private int price; // 할인전
+	private int cartCode;
+	//
+	private int price; // 총 상품금액
 	private int dcPrice;
-	private int payPrice; // 할인후
+	private int payPrice; // 결제금액
 	private String payWay;
-	// 카드 결제 정보
 	private String cardCo;
 	private String cardNum;
 	private String cardNum1;
@@ -26,69 +26,11 @@ public class Pay {
 	private String paySection;
 	private int payCode;
 	private long usersCode;
-	
+
 	private List<Pay> plist;
 	private String curDate;
 	private String endDate;
-	
-	
-	
-	
-	public String getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
-
-	public List<Pay> getPlist() {
-		return plist;
-	}
-
-	public void setPlist(List<Pay> plist) {
-		this.plist = plist;
-	}
-
-	public String getCardNum1() {
-		return cardNum1;
-	}
-
-	public void setCardNum1(String cardNum1) {
-		this.cardNum1 = cardNum1;
-	}
-
-	public String getCardNum2() {
-		return cardNum2;
-	}
-
-	public void setCardNum2(String cardNum2) {
-		this.cardNum2 = cardNum2;
-	}
-
-	public String getCardNum4() {
-		return cardNum4;
-	}
-
-	public void setCardNum4(String cardNum4) {
-		this.cardNum4 = cardNum4;
-	}
-
-	public int getPayCode() {
-		return payCode;
-	}
-
-	public void setPayCode(int payCode) {
-		this.payCode = payCode;
-	}
-
-	public long getUsersCode() {
-		return usersCode;
-	}
-
-	public void setUsersCode(long usersCode) {
-		this.usersCode = usersCode;
-	}
+	private String payDate;
 
 	public int getGubunCode() {
 		return gubunCode;
@@ -146,6 +88,14 @@ public class Pay {
 		this.parentCode = parentCode;
 	}
 
+	public int getCartCode() {
+		return cartCode;
+	}
+
+	public void setCartCode(int cartCode) {
+		this.cartCode = cartCode;
+	}
+
 	public int getPrice() {
 		return price;
 	}
@@ -194,6 +144,30 @@ public class Pay {
 		this.cardNum = cardNum;
 	}
 
+	public String getCardNum1() {
+		return cardNum1;
+	}
+
+	public void setCardNum1(String cardNum1) {
+		this.cardNum1 = cardNum1;
+	}
+
+	public String getCardNum2() {
+		return cardNum2;
+	}
+
+	public void setCardNum2(String cardNum2) {
+		this.cardNum2 = cardNum2;
+	}
+
+	public String getCardNum4() {
+		return cardNum4;
+	}
+
+	public void setCardNum4(String cardNum4) {
+		this.cardNum4 = cardNum4;
+	}
+
 	public String getState() {
 		return state;
 	}
@@ -209,4 +183,53 @@ public class Pay {
 	public void setPaySection(String paySection) {
 		this.paySection = paySection;
 	}
+
+	public int getPayCode() {
+		return payCode;
+	}
+
+	public void setPayCode(int payCode) {
+		this.payCode = payCode;
+	}
+
+	public long getUsersCode() {
+		return usersCode;
+	}
+
+	public void setUsersCode(long usersCode) {
+		this.usersCode = usersCode;
+	}
+
+	public List<Pay> getPlist() {
+		return plist;
+	}
+
+	public void setPlist(List<Pay> plist) {
+		this.plist = plist;
+	}
+
+	public String getCurDate() {
+		return curDate;
+	}
+
+	public void setCurDate(String curDate) {
+		this.curDate = curDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getPayDate() {
+		return payDate;
+	}
+
+	public void setPayDate(String payDate) {
+		this.payDate = payDate;
+	}
+
 }

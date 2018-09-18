@@ -344,6 +344,7 @@ function validOk() {
 					<td class="custom_col1">
 						<input type="hidden" name="plist[<%=n%>].goodsCode" value="${dto.goodsCode}">
 						<input type="hidden" name="plist[<%=n%>].goodsName" value="${dto.goodsName}">
+						<input type="hidden" name="plist[<%=n%>].cartCode" value="${dto.cartCode}">
 						${dto.goodsName}
 					</td>
 					<td class="customer_col2">
@@ -545,7 +546,7 @@ function validOk() {
 							<tr>
 								<th class="modal_th">비밀번호</th>
 								<td class="modal_td">
-									<input type="password" name="pwd" id="pwd" size="3" maxlength="2" tabindex="1" placeholder="**">**
+									<input type="password" name="pwd" id="pwd" size="3" maxlength="2" class="nextInput" tabindex="1" placeholder="**">**
 								</td>
 							</tr>
 							<tr>

@@ -50,5 +50,23 @@
 			FROM dual
 		</foreach>
 	</update>
+	
+	<delete id="deleteCart" parameterType="com.sp.pay.Pay">
+		DELETE 
+		FROM cart 
+		WHERE cartCode IN (
+		<foreach collection="plist" item="plist" separator=",">
+			#{plist.cartCode}
+		</foreach>
+		)
+		
+	</delete>
 
+	<select id="readResult" parameterType="Integer" resultType="com.sp.pay.Pay">
+    	SELECT TO_CHAR(payDate,'YYYY-MM-DD') payDate, price, dcPrice, payPrice, cardCo, cardNum 
+	    FROM payment pm
+   		JOIN payInfo pi ON pm.payCode = pi.payCode
+    	JOIN cardInfo ci ON pm.payCode = ci.payCode
+		WHERE pm.payCode = #{payCode}
+	</select>
 </mapper> 

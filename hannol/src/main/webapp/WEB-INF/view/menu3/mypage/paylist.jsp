@@ -23,7 +23,7 @@
 .col-xs-8{
  	float: none;
  	margin: 10px auto;
-} 
+}
 
 .custom_table {
     width: 60%;

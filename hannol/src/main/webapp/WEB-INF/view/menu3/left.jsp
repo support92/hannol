@@ -17,10 +17,10 @@ $(function(){
 
 <div class="list-group">
        <div class="list-group-item lefthead"><i></i>마이페이지</div>
-       <a href="<%=cp%>/guest/guest" class="list-group-item">내정보</a>
+       <a href="<%=cp%>/mypage/info" class="list-group-item">내정보</a>
        <a href="#" class="list-group-item">알림</a>
        <a href="#" class="list-group-item">쿠폰함</a>
        <a href="#" class="list-group-item">예약현황</a>
-       <a href="#" class="list-group-item">구매내역</a>
+       <a href="<%=cp%>/mypage/paylist" class="list-group-item">구매내역</a>
        <a href="#" class="list-group-item">문의내역</a>
 </div>

@@ -262,6 +262,7 @@ $(function(){
 	
 	$(".tb button[name='item-order']").click(function(){
 		var $item = $(this).closest("tr").find(".num_box").find("input");
+		console.log( $item);
 		var gubunCode = $item.prevAll("input[name='gubunCode']").val();
 		var goodsCode = $item.prevAll("input[name='goodsCode']").val();
 		var goodsName = $item.prevAll("input[name='goodsName']").val();
@@ -280,7 +281,7 @@ $(function(){
 		$("#oneSaleForm").find("input[name='parentCode']").val(parentCode);
 		$("#oneSaleForm").find("input[name='cartCode']").val(cartCode);
 		
-		$("#oneSaleForm").submit();
+		//$("#oneSaleForm").submit();
 	});
 });
 
