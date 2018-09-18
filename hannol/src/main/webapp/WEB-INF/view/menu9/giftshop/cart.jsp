@@ -249,6 +249,10 @@ $(function(){
 		    }
 		});		
 	});
+	
+	$(".order-all").click(function(){
+		
+	});
 });
 
 $(function(){
@@ -405,7 +409,7 @@ function numberWithCommas(x) {
 	
 	<div style="text-align: center; margin-top: 20px;">
 		<button type="button" class="btn btn-default">쇼핑 계속하기</button>
-		<button type="button" class="btn btn-danger">주문결제</button>
+		<button type="button" class="btn btn-danger order-all">주문결제</button>
 	</div>
 </div>
 
