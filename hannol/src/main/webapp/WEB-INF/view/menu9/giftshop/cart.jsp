@@ -214,6 +214,17 @@ $(function(){
 			}
 		}
 		
+		var $items = $(this).closest("tr").find(".num_box").find("input");
+		if(!$(this).is(":checked")){
+			$items.each(function(){
+				$(this).prop("disabled", true);
+			});
+		}else{
+			$items.each(function(){
+				$(this).prop("disabled", false);
+			});
+		}
+		
 		getTotalPrice();
 	});
 	
@@ -251,12 +262,23 @@ $(function(){
 	});
 	
 	$(".order-all").click(function(){
-		
+		$("#saleForm").submit();
 	});
 });
 
 $(function(){
 	$(".tb input[name='select_item']").click(function(){
+		var $items = $(this).closest("tr").find(".num_box").find("input");
+		if(!$(this).is(":checked")){
+			$items.each(function(){
+				$(this).prop("disabled", true);
+			});
+		}else{
+			$items.each(function(){
+				$(this).prop("disabled", false);
+			});
+		}
+		
 		getTotalPrice();
 	});
 	
