@@ -70,7 +70,7 @@
     display: inline-block;
     padding-left: 17px;
     padding-bottom: 10px;
-    width: 55px;
+    width: 100px;
 }
 
 .table_col{
@@ -349,7 +349,7 @@ function validOk() {
 					</td>
 					<td class="customer_col2">
 						<input type="hidden" name="plist[<%=n%>].quantity" value="${dto.quantity}">
-						각 ${dto.goodsPrice}원 / 수량 ${dto.quantity}개
+						각 <fmt:formatNumber value="${dto.goodsPrice}" type="number" pattern="#,###원"/> / 수량 ${dto.quantity}개
 					</td>
 				</tr>
 			<% n++; %>
@@ -376,7 +376,7 @@ function validOk() {
 				<tr class="table_col">
 					<th class="col_title">총 상품 가격</th>
 					<td>
-						<strong id="price" class="price" >${price}</strong><strong class="price">원</strong>
+						<strong id="price" class="price" ><fmt:formatNumber value="${price}" type="number" pattern="#,###원"/></strong>
 					</td>
 				</tr>
 				<tr class="table_col">
@@ -401,13 +401,13 @@ function validOk() {
 				<tr class="table_col">
 					<th class="col_title">할인 금액</th>
 					<td>
-						<strong id="dcPrice" class="price">0</strong><strong class="price">원</strong>
+						<strong id="dcPrice" class="price"><fmt:formatNumber value="${dcPrice}" type="number" pattern="#,###원"/></strong>
 					</td>
 				</tr>
 				<tr class="table_col">
 					<th class="col_title">총 결제 금액</th>
 					<td>
-						<strong id="payPrice" class="price" style="color: red;">${payPrice}</strong><strong class="price" style="color: red;">원</strong>
+						<strong id="payPrice" class="price" style="color: red;"><fmt:formatNumber value="${payPrice}" type="number" pattern="#,###원"/></strong>
 					</td>
 				</tr>
 				<tr class="table_col">
@@ -514,7 +514,7 @@ function validOk() {
 							</tr>
 							<tr>
 								<th class="modal_th">결제금액</th>
-								<td class="modal_td">${payPrice}원</td>
+								<td class="modal_td"><fmt:formatNumber value="${payPrice}" type="number" pattern="#,###원"/></td>
 							</tr>
 		  				</tbody>
 					</table>

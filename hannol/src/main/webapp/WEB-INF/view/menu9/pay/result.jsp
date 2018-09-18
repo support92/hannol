@@ -95,7 +95,7 @@
 		  	<tbody>
 				<tr>
 					<th class="table_th">결제금액</th>
-					<td class="table_td">${dto.payPrice}원</td>
+					<td class="table_td"><fmt:formatNumber value="${dto.payPrice}" type="number" pattern="#,###원"/></td>
 				</tr>
 				<tr>
 					<th class="table_th">결제카드</th>
@@ -121,13 +121,13 @@
 				</tr>
 				<tr>
 					<td class="table_td2">
-						${dto.price}원
+						<fmt:formatNumber value="${dto.price}" type="number" pattern="#,###원"/>
 					</td>
 					<td class="table_td2">
-						${dto.dcPrice}원
+						<fmt:formatNumber value="${dto.dcPrice}" type="number" pattern="#,###원"/>
 					</td>
 					<td class="table_td2" style="color: red;">
-						${dto.payPrice}원
+						<fmt:formatNumber value="${dto.payPrice}" type="number" pattern="#,###원"/>
 					</td>
 				</tr>
 		  </tbody>

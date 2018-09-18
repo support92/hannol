@@ -142,11 +142,13 @@ public class PayController {
 		String endDate = formatter.format(currentTime);
 
 		// 발급할 기프트콘 개수
+		int n = 0;
 		List<Pay> plist = new ArrayList<>();
 		for (int i = 0; i < dto.getPlist().size(); i++) {
 			for (int j = 0; j < dto.getPlist().get(i).getQuantity(); j++) {
 				plist.add(dto.getPlist().get(i));
-				plist.get(j).setEndDate(endDate);
+				plist.get(n).setEndDate(endDate);
+				n++;
 			}
 		}
 		dto.setPlist(plist);
@@ -169,5 +171,15 @@ public class PayController {
 		model.addAttribute("dto", dto);
 		
 		return ".four.menu9.pay.result";
+	}
+	
+	// 구매내역
+	@RequestMapping(value = "/mypage/paylist")
+	public String paylist(Model model) throws Exception {
+		/*Pay dto = service.readResult(payCode);
+		
+		model.addAttribute("dto", dto);*/
+		
+		return ".four.menu9.mypage.paylist";
 	}
 }
