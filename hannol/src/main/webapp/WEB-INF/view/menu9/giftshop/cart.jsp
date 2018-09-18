@@ -261,16 +261,15 @@ $(function(){
 	});
 	
 	$(".tb button[name='item-order']").click(function(){
-		var $item = $(this).closest("tr").find(".num_box").find("input");
-		console.log( $item);
-		var gubunCode = $item.prevAll("input[name='gubunCode']").val();
-		var goodsCode = $item.prevAll("input[name='goodsCode']").val();
-		var goodsName = $item.prevAll("input[name='goodsName']").val();
-		var goodsPrice = $item.prevAll("input[name='goodsPrice']").val();
-		var quantity = $item.prevAll("input[name='quantity']").val();
-		var gubunName = $item.prevAll("input[name='gubunName']").val();
-		var parentCode = $item.prevAll("input[name='parentCode']").val();
-		var cartCode = $item.prevAll("input[name='cartCode']").val();
+		var $item = $(this).closest("tr").find(".num_box");
+		var gubunCode = $item.find("input[name='gubunCode']").val();
+		var goodsCode = $item.find("input[name='goodsCode']").val();
+		var goodsName = $item.find("input[name='goodsName']").val();
+		var goodsPrice = $item.find("input[name='goodsPrice']").val();
+		var quantity = $item.find("input[name='quantity']").val();
+		var gubunName = $item.find("input[name='gubunName']").val();
+		var parentCode = $item.find("input[name='parentCode']").val();
+		var cartCode = $item.find("input[name='cartCode']").val();
 		
 		$("#oneSaleForm").find("input[name='gubunCode']").val(gubunCode);
 		$("#oneSaleForm").find("input[name='goodsCode']").val(goodsCode);
@@ -281,7 +280,7 @@ $(function(){
 		$("#oneSaleForm").find("input[name='parentCode']").val(parentCode);
 		$("#oneSaleForm").find("input[name='cartCode']").val(cartCode);
 		
-		//$("#oneSaleForm").submit();
+		$("#oneSaleForm").submit();
 	});
 });
 
@@ -426,9 +425,3 @@ function numberWithCommas(x) {
 		<input type="hidden" value="" name="cartCode">
 	</form>
 </div>
-
-
-
-
-
-
