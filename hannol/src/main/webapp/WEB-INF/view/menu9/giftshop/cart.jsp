@@ -255,6 +255,29 @@ $(function(){
 	$(".tb input[name='select_item']").click(function(){
 		getTotalPrice();
 	});
+	
+	$(".tb button[name='item-order']").click(function(){
+		var $item = $(this).closest("tr").find(".num_box").find("input");
+		var gubunCode = $item.prevAll("input[name='gubunCode']").val();
+		var goodsCode = $item.prevAll("input[name='goodsCode']").val();
+		var goodsName = $item.prevAll("input[name='goodsName']").val();
+		var goodsPrice = $item.prevAll("input[name='goodsPrice']").val();
+		var quantity = $item.prevAll("input[name='quantity']").val();
+		var gubunName = $item.prevAll("input[name='gubunName']").val();
+		var parentCode = $item.prevAll("input[name='parentCode']").val();
+		var cartCode = $item.prevAll("input[name='cartCode']").val();
+		
+		$("#oneSaleForm").find("input[name='gubunCode']").val(gubunCode);
+		$("#oneSaleForm").find("input[name='goodsCode']").val(goodsCode);
+		$("#oneSaleForm").find("input[name='goodsName']").val(goodsName);
+		$("#oneSaleForm").find("input[name='goodsPrice']").val(goodsPrice);
+		$("#oneSaleForm").find("input[name='quantity']").val(quantity);
+		$("#oneSaleForm").find("input[name='gubunName']").val(gubunName);
+		$("#oneSaleForm").find("input[name='parentCode']").val(parentCode);
+		$("#oneSaleForm").find("input[name='cartCode']").val(cartCode);
+		
+		$("#oneSaleForm").submit();
+	});
 });
 
 function getTotalPrice(){
@@ -267,7 +290,6 @@ function getTotalPrice(){
 	});
 	
 	$(".th_price").html(numberWithCommas(totalPrice)+"원");
-	
 }
 
 function numberWithCommas(x) {
@@ -283,6 +305,7 @@ function numberWithCommas(x) {
 	</div>
 	
 	<div class="div_basket">
+	<form action="<%=cp%>/pay/list" method="post" id="saleForm">
 		<table class="tb">
 			<thead>
 				<tr>
@@ -345,16 +368,14 @@ function numberWithCommas(x) {
 						</td>
 						<td class="cart_list cart_one">
 							<button type="button" class="btn btn-default item-delete" data-cartCode="${dto.cartCode}">삭제하기</button>
-							<button type="button" class="btn btn-danger" data-cartCode="${dto.cartCode}">주문하기</button>
+							<button type="button" class="btn btn-danger" name="item-order" data-cartCode="${dto.cartCode}">주문하기</button>
 						</td>
 					</tr>
 				</c:forEach>
 			</c:if>
-				
-				
-				
 			</tbody>
 		</table>
+		</form>
 	</div>
 	
 	<div class="check_all">
@@ -386,6 +407,19 @@ function numberWithCommas(x) {
 		<button type="button" class="btn btn-default">쇼핑 계속하기</button>
 		<button type="button" class="btn btn-danger">주문결제</button>
 	</div>
+</div>
+
+<div>
+	<form action="<%=cp%>/pay/list" method="post" id="oneSaleForm">
+		<input type="hidden" value="" name="quantity">
+		<input type="hidden" value="" name="gubunCode">
+		<input type="hidden" value="" name="goodsCode">
+		<input type="hidden" value="" name="goodsName">
+		<input type="hidden" value="" name="goodsPrice">
+		<input type="hidden" value="" name="gubunName">
+		<input type="hidden" value="" name="parentCode">
+		<input type="hidden" value="" name="cartCode">
+	</form>
 </div>
 
 
