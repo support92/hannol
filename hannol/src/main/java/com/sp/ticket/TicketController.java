@@ -42,4 +42,19 @@ public class TicketController {
 		
 		return ".four.menu1.ticket.ticket";
 	}
+	
+	@RequestMapping(value="/reservation/ticket")
+	public String ticketSelect() throws Exception{
+		return ".four.menu8.ticket.ticket";
+	}
+	
+	@RequestMapping(value="/reservation/dayTicket")
+	public String ticketDay() throws Exception{
+		return ".four.menu8.ticket.calendar";
+	}
+	
+	@RequestMapping(value="/reservation/yearTicket")
+	public String ticketYear() throws Exception{
+		return ".four.menu8.ticket.ticket";
+	}
 }

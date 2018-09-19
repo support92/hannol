@@ -102,7 +102,7 @@
 	    		</div>
     		</c:if>
     		
-    		<c:if test="${empty oneDay}">
+    		<c:if test="${empty after}">
     			<div class="txtArea" style="text-align: center;">
     				현재 이용권이 없습니다
     			</div>

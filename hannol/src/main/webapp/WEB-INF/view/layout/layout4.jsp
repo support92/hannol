@@ -16,6 +16,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>spring</title>
 
+<script type="text/javascript" src="<%=cp%>/resource/fullcalendar/lib/moment.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=cp%>/resource/fullcalendar/fullcalendar.css"/>
+<link rel="stylesheet" type="text/css" href="<%=cp%>/resource/fullcalendar/fullcalendar.min.css"/>
+
 <link rel="stylesheet" href="<%=cp%>/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css"/>
 <link rel="stylesheet" href="<%=cp%>/resource/bootstrap/css/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="<%=cp%>/resource/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
