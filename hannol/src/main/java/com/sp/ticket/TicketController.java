@@ -1,5 +1,7 @@
 package com.sp.ticket;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +51,15 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value="/reservation/dayTicket")
-	public String ticketDay() throws Exception{
+	public String ticketDay(Model model) throws Exception{
+		
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate startDay = LocalDate.now();
+		LocalDate endDay = LocalDate.now().plusMonths(1);
+		
+		model.addAttribute("startDay", dateFormat.format(startDay));
+		model.addAttribute("endDay", dateFormat.format(endDay));
+		
 		return ".four.menu8.ticket.calendar";
 	}
 	
