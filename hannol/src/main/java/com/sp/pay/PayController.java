@@ -175,10 +175,22 @@ public class PayController {
 	
 	// 구매내역
 	@RequestMapping(value = "/mypage/paylist")
-	public String paylist(Model model) throws Exception {
+	public String paylist(
+			HttpSession session, 
+			Model model) throws Exception {
+		
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("usersCode", info.getUsersCode());
+		
+		Map<String, Object> maps = service.paylist(map);
 		/*Pay dto = service.readResult(payCode);
 		
 		model.addAttribute("dto", dto);*/
+		
+		System.out.println(maps.get("payDay"));
+		model.addAttribute("payDay",maps.get("payDay"));
 		
 		return ".four.menu3.mypage.paylist";
 	}

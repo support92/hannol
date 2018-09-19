@@ -1,5 +1,7 @@
 package com.sp.pay;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,6 @@ import com.sp.common.dao.CommonDAO;
 public class PayServiceImpl implements PayService {
 	@Autowired
 	CommonDAO dao;
-	
-	@Override
-	public Map<String, Object> list() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	@Override
 	public int couponCount(Map<String, Object> map) throws Exception {
@@ -68,6 +64,21 @@ public class PayServiceImpl implements PayService {
 			System.out.println(e.toString());
 		}
 		return result;
+	}
+
+	//paylist
+	@Override
+	public Map<String, Object> paylist(Map<String, Object> map) throws Exception {
+		Map<String, Object> map2 = new HashMap<>();
+		List<String> list = null;
+		try {
+			list = dao.selectList("pay.paylist", map);
+			
+			map2.put("payDay", list);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return map2;
 	}
 
 }

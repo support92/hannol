@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String cp=request.getContextPath();
-	int n = 0;
 %>
 
 <style>
@@ -25,61 +24,32 @@
  	margin: 10px auto;
 }
 
-.custom_table {
-    width: 60%;
-    border-top: 2px solid #cecece;
+.note{
+	border: 1px solid #e1e1e1;
+    background: #f8f8f8;
+    padding: 20px;
+    margin-top: 30px;
 }
 
-.custom_table2 {
-    width: 80%;
-    border-top: 2px solid #cecece;
-}
-
-.custom_h2 {
-    margin-bottom: 8px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #333;
-}
-
-.table_th {
+th {
     width: 30%;
-    border: solid #e4e4e4;
+    border: solid #e4e4e4; 
     border-width: 0 1px 1px 0;
-    padding: 7px 10px 7px 15px;
+    background: #f8f8f8;
+    padding: 7px 15px 7px 15px;
     font-weight: bold;
-    text-align: left;
-    background: #f4f4f4;
+    text-align: center;    
 }
 
-.table_td {
-	width: 70%;
-    border-bottom: 1px solid #e4e4e4;
-    padding: 10px 16px;
-}
-
-.table_th2 {
+td {
     width: 30%;
-    border: solid #e4e4e4;
+    border: solid #e4e4e4; 
     border-width: 0 1px 1px 0;
-    padding: 7px 10px 7px 15px;
-    font-weight: bold;
-    text-align: center;
-    background: #f4f4f4;
-    font-size: 13px;
-}
-
-.table_td2 {
-	width: 30%;
-    border-bottom: 1px solid #e4e4e4;
-    padding: 10px 16px;
-    font-weight: bold;
-    text-align: center;
-    font-size: 13px;
+    padding: 7px 15px 7px 15px;
+    text-align: center;    
 }
 </style>
 
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 
 </script>
@@ -89,70 +59,73 @@
           <h3><span class="glyphicon glyphicon-list-alt"></span> 구매내역 </h3>
     </div>
     
-    <div class="alert alert-info">
-    	<i class="glyphicon glyphicon-info-sign"></i>
-       		 최근 6개월 동안의 구매내역을 조회하실 수 있습니다.<br>
-        <i class="glyphicon glyphicon-info-sign"></i>
-        	이용권 구매 취소 시 해당 매직패스도 같이 취소가 됩니다.
-    </div> 
-    
     <div>
-		<table class="table">
-			    <colgroup>
-			        <col style="width: 10%; text-align:center">
-			        <col style="text-align:center">
-			        <col style="width: 15%; text-align:center">
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 15%; text-align:center">
-			    </colgroup>
+    	<div align="right">
+    		<select style="height: 30px; width: 80px;">
+    			<option>2018</option>
+    		</select>
+    	</div>
+    	
+    	<c:forEach varStatus="days" items="${payDay}">
+    	<div style="border: 1px solid #e1e1e1; margin-top: 15px;">
+    		<div style="background-color: #e1e1e1;">
+    			<div style="padding: 10px;">
+    				<h5 style="display: inline;">구매일</h5>
+    				<h5 style="font-weight: bold; display: inline; margin-left: 10px;">2018-09-19</h5>
+    			</div>
+    		</div>
+    		<!-- if(날짜비교) -->
+    		<div style="margin: 15px;">
+    		<!-- if(이용권 샀나) -->
+    			<table style="border: 1px solid #e1e1e1;">
+    				<tr>
+    					<th rowspan="2" style="width: 15%">이용권</th>
+    					<th>상품명</th>
+    					<th>가격 / 수량</th>
+    					<td rowspan="2"><p>총결제금액</p><button type="button" class="btn btn-danger">구매취소</button></td> <!-- if(사용되었거나 날짜지났으면 구매취소 못하게) -->
+    				</tr>
+    				<tr>
+    					<td>니모</td>
+    					<td>2게/3만</td>
+    				</tr>
+    			</table>
+    			
+    			<!-- if(기프티콘 샀나) -->
+    			<table style="margin-top: 10px; border: 1px solid #e1e1e1;">
+    				<tr>
+    					<th rowspan="3" style="width: 15%">기프트샵</th>
+    					<th>상품명</th>
+    					<th>가격 / 수량</th>
+    					<td rowspan="3"><p>총결제금액</p><button type="button" class="btn btn-danger">구매취소</button></td>
+    				</tr>
+    				<tr>
+    					<td>니모</td>
+    					<td>2게/3만</td>
+    				</tr>
+    				<tr>
+    					<td>니모</td>
+    					<td>2게/3만</td>
+    				</tr>
+    			</table>
+    		</div>
+    	</div>
+    	</c:forEach>
     
-		  <thead class="thead-light">
-		    <tr>
-		      <th scope="col">구분</th>
-		      <th scope="col">상품명</th>
-		      <th scope="col">가격</th>
-		      <th scope="col">구매일</th>
-		      <th scope="col">수량</th>
-		      <th scope="col">현재상태</th>
-		      <th scope="col"></th>
-		    </tr>
-		  </thead>
-		  <tbody>
-			  <c:forEach var="vo" items="${noticeList}">
-			    <tr>
-			      <th scope="row">공지</th>
-			      <td><a href="${articleUrl}&num=${vo.noticeCode}">${vo.subject}</a></td>
-			      <td>${vo.name}</td>
-			      <td>${vo.created}</td>
-			    </tr>
-			  </c:forEach>
-		  
-			  	<c:forEach var="dto" items="${list}">
-			    <tr>
-			      <th scope="row">${dto.listNum}</th>
-			      <td><a href="${articleUrl}&num=${dto.noticeCode}">${dto.subject}</a></td>
-			      <td>${dto.name}</td>
-			      <td>${dto.created}</td>
-			    </tr>
-			    </c:forEach>
-			    
-		  </tbody>
-		</table>
-		
-		
-		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-		   <tr height="35">
-		   <td align="left" width="100">
-		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
-		      </td>
-			<td align="center">
+		<div style="width: 100%; margin-top: 10px; border-spacing: 0px;">
+		   <div>
+		    <div align="left">
+		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/mypage/paylist';">새로고침</button>
+		     </div>
+			 <div align="center">
 			        <c:if test="${dataCount==0}">최근 구매내역이 없습니다.</c:if>
 			        <c:if test="${dataCount!=0}">${paging}</c:if>
-			 </td>
-		   </tr>
-		</table>
+			 </div>
+			</div>
+		</div>
 		
+		<div class="note">
+    		<p style="font-size: 16px; font-weight: bold;">꼭 알아두세요</p>
+    		<p style="margin-top: 10px; font-size: 12px;">이용권 구매 취소 시 해당 매직패스도 같이 취소가 됩니다.</p>
+    	</div>
     </div>
 </div>   

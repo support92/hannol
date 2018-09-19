@@ -24,6 +24,7 @@
                 JOIN goodsCount gc ON gc.goodsCode = gs.goodsCode
         		JOIN goodsGubun gg ON gs.gubunCode = gg.gubunCode
         		WHERE usersCode = #{usersCode}
+        		ORDER BY useDate DESC, endDate, goodsCode
         <![CDATA[
     		)tb WHERE ROWNUM <= #{end}
 		)WHERE rnum >= #{start}

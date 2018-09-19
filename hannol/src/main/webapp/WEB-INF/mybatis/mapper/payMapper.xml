@@ -69,4 +69,15 @@
     	JOIN cardInfo ci ON pm.payCode = ci.payCode
 		WHERE pm.payCode = #{payCode}
 	</select>
+	
+	<select id="paylist" parameterType="map" resultType="hashmap">
+		SELECT * FROM
+		(
+    		SELECT TO_CHAR(payDate,'YYYY-MM-DD') payDate 
+    		FROM payment
+    		WHERE usersCode = #{usersCode}
+		)
+		GROUP BY payDate
+	</select>
+	
 </mapper> 

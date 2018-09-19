@@ -38,18 +38,25 @@ public class CouponController {
 	}
 
 	@RequestMapping(value = "/mypage/couponList")
-	public String couponList(@RequestParam(value = "page", defaultValue = "1") String page, Model model)
+	public String couponList(
+			@RequestParam(value = "page", defaultValue = "1") String page,
+			@RequestParam(value = "thema", defaultValue = "0") String thema,
+			Model model)
 			throws Exception {
 
 		model.addAttribute("page", page);
-		model.addAttribute("thema", 0);
+		model.addAttribute("thema", thema);
 
 		return ".four.menu3.mypage.couponList";
 	}
 
 	@RequestMapping(value = "/mypage/ajaxCouponList")
-	public String aJaxListForm(@RequestParam(value = "page", defaultValue = "1") int current_page, int couponType,
-			HttpSession session, HttpServletRequest req, Model model) throws Exception {
+	public String aJaxListForm(
+			@RequestParam(value = "page", defaultValue = "1") int current_page, 
+			int couponType,
+			HttpSession session, 
+			HttpServletRequest req, 
+			Model model) throws Exception {
 
 		int rows = 10;
 		int total_page = 0;
@@ -106,7 +113,11 @@ public class CouponController {
 
 	@RequestMapping(value = "/mypage/ajaxCouponUse", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> price(@RequestParam(value = "giftCode") int giftCode) throws Exception {
+	public Map<String, Object> price(
+			@RequestParam(value = "giftCode") int giftCode,
+			@RequestParam(value = "page", defaultValue = "1") String page,
+			@RequestParam(value = "thema", defaultValue = "0") String thema
+			) throws Exception {
 
 		Coupon dto = service.readGiftCoupon(giftCode);
 
@@ -119,19 +130,14 @@ public class CouponController {
 		int result = service.updateGiftCoupon(dto);
 
 		Map<String, Object> model = new HashMap<>();
-		if (result == 1) {
-			service.updateGoodsCount(dto.getGoodsCode());
-			int goodsCount = service.goodsCount(dto.getGoodsCode());
-			
-			if(goodsCount == 0) {
-				model.put("state", "noGoods");
-				return model;
-			}
-			
-			model.put("gubunName", dto.getGubunName());
-			model.put("goodsName", dto.getGoodsName());
-			model.put("curDate", curDate);
+		if (result != 1) {
+			return model;
 		}
+		service.updateGoodsCount(dto.getGoodsCode());
+		service.goodsCount(dto.getGoodsCode());
+		
+		model.put("page", page);
+		model.put("thema", thema);
 
 		return model;
 	}
