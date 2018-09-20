@@ -111,10 +111,11 @@ td {
 		             			<th>가격 / 수량</th>
 		             			<th rowspan="${dto.rowspan}" style="width: 15%">
 		             				<p><fmt:formatNumber value="${dto.payPrice}" type="number" pattern="#,###원"/></p>
-		             				
-		             				<c:if test="">
+		             				<c:forEach var="vo" items="${uselist}">
+		             				<c:if test="${dto.payCode != vo.PAYCODELIST}">
 		             					<button type="button" class="btn btn-danger">구매취소</button>
 		             				</c:if>
+		             				</c:forEach>
 		             			</th>
 		      				</tr>
       		</c:if>

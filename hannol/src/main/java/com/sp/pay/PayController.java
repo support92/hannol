@@ -200,8 +200,19 @@ public class PayController {
 		int dataCount = service.dataCount(map);
 		int total_page = util.pageCount(rows, dataCount);
 
-		/*List<Integer> uselist = service.useDate(map);
-		System.out.println("payCode = "+uselist.get(0));*/
+		SimpleDateFormat format = new SimpleDateFormat("yyyy", Locale.KOREA);
+		Date date = new Date();
+		String curDate = format.format(date); // select용
+		
+		format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		date = new Date();
+		String endDate = format.format(date);
+		map.put("endDate", endDate);
+		
+		
+		List<Integer> uselist = service.useDate(map);
+		System.out.println("uselist : "+uselist.size());
+		System.out.println("uselist : "+uselist.get(0));
 		
 		List<Paylist> list = service.paylist(map);
 		int count = list.get(list.size() - 1).getRnum();
@@ -231,17 +242,13 @@ public class PayController {
 		String paging = util.paging(current_page, total_page, list_url);
 		String lastPayDate = list.get(0).getPayDate();
 		
-		SimpleDateFormat format = new SimpleDateFormat("yyyy", Locale.KOREA);
-		Date date = new Date();
-		String curDate = format.format(date);
-		System.out.println(curDate);
-
 		model.addAttribute("list", list);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("paging", paging);
 		model.addAttribute("count", count);
 		model.addAttribute("lastPayDate", lastPayDate);
 		model.addAttribute("curDate", curDate);
+		model.addAttribute("uselist", uselist);
 
 		return ".four.menu3.mypage.paylist";
 	}

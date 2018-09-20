@@ -12,5 +12,5 @@ public interface PayService {
 	//paylist
 	public List<Paylist> paylist(Map<String, Object> map) throws Exception;
 	public int dataCount(Map<String, Object> map) throws Exception;
-	public List<Integer> useDate(Map<String, Object> map) throws Exception;
+	public List<Integer>  useDate(Map<String, Object> map) throws Exception;
 }

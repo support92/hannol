@@ -1,5 +1,7 @@
 package com.sp.pay;
 
+import java.util.List;
+
 public class Paylist {
 	private int payCode;
 	private String payDate;

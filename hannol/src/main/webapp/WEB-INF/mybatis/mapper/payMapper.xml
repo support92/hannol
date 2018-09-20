@@ -98,11 +98,15 @@
 		)
 	</select>
 	
-	<select id="useDate" parameterType="map" resultType="hashmap">
-		SELECT p.payCode
+	<select id="useDate" parameterType="map" resultType="java.util.HashMap">
+		SELECT p.payCode payCodelist
         FROM payment p
         JOIN gift g ON p.payCode = g.payCode   
-        WHERE usersCode = #{usersCode} and useDate IS NOT NULL
+        WHERE usersCode = #{usersCode} 
+        	AND useDate IS NOT NULL
+        	<![CDATA[ 
+        	OR TO_CHAR(endDate,'YYYY-MM-DD') < #{endDate}
+        	]]>
         GROUP BY p.payCode
 	</select>
 	
