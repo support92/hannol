@@ -192,11 +192,11 @@ function sendOk() {
 								<button type="button" name="sendButton" class="btn btn-default"
 									onclick="sendOk();">입력</button>
 							</c:if>
-							<c:if test="${mode=='info'}">
+							<c:if test="${mode=='info' && sessionScope.member.authority=='ROLE_ADMIN'}">
 								<button type="button" name="sendButton" class="btn btn-default"
 									onclick="deleteCareer('${dto.schCode}');">삭제</button>
 							</c:if>
-							<button type="button" class="btn btn-default	"
+							<button type="button" class="btn btn-default"
 								onclick="javascript:location.href='<%=cp%>/guide/list?${query }';">리스트</button>
 						</td>
 					</tr>
