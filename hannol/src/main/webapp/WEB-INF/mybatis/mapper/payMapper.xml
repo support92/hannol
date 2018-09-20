@@ -80,7 +80,7 @@
 			JOIN paymentInfo pmi ON p.payCode = pmi.payCode 
 			JOIN goods gs ON pmi.goodsCode = gs.goodsCode
 			JOIN goodsGubun gg ON gs.gubunCode = gg.gubunCode
-			WHERE usersCode = #{usersCode}
+			WHERE usersCode = #{usersCode} AND TO_CHAR(payDate,'YYYY-MM-DD') LIKE #{year}
 		)
 		<![CDATA[
 		WHERE  rnum >= #{start} AND rnum <= #{end} 
@@ -92,7 +92,7 @@
 		SELECT COUNT(*) FROM(
     		SELECT TO_CHAR(payDate,'YYYY-MM-DD') payDate 
     		FROM payment
-   			WHERE usersCode = #{usersCode}
+   			WHERE usersCode = #{usersCode} AND TO_CHAR(payDate,'YYYY-MM-DD') LIKE #{year}
     		GROUP BY TO_CHAR(payDate,'YYYY-MM-DD')
     		ORDER BY payDate
 		)

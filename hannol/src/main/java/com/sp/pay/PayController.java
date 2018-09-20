@@ -146,7 +146,6 @@ public class PayController {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		String endDate = formatter.format(currentTime);
 
-		
 		dto.setPlist2(dto.getPlist());
 		// 발급할 기프트콘 개수
 		int n = 0;
@@ -183,7 +182,7 @@ public class PayController {
 	// 구매내역
 	@RequestMapping(value = "/mypage/paylist")
 	public String paylist(HttpServletRequest req, @RequestParam(value = "page", defaultValue = "1") int current_page,
-			HttpSession session, Model model) throws Exception {
+			String year, HttpSession session, Model model) throws Exception {
 
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
@@ -197,9 +196,6 @@ public class PayController {
 		map.put("start", start);
 		map.put("end", end);
 
-		int dataCount = service.dataCount(map);
-		int total_page = util.pageCount(rows, dataCount);
-
 		SimpleDateFormat format = new SimpleDateFormat("yyyy", Locale.KOREA);
 		Date date = new Date();
 		String curDate = format.format(date); // select용
@@ -208,47 +204,47 @@ public class PayController {
 		date = new Date();
 		String endDate = format.format(date);
 		map.put("endDate", endDate);
-		
-		
-		List<Integer> uselist = service.useDate(map);
-		System.out.println("uselist : "+uselist.size());
-		System.out.println("uselist : "+uselist.get(0));
-		
-		List<Paylist> list = service.paylist(map);
-		int count = list.get(list.size() - 1).getRnum();
-		int rowspan = 1;
-		for (int j = 1; j <= count; j++) {
-			for (int i = 0; i < list.size(); i++) {
-				if (list.get(i).getRnum() == j)
-					rowspan++;
-			}
-			for (int i = 0; i < list.size(); i++) {
-				list.get(i).setRowspan(rowspan);
-			}
+
+		if (year == null) {
+			year = curDate;
 		}
+		map.put("year", year + "%");
 		
-		/*for(int i = 0 ; i<uselist.size(); i++) {
-			for(int j = 0; j<list.size(); i++) {
-				if(list.get(j).getPayCode() == uselist.get(i)) {
-					list.get(j).setUseDate("no");
+		int dataCount = service.dataCount(map);
+		int total_page = util.pageCount(rows, dataCount);
+
+		List<Integer> uselist = service.useDate(map);
+
+		List<Paylist> list = service.paylist(map);
+		if (list != null && list.size() > 0) {
+			int count = list.get(list.size() - 1).getRnum();
+			int rowspan = 1;
+			for (int j = 1; j <= count; j++) {
+				for (int i = 0; i < list.size(); i++) {
+					if (list.get(i).getRnum() == j)
+						rowspan++;
+				}
+				for (int i = 0; i < list.size(); i++) {
+					list.get(i).setRowspan(rowspan);
 				}
 			}
-		}*/
-		
+			
+			
+			String cp = req.getContextPath();
+			String list_url = cp + "/mypage/list";
 
-		String cp = req.getContextPath();
-		String list_url = cp + "/mypage/list";
+			String paging = util.paging(current_page, total_page, list_url);
+			String lastPayDate = list.get(0).getPayDate();
 
-		String paging = util.paging(current_page, total_page, list_url);
-		String lastPayDate = list.get(0).getPayDate();
-		
-		model.addAttribute("list", list);
+			model.addAttribute("list", list);
+			model.addAttribute("paging", paging);
+			model.addAttribute("lastPayDate", lastPayDate);
+			model.addAttribute("uselist", uselist);
+			model.addAttribute("count", count);
+		}
 		model.addAttribute("dataCount", dataCount);
-		model.addAttribute("paging", paging);
-		model.addAttribute("count", count);
-		model.addAttribute("lastPayDate", lastPayDate);
 		model.addAttribute("curDate", curDate);
-		model.addAttribute("uselist", uselist);
+		model.addAttribute("year", year);
 
 		return ".four.menu3.mypage.paylist";
 	}

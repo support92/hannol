@@ -52,6 +52,14 @@ td {
 </style>
 
 <script type="text/javascript">
+$(function(){
+	$("#yearSelect").change(function(){
+		var year = $("#yearSelect option:selected").val();
+		location.href="<%=cp%>/mypage/paylist?year="+year;
+	});
+	$("#yearSelect > option[value='${year}']").attr("selected","selected");
+});
+
 
 </script>
 
@@ -62,10 +70,10 @@ td {
     
     <div>
     	<div align="right">
-    		<select style="height: 30px; width: 80px;">
-    			<option>${curDate}</option>
-    			<option>${curDate-1}</option>
-    			<option>${curDate-2}</option>
+    		<select id="yearSelect" style="height: 30px; width: 80px;">
+    			<option value="${curDate}">${curDate}</option>
+    			<option value="${curDate-1}">${curDate-1}</option>
+    			<option value="${curDate-2}">${curDate-2}</option>
     		</select>
     	</div>
     	
@@ -132,12 +140,6 @@ td {
 		 </c:if>	
     	
     	
-    	
-    	
-    
-    
-    
-    
 		<div style="width: 100%; margin-top: 10px; border-spacing: 0px;">
 		   <div>
 		    <div align="left">
