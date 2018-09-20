@@ -22,7 +22,7 @@
 
 .price_area{
 	float:left; 
-	margin-left: 10px;
+	margin-left: 30px;
 	width: 45%;
 }
 
@@ -37,10 +37,29 @@
 	font-size: 14px;
 	margin-top: 15px;
 	width: 100%;
+	border-top: 1px solid #e2e2e2;
+}
+
+.input-count{
+	width: 42px;
+	text-align: center;
+}
+
+.btn_delete{
+  width: 21px;
+  height: 21px;
+  background: url('<%=cp%>/resource/images/delete.png') no-repeat -1px -1px;
+  border: none;
+  line-height : 21px;
+  float: right;
 }
 </style>
 
 <script>
+var endDate = "${day}";
+var limit = "";
+
+
 $(function(){
 	$("#ticket_gubun").change(function(){
 		$("#ticket_person option").css("display", "none");
@@ -73,10 +92,50 @@ $(function(){
 	});
 	
 	$("#ticket_count").change(function(){
-		var html = "<li>[내가 샀다]<span><button type='button'>X</button></span></li>";
+		console.log(totalCount());
+		var total = totalCount()+Number($(this).val());
+		if(total>4){
+			alert("4매 이상 구매할 수 없습니다.");
+			return;
+		}
+		
+		var $item = $("#ticket_person option:selected");
+		var goodsCode = $item.val();
+		var goodsName = $item.attr("data-goodsName");
+		var goodsPrice = $item.attr("data-goodsPrice");
+		var gubunCode = $item.attr("data-gubunCode");
+		var gubunName = $item.attr("data-gubunName");
+		var parentCode = $item.attr("data-parentCode");
+		
+		var html ="<li>";
+		html+="<span>["+$("#ticket_gubun option:selected").text()+"]</span>";
+		html+="<span>"+goodsName+"</span>";
+		html+="<span class='input-count'>X"+$(this).val()+"</span>";
+		html+="<span><button type='button' class='btn_delete'></button></span>";
+		html+="";
+		
+		html+="</li>";
+			
 		$(".ticket_result").find("ul").append(html);
 	});
+	
+	$(document).on("click",".btn_delete",function(){
+		$(this).closest("li").remove();
+	});
+	
+	$(".btn-pay").click(function(){
+		$("#saleForm").submit();
+	});
 });
+
+function totalCount(){
+	var total = 0;
+	$(".input-count").each(function(){
+		total+=Number($(this).text().substring(1));
+	});
+	
+	return total;
+}
 </script>
 
 <div class="bodyFrame2">
@@ -115,19 +174,24 @@ $(function(){
     			<select id="ticket_person" disabled="disabled">
     				<option value="">::구분::</option>
     				<c:forEach items="${oneDay}" var="item">
-    					<option value="${item.goodsCode}" class="oneDay" style="display: none;">${item.goodsName}</option>
+    					<option value="${item.goodsCode}" class="oneDay" style="display: none;" data-goodsName="${item.goodsName}" data-gubunCode="${item.gubunCode}"
+    					 data-goodsPrice="${item.goodsPrice}" data-gubunName="${item.gubunName}" data-parentCode="${item.parentCode}">${item.goodsName}[${item.goodsPrice}원]</option>
     				</c:forEach>
     				<c:forEach items="${oneDayMasic}" var="item">
-    					<option value="${item.goodsCode}" class="oneDayMasic" style="display: none;">${item.goodsName}</option>
+    					<option value="${item.goodsCode}" class="oneDayMasic" style="display: none;"data-goodsName="${item.goodsName}" data-gubunCode="${item.gubunCode}"
+    					 data-goodsPrice="${item.goodsPrice}" data-gubunName="${item.gubunName}" data-parentCode="${item.parentCode}">${item.goodsName}[${item.goodsPrice}원]</option>
     				</c:forEach>
     				<c:forEach items="${after}" var="item">
-    					<option value="${item.goodsCode}" class="after" style="display: none;">${item.goodsName}</option>
+    					<option value="${item.goodsCode}" class="after" style="display: none;"data-goodsName="${item.goodsName}" data-gubunCode="${item.gubunCode}"
+    					 data-goodsPrice="${item.goodsPrice}" data-gubunName="${item.gubunName}" data-parentCode="${item.parentCode}">${item.goodsName}[${item.goodsPrice}원]</option>
     				</c:forEach>
     				<c:forEach items="${afterMasic}" var="item">
-    					<option value="${item.goodsCode}" class="afterMasic" style="display: none;">${item.goodsName}</option>
+    					<option value="${item.goodsCode}" class="afterMasic" style="display: none;"data-goodsName="${item.goodsName}" data-gubunCode="${item.gubunCode}"
+    					 data-goodsPrice="${item.goodsPrice}" data-gubunName="${item.gubunName}" data-parentCode="${item.parentCode}">${item.goodsName}[${item.goodsPrice}원]</option>
     				</c:forEach>
     				<c:forEach items="${big}" var="item">
-    					<option value="${item.goodsCode}" class="big" style="display: none;">${item.goodsName}</option>
+    					<option value="${item.goodsCode}" class="big" style="display: none;"data-goodsName="${item.goodsName}" data-gubunCode="${item.gubunCode}"
+    					 data-goodsPrice="${item.goodsPrice}" data-gubunName="${item.gubunName}" data-parentCode="${item.parentCode}">${item.goodsName}[${item.goodsPrice}원]</option>
     				</c:forEach>
     				
     			</select>
@@ -142,12 +206,23 @@ $(function(){
     		</div>
     		
     		<div class="ticket_result">
-    			<ul>
-    				<li>
-    					[내가 샀다]
-    					<span><button type="button">X</button></span>
-    				</li>
-    			</ul>
+	    		<form action="<%=cp%>/pay/list" method="post" id="saleForm">
+	    			<ul style="margin: 15px 0px;">
+	    				<li>
+	    					<input type="hidden" name="goodsCode" value="">
+							<input type="hidden" name="gubunCode" value="">
+							<input type="hidden" name="goodsName" value="">
+							<input type="hidden" name="goodsPrice" value="">
+							<input type="hidden" name="gubunName" value="">
+							<input type="hidden" name="parentCode" value="">
+							<input type="hidden" name="quantity" value="">
+	    				</li>
+	    			</ul>
+	    		</form>
+	    		<div style="text-align: center;">
+	    			<button type="button" class="btn btn-defualt" style="width: 49%;">취소</button>
+	    			<button type="button" class="btn btn-danger btn-pay" style="width: 49%;">결제</button>
+	    		</div>
     		</div>
     	</div>
     </div>

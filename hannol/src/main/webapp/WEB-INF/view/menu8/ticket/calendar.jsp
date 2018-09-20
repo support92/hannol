@@ -50,11 +50,33 @@ $(function(){
 	  });
 	
 	$(".btn-dayTicket").click(function(){
-		if(!confirm("예약하시는 날짜가 "+selectDay+"가 맞습니까?")){
-			return;
-		}
+		var url = "<%=cp%>/reservation/checkUser";
+		var data = "day="+selectDay;
 		
-		location.href="<%=cp%>/reservation/dayTicket?day="+selectDay;
+		$.ajax({
+			type:"GET"
+			,url:url
+			,data: data
+			,success:function(data) {
+				if(data.limit==0){
+					alert("최대 구매수량을 초과할 수 없습니다.");
+					return;
+				}else{
+					if(!confirm("예약하시는 날짜가 "+selectDay+"가 맞습니까?")){
+						return;
+					}
+					
+					location.href="<%=cp%>/reservation/dayTicket?day="+selectDay;
+				}
+			}
+		    ,error:function(e) {
+		    	console.log(e.responseText);
+		    }
+		});
+		
+		
+		
+		
 	});
 });
 </script>

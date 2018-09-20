@@ -3,12 +3,19 @@ package com.sp.ticket;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sp.member.SessionInfo;
 
 @Controller("ticket.ticketController")
 public class TicketController {
@@ -67,7 +74,7 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value="/reservation/dayTicket")
-	public String ticketDay(String day, Model model) throws Exception{
+	public String ticketDay(String day, int limit, Model model) throws Exception{
 		List<Ticket> list = service.listTicket();
 		
 		List<Ticket> oneDay = new ArrayList<>();
@@ -96,7 +103,22 @@ public class TicketController {
 		model.addAttribute("afterMasic", afterMasic);
 		model.addAttribute("big", big);
 		model.addAttribute("day", day);
+		model.addAttribute("limit", limit);
 		
 		return ".four.menu8.ticket.dayTicket";
+	}
+	
+	@RequestMapping(value="/reservation/checkUser")
+	@ResponseBody
+	public Map<String, Object> ticketCheckUser(Map<String, Object> map, HttpSession session, String day) throws Exception{
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		long userCode = info.getUsersCode();
+		map.put("userCode", userCode);
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("limit", "2");
+		
+		return model;
 	}
 }
