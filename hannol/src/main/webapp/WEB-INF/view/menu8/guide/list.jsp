@@ -16,43 +16,44 @@
 		        ,"url":"<%=cp%>/guide/info?schCode=${listview.schCode}"
 		        	<c:if test="${listview.timezone==1}">,"color" : "#7FB3D5"</c:if>
 		        	<c:if test="${listview.timezone==2}">,"color" : "#2980B9"</c:if>
-	        } 
+		        	<c:if test="${listview.bookCode!=''}">,"color" : "#E74C3C"</c:if>
+	        }  
 	        <c:if test="${!status.last}">,</c:if>
 	</c:forEach> 
 ];
 
 $(document).ready(function() {
-$('#calendar').fullCalendar({
-	locale:'ko',
-    header: {
-        left: 'prev,next today',
-        center: 'title',
-         right: 'month,basicWeek,basicDay' 
-    },
-    defaultDate: new Date(),
-    navLinks: true, 
-    editable: false,
-    displayEventTime: false,
-    eventLimit: true,
-    monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
-    monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
-    dayNames: ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],
-    dayNamesShort: ["일","월","화","수","목","금","토"],
-    buttonText: {
-	    today : "오늘",
-	    month : "월별",
-	    week : "주별",
-	    day : "일별",
-    },
-    events: dataset,
-    eventClick: function(calEvent, jsEvent, view) {
-
-    		if (event.url) {
-    	      window.open(event.url);
-    	      return false;
-    	    } 
-      }
-});
+	$('#calendar').fullCalendar({
+		locale:'ko',
+	    header: {
+	        left: 'prev,next today',
+	        center: 'title',
+	         right: 'month,basicWeek,basicDay' 
+	    },
+	    defaultDate: new Date(),
+	    navLinks: true, 
+	    editable: false,
+	    displayEventTime: false,
+	    eventLimit: true,
+	    monthNames: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+	    monthNamesShort: ["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],
+	    dayNames: ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"],
+	    dayNamesShort: ["일","월","화","수","목","금","토"],
+	    buttonText: {
+		    today : "오늘",
+		    month : "월별",
+		    week : "주별",
+		    day : "일별",
+	    },
+	    events: dataset,
+	    eventClick: function(calEvent, jsEvent, view) {
+	
+	    		if (event.url) {
+	    	      window.open(event.url);
+	    	      return false;
+	    	    } 
+	      }
+	});
 });
 
 
@@ -130,4 +131,7 @@ function sendGuide(){
     <div>
         <div id="calendar"></div>
     </div>
+    
+    <div id="stateLayout">${msg }</div>
+    <div id="resultLayout"></div>
 </div>

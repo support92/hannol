@@ -7,30 +7,28 @@
 %>
 
 <script type="text/javascript">
-function deleteCareer(data) {
+function deleteGuide(data) {
 		var query = "${query}";
-		var url = "<%=cp%>/guide/delete?" + query+"&usersCodeM=${usersCodeM}";
+		var url = "<%=cp%>/guide/delete?" + query+"&usersCodeM=${dto.usersCodeM}";
 		
 		if(confirm("위 자료를 삭제 하시 겠습니까 ? ")) {
 				location.href=url;
 		}
 }
 
+function bookGuide(){
+	
+	 var url = "<%=cp%>/guide/book?mode=created&schCode=${dto.schCode}";
+	
+	location.href=url; 
+}
+
 function sendOk() {
 	
-    <%-- var f = document.infoForm;
-
-	var str = f.careerDate.value;
-    if(!str || !isValidDateFormat(str)) {
-        alert("날짜형식를 확인하세요[YYYY-MM-DD]. ");
-        $("#inputDate").val("");
-        $("#inputDate").focus();
-        return;
-    }
-	var s = $("#dpCode option:selected").val();
-
-	f.action="<%=cp%>/guide/createBook";
-    f.submit(); --%>
+    var f = document.infoForm;
+    
+	f.action="<%=cp%>/guide/createBook?schCode=${dto.schCode}";
+    f.submit(); 
 }
 </script>
 
@@ -43,17 +41,8 @@ function sendOk() {
 		<form  name="infoForm" id="infoForm" method="post" >
 
 			<div style="float: left; width: 40%">
-				<div class="form-group" style="margin: 80px auto 0px;">
-					<label for="usersCode" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;일정코드</label>
-					<div class="col-sm-7">
-						<input type="text" name="schCode" class="form-control input-sm"
-							id="schCode" placeholder="스케쥴코드" value="${dto.schCode}"
-							readonly="readonly">
-					</div>
-				</div>
-				<br><br>
 				
-				<div class="form-group" style="margin: 10px auto 0px;">
+				<div class="form-group" style="margin: 60px auto 0px;">
 					<label for="workDate" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;근무일자</label>
 					<div class="col-sm-7">
 						<input type="text" name="workDate" class="form-control input-sm"
@@ -64,10 +53,10 @@ function sendOk() {
 				
 				<br>
 				<div class="form-group" style="margin: 20px auto 0px;">
-					<label for="timezone" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;구분</label>
+					<label for="timezoneInfo" class="col-sm-5 control-label text-right"><mark>*</mark>&nbsp;구분</label>
 					<div class="col-sm-7">
-							<input type="text" name="timezone" class="form-control input-sm"
-								id="timezone" placeholder="(오전/오후)" value="${dto.timezone==1?'오전':'오후'}" readonly="readonly">
+							<input type="text" class="form-control input-sm"
+								id="timezoneInfo" placeholder="(오전/오후)" value="${dto.timezone==1?'오전':'오후'}" readonly="readonly">
 					</div>
 				</div>
 				<br>
@@ -93,27 +82,24 @@ function sendOk() {
 
 				<div style="width: 30%; float: left;" class="text-center">
 					<img alt="" src="<%=cp%>/resource/images/${roleImg}"
-						style="padding: 10px; margin-top: 60px; width: 200px; height: 250px;"><br>
+						style="padding: 10px; margin-top: 10px; width: 200px; height: 250px;"><br>
 				</div>
 
 
+
+			<!-- 여기부터 예약자가 입력하기 -->
 			<div style="clear: both"></div>
-			<div>
+			
+			<c:if test="${mode=='created'}">
+				<div>
 			
 				<div class="form-group"
 					style="margin: 20px auto 0px; border-spacing: 0px;">
-					<label for="usersCodeM" class="col-sm-2 control-label text-right">예약자회원코드</label>
+					<label for="memberId" class="col-sm-2 control-label text-right">예약자회원아이디</label>
 					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
-						<c:if test="${mode=='create'}">
-							<input type="text" class="form-control" name="usersCodeM"
-								placeholder="예약자회원번호" value="${dto.usersCodeM}"
-								style='border: none;'>
-						</c:if>
-						<c:if test="${mode=='info'}">
-							<input type="text" class="form-control" id="usersCodeM" 
-								placeholder="예약자회원번호" value="${dto.usersCodeM==0?'없음':dto.usersCodeM}" readonly="readonly"
-								style='border: none;'>
-						</c:if>
+							<input type="text" class="form-control" name="memberId"
+								placeholder="예약자회원아이디" value="${dto.memberId}"
+								style='border: none;' readonly="readonly">
 					</div>
 				</div>
 
@@ -124,16 +110,9 @@ function sendOk() {
 					style="margin: 20px auto 0px; border-spacing: 0px;">
 					<label for="nameM" class="col-sm-2 control-label text-right">예약자이름</label>
 					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
-						<c:if test="${mode=='create'}">
 							<input type="text" class="form-control" name="nameM"
 								placeholder="예약자이름" value="${dto.nameM}"
 								style='border: none;'>
-						</c:if>
-						<c:if test="${mode=='info'}">
-							<input type="text" class="form-control" id="nameM" 
-								placeholder="예약자이름" value="${dto.nameM}" readonly="readonly"
-								style='border: none;'>
-						</c:if>
 					</div>
 				</div>
 
@@ -144,16 +123,9 @@ function sendOk() {
 					style="margin: 20px auto 0px; border-spacing: 0px;">
 					<label for="tel" class="col-sm-2 control-label text-right">예약자 연락처</label>
 					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
-						<c:if test="${mode=='create'}">
 							<input type="text" class="form-control" name="tel"
 								placeholder="연락처" value="${dto.tel}" 
 								style='border: none;'>
-						</c:if>
-						<c:if test="${mode=='info'}">
-							<input type="text" class="form-control" id="tel"
-								placeholder="연락처" value="${dto.tel}" readonly="readonly"
-								style='border: none;'>
-						</c:if>
 					</div>
 				</div>
 
@@ -164,16 +136,9 @@ function sendOk() {
 					style="margin: 20px auto 0px; border-spacing: 0px;">
 					<label for="bookDate" class="col-sm-2 control-label text-right">예약일자</label>
 					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
-						<c:if test="${mode=='create'}">
-							<input type="text" class="form-control" name="bookDate" id="inputDate"
-								placeholder="YYYY-MM-DD" value="${dto.bookDate}" 
-								style='border: none;'>
-						</c:if>
-						<c:if test="${mode=='info'}">
-							<input type="text" class="form-control" id="bookDate" 
-								placeholder="예약일자" value="${dto.bookDate}" readonly="readonly"
-								style='border: none;'>
-						</c:if>
+							<input type="text" class="form-control" name="bookDate" id="bookDate"
+								placeholder="예약후 자동으로 생성됩니다" value="${dto.bookDate}" 
+								style='border: none;' readonly="readonly">
 					</div>
 				</div>
 				
@@ -187,15 +152,12 @@ function sendOk() {
 				<table style="margin: 0px auto; border-spacing: 0px;">
 					<tr height="30">
 						<td align="center">
-							<c:if test="${mode=='create'}">
+							<c:if test="${mode=='created'}">
 								
 								<button type="button" name="sendButton" class="btn btn-default"
-									onclick="sendOk();">입력</button>
+									onclick="sendOk();">입력확인</button>
 							</c:if>
-							<c:if test="${mode=='info' && sessionScope.member.authority=='ROLE_ADMIN'}">
-								<button type="button" name="sendButton" class="btn btn-default"
-									onclick="deleteCareer('${dto.schCode}');">삭제</button>
-							</c:if>
+							
 							<button type="button" class="btn btn-default"
 								onclick="javascript:location.href='<%=cp%>/guide/list?${query }';">리스트</button>
 						</td>
@@ -206,6 +168,92 @@ function sendOk() {
 				</table>
 
 			</div>
+			</c:if>
+			
+			
+
+			<c:if test="${mode=='info'}">
+				<div>
+			
+				<div class="form-group"
+					style="margin: 20px auto 0px; border-spacing: 0px;">
+					<label for="memberId" class="col-sm-2 control-label text-right">예약자회원아이디</label>
+					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
+							<input type="text" class="form-control" id="memberId" 
+								placeholder="예약자회원아이디" value="${dto.usersCodeM==0?'없음':dto.memberId}" readonly="readonly"
+								style='border: none;'>
+					</div>
+				</div>
+
+				<br>
+				<br>
+
+				<div class="form-group"
+					style="margin: 20px auto 0px; border-spacing: 0px;">
+					<label for="nameM" class="col-sm-2 control-label text-right">예약자이름</label>
+					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
+							<input type="text" class="form-control" id="nameM" 
+								placeholder="예약자이름" value="${dto.nameM}" readonly="readonly"
+								style='border: none;'>
+					</div>
+				</div>
+
+				<br>
+				<br>
+				
+				<div class="form-group"
+					style="margin: 20px auto 0px; border-spacing: 0px;">
+					<label for="tel" class="col-sm-2 control-label text-right">예약자 연락처</label>
+					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
+							<input type="text" class="form-control" id="tel"
+								placeholder="연락처" value="${dto.tel}" readonly="readonly"
+								style='border: none;'>
+					</div>
+				</div>
+
+				<br>
+				<br>
+
+				<div class="form-group"
+					style="margin: 20px auto 0px; border-spacing: 0px;">
+					<label for="bookDate" class="col-sm-2 control-label text-right">예약일자</label>
+					<div class="col-sm-6" style="padding: 0 0 15px 15px;">
+							<input type="text" class="form-control" id="bookDate" 
+								placeholder="예약일자" value="${dto.bookDate}" readonly="readonly"
+								style='border: none;'>
+					</div>
+				</div>
+				
+				<br><br>
+				<br>
+				
+				<input type="hidden" id="usersCode" name="usersCode" value="${dto.usersCode }">
+				<input type="hidden" id="usersCodeM" name="usersCodeM" value="${dto.usersCodeM }">
+				<input type="hidden" id="timezone" name="timezone" value="${dto.timezone }">
+				<input type="hidden" id="schCode" name="schCode" value="${dto.schCode }">
+				
+
+				<table style="margin: 0px auto; border-spacing: 0px;">
+					<tr height="30">
+						<td align="center">
+							<c:if test="${dto.usersCodeM==''}">
+								<button type="button" name="bookButton" class="btn btn-default"
+									onclick="bookGuide('${dto.schCode}');">예약하기</button>
+							</c:if>
+							
+							<button type="button" class="btn btn-default"
+								onclick="javascript:location.href='<%=cp%>/guide/list?${query }';">리스트</button>
+						</td>
+					</tr>
+					<tr height="30">
+						<td align="center" style="color: blue;">${message}</td>
+					</tr>
+				</table>
+
+			</div>
+			</c:if>
+			
+			
 
 			<div id="resultStaff"></div>
 		</form>

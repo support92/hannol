@@ -112,4 +112,15 @@ public class GuideServiceImpl implements GuideService {
 		return result;
 	}
 
+	@Override
+	public int insertBook(Guide dto) throws Exception {
+		int result =0;
+		try {
+			result = dao.insertData("guide.insertBook", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }
