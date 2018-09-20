@@ -5,6 +5,34 @@
 <%
    String cp = request.getContextPath();
 %>
+<link rel="stylesheet" href="<%=cp%>/resource/css/tabs.css" type="text/css">
+<style>
+.alert-info {
+    border: 1px solid #9acfea;
+    border-radius: 4px;
+    background-color: #d9edf7;
+    color: #31708f;
+    padding: 15px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.gitf-form-control{
+   background: url(<%=cp%>/resource/images/item_list.png) no-repeat right 2px;
+}
+.col-xs-8:after{
+   content:''; display:block; clear:both;
+}
+
+.col-xs-offset-2{
+   width: 40%;
+}
+
+.col-xs-8{
+    float: none;
+    margin: 10px auto;
+}
+</style>
+
 <script type="text/javascript">
 $(function() {
 	var pageNo = ${pageNo};
@@ -85,9 +113,10 @@ function insertShowInfo() {
        <div style="clear: both;">
            <ul class="tabs">
 		       <li id="tab-all" data-tab="all" data-gubuncode="0">전체</li>
-		       <li id="tab-experience" data-tab="experience" data-gubuncode="1">체험</li>
-		       <li id="tab-parade" data-tab="parade" data-gubuncode="2">퍼레이드</li>
+		       <li id="tab-magicpass" data-tab="magicpass" data-gubuncode="1">매직패스</li>
+		       <li id="tab-guide" data-tab="guide" data-gubuncode="2">가이드</li>
 		       <li id="tab-stage" data-tab="stage" data-gubuncode="3">무대공연</li>
+		       <li id="tab-facility" data-tab="facility" data-gubuncode="4">편의시설</li>
 		   </ul>
 	   </div>
 	   <div id="tab-content" style="clear:both; padding: 20px 10px 0px;"></div>
