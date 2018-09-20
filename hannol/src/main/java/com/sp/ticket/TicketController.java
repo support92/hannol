@@ -28,12 +28,10 @@ public class TicketController {
 		for(Ticket dto : list) {
 			if(dto.getGubunCode()==3) {
 				oneDay.add(dto);
-			}else if(dto.getGubunCode()==4) {
-				after.add(dto);
 			}else if(dto.getGubunCode()==5) {
+				after.add(dto);
+			}else if(dto.getGubunCode()==7) {
 				big.add(dto);
-			}else if(dto.getGubunCode()==6) {
-				years.add(dto);
 			}
 		}
 		
@@ -69,7 +67,36 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value="/reservation/dayTicket")
-	public String ticketDay(String day) throws Exception{
+	public String ticketDay(String day, Model model) throws Exception{
+		List<Ticket> list = service.listTicket();
+		
+		List<Ticket> oneDay = new ArrayList<>();
+		List<Ticket> oneDayMasic = new ArrayList<>();
+		List<Ticket> after = new ArrayList<>();
+		List<Ticket> afterMasic = new ArrayList<>();
+		List<Ticket> big = new ArrayList<>();
+				
+		for(Ticket dto : list) {
+			if(dto.getGubunCode()==3) {
+				oneDay.add(dto);
+			}else if(dto.getGubunCode()==4) {
+				oneDayMasic.add(dto);
+			}else if(dto.getGubunCode()==5) {
+				after.add(dto);
+			}else if(dto.getGubunCode()==6) {
+				afterMasic.add(dto);
+			}else if(dto.getGubunCode()==7) {
+				big.add(dto);
+			}
+		}
+		
+		model.addAttribute("oneDay", oneDay);
+		model.addAttribute("oneDayMasic", oneDayMasic);
+		model.addAttribute("after", after);
+		model.addAttribute("afterMasic", afterMasic);
+		model.addAttribute("big", big);
+		model.addAttribute("day", day);
+		
 		return ".four.menu8.ticket.dayTicket";
 	}
 }
