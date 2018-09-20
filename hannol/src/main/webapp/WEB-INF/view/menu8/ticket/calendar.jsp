@@ -21,6 +21,7 @@ td.fc-other-month .fc-day-number{
 $(function(){
 	var startDay = "${startDay}";
 	var endDay ="${endDay}";
+	var selectDay = "";
 	
 	$('#calendar').fullCalendar({
 	    selectable: false,
@@ -35,9 +36,9 @@ $(function(){
 	  	      $("td img").remove();
 		      $(this).css("vertical-align", "middle");
 		      $(this).css("text-align", "center");
-		      $(this).append("<img src='<%=cp%>/resource/images/hannol_logo.jpg' alt='선택날짜' style='width:50px;'>")
+		      $(this).append("<img src='<%=cp%>/resource/images/hannol_logo_one.png' alt='선택날짜' style='width:50px;'>")
 		      
-		      alert(date.format());
+		      selectDay = date.format();
 	    	}  	
 
 	    },
@@ -47,6 +48,14 @@ $(function(){
 	    	 end: endDay
 	    }
 	  });
+	
+	$(".btn-dayTicket").click(function(){
+		if(!confirm("예약하시는 날짜가 "+selectDay+"가 맞습니까?")){
+			return;
+		}
+		
+		location.href="<%=cp%>/reservation/dayTicket?day="+selectDay;
+	});
 });
 </script>
 
@@ -61,6 +70,10 @@ $(function(){
     </div>
 		<div id="calendar"></div>    
     <div>
+    
+    <div style="margin-top: 20px; float: right;">
+    	<button type="button" class="btn btn-info btn-dayTicket">예약하기</button>
+    </div>
     
     </div>
 </div>

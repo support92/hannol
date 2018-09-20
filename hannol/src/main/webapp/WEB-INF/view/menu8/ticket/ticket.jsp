@@ -59,7 +59,7 @@
     
     <div>
         <div class="div-box" style="margin-right: 3%; ">
-        	<a href="<%=cp%>/reservation/dayTicket">
+        	<a href="<%=cp%>/reservation/dayCalendar">
         		<p class="img">
         			<img alt="이용권" src="<%=cp%>/resource/images/hannol_logo.jpg">
         		</p>

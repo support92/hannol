@@ -50,8 +50,8 @@ public class TicketController {
 		return ".four.menu8.ticket.ticket";
 	}
 	
-	@RequestMapping(value="/reservation/dayTicket")
-	public String ticketDay(Model model) throws Exception{
+	@RequestMapping(value="/reservation/dayCalendar")
+	public String dayCalendar(Model model) throws Exception{
 		
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate startDay = LocalDate.now();
@@ -66,5 +66,10 @@ public class TicketController {
 	@RequestMapping(value="/reservation/yearTicket")
 	public String ticketYear() throws Exception{
 		return ".four.menu8.ticket.ticket";
+	}
+	
+	@RequestMapping(value="/reservation/dayTicket")
+	public String ticketDay(String day) throws Exception{
+		return ".four.menu8.ticket.dayTicket";
 	}
 }
