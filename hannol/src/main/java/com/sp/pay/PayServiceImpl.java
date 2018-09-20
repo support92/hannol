@@ -1,6 +1,5 @@
 package com.sp.pay;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,17 +67,26 @@ public class PayServiceImpl implements PayService {
 
 	//paylist
 	@Override
-	public Map<String, Object> paylist(Map<String, Object> map) throws Exception {
-		Map<String, Object> map2 = new HashMap<>();
-		List<String> list = null;
+	public List<Paylist> paylist(Map<String, Object> map) throws Exception {
+		List<Paylist> list = null;
 		try {
 			list = dao.selectList("pay.paylist", map);
 			
-			map2.put("payDay", list);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		return map2;
+		return list;
+	}
+
+	@Override
+	public int dataCount(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("pay.dataCount", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
 	}
 
 }

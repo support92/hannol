@@ -70,14 +70,32 @@
 		WHERE pm.payCode = #{payCode}
 	</select>
 	
-	<select id="paylist" parameterType="map" resultType="hashmap">
-		SELECT * FROM
-		(
+	<select id="paylist" parameterType="map" resultType="com.sp.pay.Paylist">
+		SELECT * FROM(
+			SELECT p.payCode, payDate, payWay, payPrice, 
+    		quantity, goodsName, gs.price, gubunName, parentCode,
+    		DENSE_RANK() OVER(ORDER BY TO_CHAR(payDate,'YYYY-MM-DD') DESC) rnum
+			FROM payment p
+			JOIN payInfo pi ON p.payCode = pi.payCode
+			JOIN paymentInfo pmi ON p.payCode = pmi.payCode 
+			JOIN goods gs ON pmi.goodsCode = gs.goodsCode
+			JOIN goodsGubun gg ON gs.gubunCode = gg.gubunCode
+			WHERE usersCode = #{usersCode}
+		)
+		<![CDATA[
+		WHERE  rnum >= #{start} AND rnum <= #{end} 
+		ORDER BY payDate DESC
+		]]>
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) FROM(
     		SELECT TO_CHAR(payDate,'YYYY-MM-DD') payDate 
     		FROM payment
-    		WHERE usersCode = #{usersCode}
+   			WHERE usersCode = #{usersCode}
+    		GROUP BY TO_CHAR(payDate,'YYYY-MM-DD')
+    		ORDER BY payDate
 		)
-		GROUP BY payDate
 	</select>
 	
 </mapper> 

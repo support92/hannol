@@ -1,5 +1,6 @@
 package com.sp.pay;
 
+import java.util.List;
 import java.util.Map;
 
 public interface PayService {
@@ -9,5 +10,6 @@ public interface PayService {
 	public int insertGift(Pay dto) throws Exception;
 	
 	//paylist
-	public Map<String, Object> paylist(Map<String, Object> map) throws Exception;
+	public List<Paylist> paylist(Map<String, Object> map) throws Exception;
+	public int dataCount(Map<String, Object> map) throws Exception;
 }

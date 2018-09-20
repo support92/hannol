@@ -33,8 +33,8 @@
 			      </th>
 			      <td>
 			      	<div id="useName${dto.giftCode}">
-			      	<c:if test="${dto.quantity eq 0}"><div style="color: red;">${dto.gubunName}-${dto.goodsName}(품절!)</div></c:if>
-			      	<c:if test="${not empty dto.useDate and (dto.quantity gt 0)}"><div style="color: gray;">${dto.gubunName}-${dto.goodsName}</div></c:if>
+			      	<c:if test="${dto.quantity eq 0 and empty dto.useDate}"><div style="color: red;">${dto.gubunName}-${dto.goodsName}(품절!)</div></c:if>
+			      	<c:if test="${(not empty dto.useDate and (dto.quantity gt 0)) or (dto.quantity eq 0 and not empty dto.useDate)}"><div style="color: gray;">${dto.gubunName}-${dto.goodsName}</div></c:if>
 			      	<c:if test="${empty dto.useDate and (dto.quantity gt 0)}"><a id="useCoupon" style="color: black; cursor: pointer;" data-couponCode='${dto.giftCode}'>${dto.gubunName}-${dto.goodsName}</a></c:if>
 			      	</div>
 			      </td>

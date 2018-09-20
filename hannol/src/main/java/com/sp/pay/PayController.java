@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sp.common.MyUtilGeneral;
 import com.sp.member.SessionInfo;
 
 @Controller("pay.payContoller")
 public class PayController {
 	@Autowired
 	PayService service;
+
+	@Autowired
+	MyUtilGeneral util;
 
 	@RequestMapping(value = "/pay/list")
 	public String payList(PayOrder dto, HttpSession session, Model model) throws Exception {
@@ -40,11 +45,10 @@ public class PayController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		Date date = new Date();
 		String curDate = format.format(date);
-		
+
 		if (gubunCode == 1) { // 이용권이라면
 
 			// 쿠폰 가져오기
-			
 
 			Map<String, Object> map = new HashMap<>();
 			map.put("usersCode", info.getUsersCode());
@@ -73,7 +77,7 @@ public class PayController {
 			pay.setGubunName(dto.getGubunName().get(i));
 			pay.setParentCode(dto.getParentCode().get(i));
 			System.out.println(dto.getCartCode());
-			if(dto.getCartCode() != null)
+			if (dto.getCartCode() != null)
 				pay.setCartCode(dto.getCartCode().get(i));
 
 			list.add(pay);
@@ -152,46 +156,70 @@ public class PayController {
 			}
 		}
 		dto.setPlist(plist);
-		
+
 		int result = service.insertPay(dto);
-		if(result != 1)
+		if (result != 1)
 			return "redirect:/giftshop/list";
 		// 구분 코드에 따라서 어느 디비 사용할지 변경
 		/*
 		 * service.insertGift(dto); model.addAttribute("dto", dto);
 		 */
-		
-		return "redirect:/pay/result?payCode="+dto.getPayCode();
+
+		return "redirect:/pay/result?payCode=" + dto.getPayCode();
 	}
-	
+
 	@RequestMapping(value = "/pay/result")
-	public String result(@RequestParam(value="payCode")int payCode, Model model) throws Exception {
+	public String result(@RequestParam(value = "payCode") int payCode, Model model) throws Exception {
 		Pay dto = service.readResult(payCode);
-		
+
 		model.addAttribute("dto", dto);
-		
+
 		return ".four.menu9.pay.result";
 	}
-	
+
 	// 구매내역
 	@RequestMapping(value = "/mypage/paylist")
-	public String paylist(
-			HttpSession session, 
-			Model model) throws Exception {
-		
+	public String paylist(HttpServletRequest req, @RequestParam(value = "page", defaultValue = "1") int current_page,
+			HttpSession session, Model model) throws Exception {
+
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("usersCode", info.getUsersCode());
-		
-		Map<String, Object> maps = service.paylist(map);
-		/*Pay dto = service.readResult(payCode);
-		
-		model.addAttribute("dto", dto);*/
-		
-		System.out.println(maps.get("payDay"));
-		model.addAttribute("payDay",maps.get("payDay"));
-		
+
+		int rows = 3;
+		int start = (current_page - 1) * rows + 1;
+		int end = current_page * rows;
+
+		map.put("start", start);
+		map.put("end", end);
+
+		int dataCount = service.dataCount(map);
+		int total_page = util.pageCount(rows, dataCount);
+		System.out.println("dataCount : " + dataCount);
+
+		List<Paylist> list = service.paylist(map);
+		int count = list.get(list.size() - 1).getRnum();
+		int rowspan = 1;
+		List<Integer> spanlist = new ArrayList<>();
+		for (int j = 1; j <= count; j++) {
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).getRnum() == j)
+					rowspan++;
+			}
+			spanlist.add(rowspan);
+		}
+
+		String cp = req.getContextPath();
+		String list_url = cp + "/mypage/list";
+
+		String paging = util.paging(current_page, total_page, list_url);
+
+		model.addAttribute("list", list);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("paging", paging);
+		model.addAttribute("spanlist", spanlist);
+
 		return ".four.menu3.mypage.paylist";
 	}
 }

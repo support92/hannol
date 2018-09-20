@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String cp=request.getContextPath();
+	int rank = 0;
 %>
 
 <style>
@@ -66,50 +67,66 @@ td {
     		</select>
     	</div>
     	
-    	<c:forEach varStatus="days" items="${payDay}">
-    	<div style="border: 1px solid #e1e1e1; margin-top: 15px;">
-    		<div style="background-color: #e1e1e1;">
-    			<div style="padding: 10px;">
-    				<h5 style="display: inline;">구매일</h5>
-    				<h5 style="font-weight: bold; display: inline; margin-left: 10px;">2018-09-19</h5>
-    			</div>
-    		</div>
-    		<!-- if(날짜비교) -->
-    		<div style="margin: 15px;">
-    		<!-- if(이용권 샀나) -->
-    			<table style="border: 1px solid #e1e1e1;">
-    				<tr>
-    					<th rowspan="2" style="width: 15%">이용권</th>
-    					<th>상품명</th>
-    					<th>가격 / 수량</th>
-    					<td rowspan="2"><p>총결제금액</p><button type="button" class="btn btn-danger">구매취소</button></td> <!-- if(사용되었거나 날짜지났으면 구매취소 못하게) -->
-    				</tr>
-    				<tr>
-    					<td>니모</td>
-    					<td>2게/3만</td>
-    				</tr>
-    			</table>
-    			
-    			<!-- if(기프티콘 샀나) -->
-    			<table style="margin-top: 10px; border: 1px solid #e1e1e1;">
-    				<tr>
-    					<th rowspan="3" style="width: 15%">기프트샵</th>
-    					<th>상품명</th>
-    					<th>가격 / 수량</th>
-    					<td rowspan="3"><p>총결제금액</p><button type="button" class="btn btn-danger">구매취소</button></td>
-    				</tr>
-    				<tr>
-    					<td>니모</td>
-    					<td>2게/3만</td>
-    				</tr>
-    				<tr>
-    					<td>니모</td>
-    					<td>2게/3만</td>
-    				</tr>
-    			</table>
-    		</div>
-    	</div>
-    	</c:forEach>
+    	
+    	<c:set var="parentCode" value="1"/>
+		<c:set var="gubun" value="이용권"/>
+
+		<c:forEach var="dto" items="${list}" varStatus="status">
+      		<c:if test="${status.first || parentCode!=dto.parentCode}">
+      			<c:set var="parentCode" value="${dto.parentCode}"/>
+      				<c:if test="${dto.parentCode==1}">
+	           			<c:set var="gubun" value="이용권"/>
+	      			</c:if>
+          			<c:if test="${dto.parentCode==2}">
+	            		<c:set var="gubun" value="기프트콘"/>
+	      			</c:if>
+	      			
+	      			<c:if test="${! status.first}">
+			     		</table>
+			     		</div>
+			     		</div>
+		  			</c:if>
+		  			
+		  			
+		  			<div style="border: 1px solid #e1e1e1; margin-top: 15px;">
+		  			
+		  			<div style="background-color: #e1e1e1;">
+    					<div style="padding: 10px;">
+    						<h5 style="display: inline;">구매일</h5>
+    						<h5 style="font-weight: bold; display: inline; margin-left: 10px;">${dto.payDate}</h5>
+    					</div>
+    				</div>
+		  				
+		  			<div style="margin: 15px;">
+		  				<table style="border: 1px solid #e1e1e1;">
+		  					<tr>
+		             			<th rowspan="7" style="width: 15%">${gubun}</th>
+		             			<th>상품명</th>
+		             			<th>가격 / 수량</th>
+		             			<th rowspan="7" style="width: 15%">
+		             				<p><fmt:formatNumber value="${dto.payPrice}" type="number" pattern="#,###원"/></p>
+		             				<button type="button" class="btn btn-danger">구매취소</button>
+		             			</th>
+		      				</tr>
+      		</c:if>
+      		<tr>
+      			<td>${dto.gubunName} - ${dto.goodsName}</td>
+      			<td><fmt:formatNumber value="${dto.price}" type="number" pattern="#,###원"/> / ${dto.quantity}개</td>
+      		</tr>
+      	</c:forEach>
+      	
+      	<c:if test="${list.size()>0}">
+		     </table>
+		     </div>
+		     </div>
+		 </c:if>	
+    	
+    	
+    	
+    	
+    
+    
+    
     
 		<div style="width: 100%; margin-top: 10px; border-spacing: 0px;">
 		   <div>
@@ -127,5 +144,9 @@ td {
     		<p style="font-size: 16px; font-weight: bold;">꼭 알아두세요</p>
     		<p style="margin-top: 10px; font-size: 12px;">이용권 구매 취소 시 해당 매직패스도 같이 취소가 됩니다.</p>
     	</div>
+    	
+    	
+    	
+    	
     </div>
-</div>   
+</div> 
