@@ -119,6 +119,7 @@ public class PayController {
 		return model;
 	}
 
+	@SuppressWarnings("unused")
 	@RequestMapping(value = "/pay/insertPay", method = RequestMethod.POST)
 	public String createdSubmit(Pay dto, HttpSession session, Model model) throws Exception {
 
@@ -145,6 +146,8 @@ public class PayController {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		String endDate = formatter.format(currentTime);
 
+		
+		dto.setPlist2(dto.getPlist());
 		// 발급할 기프트콘 개수
 		int n = 0;
 		List<Pay> plist = new ArrayList<>();
@@ -196,29 +199,49 @@ public class PayController {
 
 		int dataCount = service.dataCount(map);
 		int total_page = util.pageCount(rows, dataCount);
-		System.out.println("dataCount : " + dataCount);
 
+		/*List<Integer> uselist = service.useDate(map);
+		System.out.println("payCode = "+uselist.get(0));*/
+		
 		List<Paylist> list = service.paylist(map);
 		int count = list.get(list.size() - 1).getRnum();
 		int rowspan = 1;
-		List<Integer> spanlist = new ArrayList<>();
 		for (int j = 1; j <= count; j++) {
 			for (int i = 0; i < list.size(); i++) {
 				if (list.get(i).getRnum() == j)
 					rowspan++;
 			}
-			spanlist.add(rowspan);
+			for (int i = 0; i < list.size(); i++) {
+				list.get(i).setRowspan(rowspan);
+			}
 		}
+		
+		/*for(int i = 0 ; i<uselist.size(); i++) {
+			for(int j = 0; j<list.size(); i++) {
+				if(list.get(j).getPayCode() == uselist.get(i)) {
+					list.get(j).setUseDate("no");
+				}
+			}
+		}*/
+		
 
 		String cp = req.getContextPath();
 		String list_url = cp + "/mypage/list";
 
 		String paging = util.paging(current_page, total_page, list_url);
+		String lastPayDate = list.get(0).getPayDate();
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy", Locale.KOREA);
+		Date date = new Date();
+		String curDate = format.format(date);
+		System.out.println(curDate);
 
 		model.addAttribute("list", list);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("paging", paging);
-		model.addAttribute("spanlist", spanlist);
+		model.addAttribute("count", count);
+		model.addAttribute("lastPayDate", lastPayDate);
+		model.addAttribute("curDate", curDate);
 
 		return ".four.menu3.mypage.paylist";
 	}

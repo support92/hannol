@@ -12,6 +12,7 @@ public class Paylist {
 	private String gubunName;
 	private int parentCode;
 	private int rnum;
+	private int rowspan;
 
 	public int getPayCode() {
 		return payCode;
@@ -99,6 +100,14 @@ public class Paylist {
 
 	public void setRnum(int rnum) {
 		this.rnum = rnum;
+	}
+
+	public int getRowspan() {
+		return rowspan;
+	}
+
+	public void setRowspan(int rowspan) {
+		this.rowspan = rowspan;
 	}
 
 }

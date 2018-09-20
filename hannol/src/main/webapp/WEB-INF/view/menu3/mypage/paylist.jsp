@@ -63,16 +63,20 @@ td {
     <div>
     	<div align="right">
     		<select style="height: 30px; width: 80px;">
-    			<option>2018</option>
+    			<option>${curDate}</option>
+    			<option>${curDate-1}</option>
+    			<option>${curDate-2}</option>
     		</select>
     	</div>
     	
     	
+    	
     	<c:set var="parentCode" value="1"/>
 		<c:set var="gubun" value="이용권"/>
-
-		<c:forEach var="dto" items="${list}" varStatus="status">
-      		<c:if test="${status.first || parentCode!=dto.parentCode}">
+		<c:set var="payDate" value="${lastPayDate}"/>
+		
+		<c:forEach var="dto" items="${list}" varStatus="status" >
+      		<c:if test="${status.first || parentCode!=dto.parentCode || payDate!=dto.payDate}">
       			<c:set var="parentCode" value="${dto.parentCode}"/>
       				<c:if test="${dto.parentCode==1}">
 	           			<c:set var="gubun" value="이용권"/>
@@ -80,6 +84,8 @@ td {
           			<c:if test="${dto.parentCode==2}">
 	            		<c:set var="gubun" value="기프트콘"/>
 	      			</c:if>
+	      			<c:set var="payDate" value="${dto.payDate}"/>
+	      			
 	      			
 	      			<c:if test="${! status.first}">
 			     		</table>
@@ -100,12 +106,15 @@ td {
 		  			<div style="margin: 15px;">
 		  				<table style="border: 1px solid #e1e1e1;">
 		  					<tr>
-		             			<th rowspan="7" style="width: 15%">${gubun}</th>
+		             			<th rowspan="${dto.rowspan}" style="width: 15%">${gubun}</th>
 		             			<th>상품명</th>
 		             			<th>가격 / 수량</th>
-		             			<th rowspan="7" style="width: 15%">
+		             			<th rowspan="${dto.rowspan}" style="width: 15%">
 		             				<p><fmt:formatNumber value="${dto.payPrice}" type="number" pattern="#,###원"/></p>
-		             				<button type="button" class="btn btn-danger">구매취소</button>
+		             				
+		             				<c:if test="">
+		             					<button type="button" class="btn btn-danger">구매취소</button>
+		             				</c:if>
 		             			</th>
 		      				</tr>
       		</c:if>

@@ -89,4 +89,16 @@ public class PayServiceImpl implements PayService {
 		return result;
 	}
 
+	@Override
+	public List<Integer> useDate(Map<String, Object> map) throws Exception {
+		List<Integer> list = null;
+		try {
+			list = dao.selectList("pay.useDate", map);
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
 }

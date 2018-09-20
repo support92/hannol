@@ -28,6 +28,7 @@ public class Pay {
 	private long usersCode;
 
 	private List<Pay> plist;
+	private List<Pay> plist2;
 	private String curDate;
 	private String endDate;
 	private String payDate;
@@ -206,6 +207,14 @@ public class Pay {
 
 	public void setPlist(List<Pay> plist) {
 		this.plist = plist;
+	}
+
+	public List<Pay> getPlist2() {
+		return plist2;
+	}
+
+	public void setPlist2(List<Pay> plist2) {
+		this.plist2 = plist2;
 	}
 
 	public String getCurDate() {

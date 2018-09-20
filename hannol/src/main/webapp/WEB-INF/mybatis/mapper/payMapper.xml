@@ -35,8 +35,8 @@
 		INSERT INTO paymentInfo(paymentCode, payCode, goodsCode, quantity)
 		SELECT paymentInfo_seq.NEXTVAL, a.*
 		FROM(
-		<foreach collection="plist" item="plist" index="index" separator=" UNION ALL " close=")a">
-			SELECT #{payCode}, #{plist.goodsCode}, #{plist.quantity}
+		<foreach collection="plist2" item="plist2" index="index" separator=" UNION ALL " close=")a">
+			SELECT #{payCode}, #{plist2.goodsCode}, #{plist2.quantity}
 			FROM DUAL
 		</foreach>
 	</update>
@@ -84,7 +84,7 @@
 		)
 		<![CDATA[
 		WHERE  rnum >= #{start} AND rnum <= #{end} 
-		ORDER BY payDate DESC
+		ORDER BY payDate DESC, parentCode
 		]]>
 	</select>
 	
@@ -96,6 +96,14 @@
     		GROUP BY TO_CHAR(payDate,'YYYY-MM-DD')
     		ORDER BY payDate
 		)
+	</select>
+	
+	<select id="useDate" parameterType="map" resultType="hashmap">
+		SELECT p.payCode
+        FROM payment p
+        JOIN gift g ON p.payCode = g.payCode   
+        WHERE usersCode = #{usersCode} and useDate IS NOT NULL
+        GROUP BY p.payCode
 	</select>
 	
 </mapper> 
