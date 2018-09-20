@@ -93,7 +93,7 @@
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">예매/예약<span class="caret"></span></a>
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/reservation/ticket">예매</a></li>
-                                  <li><a href="#">가이드</a></li>
+                                  <li><a href="<%=cp%>/guide/list">가이드</a></li>
                                   <li><a href="#">페스티벌</a></li>
                                   <li><a href="#">편의시설</a></li>
                               </ul>

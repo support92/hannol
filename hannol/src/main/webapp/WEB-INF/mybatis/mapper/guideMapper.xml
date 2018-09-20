@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="guide">
+	<select id="staffList" resultType="com.sp.guide.Guide">
+		SELECT USERSCODE, NAME
+		FROM STAFF 
+		WHERE DPCODE=4 AND POSITIONCODE=4
+	</select>
+	
+	<insert id="insertGuide" parameterType="com.sp.guide.Guide">
+		INSERT INTO GUIDE(SCHCODE, GUIDENAME, TIMEZONE, WORKDATE, ROLE, MEMO, USERSCODE)
+		VALUES(GUIDE_SEQ.NEXTVAL, #{name}, #{timezone}, #{workDate}, #{role}, #{memo}, #{usersCode})
+	</insert>
+	
+	<select id="getName" parameterType="Integer" resultType="String">
+		SELECT NAME FROM STAFF WHERE USERSCODE= #{usersCode}
+	</select>
+	
+	<select id="guideList" resultType="com.sp.guide.Guide">
+		SELECT SCHCODE, GUIDENAME AS NAME, TIMEZONE, WORKDATE, ROLE, MEMO, USERSCODE
+		FROM GUIDE
+		WHERE SCHCODE !=0
+	</select>
+	
+	<select id="readInfo" parameterType="Integer" resultType="com.sp.guide.Guide">
+		SELECT G.SCHCODE, GUIDENAME, TIMEZONE, TO_CHAR(WORKDATE,'YYYY-MM-DD') WORKDATE, ROLE, MEMO, G.USERSCODE,
+		GB.USERSCODE AS USERSCODEM, BOOKCODE, TO_CHAR(BOOKDATE,'YYYY-MM-DD') BOOKDATE, TEL, NAME AS NAMEM
+		FROM GUIDE G
+		LEFT OUTER JOIN GUIDEBOOK GB ON G.SCHCODE = GB.SCHCODE
+		WHERE G.SCHCODE = #{schCode}
+	</select>
+
+	<update id="beforeDelete" parameterType="Integer">
+		UPDATE GUIDEBOOK SET SCHCODE = 0 WHERE SCHCODE = #{schCode}
+	</update>
+
+	<delete id="deleteSch" parameterType="Integer">
+		DELETE FROM GUIDE WHERE SCHCODE = #{schCode}
+	</delete>
+</mapper>
