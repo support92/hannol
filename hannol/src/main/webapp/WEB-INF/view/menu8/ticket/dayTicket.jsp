@@ -32,20 +32,49 @@
 	font-size: 14px;
 	margin-top: 15px;
 }
+
+.ticket_result{
+	font-size: 14px;
+	margin-top: 15px;
+	width: 100%;
+}
 </style>
 
 <script>
 $(function(){
 	$("#ticket_gubun").change(function(){
+		$("#ticket_person option").css("display", "none");
+		$("#ticket_person").val("");
+		$("#ticket_count").val("");
+		
 		if($(this).val() == ""){
 			$("#ticket_person").attr("disabled", true);
 		}else{
-			$("#ticket_person").attr("disabled", false);
 			var gubunItem = $(this).val();
 			if(gubunItem==1){
-				
+				$(".oneDay").css("display", "block");
+			}else if(gubunItem==2){
+				$(".oneDayMasic").css("display", "block");
+			}else if(gubunItem==3){
+				$(".after").css("display", "block");
+			}else if(gubunItem==4){
+				$(".afterMasic").css("display", "block");
+			}else if(gubunItem==5){
+				$(".big").css("display", "block");
 			}
+			
+			$("#ticket_person").attr("disabled", false);
 		}
+	});
+	
+	$("#ticket_person").change(function(){
+		$("#ticket_count").val("");
+		$("#ticket_count").attr("disabled", false);
+	});
+	
+	$("#ticket_count").change(function(){
+		var html = "<li>[내가 샀다]<span><button type='button'>X</button></span></li>";
+		$(".ticket_result").find("ul").append(html);
 	});
 });
 </script>
@@ -85,6 +114,21 @@ $(function(){
     			
     			<select id="ticket_person" disabled="disabled">
     				<option value="">::구분::</option>
+    				<c:forEach items="${oneDay}" var="item">
+    					<option value="${item.goodsCode}" class="oneDay" style="display: none;">${item.goodsName}</option>
+    				</c:forEach>
+    				<c:forEach items="${oneDayMasic}" var="item">
+    					<option value="${item.goodsCode}" class="oneDayMasic" style="display: none;">${item.goodsName}</option>
+    				</c:forEach>
+    				<c:forEach items="${after}" var="item">
+    					<option value="${item.goodsCode}" class="after" style="display: none;">${item.goodsName}</option>
+    				</c:forEach>
+    				<c:forEach items="${afterMasic}" var="item">
+    					<option value="${item.goodsCode}" class="afterMasic" style="display: none;">${item.goodsName}</option>
+    				</c:forEach>
+    				<c:forEach items="${big}" var="item">
+    					<option value="${item.goodsCode}" class="big" style="display: none;">${item.goodsName}</option>
+    				</c:forEach>
     				
     			</select>
     			
@@ -95,6 +139,15 @@ $(function(){
     				<option value="3">3</option>
     				<option value="4">4</option>
     			</select>
+    		</div>
+    		
+    		<div class="ticket_result">
+    			<ul>
+    				<li>
+    					[내가 샀다]
+    					<span><button type="button">X</button></span>
+    				</li>
+    			</ul>
     		</div>
     	</div>
     </div>
