@@ -19,7 +19,7 @@ $(function(){
        <div class="list-group-item lefthead"><i></i> 즐길거리</div>
        <a href="<%=cp%>/company/info" class="list-group-item">놀이기구</a>
        <a href="#" class="list-group-item">기프트샵</a>
-       <a href="#" class="list-group-item">공연</a>
+       <a href="<%=cp%>/show/list" class="list-group-item">공연</a>
        <a href="#" class="list-group-item">체험</a>
        <a href="#" class="list-group-item">퍼레이드</a>
 </div>
