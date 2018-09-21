@@ -57,7 +57,7 @@
 
 <script>
 var endDate = "${day}";
-var limit = "";
+var limit = "${limit}";
 
 
 $(function(){
@@ -92,12 +92,6 @@ $(function(){
 	});
 	
 	$("#ticket_count").change(function(){
-		console.log(totalCount());
-		var total = totalCount()+Number($(this).val());
-		if(total>4){
-			alert("4매 이상 구매할 수 없습니다.");
-			return;
-		}
 		
 		var $item = $("#ticket_person option:selected");
 		var goodsCode = $item.val();
@@ -106,14 +100,48 @@ $(function(){
 		var gubunCode = $item.attr("data-gubunCode");
 		var gubunName = $item.attr("data-gubunName");
 		var parentCode = $item.attr("data-parentCode");
+		var quantity = $(this).val();
+		var state = "false";
 		
-		var html ="<li>";
+		//같은 이용권 선택시 수량만 변경
+		$("li").each(function(){
+			if($(this).attr("data-goodsCode")==goodsCode){
+				var minus = $(this).find(".input-count").html().substring(1);
+				var total = Number(totalCount())+Number(quantity)-minus+Number(limit);
+				if(total <=4){
+					$(this).find(".input-count").html("X"+quantity);
+					$(this).find("input[name='quantity']").val(quantity);
+					state ="true";
+					return;
+				}
+			}
+		});
+		
+		//변경된 값있는지 확인
+		if(state=="true"){
+			return;
+		}
+		
+		//전체 수량검사
+		var total = totalCount()+Number($(this).val());
+		if(total > Number(4-limit)){
+			alert( "하루에 최대 구매 가능 개수는 4매입니다.");
+			return;
+		}
+		
+		//실제로 보여지고 server쪽으로 넘길 값 hidden
+		var html ="<li data-goodsCode="+goodsCode+">";
 		html+="<span>["+$("#ticket_gubun option:selected").text()+"]</span>";
 		html+="<span>"+goodsName+"</span>";
 		html+="<span class='input-count'>X"+$(this).val()+"</span>";
 		html+="<span><button type='button' class='btn_delete'></button></span>";
-		html+="";
-		
+		html+="<input type='hidden' name='goodsCode' value="+goodsCode+">";
+		html+="<input type='hidden' name='gubunCode' value="+gubunCode+">";
+		html+="<input type='hidden' name='goodsName' value="+goodsName+">";
+		html+="<input type='hidden' name='goodsPrice' value="+goodsPrice+">";
+		html+="<input type='hidden' name='gubunName' value="+gubunName+">";
+		html+="<input type='hidden' name='parentCode' value="+parentCode+">";
+		html+="<input type='hidden' name='quantity' value="+quantity+">";
 		html+="</li>";
 			
 		$(".ticket_result").find("ul").append(html);
@@ -124,14 +152,19 @@ $(function(){
 	});
 	
 	$(".btn-pay").click(function(){
+		if(Number(totalCount())== 0){
+			alert("이용권을 1개 이상 선택해 주세요");
+			return;
+		}
+		
 		$("#saleForm").submit();
 	});
 });
 
 function totalCount(){
-	var total = 0;
+	var total = Number(0);
 	$(".input-count").each(function(){
-		total+=Number($(this).text().substring(1));
+		total=Number(total)+Number($(this).text().substring(1));
 	});
 	
 	return total;
@@ -209,13 +242,7 @@ function totalCount(){
 	    		<form action="<%=cp%>/pay/list" method="post" id="saleForm">
 	    			<ul style="margin: 15px 0px;">
 	    				<li>
-	    					<input type="hidden" name="goodsCode" value="">
-							<input type="hidden" name="gubunCode" value="">
-							<input type="hidden" name="goodsName" value="">
-							<input type="hidden" name="goodsPrice" value="">
-							<input type="hidden" name="gubunName" value="">
-							<input type="hidden" name="parentCode" value="">
-							<input type="hidden" name="quantity" value="">
+	    					
 	    				</li>
 	    			</ul>
 	    		</form>

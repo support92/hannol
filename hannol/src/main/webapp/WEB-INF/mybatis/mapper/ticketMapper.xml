@@ -15,4 +15,16 @@
 		ORDER BY g.gubunCode DESC, price DESC
 	</select>
 	
+	<select id="checkReservation" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) limitTicket FROM payment p
+		LEFT JOIN TICKET t  on p.paycode = t.paycode
+		WHERE gubun in (
+		    SELECT gubuncode FROM goodsgubun 
+		    WHERE gubuncode != 1 and gubuncode !=8
+		    START WITH gubuncode=1                                  
+		    CONNECT BY PRIOR gubuncode=parentcode
+		) AND usersCode = #{usersCode}
+		AND t.STARTDATE BETWEEN TO_DATE(#{day}, 'YYYY-MM-DD') and TO_DATE(#{day}, 'YYYY-MM-DD')
+	</select>
+	
 </mapper>

@@ -50,6 +50,7 @@ $(function(){
 	  });
 	
 	$(".btn-dayTicket").click(function(){
+		console.log(selectDay);
 		var url = "<%=cp%>/reservation/checkUser";
 		var data = "day="+selectDay;
 		
@@ -58,15 +59,20 @@ $(function(){
 			,url:url
 			,data: data
 			,success:function(data) {
-				if(data.limit==0){
+				if(Number(data.limit)==4){  //구매수량 최대 4장
 					alert("최대 구매수량을 초과할 수 없습니다.");
 					return;
-				}else{
+				}else if(Number(data.limit) < 4){
 					if(!confirm("예약하시는 날짜가 "+selectDay+"가 맞습니까?")){
 						return;
 					}
 					
-					location.href="<%=cp%>/reservation/dayTicket?day="+selectDay;
+					location.href="<%=cp%>/reservation/dayTicket?day="+selectDay+"&limit="+data.limit;
+				}else if(data.state=="fail"){ //로그인체크
+					alert("로그인 후 이용해 주세요");
+					location.href="<%=cp%>/member/login";
+				}else{  //시스템적 에러
+					alert("죄송합니다 고객님의 요청을 완료하지 못했습니다. 다시 시도해 주세요");					
 				}
 			}
 		    ,error:function(e) {

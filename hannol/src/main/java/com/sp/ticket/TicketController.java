@@ -110,14 +110,21 @@ public class TicketController {
 	
 	@RequestMapping(value="/reservation/checkUser")
 	@ResponseBody
-	public Map<String, Object> ticketCheckUser(Map<String, Object> map, HttpSession session, String day) throws Exception{
+	public Map<String, Object> ticketCheckUser(Map<String, Object> map, String day, HttpSession session) throws Exception{
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		long userCode = info.getUsersCode();
-		map.put("userCode", userCode);
-		
 		Map<String, Object> model = new HashMap<>();
-		model.put("limit", "2");
+		if(info==null) {
+			model.put("state", "fail");
+			return model;
+		}
+		
+		long userCode = info.getUsersCode();
+		map.put("usersCode", userCode);
+		map.put("day", day);
+		
+		int result = service.checkReservation(map);
+		model.put("limit", result);
 		
 		return model;
 	}
