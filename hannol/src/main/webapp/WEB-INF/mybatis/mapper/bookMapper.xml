@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book">
+	<select id="dataCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*),0)
+		FROM GUIDE G
+		LEFT OUTER JOIN GUIDEBOOK GB ON G.SCHCODE = GB.SCHCODE
+		WHERE GB.USERSCODE = #{usersCode}
+	</select>
+</mapper>

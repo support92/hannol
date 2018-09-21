@@ -1,13 +1,12 @@
 package com.sp.guide;
 
 public class Guide {
-	private long usersCode;
+	private int usersCode;
 	private String name;//가이드인 직원 조회해올때 사용
 	
 	private int schCode;
 	private int timezone;
-	private String startDate;
-	private String endDate;
+
 	private String workDate;
 	private String role;
 	private String memo;
@@ -19,19 +18,18 @@ public class Guide {
 	
 	//예약자정보
 	private String nameM;
-	private long usersCodeM;
+	private int usersCodeM;
 	private String memberId;
 	
-	public String getMemberId() {
-		return memberId;
-	}
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
-	}
-	public long getUsersCode() {
+	//티켓검사
+	private long ticketCode;
+	private String startDate;
+	private String endDate;
+	private int gubun;
+	public int getUsersCode() {
 		return usersCode;
 	}
-	public void setUsersCode(long usersCode) {
+	public void setUsersCode(int usersCode) {
 		this.usersCode = usersCode;
 	}
 	public String getName() {
@@ -51,18 +49,6 @@ public class Guide {
 	}
 	public void setTimezone(int timezone) {
 		this.timezone = timezone;
-	}
-	public String getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
-	public String getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
 	}
 	public String getWorkDate() {
 		return workDate;
@@ -106,11 +92,41 @@ public class Guide {
 	public void setNameM(String nameM) {
 		this.nameM = nameM;
 	}
-	public long getUsersCodeM() {
+	public int getUsersCodeM() {
 		return usersCodeM;
 	}
-	public void setUsersCodeM(long usersCodeM) {
+	public void setUsersCodeM(int usersCodeM) {
 		this.usersCodeM = usersCodeM;
+	}
+	public String getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+	public long getTicketCode() {
+		return ticketCode;
+	}
+	public void setTicketCode(long ticketCode) {
+		this.ticketCode = ticketCode;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public int getGubun() {
+		return gubun;
+	}
+	public void setGubun(int gubun) {
+		this.gubun = gubun;
 	}
 	
 }

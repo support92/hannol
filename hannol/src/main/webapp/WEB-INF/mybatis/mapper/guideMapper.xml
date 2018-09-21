@@ -47,4 +47,27 @@
 		INSERT INTO GUIDEBOOK(BOOKCODE, SCHCODE, NAME, TEL, USERSCODE, BOOKDATE)
 		VALUES(GUIDEBOOK_SEQ.NEXTVAL, #{schCode}, #{nameM},#{tel}, #{usersCodeM}, SYSDATE)
 	</insert>
+	
+	<select id="checkTicket1" parameterType="Integer" resultType="com.sp.guide.Guide">
+		SELECT TICKETCODE, M1.USERSCODE AS usersCodeM, TO_CHAR(STARTDATE,'YYYY-MM-DD') STARTDATE, TO_CHAR(ENDDATE,'YYYY-MM-DD') ENDDATE, GUBUN
+		FROM TICKET T
+		JOIN PAYMENT P ON P.PAYCODE = T.PAYCODE
+		JOIN MEMBER1 M1 ON M1.USERSCODE = P.USERSCODE
+		WHERE M1.USERSCODE = #{usersCode} AND (GUBUN != 5 AND GUBUN != 6 )
+	</select>
+	
+	<select id="checkTicket2" parameterType="Integer" resultType="com.sp.guide.Guide">
+		SELECT TICKETCODE, M1.USERSCODE AS usersCodeM, TO_CHAR(STARTDATE,'YYYY-MM-DD') STARTDATE, TO_CHAR(ENDDATE,'YYYY-MM-DD') ENDDATE, GUBUN
+		FROM TICKET T
+		JOIN PAYMENT P ON P.PAYCODE = T.PAYCODE
+		JOIN MEMBER1 M1 ON M1.USERSCODE = P.USERSCODE
+		WHERE M1.USERSCODE = #{usersCode} 
+	</select>
+	
+	<select id="chechDoublebook" parameterType="String" resultType="Integer">
+		SELECT NVL(COUNT(*),0) 
+		FROM GUIDEBOOK GB
+		JOIN GUIDE G ON G.SCHCODE = GB.SCHCODE
+		WHERE WORKDATE = #{workDate}
+	</select>
 </mapper>

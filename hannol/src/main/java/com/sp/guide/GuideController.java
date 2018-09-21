@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.member.SessionInfo;
 
@@ -53,12 +54,12 @@ public class GuideController {
 	}
 
 	@RequestMapping(value = "/guide/info")
-	public String readInfo(@RequestParam Integer schCode, Model model) throws Exception {
+	public String readInfo(@RequestParam Integer schCode, Model model,RedirectAttributes redirectAttributes) throws Exception {
 		Guide dto = service.readInfo(schCode);
 		
 		//일정이 null이거나 예약이 된상태면 돌아가기
 		if (dto == null || dto.getBookCode()!=0) {
-			model.addAttribute("msg","예약할 수 없습니다. 다른 가이드를 선택해주세요");
+			redirectAttributes.addFlashAttribute("msg", "예약할 수 없습니다. 다른 가이드를 선택해주세요");
 			return "redirect:/guide/list";
 		}
 
@@ -98,30 +99,69 @@ public class GuideController {
 	}
 	
 	@RequestMapping(value="/guide/book")
-	public String bookForm(Integer schCode, HttpSession session, Model model)throws Exception{
+	public String bookForm(Integer schCode, HttpSession session,RedirectAttributes redirectAttributes, Model model)throws Exception{
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		if(info==null) {
 			//로그인 안함
+			redirectAttributes.addFlashAttribute("msg", "로그인 후에 진행해주세요");
 			return "redirect:/guide/list";
 		}
 		
 		Guide dto = service.readInfo(schCode);
 		if (dto == null) {
+				redirectAttributes.addFlashAttribute("msg", "일정오류. 다른 일정을 선택해주세요");
 			return "redirect:/guide/list";
 		}
 
-		dto.setMemberId(info.getMemberId());
-		dto.setUsersCodeM(info.getUsersCode());
+		//타임존 오전인지 오후인지 검사
+		int timezone = dto.getTimezone();
 
 		//그 날짜, 시간에 이용권 있는지 검사
 		//test
+		List<Guide> ticket =null;
+		int usersCodeM = (int)info.getUsersCode();
 		
+		if(timezone ==1) {
+			//오전
+			ticket= service.checkTicket1(usersCodeM);
+		}else {
+			//오후
+			ticket= service.checkTicket2(usersCodeM);
+		}
 		
-		//관리자는 다 조회가능, 유저면 불가. 자기 예약은 마이예약 가서봐라..
+		String workDate = dto.getWorkDate();
 		
+		String startDt =null;
+		String endDt =null;
 		
+		int okTicket=0;
+
+		for(Guide g:ticket) {
+			startDt = g.getStartDate();
+			endDt = g.getEndDate();
+			
+			if(startDt.compareTo(workDate)<=0 && endDt.compareTo(workDate)>=0) {
+				okTicket++;
+			}
+			
+		}
 		
+		if(okTicket == 0) {
+			//유효한 티켓 없음
+			redirectAttributes.addFlashAttribute("msg", "선택하신 날에 대한 입장권이 있어야 예약가능합니다");
+			return "redirect:/guide/list";
+		}
+		
+		int checkDoublebook = service.checkDoublebook(workDate);
+		if(checkDoublebook > 0) {
+			//하루에 가이드서비스는 한번만 예약가능
+			redirectAttributes.addFlashAttribute("msg", "가이드서비스는 하루에 한번만 예약가능합니다");
+			return "redirect:/guide/list";
+		}
+		
+		dto.setMemberId(info.getMemberId());
+		dto.setUsersCodeM((int)info.getUsersCode());
 		
 		String role = dto.getRole().substring(0, 2);
 		String roleImg = "";

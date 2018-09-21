@@ -7,6 +7,7 @@
 %>
 
 <script type="text/javascript">
+
 	var dataset = [
      <c:forEach var="listview" items="${guideList}" varStatus="status">
 	        {
@@ -23,6 +24,8 @@
 ];
 
 $(document).ready(function() {
+	
+	
 	$('#calendar').fullCalendar({
 		locale:'ko',
 	    header: {
@@ -120,6 +123,7 @@ function sendGuide(){
 
 		})
 	})
+	
 </script>
 <script type="text/javascript" src="<c:url value='/resource/fullcalendar/fullcalendar.min.js'/>"></script>
 

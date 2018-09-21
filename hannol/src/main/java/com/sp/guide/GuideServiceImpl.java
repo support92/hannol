@@ -114,9 +114,44 @@ public class GuideServiceImpl implements GuideService {
 
 	@Override
 	public int insertBook(Guide dto) throws Exception {
-		int result =0;
+		int result = 0;
 		try {
 			result = dao.insertData("guide.insertBook", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Guide> checkTicket1(int usersCodeM) throws Exception {
+		List<Guide> list = null;
+		try {
+			list = dao.selectList("guide.checkTicket1", usersCodeM);
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Guide> checkTicket2(int usersCodeM) throws Exception {
+		List<Guide> list = null;
+		try {
+			list = dao.selectList("guide.checkTicket2", usersCodeM);
+			
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public int checkDoublebook(String workDate) throws Exception {
+		int result =0;
+		try {
+			result = dao.selectOne("guide.chechDoublebook", workDate);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
