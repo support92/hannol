@@ -248,4 +248,13 @@ public class PayController {
 
 		return ".four.menu3.mypage.paylist";
 	}
+	
+	@RequestMapping(value = "/mypage/refundPay")
+	public String paylist(int payCode) throws Exception {
+		
+		service.deleteRefund(payCode);
+		
+		return "redirect:/mypage/paylist";
+	}
+
 }

@@ -1,7 +1,5 @@
 package com.sp.pay;
 
-import java.util.List;
-
 public class Paylist {
 	private int payCode;
 	private String payDate;
@@ -15,6 +13,10 @@ public class Paylist {
 	private int parentCode;
 	private int rnum;
 	private int rowspan;
+	private String cardCo;
+	private String paySection;
+	private int couponCount;
+	private String state;
 
 	public int getPayCode() {
 		return payCode;
@@ -110,6 +112,38 @@ public class Paylist {
 
 	public void setRowspan(int rowspan) {
 		this.rowspan = rowspan;
+	}
+
+	public String getCardCo() {
+		return cardCo;
+	}
+
+	public void setCardCo(String cardCo) {
+		this.cardCo = cardCo;
+	}
+
+	public String getPaySection() {
+		return paySection;
+	}
+
+	public void setPaySection(String paySection) {
+		this.paySection = paySection;
+	}
+
+	public int getCouponCount() {
+		return couponCount;
+	}
+
+	public void setCouponCount(int couponCount) {
+		this.couponCount = couponCount;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 }

@@ -101,4 +101,17 @@ public class PayServiceImpl implements PayService {
 		return list;
 	}
 
+	@Override
+	public int deleteRefund(int payCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("pay.deleteTicket", payCode);
+			dao.deleteData("pay.deleteGift", payCode);
+			dao.updateData("pay.updateCardInfo", payCode);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
 }
