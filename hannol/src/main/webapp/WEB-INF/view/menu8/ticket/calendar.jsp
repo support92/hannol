@@ -50,7 +50,12 @@ $(function(){
 	  });
 	
 	$(".btn-dayTicket").click(function(){
-		console.log(selectDay);
+		if(selectDay==""){
+			alert("날짜를 선택해 주세요.");
+			return;
+		}
+		
+		
 		var url = "<%=cp%>/reservation/checkUser";
 		var data = "day="+selectDay;
 		
@@ -71,8 +76,10 @@ $(function(){
 				}else if(data.state=="fail"){ //로그인체크
 					alert("로그인 후 이용해 주세요");
 					location.href="<%=cp%>/member/login";
-				}else{  //시스템적 에러
-					alert("죄송합니다 고객님의 요청을 완료하지 못했습니다. 다시 시도해 주세요");					
+				}else if(data.state=="close"){  //시스템적 에러
+										
+				}else{
+					alert("죄송합니다 고객님의 요청을 완료하지 못했습니다. 다시 시도해 주세요");
 				}
 			}
 		    ,error:function(e) {

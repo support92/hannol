@@ -1,8 +1,10 @@
 package com.sp.ticket;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.member.SessionInfo;
+
+import oracle.net.aso.s;
 
 @Controller("ticket.ticketController")
 public class TicketController {
@@ -73,6 +77,20 @@ public class TicketController {
 		return ".four.menu8.ticket.ticket";
 	}
 	
+	@RequestMapping(value="/reservation/checkYearTicket")
+	@ResponseBody
+	public Map<String, Object> checkYearTicket(HttpSession session) throws Exception{
+		Map<String, Object> map = new HashMap<>();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		if(info == null) {
+			map.put("state", "fail");
+			return  map;
+		}
+		
+		
+		return map;
+	}
+	
 	@RequestMapping(value="/reservation/dayTicket")
 	public String ticketDay(String day, int limit, Model model) throws Exception{
 		List<Ticket> list = service.listTicket();
@@ -116,6 +134,12 @@ public class TicketController {
 		Map<String, Object> model = new HashMap<>();
 		if(info==null) {
 			model.put("state", "fail");
+			return model;
+		}
+		
+		String timeStamp = new SimpleDateFormat("HH").format(new Date());
+		if(Integer.parseInt(timeStamp)>20) {
+			model.put("state", "close");
 			return model;
 		}
 		

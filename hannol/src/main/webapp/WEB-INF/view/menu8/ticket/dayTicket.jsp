@@ -61,6 +61,9 @@ var limit = "${limit}";
 
 
 $(function(){
+	
+	$(".day_title").html("[${day}] | 구매 가능 매수 : "+(4-Number(${limit})));
+	
 	$("#ticket_gubun").change(function(){
 		$("#ticket_person option").css("display", "none");
 		$("#ticket_person").val("");
@@ -159,6 +162,10 @@ $(function(){
 		
 		$("#saleForm").submit();
 	});
+	
+	$(".btn-back").click(function(){
+		location.href="<%=cp%>/reservation/dayCalendar";
+	});
 });
 
 function totalCount(){
@@ -182,7 +189,7 @@ function totalCount(){
     	</div>
     	
     	<div class="price_area">
-    		<h4 class="day_title">[${day}]</h4>
+    		<h4 class="day_title"></h4>
     		<div class="goods_option">
     			<select id="ticket_gubun">
     				<option value="">::권종선택::</option>
@@ -247,7 +254,7 @@ function totalCount(){
 	    			</ul>
 	    		</form>
 	    		<div style="text-align: center;">
-	    			<button type="button" class="btn btn-defualt" style="width: 49%;">취소</button>
+	    			<button type="button" class="btn btn-defualt btn-back" style="width: 49%;">취소</button>
 	    			<button type="button" class="btn btn-danger btn-pay" style="width: 49%;">결제</button>
 	    		</div>
     		</div>
