@@ -30,6 +30,8 @@ public class PayController {
 
 	@Autowired
 	MyUtilGeneral util;
+	
+	public int magicpassPrice = 30000;
 
 	@RequestMapping(value = "/pay/list")
 	public String payList(PayOrder dto, HttpSession session, Model model) throws Exception {
@@ -49,7 +51,6 @@ public class PayController {
 		if (gubunCode == 1) { // 이용권이라면
 
 			// 쿠폰 가져오기
-
 			Map<String, Object> map = new HashMap<>();
 			map.put("usersCode", info.getUsersCode());
 			map.put("curDate", curDate);
@@ -83,11 +84,6 @@ public class PayController {
 			list.add(pay);
 		}
 
-		/*
-		 * for(int i=0; i<dto.code.length; i++) { String c=dto.code.get(i); Integer
-		 * ii=dto.su.get(i);
-		 */
-
 		model.addAttribute("gubunCode", gubunCode);
 		model.addAttribute("couponCount", couponCount);
 		model.addAttribute("price", price);
@@ -102,19 +98,19 @@ public class PayController {
 	@RequestMapping(value = "/pay/price", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> price(@RequestParam(value = "couponCount") int couponCount,
-			@RequestParam(value = "price") int price, @RequestParam(value = "card") String card, HttpSession session)
+			@RequestParam(value = "price") String price, @RequestParam(value = "card") String card, HttpSession session)
 			throws Exception {
 
-		int payPrice = price;
+		/*int payPrice = price;*/
 
 		// 매직패스만 할인(매직패스 가격 가져와서 곱해주기)
-		int dcPrice = couponCount * 10000;
+		int dcPrice = couponCount * magicpassPrice;
 
 		// 이용권일때만 제휴카드 목록 가져와서 card랑 비교해서 할인율만큼 자유이용권 가격 할인
 
 		Map<String, Object> model = new HashMap<>();
 		model.put("dcPrice", dcPrice);
-		model.put("payPrice", payPrice);
+		/*model.put("payPrice", payPrice);*/
 
 		return model;
 	}

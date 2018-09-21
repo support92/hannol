@@ -8,7 +8,7 @@
 
 <div class="container">
     <div id="page-header">
-        <div class="header-brand"><a href="<%=cp%>/"><img src="<%=cp%>/resource/images/logo.jpg" alt="로고"/></a></div>
+        <div class="header-brand"><a href="<%=cp%>/"><img src="<%=cp%>/resource/images/hannol_logo.jpg" alt="로고"/></a></div>
 				
         <div class="login header-login">
             <c:if test="${empty sessionScope.member}">

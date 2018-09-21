@@ -55,6 +55,9 @@ public class CardController {
 		map.put("end", end);
 
 		List<Card> list = service.listCard(map);
+		for(Card dto : list) {
+			dto.setMemo(dto.getMemo().replaceAll("\n", "<br>"));
+		}
 
 		String query = "";
 		String listUrl = cp + "/card/list";
