@@ -1,3 +1,4 @@
+<%@page import="java.util.Dictionary"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -68,7 +69,7 @@
 
 .price {
     display: inline-block;
-    padding-left: 17px;
+    padding-left: 17px;  
     padding-bottom: 10px;
     width: 100px;
 }
@@ -131,10 +132,7 @@ select {
 }
 </style>
 
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
-
-
 $(function(){
 	$("#readTermsInfo").click(function(){
 		$("#terms-info").slideUp();
@@ -198,11 +196,19 @@ $(function(){
 $(function(){
 	$("select").not("#paySectionSelect").change(function(){
 		var couponCount = $("#couponSelect option:selected").val();
-		var price = $("#payPrice").text();
+		var price = $("#price").text();
 		var card = $("#cardSelect option:selected").val();
+
+		<c:forEach items="${dto}" var="dto">
+			<c:if test="${dto.gubunCode == 3}">
+				<c:set var= "sum" value="${sum + (dto.goodsPrice * dto.quantity)}"/>
+			</c:if>
+		</c:forEach>
+		var	dcTicketPay = ${sum};
+		
 		
 		var url = "<%=cp%>/pay/price";
-		var query = "couponCount="+couponCount+"&price="+price+"&card="+card;
+		var query = "couponCount="+couponCount+"&price="+price+"&card="+card+"&dcTicketPay="+dcTicketPay;
 
 		
 		$.ajax({
@@ -215,6 +221,7 @@ $(function(){
 				var payPrice = data.payPrice;
 				$("#dcPrice").html(dcPrice);
 				$("#payPrice").html(payPrice);
+				$("#payPrice2").html(payPrice);
 			},
 			beforeSend : function(jqXHR){
 				jqXHR.setRequestHeader("AJAX", true);
@@ -514,7 +521,7 @@ function validOk() {
 							</tr>
 							<tr>
 								<th class="modal_th">결제금액</th>
-								<td class="modal_td"><fmt:formatNumber value="${payPrice}" type="number" pattern="#,###원"/></td>
+								<td class="modal_td"><strong id="payPrice2" style="color: red;"><fmt:formatNumber value="${payPrice}" type="number" pattern="#,###원"/></strong></td>
 							</tr>
 		  				</tbody>
 					</table>

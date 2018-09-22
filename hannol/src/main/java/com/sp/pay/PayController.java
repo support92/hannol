@@ -1,5 +1,6 @@
 package com.sp.pay;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -77,7 +78,7 @@ public class PayController {
 			pay.setQuantity(dto.getQuantity().get(i));
 			pay.setGubunName(dto.getGubunName().get(i));
 			pay.setParentCode(dto.getParentCode().get(i));
-			System.out.println(dto.getCartCode());
+
 			if (dto.getCartCode() != null)
 				pay.setCartCode(dto.getCartCode().get(i));
 
@@ -97,25 +98,46 @@ public class PayController {
 
 	@RequestMapping(value = "/pay/price", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> price(@RequestParam(value = "couponCount") int couponCount,
-			@RequestParam(value = "price") String price, @RequestParam(value = "card") String card, HttpSession session)
+	public Map<String, Object> price(
+			@RequestParam(value = "couponCount") int couponCount,
+			@RequestParam(value = "dcTicketPay") int dcTicketPay,
+			@RequestParam(value = "price") String price, 
+			@RequestParam(value = "card") String cardCo, 
+			HttpSession session)
 			throws Exception {
 
-		/*int payPrice = price;*/
+		price = price.replaceAll(",", "");
+		price = price.replaceAll("원", "");
+		// 지불할 금액
+		int payPrice = Integer.parseInt(price);
 
 		// 매직패스만 할인(매직패스 가격 가져와서 곱해주기)
-		int dcPrice = couponCount * magicpassPrice;
+		int dcPrice = 0; 
+		dcPrice = couponCount * magicpassPrice;
 
 		// 이용권일때만 제휴카드 목록 가져와서 card랑 비교해서 할인율만큼 자유이용권 가격 할인
+		if(cardCo != null && cardCo.length() > 0) {
+			int discount = service.isCard(cardCo+"%");
+			double discountd = (double)discount/(double)100;
+			System.out.println(discountd);
+			System.out.println(dcTicketPay * discountd);
+			if(discount > 0) {
+				dcPrice = (int) (dcPrice + dcTicketPay * discountd);
+				System.out.println("??"+dcPrice + "  ?"+couponCount*magicpassPrice);
+			}
+		}
+		
+		payPrice = payPrice - dcPrice;
 
+		DecimalFormat df = new DecimalFormat("#,###원");
+		
 		Map<String, Object> model = new HashMap<>();
-		model.put("dcPrice", dcPrice);
-		/*model.put("payPrice", payPrice);*/
+		model.put("dcPrice", df.format(dcPrice));
+		model.put("payPrice", df.format(payPrice));
 
 		return model;
 	}
 
-	@SuppressWarnings("unused")
 	@RequestMapping(value = "/pay/insertPay", method = RequestMethod.POST)
 	public String createdSubmit(Pay dto, HttpSession session, Model model) throws Exception {
 
