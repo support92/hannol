@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.member.SessionInfo;
 
-import oracle.net.aso.s;
-
 @Controller("ticket.ticketController")
 public class TicketController {
 	
@@ -74,8 +72,10 @@ public class TicketController {
 	
 	@RequestMapping(value="/reservation/yearTicket")
 	public String ticketYear() throws Exception{
+		
 		return ".four.menu8.ticket.ticket";
 	}
+	
 	
 	@RequestMapping(value="/reservation/checkYearTicket")
 	@ResponseBody
@@ -138,7 +138,15 @@ public class TicketController {
 		}
 		
 		String timeStamp = new SimpleDateFormat("HH").format(new Date());
-		if(Integer.parseInt(timeStamp)>20) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		
+		Date selectDay = dateFormat.parse(day);
+		Date now = dateFormat.parse(today);
+		
+		int compare = now.compareTo(selectDay);
+		
+		if(Integer.parseInt(timeStamp)>20 && compare>=0) {
 			model.put("state", "close");
 			return model;
 		}

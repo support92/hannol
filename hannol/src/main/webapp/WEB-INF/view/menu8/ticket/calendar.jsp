@@ -58,6 +58,7 @@ $(function(){
 		
 		var url = "<%=cp%>/reservation/checkUser";
 		var data = "day="+selectDay;
+		console.log(selectDay);
 		
 		$.ajax({
 			type:"GET"
@@ -77,7 +78,7 @@ $(function(){
 					alert("로그인 후 이용해 주세요");
 					location.href="<%=cp%>/member/login";
 				}else if(data.state=="close"){  //시스템적 에러
-										
+					alert("죄송합니다 해당날짜는 구매가 마감되었습니다");			
 				}else{
 					alert("죄송합니다 고객님의 요청을 완료하지 못했습니다. 다시 시도해 주세요");
 				}

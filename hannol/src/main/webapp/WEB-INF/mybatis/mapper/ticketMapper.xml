@@ -27,4 +27,15 @@
 		AND t.STARTDATE BETWEEN TO_DATE(#{day}, 'YYYY-MM-DD') and TO_DATE(#{day}, 'YYYY-MM-DD')
 	</select>
 	
+	<select id="ListYearTicket" resultType="com.sp.ticket.Ticket">
+		SELECT goodsCode, goodsName, price as goodsPrice, state, g.gubunCode , gubunName, parentCode
+		FROM goods g
+		LEFT JOIN goodsgubun gb ON g.gubunCode = gb.gubunCode
+		WHERE g.gubunCode IN (
+		    SELECT gubuncode FROM goodsgubun 
+		    WHERE gubuncode = 8
+		)AND state=1
+		ORDER BY g.gubunCode DESC, price DESC
+	</select>
+	
 </mapper>
