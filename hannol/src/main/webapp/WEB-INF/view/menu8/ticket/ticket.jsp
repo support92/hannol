@@ -52,6 +52,32 @@
 
 </style>
 
+<script>
+function checkYearTicket(){
+	var url = "<%=cp%>/reservation/checkYearTicket";
+	
+	$.ajax({
+		type:"GET"
+		,url:url
+		,success:function(data) {
+			if(data.state=="fail"){
+				alert("로그인 후 이용해 주세요");
+				location.href="<%=cp%>/member/login";
+			}else if(data.state=="already"){
+				alert("연간이용권이 이미 있습니다.");
+			}else if(data.state=="true"){
+				location.href="<%=cp%>/reservation/yearTicket"
+			}else{
+				alert("죄송합니다 고객님의 요청을 완료하지 못했습니다. 다시 시도해 주세요");
+			}
+		}
+	    ,error:function(e) {
+	    	console.log(e.responseText);
+	    }
+	});
+}
+</script>
+
 <div class="bodyFrame2">
     <div class="body-title">
           <h3><span class="	glyphicon glyphicon-calendar"></span>예매</h3>
@@ -71,7 +97,7 @@
         
         
         <div class="div-box">
-        	<a href="<%=cp%>/reservation/yearTicket">
+        	<a href="javascript:checkYearTicket();">
         		<p class="img">
         			<img alt="이용권" src="<%=cp%>/resource/images/hannol_logo.jpg">
         		</p>

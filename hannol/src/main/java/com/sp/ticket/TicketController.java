@@ -73,7 +73,7 @@ public class TicketController {
 	@RequestMapping(value="/reservation/yearTicket")
 	public String ticketYear() throws Exception{
 		
-		return ".four.menu8.ticket.ticket";
+		return ".four.menu8.ticket.yearTicket";
 	}
 	
 	
@@ -87,8 +87,22 @@ public class TicketController {
 			return  map;
 		}
 		
+		long usersCode = info.getUsersCode();
+		map.put("usersCode", usersCode);
 		
-		return map;
+		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		map.put("today", today);
+		
+		int result = service.checkYearTicket(map);
+		
+		Map<String, Object> model = new HashMap<>();
+		if(result!=0) {
+			model.put("state", "already");
+			return model;
+		}
+		
+		model.put("state", "true");
+		return model;
 	}
 	
 	@RequestMapping(value="/reservation/dayTicket")

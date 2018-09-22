@@ -31,9 +31,20 @@ public class TicketServiceImpl implements TicketService {
 		try {
 			result = dao.selectOne("ticket.checkReservation", map);
 		} catch (Exception e) {
-			
+
 		}
 		return result;
-	}	
+	}
+
+	@Override
+	public int checkYearTicket(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("ticket.checkYearTicket", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
 
 }

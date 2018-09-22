@@ -38,4 +38,12 @@
 		ORDER BY g.gubunCode DESC, price DESC
 	</select>
 	
+	<select id="checkYearTicket" resultType="Integer" parameterType="map">
+	SELECT count(*) cnt
+	FROM payment p
+	LEFT JOIN ticket t ON p.payCode=t.payCode
+	WHERE gubun=8 AND usersCode = #{usersCode} AND
+	#{today} between STARTDATE and ENDDATE
+	</select>
+	
 </mapper>
