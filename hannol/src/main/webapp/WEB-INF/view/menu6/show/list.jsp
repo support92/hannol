@@ -7,145 +7,118 @@
 %>
 
 <style>
-.thumbnail>a>img {
-	margin-bottom: 5%;
+#dateList {
+	height: 20%; 
+	padding: 150px;
+	margin-top: -30px;
+}
+#dateList > div {
+	padding-bottom: 30px;
+	cursor: pointer; 
+} 
+#dateList > div:nth-child(1) {
+	margin-left: -35px;
+}
+#dateList > div:nth-child(1) ~ div {
+	margin-left: -10px;
 }
 
-.giftList:after {
-	content: '';
-	display: block;
-	clear: both;
+.activeDate {
+	color:black; 
+	font-size: 16px; 
+	font-weight: bold;
 }
-
-.itemTitle {
-	display: block;
-	margin: 10px 0px;
-}
-
-.itemPrice {
-	font-weight: 900;
-	font-size: 14px;
-}
-
-.input-lg {
-	height: 35px;
-}
-
-.col-xs-8:after {
-	content: '';
-	display: block;
-	clear: both;
-}
-
-.col-xs-offset-2 {
-	width: 60%;
-}
-
-.col-xs-8 {
-	float: left;
-	margin: 0px 0px;
-}
-
-.itemSelect {
-	min-width: 120px;
-	width: 30%;
-	margin-bottom: 10px;
-	float: right;
-}
-
-.giftSelect:after {
-	content: '';
-	display: block;
-	clear: both;
-}
-
-.giftSelect {
-	padding: 0px 15px;
-	margin-top: 10px;
-}
-
-.gitf-form-control {
-	background: url(<%=cp%>/resource/images/item_list.png) no-repeat right
-		2px;
-}
-
-select {
-	-webkit-appearance: none;
-	appearance: none;
-}
-
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
-	{
-	background-color: #337ab7;
-	color: #ffffff;
-}
-
-select::-ms-expand {
-	display: none;
-}
-
-.body-title h3 {
-	margin-bottom: 0px;
-}
-
-.div-paging ul{
-	margin: 0px auto;
+.nActiveDate {
+	font-size: 16px;
+	font-weight: bold;
 }
 </style>
-
+  
 <script type="text/javascript">
+$(function() {
+	initDateList();
+	
+});
 
+function initDateList() { // d-오늘부터 일주일로 바꾸기
+	var date = dateToString(new Date());
+	var dateAry = '';
+	var $dateListdiv = document.getElementById('dateList');
+	
+	for(var i = 0; i <= 6; i++) {
+		dateAry = getDaysLater(date, i+1);
+		var dataDate = dateAry;
+		
+		dateAry = dateAry.substr(5);
+		var m = dateAry.substr(0, 2);
+		var d = dateAry.substr(3, 4);
+		dateAry = m + "/" + d;
+		
+		var $image = document.createElement('img');
+		$image.setAttribute('width', '100px');
+		$image.setAttribute('height', '100px');
+		$image.setAttribute('class', 'img-responsive');
+		
+		var $span = document.createElement('span');
+		
+		var $pDiv = document.createElement('div');
+		$pDiv.setAttribute('class', 'col-md-2');
+		if(i == 0) { // image 흰색 원, 글씨 검정
+			$image.setAttribute('src', '<%=cp%>/resource/images/circle_line.png');
+			$span.setAttribute('class', 'activeDate');
+		} else { // image 보라원, 글씨 흰색
+			$image.setAttribute('src', '<%=cp%>/resource/images/circle.PNG');
+			$span.setAttribute('class', 'nActiveDate');
+		}
+		
+		$span.innerText = dateAry;
+		$span.setAttribute('data-date', dataDate);
+		
+		var $cDiv = document.createElement('div');
+		$cDiv.setAttribute('class', 'carousel-caption');
+		
+		$pDiv.appendChild($image);
+		$cDiv.appendChild($span);
+		$pDiv.appendChild($cDiv);
+		
+		$dateListdiv.appendChild($pDiv);
+	}
+}  
+ 
 </script>
-
-
+  
 <div class="bodyFrame2">
 	<div class="body-title">
-		<h3>
-			<span class="glyphicon glyphicon-gift"></span> 공연
-		</h3>
+		<h3><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;&nbsp;금주의 무대공연 </h3>
 	</div>
 
-	<div>
-		<ul class="nav nav-tabs">
-			<li class="nav-item active" data-gift-gubun="0">
-				<a class="nav-link">전체</a>
-			</li>
-			<c:forEach items="${listGubun}" var="gubun">
-				<li class="nav-item" data-gift-gubun="${gubun.GUBUNCODE}"><a
-					class="nav-link">${gubun.GUBUNNAME}</a></li>
-			</c:forEach>
-		</ul>
+	
+	<div id="dateList" align="center"></div>
+
+	<div id="showList">
+		<table style="width: 100%; height: 15m; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
+			<tr align="center" height="100em" style="border-bottom: 1px solid #cccccc;">
+				<td rowspan="2" width="30%"><img src="<%=cp%>/resource/images/card.jpg" class="cardImage"></td>
+				<td colspan="2" width="70%" height="30%" align="left" style="padding-left: 1em; padding-right: 1em;">
+					<h3 style="font-weight: bold;">할로윈 스페셜 밴드 쇼</h3>
+				</td>
+			</tr>
+			<tr style="border-bottom: 1px solid #cccccc;">
+				<td width="70%" height="80%" align="left" style="padding-left: 1em; padding-right: 1em; ">
+					<div style="margin-bottom: 15px;"><h4>팝 뮤직과 영화 OST를 연주하는 할로윈 밴드 공연</h4></div>
+					<span style="font-weight: bold;">공연시간</span>&nbsp;&nbsp;11:30 | 14:00<br> 
+					<span style="font-weight: bold;">공연장소</span>&nbsp;&nbsp;만남의 광장</td>
+				<td width="15%" valign="bottom">
+					<button type="button" class="btn" onclick="Detail()">상세보기</button>
+				</td>
+			</tr>
+		</table>
+
 
 	</div>
-
-	<div style="margin: 10px 0px;">
-		<div class="col-xs-8 col-xs-offset-2">
-			<div class="input-group">
-				<input type="text" style="height:30px;" class="form-control" name="searchValue" id="searchValue" placeholder="검색할 키워드를 입력해 주세요..." value="${searchValue}">
-	            <span class="input-group-btn">
-	                <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
-	            </span>
-			</div>
-		</div>
-
-		<div class="giftSelect">
-			<div class="itemSelect">
-				<select class="form-control gitf-form-control" onchange="orderList();">
-					<option value="newGoods">신상품순</option>
-					<option value="minPrice">가격낮은순</option>
-					<option value="maxPrice">가격높은순</option>
-					<option value="likeGoods">인기상품순</option>
-				</select>
-			</div>
-		</div>
-	</div>
-
-
-	<div class="giftList"></div>
-	<div style="margin-left: 15px;">
-		<button type="button" class="btn btn-default btn-refresh"
-			onclick="javascript:location.href='<%=cp%>/giftshop/list'">새로고침</button>
-	</div>
+	
+	<div id="dateList2" align="center">
+	</div>	
 </div>
 
 
