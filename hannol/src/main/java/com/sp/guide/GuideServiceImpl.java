@@ -151,7 +151,7 @@ public class GuideServiceImpl implements GuideService {
 	public int checkDoublebook(String workDate) throws Exception {
 		int result =0;
 		try {
-			result = dao.selectOne("guide.chechDoublebook", workDate);
+			result = dao.selectOne("guide.checkDoublebook", workDate);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

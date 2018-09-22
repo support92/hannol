@@ -1,5 +1,7 @@
 package com.sp.guide;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +35,15 @@ public class GuideController {
 
 		List<Guide> guideList = service.guideList();
 		model.addAttribute("guideList", guideList);
-		
 		model.addAttribute("subMenu", "2");
 
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate startDay = LocalDate.now();
+		LocalDate endDay = LocalDate.now().plusMonths(1);
+		
+		model.addAttribute("startDay", dateFormat.format(startDay));
+		model.addAttribute("endDay", dateFormat.format(endDay));
+		
 		return ".four.menu8.guide.list";
 	}
 

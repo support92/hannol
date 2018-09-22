@@ -24,7 +24,8 @@
 ];
 
 $(document).ready(function() {
-	
+	var startDay = "${startDay}";
+	var endDay ="${endDay}";
 	
 	$('#calendar').fullCalendar({
 		locale:'ko',
@@ -47,6 +48,10 @@ $(document).ready(function() {
 		    month : "월별",
 		    week : "주별",
 		    day : "일별",
+	    },
+	    validRange: {
+	         start: startDay,
+	    	 end: endDay
 	    },
 	    events: dataset,
 	    eventClick: function(calEvent, jsEvent, view) {

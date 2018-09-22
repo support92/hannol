@@ -26,6 +26,7 @@ public class Guide {
 	private String startDate;
 	private String endDate;
 	private int gubun;
+	
 	public int getUsersCode() {
 		return usersCode;
 	}
