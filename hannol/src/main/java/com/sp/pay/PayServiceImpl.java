@@ -64,6 +64,18 @@ public class PayServiceImpl implements PayService {
 		}
 		return result;
 	}
+	
+	@Override
+	public int isCard(String cardCo) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("pay.isCard", cardCo);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return result;
+	}
 
 	//paylist
 	@Override
@@ -113,5 +125,7 @@ public class PayServiceImpl implements PayService {
 		}
 		return result;
 	}
+
+	
 
 }
