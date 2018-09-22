@@ -26,13 +26,24 @@ public class MybookServiceImpl implements MybookService {
 
 	@Override
 	public List<Mybook> listMybook(Map<String, Object> map) throws Exception {
-		List<Mybook> mybook=null;
+		List<Mybook> mybook = null;
 		try {
 			mybook = dao.selectList("book.listMybook", map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		return mybook;
+	}
+
+	@Override
+	public int deleteGuideBook(int bookCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("book.deleteGuideBook", bookCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
 	}
 
 }

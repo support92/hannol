@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sp.common.MyUtil;
+import com.sp.member.SessionInfo;
 
 @Controller("mypage.mybookController")
 public class MybookController {
@@ -57,8 +59,12 @@ public class MybookController {
 				@RequestParam(value="searchValue", defaultValue="") String searchValue,
 				@RequestParam(value="pageNo", defaultValue="1") int current_page,
 				HttpServletRequest req,
+				HttpSession session,
 				Model model) throws Exception{
 			// tab : all, experience(1), parade(2), stage(3)
+			
+			
+			SessionInfo info =(SessionInfo) session.getAttribute("member");
 			
 			int rows = 10;
 			int total_page = 0;
@@ -74,6 +80,9 @@ public class MybookController {
 			if(!gubunCode.equals("0")) {
 				map.put("gubunCode", gubunCode); ///////////////////////////////////////////// 
 			}
+			
+			int usersCode = (int)info.getUsersCode();
+			map.put("usersCode", usersCode);
 			
 			dataCount = service.dataCount(map);
 			if(dataCount != 0) 

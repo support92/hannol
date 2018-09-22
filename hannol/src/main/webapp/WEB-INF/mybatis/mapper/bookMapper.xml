@@ -2,10 +2,29 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="book">
-	<select id="dataCount" parameterType="Integer" resultType="Integer">
+	<select id="dataCount" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*),0)
 		FROM GUIDE G
 		LEFT OUTER JOIN GUIDEBOOK GB ON G.SCHCODE = GB.SCHCODE
 		WHERE GB.USERSCODE = #{usersCode}
 	</select>
+	
+	<select id="listMybook" parameterType="map" resultType="com.sp.mypage.Mybook">
+		select * from (
+   		select rownum rnum, tb.* from (
+				SELECT G.SCHCODE, TIMEZONE,WORKDATE, ROLE, MEMO, G.USERSCODE,
+		        	BOOKCODE, GB.NAME, TEL
+				FROM GUIDE G
+		        LEFT OUTER JOIN GUIDEBOOK GB ON G.SCHCODE = GB.SCHCODE
+				WHERE G.SCHCODE !=0
+					AND GB.USERSCODE = #{usersCode}
+		<![CDATA[
+				) tb where rownum <= #{end}
+			)where rnum >= #{start}	
+		]]>
+	</select>
+	
+	<delete id="deleteGuideBook" parameterType="Integer">
+		DELETE FROM GUIDEBOOK WHERE BOOKCODE = #{bookCode}
+	</delete>
 </mapper>
