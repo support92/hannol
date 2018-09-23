@@ -144,7 +144,7 @@ function initDateList() { // d-오늘부터 일주일로 바꾸기
   
 <div class="bodyFrame2">
 	<div class="body-title">
-		<h3><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;&nbsp;금주의 무대공연 </h3>
+		<h3><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;&nbsp;금주의 ${gubun} </h3>
 	</div>
 	
 	<div id="dateList" align="center"></div>

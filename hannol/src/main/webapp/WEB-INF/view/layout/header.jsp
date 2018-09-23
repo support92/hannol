@@ -76,8 +76,8 @@
                                   <li><a href="<%=cp%>/enjoy/rides">놀이기구</a></li>
                                   <li><a href="#">기프트 샵</a></li>
                                   <li><a href="<%=cp%>/show/list">공연</a></li>
-                                  <li><a href="#">체험</a></li>
-                                  <li><a href="#">퍼레이드</a></li>
+                                  <li><a href="<%=cp%>/show/experience">체험</a></li>
+                                  <li><a href="<%=cp%>/show/parade">퍼레이드</a></li>
                               </ul>
                           </li>
                           <li class="dropdown">

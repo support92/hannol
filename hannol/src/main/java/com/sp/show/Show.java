@@ -14,8 +14,6 @@ public class Show {
 	private String name;	// facility
 	private List<String> showTime;
 	
-	
-	
 	public int getShowCode() {
 		return showCode;
 	}
