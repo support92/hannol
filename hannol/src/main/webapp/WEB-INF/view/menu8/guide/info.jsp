@@ -27,6 +27,20 @@ function sendOk() {
 	
     var f = document.infoForm;
     
+    var str = f.nameM.value;
+    if(!str) {
+        alert("예약자 이름을 입력하세요. ");
+        f.nameM.focus();
+        return;
+    }
+
+	str = f.tel.value;
+    if(!str) {
+        alert("예약자 연락처를 입력하세요. ");
+        f.tel.focus();
+        return;
+    }
+    
 	f.action="<%=cp%>/guide/createBook?schCode=${dto.schCode}";
     f.submit(); 
 }

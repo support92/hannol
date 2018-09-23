@@ -12,12 +12,13 @@
 	<select id="listMybook" parameterType="map" resultType="com.sp.mypage.Mybook">
 		select * from (
    		select rownum rnum, tb.* from (
-				SELECT G.SCHCODE, TIMEZONE,WORKDATE, ROLE, MEMO, G.USERSCODE,
-		        	BOOKCODE, GB.NAME, TEL
+				SELECT G.SCHCODE, TIMEZONE, TO_CHAR(WORKDATE,'YYYY-MM-DD') WORKDATE, ROLE, MEMO, G.USERSCODE,
+		        	BOOKCODE, GB.NAME, TEL,  TO_CHAR(BOOKDATE,'YYYY-MM-DD') BOOKDATE
 				FROM GUIDE G
 		        LEFT OUTER JOIN GUIDEBOOK GB ON G.SCHCODE = GB.SCHCODE
 				WHERE G.SCHCODE !=0
 					AND GB.USERSCODE = #{usersCode}
+				ORDER BY BOOKDATE DESC
 		<![CDATA[
 				) tb where rownum <= #{end}
 			)where rnum >= #{start}	

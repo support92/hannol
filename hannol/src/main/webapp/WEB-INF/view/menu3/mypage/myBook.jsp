@@ -6,32 +6,7 @@
    String cp = request.getContextPath();
 %>
 <link rel="stylesheet" href="<%=cp%>/resource/css/tabs.css" type="text/css">
-<style>
-.alert-info {
-    border: 1px solid #9acfea;
-    border-radius: 4px;
-    background-color: #d9edf7;
-    color: #31708f;
-    padding: 15px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-.gitf-form-control{
-   background: url(<%=cp%>/resource/images/item_list.png) no-repeat right 2px;
-}
-.col-xs-8:after{
-   content:''; display:block; clear:both;
-}
 
-.col-xs-offset-2{
-   width: 40%;
-}
-
-.col-xs-8{
-    float: none;
-    margin: 10px auto;
-}
-</style>
 
 <script type="text/javascript">
 $(function() {
@@ -56,7 +31,7 @@ function listPage(page) {
 	var $tab = $(".tabs .active");
 	var tab = $tab.attr("data-tab");
 	var gubunCode = $tab.attr("data-gubuncode");
-	var url = "<%=cp%>/show/" + gubunCode + "/list";
+	var url = "<%=cp%>/mybook/" + gubunCode + "/list";
 	
 	var query = "pageNo="+page+"&tab="+tab;
 	var search = $("form[name=searchForm]").serialize();
@@ -90,18 +65,59 @@ function ajaxHTML(url, type, query) {
 	});
 }
 
-function insertShowInfo() {
-	var checked = $("input[name=showRadio]:checked");
-	if(!checked.val()) {
-		alert('공연을 선택하세요');
-		return;
-	}
-	
-	var showCode = checked.attr("data-showCode");
-	
-	var url = '<%=cp%>/show/article?showCode=' + showCode;
-	location.href = url;
+function chkSingle(){
+	$("input[name=chk]:checked").each(function(){
+		var test = $(this).parent().next().next().next().next().next().next().next().text();
+		//alert(test);
+		
+	});
 }
+
+//전체 체크박스
+function checkAll(){
+	if($("#chkAll").is(':checked')){
+		$("input[name=chk]").prop("checked",true);
+	}else{
+		$("input[name=chk]").prop("checked",false);
+	}
+}
+
+//ajax로 값들을 보낸다
+$(function(){
+	$(document).on("click","button[name=btnDelete]", function(){
+		 
+		var lists = new Array();
+		$("input[name='chk']:checked").each(function(i){   //jQuery로 for문 돌면서 check 된값 배열에 담는다
+			lists.push($(this).parent().next().next().text());
+		});
+		
+		if(lists.length == 0){
+			$("#resultLayout").html("삭제할 예약정보를 선택해주세요");
+			return;
+		}
+		
+		// check 된 애들의 개수
+	 	var url="<%=cp%>/mybook/delete";
+		var num = $(this).parent().next();
+		var query = {"lists":lists};
+		console.log(query);
+
+			$.ajax({
+				type:"POST",
+				url:url,
+				data:query,
+				success:function(data){
+					$("#resultLayout").html("삭제완료!");
+					$("#tab-content").html(data);
+				}
+				,error:function(e){
+					console.log(e.responseText);
+					$("#resultLayout").html("에러발생!");	
+				}
+			}); 
+	});
+	
+});
 </script>
 
 <div class="bodyFrame2">
@@ -122,55 +138,5 @@ function insertShowInfo() {
 	   <div id="tab-content" style="clear:both; padding: 20px 10px 0px;"></div>
     </div>
     
-    <div>
-		<table class="table">
-			    <colgroup>
-			        <col style="width: 10%; text-align:center">
-			        <col style="text-align:center">
-			        <col style="width: 10%; text-align:center">
-			        <col style="width: 15%; text-align:center">
-			    </colgroup>
-    
-		  <thead class="thead-light">
-		    <tr>
-		      <th scope="col">번호</th>
-		      <th scope="col">예약코드</th>
-		      <th scope="col">구분</th>
-		      <th scope="col">예약이름</th>
-		      <th scope="col">연락처</th>
-		      <th scope="col">예약내용</th>
-		      <th scope="col">예약일자</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		  
-			  	<c:forEach var="dto" items="${list}">
-			    <tr>
-			      <th scope="row">${dto.listNum}</th>
-			      <td>${dto.bookCode}</td>
-			      <td>${dto.timezone}</td>
-			      <td>${dto.name}</td>
-			      <td>${dto.tel}</td>
-			      <td>${dto.role}</td>
-			      <td>${dto.workDate}</td>
-			    </tr>
-			    </c:forEach>
-			    
-		  </tbody>
-		</table>
-		
-		
-		<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-		   <tr height="35">
-		   <td align="left" width="100">
-		          <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/notice/list';">새로고침</button>
-		      </td>
-			<td align="center">
-			        <c:if test="${dataCount==0 }">등록된 게시물이 없습니다.</c:if>
-			        <c:if test="${dataCount!=0 }">${paging}</c:if>
-			 </td>
-		   </tr>
-		</table>
-		
-    </div>
+    <div id="resultLayout"></div>
 </div>

@@ -8,6 +8,7 @@ public class Mybook {
 	private int schCode;
 	private int timezone;
 	private String workDate;
+	private String bookDate;
 	private String role;
 	private String memo;
 	
@@ -16,6 +17,12 @@ public class Mybook {
 	private String name;
 	private String tel;
 	
+	public String getBookDate() {
+		return bookDate;
+	}
+	public void setBookDate(String bookDate) {
+		this.bookDate = bookDate;
+	}
 	public int getListNum() {
 		return listNum;
 	}

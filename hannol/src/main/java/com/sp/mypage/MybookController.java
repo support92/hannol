@@ -2,6 +2,7 @@ package com.sp.mypage;
 
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class MybookController {
 	
 	// 공연 리스트
 	@RequestMapping(value = "/mypage/myBook", method = RequestMethod.GET)
-	public String manageShow(
+	public String manageBook(
 			@RequestParam(value="tab", defaultValue="all") String tab,
 			@RequestParam(value="pageNo", defaultValue="1") int page,
 			Model model) {
@@ -52,7 +53,7 @@ public class MybookController {
 	}
 	
 	// 공연 리스트 - tab list
-		@RequestMapping(value="/show/{gubunCode}/list", method=RequestMethod.GET)
+		@RequestMapping(value="/mybook/{gubunCode}/list", method=RequestMethod.GET)
 		public String showList(
 				@PathVariable String gubunCode,
 				@RequestParam(value="tab", defaultValue="all") String tab,
@@ -62,7 +63,7 @@ public class MybookController {
 				HttpServletRequest req,
 				HttpSession session,
 				Model model) throws Exception{
-			// tab : all, experience(1), parade(2), stage(3)
+			// tab : all, magicpass(1), guide(2), stage(3), facility(4)
 			
 			
 			SessionInfo info =(SessionInfo) session.getAttribute("member");
@@ -79,7 +80,7 @@ public class MybookController {
 			map.put("searchKey", searchKey);
 			map.put("searchValue", searchValue);
 			if(!gubunCode.equals("0")) {
-				map.put("gubunCode", gubunCode); ///////////////////////////////////////////// 
+				map.put("gubunCode", gubunCode); 
 			}
 			
 			int usersCode = (int)info.getUsersCode();
@@ -99,6 +100,16 @@ public class MybookController {
 			
 			List<Mybook> list = service.listMybook(map);
 			
+			// 리스트의 번호
+			int listNum, n = 0;
+			Iterator<Mybook> it = list.iterator();
+			while (it.hasNext()) {
+				Mybook data = it.next();
+				listNum = dataCount - (start + n - 1);
+				data.setListNum(listNum);
+				n++;
+			}
+			
 			String cp = req.getContextPath();
 			String paging = myUtil.paging(current_page, total_page);
 			String articleUrl = cp + "/show/article";
@@ -111,7 +122,22 @@ public class MybookController {
 			model.addAttribute("articleUrl", articleUrl);
 			model.addAttribute("tab", tab);
 			
-			return "show/showList";
+			return "menu3/mypage/bookList";
+		}
+		
+		@RequestMapping(value="/mybook/delete")
+		public String deleteBoook(@RequestParam(value="lists[]")  int[] lists) throws Exception{
+			
+			if(lists.length==0) {
+				//예약레코드를 선택하지 않음
+				return "redirect:/mypage/list";
+			}
+			
+			for(int s:lists) {
+				service.deleteGuideBook(s);
+			}
+			
+			return "menu3/mypage/bookList";
 		}
 		
 }
