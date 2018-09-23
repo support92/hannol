@@ -46,4 +46,9 @@
 	#{today} between STARTDATE and ENDDATE
 	</select>
 	
+	<select id="chechUserBirth" resultType="String" parameterType="Long">
+		SELECT TO_CHAR(birth, 'YYYY-MM-DD') birth FROM member2
+    	WHERE usersCode = #{usersCode}
+	</select>
+	
 </mapper>

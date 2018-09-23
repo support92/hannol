@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,35 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value="/reservation/yearTicket")
-	public String ticketYear() throws Exception{
+	public String ticketYear(HttpSession session, Model model) throws Exception{
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		long usersCode = info.getUsersCode();
+		String birth = service.checkUserBirth(usersCode);
+		
+		if(birth != null) {
+			int year = Integer.parseInt(birth.split("-")[0]);
+			int month = Integer.parseInt(birth.split("-")[1]);
+			int day = Integer.parseInt(birth.split("-")[2]);
+			
+			Calendar current = Calendar.getInstance();
+	        int currentYear  = current.get(Calendar.YEAR);
+	        int currentMonth = current.get(Calendar.MONTH) + 1;
+	        int currentDay   = current.get(Calendar.DAY_OF_MONTH);
+
+	        List<Ticket> ticket = service.listYearTicket();
+	        
+	        int age = currentYear - year;
+	        if (month * 100 + day > currentMonth * 100 + currentDay)  
+	            age--;
+	        
+	        if(age>=20) {
+	        	model.addAttribute("ticket", ticket.get(0));
+	        }else {
+	        	model.addAttribute("ticket", ticket.get(1));
+	        }
+	        
+		}
 		
 		return ".four.menu8.ticket.yearTicket";
 	}

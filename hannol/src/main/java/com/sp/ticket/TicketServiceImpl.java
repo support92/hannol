@@ -47,4 +47,26 @@ public class TicketServiceImpl implements TicketService {
 		return result;
 	}
 
+	@Override
+	public String checkUserBirth(long usersCode) throws Exception {
+		String birth = null;
+		try {
+			birth = dao.selectOne("ticket.chechUserBirth", usersCode);
+		} catch (Exception e) {
+			throw e;
+		}
+		return birth;
+	}
+
+	@Override
+	public List<Ticket> listYearTicket() throws Exception {
+		List<Ticket> list = null;
+		try {
+			list = dao.selectList("ticket.ListYearTicket");
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
 }

@@ -53,6 +53,13 @@
   line-height : 21px;
   float: right;
 }
+
+.note{
+	border: 1px solid #e1e1e1;
+    background: #f8f8f8;
+    padding: 20px;
+    margin-top: 30px;
+}
 </style>
 
 <script>
@@ -259,5 +266,11 @@ function totalCount(){
 	    		</div>
     		</div>
     	</div>
+    	
+    	<div style="clear: both; content: ''"></div>
+	    <div class="note">
+	    	<p style="font-size: 20px; font-weight: bold;">꼭 알아두세요</p>
+	    	<p style="margin-top: 10px; font-size: 16px;">우대권을 구매한 경우에는 매표소에서 필요서류를 요구할 수 있습니다.</p>
+	    </div>
     </div>
 </div>
