@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface PayService {
-	public int couponCount(Map<String, Object> map) throws Exception;
+	public List<MCoupon> couponCount(Map<String, Object> map) throws Exception;
 	public int insertPay(Pay dto) throws Exception;
 	public Pay readResult(int payCode) throws Exception;
 	public int insertGift(Pay dto) throws Exception;

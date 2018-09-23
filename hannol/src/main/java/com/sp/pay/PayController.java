@@ -31,8 +31,6 @@ public class PayController {
 
 	@Autowired
 	MyUtilGeneral util;
-	
-	public int magicpassPrice = 30000;
 
 	@RequestMapping(value = "/pay/list")
 	public String payList(PayOrder dto, HttpSession session, Model model) throws Exception {
@@ -42,7 +40,7 @@ public class PayController {
 
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
-		int couponCount = 0;
+		List<MCoupon> mcouponlist = null;
 		int gubunCode = dto.getParentCode().get(0);
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
@@ -56,9 +54,7 @@ public class PayController {
 			map.put("usersCode", info.getUsersCode());
 			map.put("curDate", curDate);
 
-			couponCount = service.couponCount(map);
-			if (couponCount >= 4)
-				couponCount = 4;
+			mcouponlist = service.couponCount(map);
 		}
 
 		// 할인전 총 금액
@@ -69,6 +65,7 @@ public class PayController {
 
 		Pay pay = null;
 		List<Pay> list = new ArrayList<>();
+		int usableCount = 0;
 		for (int i = 0; i < dto.getGubunCode().size(); i++) {
 			pay = new Pay();
 			pay.setGubunCode(dto.getGubunCode().get(i));
@@ -79,6 +76,9 @@ public class PayController {
 			pay.setGubunName(dto.getGubunName().get(i));
 			pay.setParentCode(dto.getParentCode().get(i));
 
+			if(dto.getGubunCode().get(i) == 3 || dto.getGubunCode().get(i)==6)
+				usableCount++;
+			
 			if (dto.getCartCode() != null)
 				pay.setCartCode(dto.getCartCode().get(i));
 
@@ -86,12 +86,13 @@ public class PayController {
 		}
 
 		model.addAttribute("gubunCode", gubunCode);
-		model.addAttribute("couponCount", couponCount);
+		model.addAttribute("mcouponlist", mcouponlist);
 		model.addAttribute("price", price);
 		model.addAttribute("payPrice", price);
 		model.addAttribute("dcPrice", 0);
 		model.addAttribute("dto", list);
 		model.addAttribute("curDate", curDate);
+		model.addAttribute("usableCount", usableCount);
 
 		return ".four.menu9.pay.list";
 	}
@@ -99,31 +100,31 @@ public class PayController {
 	@RequestMapping(value = "/pay/price", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> price(
-			@RequestParam(value = "couponCount") int couponCount,
+			@RequestParam(value = "couponPrice") String couponPrice,
 			@RequestParam(value = "dcTicketPay") int dcTicketPay,
 			@RequestParam(value = "price") String price, 
 			@RequestParam(value = "card") String cardCo, 
 			HttpSession session)
 			throws Exception {
-
+		
+		couponPrice = couponPrice.replaceAll(",", "");
+		couponPrice = couponPrice.replaceAll("원", "");
 		price = price.replaceAll(",", "");
 		price = price.replaceAll("원", "");
 		// 지불할 금액
 		int payPrice = Integer.parseInt(price);
 
-		// 매직패스만 할인(매직패스 가격 가져와서 곱해주기)
+		// 매직패스쿠폰 할인가격
 		int dcPrice = 0; 
-		dcPrice = couponCount * magicpassPrice;
+		dcPrice += Integer.parseInt(couponPrice);
 
 		// 이용권일때만 제휴카드 목록 가져와서 card랑 비교해서 할인율만큼 자유이용권 가격 할인
 		if(cardCo != null && cardCo.length() > 0) {
 			int discount = service.isCard(cardCo+"%");
 			double discountd = (double)discount/(double)100;
-			System.out.println(discountd);
-			System.out.println(dcTicketPay * discountd);
+			
 			if(discount > 0) {
 				dcPrice = (int) (dcPrice + dcTicketPay * discountd);
-				System.out.println("??"+dcPrice + "  ?"+couponCount*magicpassPrice);
 			}
 		}
 		

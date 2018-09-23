@@ -14,15 +14,15 @@ public class PayServiceImpl implements PayService {
 	CommonDAO dao;
 	
 	@Override
-	public int couponCount(Map<String, Object> map) throws Exception {
-		int result = 0;
+	public List<MCoupon> couponCount(Map<String, Object> map) throws Exception {
+		List<MCoupon> list = null;
 		try {
-			result = dao.selectOne("pay.couponCount", map);
+			list = dao.selectList("pay.couponCount", map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		
-		return result;
+		return list;
 	}
 
 	@Override

@@ -129,6 +129,13 @@ select {
     padding: 10px 16px;
 }
 
+.btn_delete{
+  width: 21px;
+  height: 21px;
+  background: url('<%=cp%>/resource/images/delete.png') no-repeat -1px -1px;
+  border: none;
+  line-height : 21px;
+  float: left;
 }
 </style>
 
@@ -193,50 +200,121 @@ $(function(){
 });
 
 
+function totalCount(){
+	var total = Number(0);
+	$(".input-count").each(function(){
+		total=Number(total)+Number(1);
+	});
+	
+	return total;
+}
+
 $(function(){
+	var memo;
+	var couponCode;
+	var couponPrice;
+	
 	$("select").not("#paySectionSelect").change(function(){
-		var couponCount = $("#couponSelect option:selected").val();
-		var price = $("#price").text();
-		var card = $("#cardSelect option:selected").val();
-
-		<c:forEach items="${dto}" var="dto">
-			<c:if test="${dto.gubunCode == 3}">
-				<c:set var= "sum" value="${sum + (dto.goodsPrice * dto.quantity)}"/>
-			</c:if>
-		</c:forEach>
-		var	dcTicketPay = ${sum};
+		
+		priceCheck();
+	});
+		
+	
+	$(document).on("click",".btn_delete",function(){
 		
 		
-		var url = "<%=cp%>/pay/price";
-		var query = "couponCount="+couponCount+"&price="+price+"&card="+card+"&dcTicketPay="+dcTicketPay;
-
-		
-		$.ajax({
-			type : "post",
-			url : url,
-			data : query,
-			dataType : "json",
-			success : function(data){
-				var dcPrice = data.dcPrice;
-				var payPrice = data.payPrice;
-				$("#dcPrice").html(dcPrice);
-				$("#payPrice").html(payPrice);
-				$("#payPrice2").html(payPrice);
-			},
-			beforeSend : function(jqXHR){
-				jqXHR.setRequestHeader("AJAX", true);
-			},
-			error : function(jqXHR){
-				if(jqXHR.status == 403){
-					location.href="<%=cp%>/member/login";
-					return;
-				}
-				
-				console.log(jqXHR.responseText);
-			}
-		});
+		$(this).closest("li").remove();
+		console.log($(this).closest("span").prev().text());
+		var option = $("<option value='"+$(this).closest("span").next().val()+"' data-memo='"+$(this).closest("span").prev().text()+"' data-couponCode='"+$(this).closest("li").attr("data-couponCode")+"'>"+$(this).closest("span").prev().text()+" | "+numberWithCommas($(this).closest("span").next().val())+"원</option>");
+        $("#couponSelect").append(option);
+		priceCheck();
 	});
 });
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function priceCheck(){
+	var price = $("#price").text(); /* 총가격 */
+	var card = $("#cardSelect option:selected").val();
+	var dcPrice = $("#dcPrice").text();
+	
+	<c:forEach items="${dto}" var="dto">
+		<c:if test="${dto.gubunCode == 3 || dto.gubunCode == 6}">
+			<c:set var= "sum" value="${sum + (dto.goodsPrice * dto.quantity)}"/>
+		</c:if>
+	</c:forEach>
+	var	dcTicketPay = ${sum};
+	
+	
+	var $coupon = $("#couponSelect option:selected");
+	couponPrice = $coupon.val();
+	if(couponPrice != 0){
+		couponCode = $coupon.attr("data-couponCode");
+		memo = $coupon.attr("data-memo");
+	
+	// 매직패스를 포함한 이용권만 쿠폰 적용할수 있도록 함
+	
+
+	
+		var html ="<li data-couponCode="+couponCode+">";
+			html+="<span class='input-count'></span>";
+			html+="<span style='float:left; margin-right:10px;'>"+memo+"</span>";
+			html+="<span><button type='button' class='btn_delete'></button></span>";
+				html+="<input type='hidden' name='couponPrice' value="+couponPrice+">";
+				html+="</li>";
+	
+			$("#coupon_result").find("ul").append(html);
+			
+		$("#couponSelect option:selected").remove();
+		$("#couponSelect > option[value='0']").attr("selected","selected");
+		
+		var total = totalCount();
+		if(total > ${usableCount}){
+			alert("티켓 사용 가능 개수는 "+${usableCount}+"매입니다.");
+			return;
+		}
+		
+	}
+	
+	
+	couponPrice = 0;
+	$("input[name='couponPrice']").each(function(){
+		couponPrice += Number($(this).val());
+	});
+	
+	var url = "<%=cp%>/pay/price";
+	var query = "price="+price+"&card="+card+"&couponPrice="+couponPrice
+		+"&dcTicketPay="+dcTicketPay;
+	console.log(query);
+	
+	$.ajax({
+		type : "post",
+		url : url,
+		data : query,
+		dataType : "json",
+		success : function(data){
+			var dcPrice = data.dcPrice;
+			var payPrice = data.payPrice;
+			$("#dcPrice").html(dcPrice);
+			$("#payPrice").html(payPrice);
+			$("#payPrice2").html(payPrice);
+		},
+		beforeSend : function(jqXHR){
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error : function(jqXHR){
+			if(jqXHR.status == 403){
+				location.href="<%=cp%>/member/login";
+				return;
+			}
+			
+			console.log(jqXHR.responseText);
+		}
+	});
+
+}
 
 /* input type이 패스워드인경우 */
 $(function() { 
@@ -389,19 +467,22 @@ function validOk() {
 				<tr class="table_col">
 					<th class="col_title">쿠폰</th>
 					<td>
-						<div style="display:inline; padding-left: 15px;">
+						<div style="padding-left: 15px;">
 						<select id="couponSelect" ${gubunCode == 1? '':"disabled='disabled'"}>
 							<option value="0">사용안함</option>
-							<c:if test="${couponCount > 0}">
-								<c:forEach var="i" begin="1" end="${couponCount}">
-									<option value="${i}">${i}</option>
+							<c:if test="${not empty mcouponlist}">
+								<c:forEach var="mdto" items="${mcouponlist}">
+									<option value="${mdto.price}" data-memo="${mdto.memo}" data-couponCode="${mdto.couponCode}">${mdto.memo} | <fmt:formatNumber value="${mdto.price}" type="number" pattern="#,###원"/></option>
 								</c:forEach>
 							</c:if>
 						</select>
 						</div>
-						<div style="display: inline-block; padding-left: 15px;">
-							<c:if test="${couponCount > 0}"><span>적용 가능한 할인 쿠폰이 ${couponCount}개 있습니다.</span></c:if>
-							<c:if test="${couponCount == 0}"><span>적용 가능한 할인쿠폰이 없습니다.</span></c:if>
+						<div id="coupon_result" style="padding-left: 15px;" >
+							<ul style="margin: 5px 0px;">
+	    						<li>
+	    					
+	    						</li>
+	    					</ul>
 						</div>
 					</td>
 				</tr>

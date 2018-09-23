@@ -6,12 +6,13 @@
 			SELECT payment_seq.NEXTVAL FROM dual
 	</select>
 
-	<select id="couponCount" parameterType="map" resultType="Integer">
-		SELECT NVL(COUNT(*),0) 
-		FROM coupon
+	<select id="couponCount" parameterType="map" resultType="com.sp.pay.MCoupon">
+		SELECT couponCode, issuedDate, startDate, endDate, memo, c.goodsCode, price 
+		FROM coupon c
+		JOIN goods g ON c.goodsCode = g.goodsCode 
 		<![CDATA[
 			WHERE usersCode = #{usersCode} 
-				AND state = 0 
+				AND c.state = 0 
 				AND endDate >= #{curDate}
 		]]>
 	</select>
