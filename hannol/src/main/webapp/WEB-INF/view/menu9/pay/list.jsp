@@ -245,7 +245,11 @@ function priceCheck(){
 			<c:set var= "sum" value="${sum + (dto.goodsPrice * dto.quantity)}"/>
 		</c:if>
 	</c:forEach>
-	var	dcTicketPay = ${sum};
+	
+	var	dcTicketPay = 0;
+	<c:if test="${not empty sum}">
+		dcTicketPay = ${sum};
+	</c:if>
 	
 	
 	var $coupon = $("#couponSelect option:selected");
