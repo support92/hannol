@@ -36,9 +36,57 @@
   
 <script type="text/javascript">
 $(function() {
+	gubunCode = ${gubunCode};	
 	initDateList();
-	
-});
+}); 
+var gubunCode;
+
+function ajaxHTML(url, type, query) {
+	$.ajax({
+		type:type,
+		url:url,
+		data:query,
+		success:function(data){
+			if($.trim(data)=="error"){
+				listPage(1);
+				return;
+			}
+			$("#showList").html(data);
+		},
+		beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR){
+			if(jqXHR.status==403){
+				location.href="<%=cp%>/member/login";
+				return;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+function changeDate(dataDate, num) {
+	for(var i = 0; i < 7; i++) {
+		var $pDiv = $('#dateList div[class=col-md-2]').eq(i);
+		$pDiv.children("img").removeAttr('src');
+		$pDiv.children("img").attr('src', '<%=cp%>/resource/images/circle.PNG');
+		$pDiv.find("span").removeClass();
+		$pDiv.find("span").addClass('nActiveDate');
+	}
+ 
+	// 클릭한 태그 변경 적용
+ 	$pDiv = $('#dateList div[class=col-md-2]').eq(num-1);
+ 	$pDiv.children("img").removeAttr('src');
+	$pDiv.children("img").attr('src', '<%=cp%>/resource/images/circle_line.png');	
+	$pDiv.find("span").removeClass();
+	$pDiv.find("span").addClass('activeDate');
+		
+	// showList.jsp - ajax
+	var url = "<%=cp%>/show/detail";
+	var query = "gubunCode=" + gubunCode + "&date=" + dataDate;
+	ajaxHTML(url, "get", query);
+}
 
 function initDateList() { // d-오늘부터 일주일로 바꾸기
 	var date = dateToString(new Date());
@@ -47,12 +95,12 @@ function initDateList() { // d-오늘부터 일주일로 바꾸기
 	
 	for(var i = 0; i <= 6; i++) {
 		dateAry = getDaysLater(date, i+1);
-		var dataDate = dateAry;
+		var dataDate = dateAry;			// 2018-09-01
 		
 		dateAry = dateAry.substr(5);
 		var m = dateAry.substr(0, 2);
 		var d = dateAry.substr(3, 4);
-		dateAry = m + "/" + d;
+		dateAry = m + "/" + d;			//	09/23
 		
 		var $image = document.createElement('img');
 		$image.setAttribute('width', '100px');
@@ -63,6 +111,10 @@ function initDateList() { // d-오늘부터 일주일로 바꾸기
 		
 		var $pDiv = document.createElement('div');
 		$pDiv.setAttribute('class', 'col-md-2');
+		$pDiv.setAttribute('data-num', i+1);
+		$pDiv.setAttribute('onClick', "changeDate('" + dataDate + "', '" + (i+1) + "');");
+   
+		
 		if(i == 0) { // image 흰색 원, 글씨 검정
 			$image.setAttribute('src', '<%=cp%>/resource/images/circle_line.png');
 			$span.setAttribute('class', 'activeDate');
@@ -72,7 +124,6 @@ function initDateList() { // d-오늘부터 일주일로 바꾸기
 		}
 		
 		$span.innerText = dateAry;
-		$span.setAttribute('data-date', dataDate);
 		
 		var $cDiv = document.createElement('div');
 		$cDiv.setAttribute('class', 'carousel-caption');
@@ -83,6 +134,10 @@ function initDateList() { // d-오늘부터 일주일로 바꾸기
 		
 		$dateListdiv.appendChild($pDiv);
 	}
+
+	var url = "<%=cp%>/show/detail";
+	var query = "gubunCode=" + gubunCode + "&date=" + getDaysLater(date, 1);
+	ajaxHTML(url, "get", query);
 }  
  
 </script>
@@ -91,40 +146,12 @@ function initDateList() { // d-오늘부터 일주일로 바꾸기
 	<div class="body-title">
 		<h3><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;&nbsp;금주의 무대공연 </h3>
 	</div>
-
 	
 	<div id="dateList" align="center"></div>
 
-	<div id="showList">
-		<table style="width: 100%; height: 15m; margin: 0px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #005dab;">
-			<tr align="center" height="100em" style="border-bottom: 1px solid #cccccc;">
-				<td rowspan="2" width="30%"><img src="<%=cp%>/resource/images/card.jpg" class="cardImage"></td>
-				<td colspan="2" width="70%" height="30%" align="left" style="padding-left: 1em; padding-right: 1em;">
-					<h3 style="font-weight: bold;">할로윈 스페셜 밴드 쇼</h3>
-				</td>
-			</tr>
-			<tr style="border-bottom: 1px solid #cccccc;">
-				<td width="70%" height="80%" align="left" style="padding-left: 1em; padding-right: 1em; ">
-					<div style="margin-bottom: 15px;"><h4>팝 뮤직과 영화 OST를 연주하는 할로윈 밴드 공연</h4></div>
-					<span style="font-weight: bold;">공연시간</span>&nbsp;&nbsp;11:30 | 14:00<br> 
-					<span style="font-weight: bold;">공연장소</span>&nbsp;&nbsp;만남의 광장</td>
-				<td width="15%" valign="bottom">
-					<button type="button" class="btn" onclick="Detail()">상세보기</button>
-				</td>
-			</tr>
-		</table>
-
-
-	</div>
+	<div id="showList"></div>
 	
-	<div id="dateList2" align="center">
-	</div>	
 </div>
-
-
-
-
-
 
 
 
