@@ -75,7 +75,8 @@ public class PayController {
 			pay.setQuantity(dto.getQuantity().get(i));
 			pay.setGubunName(dto.getGubunName().get(i));
 			pay.setParentCode(dto.getParentCode().get(i));
-
+			pay.setEndDate(dto.getEndDate().get(i));
+			
 			if(dto.getGubunCode().get(i) == 3 || dto.getGubunCode().get(i)==6)
 				usableCount++;
 			
@@ -178,13 +179,16 @@ public class PayController {
 		String endDate = formatter.format(currentTime);
 
 		dto.setPlist2(dto.getPlist());
+
 		// 발급할 기프트콘 개수
 		int n = 0;
 		List<Pay> plist = new ArrayList<>();
 		for (int i = 0; i < dto.getPlist().size(); i++) {
 			for (int j = 0; j < dto.getPlist().get(i).getQuantity(); j++) {
 				plist.add(dto.getPlist().get(i));
-				plist.get(n).setEndDate(endDate);
+				if(dto.getParentCode() == 2) {
+					plist.get(n).setEndDate(endDate);
+				}
 				n++;
 			}
 		}

@@ -286,7 +286,6 @@ function priceCheck(){
 	<c:if test="${not empty sum}">
 		dcTicketPay = ${sum};
 		dcTicketPay = dcTicketPay-couponPrice;
-		alert(dcTicketPay);
 	</c:if>
 	
 	var url = "<%=cp%>/pay/price";
@@ -445,6 +444,8 @@ function validOk() {
 						<input type="hidden" name="plist[<%=n%>].goodsCode" value="${dto.goodsCode}">
 						<input type="hidden" name="plist[<%=n%>].goodsName" value="${dto.goodsName}">
 						<input type="hidden" name="plist[<%=n%>].cartCode" value="${dto.cartCode}">
+						<input type="hidden" name="plist[<%=n%>].gubunCode" value="${dto.gubunCode}">
+						<input type="hidden" name="plist[<%=n%>].endDate" value="${dto.endDate}">
 						<input type="hidden" name="parentCode" value="${dto.parentCode}">
 						${dto.goodsName}
 					</td>
