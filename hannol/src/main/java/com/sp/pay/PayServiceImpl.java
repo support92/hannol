@@ -40,7 +40,6 @@ public class PayServiceImpl implements PayService {
 				dao.updateData("pay.insertGift", dto);
 				dao.deleteData("pay.deleteCart", dto);
 			}else {
-				
 			}
 		} catch (Exception e) {
 			throw e;
@@ -56,17 +55,6 @@ public class PayServiceImpl implements PayService {
 			System.out.println(e.toString());
 		}
 		return dto;
-	}
-	
-	@Override
-	public int insertGift(Pay dto) throws Exception {
-		int result = 0;
-		try {
-			result = dao.insertData("pay.insertPay", dto);
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-		return result;
 	}
 	
 	@Override

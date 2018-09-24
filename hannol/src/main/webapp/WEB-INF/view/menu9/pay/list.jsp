@@ -252,6 +252,8 @@ function priceCheck(){
 			html+="<span style='float:left; margin-right:10px;'>"+memo+"</span>";
 			html+="<span><button type='button' class='btn_delete'></button></span>";
 				html+="<input type='hidden' name='couponPrice' value="+couponPrice+">";
+				html+="<input type='hidden' name='couponCode' value="+couponCode+">";
+				html+="<input type='hidden' name='memo' value="+memo+">";
 				html+="</li>";
 	
 			$("#coupon_result").find("ul").append(html);
@@ -307,6 +309,12 @@ function priceCheck(){
 				html += "<input type='hidden' name='useCoupon' value='"+data.useCoupon+"'>";
 				
 			$("#hiddenPay").html(html);	
+			
+			if(data.payPrice2 < 50000){
+				$("#paySectionSelect > option[value='일시불']").attr("selected","selected");
+				$("#paySectionSelect").attr("disabled", true);
+			}
+				
 		},
 		beforeSend : function(jqXHR){
 			jqXHR.setRequestHeader("AJAX", true);

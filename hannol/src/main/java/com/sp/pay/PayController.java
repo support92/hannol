@@ -122,7 +122,6 @@ public class PayController {
 		int dcPrice = 0; 
 		dcPrice += Integer.parseInt(couponPrice);
 		
-
 		// 이용권일때만 제휴카드 목록 가져와서 card랑 비교해서 할인율만큼 자유이용권 가격 할인
 		if(cardCo != null && cardCo.length() > 0) {
 			int discount = service.isCard(cardCo+"%");
@@ -143,7 +142,7 @@ public class PayController {
 		model.put("dcPrice2", dcPrice);
 		model.put("payPrice2", payPrice);
 		model.put("useCoupon", useCoupon);
-
+		
 		return model;
 	}
 
