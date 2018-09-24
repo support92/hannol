@@ -28,11 +28,12 @@
 					<br> 
 					<span style="font-weight: bold;">공연장소</span>&nbsp;&nbsp;${dto.name}</td>
 				<td width="15%" valign="bottom">
-					<button type="button" class="btn" onclick="Detail()">상세보기</button>
+					<button type="button" class="btn" onclick="detailShow('${dto.showInfoCode}')">상세보기</button>
 				</td>
 			</tr>
 		</c:forEach>	
 	</table>
+	<br><br>
 </div>
 
 

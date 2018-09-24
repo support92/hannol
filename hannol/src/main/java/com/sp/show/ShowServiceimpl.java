@@ -43,4 +43,16 @@ public class ShowServiceimpl implements ShowService {
 		return showTimeList;
 	}
 	
+	public Show readShowInfo(Map<String, Object> map) throws Exception {
+		Show dto = null;
+		try {
+			dto = dao.selectOne("show.readShowInfo", map);
+			List<String> list = dao.selectList("show.listShowTime", map);
+			dto.setShowTime(list);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+	
 }

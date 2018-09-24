@@ -122,7 +122,7 @@ function initDateList() { // d-오늘부터 일주일로 바꾸기
 			$image.setAttribute('src', '<%=cp%>/resource/images/circle.PNG');
 			$span.setAttribute('class', 'nActiveDate');
 		}
-		
+		$span.setAttribute('screenDate', dataDate);
 		$span.innerText = dateAry;
 		
 		var $cDiv = document.createElement('div');
@@ -140,6 +140,13 @@ function initDateList() { // d-오늘부터 일주일로 바꾸기
 	ajaxHTML(url, "get", query);
 }  
  
+function detailShow(showInfoCode) {
+	var screenDate = $("span[class=activeDate]").attr('screenDate');
+	
+	var url = "<%=cp%>/show/article";
+	var query = "&subMenu=" + ${subMenu} + "&showInfoCode=" + showInfoCode + "&screenDate=" + screenDate;
+	location.href = url + "?" + query;
+}
 </script>
   
 <div class="bodyFrame2">

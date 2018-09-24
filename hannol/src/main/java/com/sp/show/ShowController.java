@@ -60,4 +60,25 @@ public class ShowController {
 		
 		return "menu6/show/showList";
 	}
+	
+	
+	// 금주의 무대공연 리스트
+	@RequestMapping(value="/show/article", method=RequestMethod.GET)
+	public String article(
+			@RequestParam(value="subMenu") String subMenu,
+			@RequestParam(value="screenDate") String screenDate,
+			@RequestParam(value="showInfoCode") int showInfoCode,
+			Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("showInfoCode", showInfoCode);
+		map.put("screenDate", screenDate);
+		
+		Show dto = service.readShowInfo(map);
+		
+		model.addAttribute("subMenu", subMenu);
+		model.addAttribute("dto", dto);
+		return ".four.menu6.show.article";
+	}
+
 }

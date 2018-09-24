@@ -14,6 +14,35 @@ public class Show {
 	private String name;	// facility
 	private List<String> showTime;
 	
+	private String startDate;
+	private String endDate;
+	private String runningTime;
+	private String saveLocFilename;
+	
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getRunningTime() {
+		return runningTime;
+	}
+	public void setRunningTime(String runningTime) {
+		this.runningTime = runningTime;
+	}
+	public String getSaveLocFilename() {
+		return saveLocFilename;
+	}
+	public void setSaveLocFilename(String saveLocFilename) {
+		this.saveLocFilename = saveLocFilename;
+	}
 	public int getShowCode() {
 		return showCode;
 	}

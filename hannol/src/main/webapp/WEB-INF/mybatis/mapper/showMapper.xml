@@ -15,7 +15,7 @@
 		from show s 
 		join showGubun sg
 		    on s.GUBUNCODE = sg.GUBUNCODE
-		join (select showCode, showInfoCode, s.facilityCode, name 
+		join (select showCode, showInfoCode, s.facilityCode, name
 		    from showInfo s join facility f
 		        on f.facilityCode = s.facilityCode
 		    where showInfoCode in (
@@ -24,6 +24,24 @@
 		        where screenDate = #{screenDate})) si
 		    on s.showCode = si.showCode
 		where s.gubunCode = #{gubunCode}
+	</select>
+	
+	<select id="readShowInfo" parameterType="map" resultType="com.sp.show.Show">
+		select s.showCode, showName, memo, saveFilename, name,
+		    startDate, endDate, runningTime, saveLocFilename
+		from show s 
+		join showGubun sg
+		    on s.GUBUNCODE = sg.GUBUNCODE
+		join (select showCode, showInfoCode, s.facilityCode, name, 
+		        to_char(startDate, 'yyyy-mm-dd') startDate, to_char(endDate, 'yyyy-mm-dd') endDate, runningTime, f.saveLocFilename
+		    from showInfo s join facility f
+		        on f.facilityCode = s.facilityCode
+		    where showInfoCode in (
+		        select showInfoCode
+		        from showSch
+		        where screenDate = #{screenDate})) si
+		    on s.showCode = si.showCode
+		where showInfoCode = #{showInfoCode}
 	</select>
 	
 </mapper>
