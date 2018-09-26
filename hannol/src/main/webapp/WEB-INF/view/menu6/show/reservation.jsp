@@ -6,6 +6,53 @@
    String cp = request.getContextPath();
 %>
 
+<script>
+function ajaxHTML(url, type, query) {
+	$.ajax({
+		type:type,
+		url:url,
+		data:query,
+		success:function(data){
+			if($.trim(data)=="error"){
+				listPage(1);
+				return;
+			}
+			$("#selectSeat").html(data);
+		},
+		beforeSend:function(jqXHR){
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR){
+			if(jqXHR.status==403){
+				location.href="<%=cp%>/member/login";
+				return;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+var showInfoCode;
+var screenDate;
+
+$(function() {
+	showInfoCode = ${showInfoCode};	
+	screenDate = ${screenDate};
+});
+
+function selectSeat() {
+	var startTime = $("select[name=showTimeSelect]").val();
+	if(!confirm( startTime + '에 예약하시겠습니까?')){
+		return;
+	}
+	
+	var url = "<%=cp%>/show/selectSeatForm";
+	var query = "showInfoCode=" + showInfoCode + "&screenDate=" + screenDate + "&startTime=" + startTime;
+
+	ajaxHTML(url, "get", query);
+}
+</script>
+
 <div class="bodyFrame2">
     <div class="body-title" align="center">
           <h2 style="font-weight: bold;"> ${dto.name} 좌석예약 </h2>
@@ -67,11 +114,14 @@
 			</div>
 			
 			<div style="padding: 100px;">
-				<button class="btn btn-default btn-info" type="button" onclick="reservation()">&nbsp;좌석 신청하기</button>
+				<button class="btn btn-default btn-info" type="button" onclick="selectSeat()">&nbsp;좌석 신청하기</button>
 			</div>
 		</div>
     </div> 
+   
     
+    <div id="selectSeat" style="padding: 75px;">
     
+    </div>
     
 </div>

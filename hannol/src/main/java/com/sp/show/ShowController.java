@@ -98,7 +98,21 @@ public class ShowController {
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("subMenu", subMenu);
+		model.addAttribute("screenDate", screenDate);
+		model.addAttribute("showInfoCode", showInfoCode);
 		return ".four.menu6.show.reservation";
+	}
+
+	@RequestMapping(value="/show/selectSeatForm", method=RequestMethod.GET)
+	public String selectSeat(
+		@RequestParam(value="screenDate") String screenDate,
+		@RequestParam(value="startTime") String startTime,
+		@RequestParam(value="showInfoCode") int showInfoCode
+			) throws Exception{
+	
+		
+		
+		return "menu6/show/selectSeat";
 	}
 
 }
