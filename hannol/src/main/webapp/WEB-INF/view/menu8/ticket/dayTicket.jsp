@@ -152,6 +152,7 @@ $(function(){
 		html+="<input type='hidden' name='gubunName' value="+gubunName+">";
 		html+="<input type='hidden' name='parentCode' value="+parentCode+">";
 		html+="<input type='hidden' name='quantity' value="+quantity+">";
+		html+="<input type='hidden' name='endDate' value="+endDate+">";
 		html+="</li>";
 			
 		$(".ticket_result").find("ul").append(html);

@@ -75,7 +75,8 @@ public class PayController {
 			pay.setQuantity(dto.getQuantity().get(i));
 			pay.setGubunName(dto.getGubunName().get(i));
 			pay.setParentCode(dto.getParentCode().get(i));
-
+			pay.setEndDate(dto.getEndDate().get(i));
+			
 			if(dto.getGubunCode().get(i) == 3 || dto.getGubunCode().get(i)==6)
 				usableCount++;
 			
@@ -107,6 +108,10 @@ public class PayController {
 			HttpSession session)
 			throws Exception {
 		
+		int useCoupon = 0;
+		if(couponPrice != null)
+			useCoupon = 1;
+		
 		couponPrice = couponPrice.replaceAll(",", "");
 		couponPrice = couponPrice.replaceAll("원", "");
 		price = price.replaceAll(",", "");
@@ -117,7 +122,7 @@ public class PayController {
 		// 매직패스쿠폰 할인가격
 		int dcPrice = 0; 
 		dcPrice += Integer.parseInt(couponPrice);
-
+		
 		// 이용권일때만 제휴카드 목록 가져와서 card랑 비교해서 할인율만큼 자유이용권 가격 할인
 		if(cardCo != null && cardCo.length() > 0) {
 			int discount = service.isCard(cardCo+"%");
@@ -135,18 +140,26 @@ public class PayController {
 		Map<String, Object> model = new HashMap<>();
 		model.put("dcPrice", df.format(dcPrice));
 		model.put("payPrice", df.format(payPrice));
-
+		model.put("dcPrice2", dcPrice);
+		model.put("payPrice2", payPrice);
+		model.put("useCoupon", useCoupon);
+		
 		return model;
 	}
 
 	@RequestMapping(value = "/pay/insertPay", method = RequestMethod.POST)
-	public String createdSubmit(Pay dto, HttpSession session, Model model) throws Exception {
-
+	public String createdSubmit(
+			Pay dto, 
+			int useCoupon,
+			HttpSession session, 
+			Model model) throws Exception {
+		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		dto.setUsersCode(info.getUsersCode());
 
-		// 할인쿠폰을 사용했으면 dto.setPayWay("신용카드+할인쿠폰");
 		dto.setPayWay("신용카드");
+		if(useCoupon == 1) 
+			dto.setPayWay("신용카드+할인쿠폰");
 
 		// 카드번호
 		String cardNum2 = dto.getCardNum2();
@@ -166,13 +179,16 @@ public class PayController {
 		String endDate = formatter.format(currentTime);
 
 		dto.setPlist2(dto.getPlist());
+
 		// 발급할 기프트콘 개수
 		int n = 0;
 		List<Pay> plist = new ArrayList<>();
 		for (int i = 0; i < dto.getPlist().size(); i++) {
 			for (int j = 0; j < dto.getPlist().get(i).getQuantity(); j++) {
 				plist.add(dto.getPlist().get(i));
-				plist.get(n).setEndDate(endDate);
+				if(dto.getParentCode() == 2) {
+					plist.get(n).setEndDate(endDate);
+				}
 				n++;
 			}
 		}
@@ -181,10 +197,8 @@ public class PayController {
 		int result = service.insertPay(dto);
 		if (result != 1)
 			return "redirect:/giftshop/list";
-		// 구분 코드에 따라서 어느 디비 사용할지 변경
-		/*
-		 * service.insertGift(dto); model.addAttribute("dto", dto);
-		 */
+		 
+		 model.addAttribute("dto", dto);
 
 		return "redirect:/pay/result?payCode=" + dto.getPayCode();
 	}

@@ -7,7 +7,6 @@ public interface PayService {
 	public List<MCoupon> couponCount(Map<String, Object> map) throws Exception;
 	public int insertPay(Pay dto) throws Exception;
 	public Pay readResult(int payCode) throws Exception;
-	public int insertGift(Pay dto) throws Exception;
 	public int isCard(String cardCo) throws Exception;
 	
 	//paylist

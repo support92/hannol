@@ -238,27 +238,12 @@ function numberWithCommas(x) {
 function priceCheck(){
 	var price = $("#price").text(); /* 총가격 */
 	var card = $("#cardSelect option:selected").val();
-	var dcPrice = $("#dcPrice").text();
-	
-	<c:forEach items="${dto}" var="dto">
-		<c:if test="${dto.gubunCode == 3 || dto.gubunCode == 6}">
-			<c:set var= "sum" value="${sum + (dto.goodsPrice * dto.quantity)}"/>
-		</c:if>
-	</c:forEach>
-	
-	var	dcTicketPay = 0;
-	<c:if test="${not empty sum}">
-		dcTicketPay = ${sum};
-	</c:if>
-	
 	
 	var $coupon = $("#couponSelect option:selected");
 	couponPrice = $coupon.val();
 	if(couponPrice != 0){
 		couponCode = $coupon.attr("data-couponCode");
 		memo = $coupon.attr("data-memo");
-	
-	// 매직패스를 포함한 이용권만 쿠폰 적용할수 있도록 함
 	
 
 	
@@ -267,6 +252,8 @@ function priceCheck(){
 			html+="<span style='float:left; margin-right:10px;'>"+memo+"</span>";
 			html+="<span><button type='button' class='btn_delete'></button></span>";
 				html+="<input type='hidden' name='couponPrice' value="+couponPrice+">";
+				html+="<input type='hidden' name='couponCode' value="+couponCode+">";
+				html+="<input type='hidden' name='memo' value="+memo+">";
 				html+="</li>";
 	
 			$("#coupon_result").find("ul").append(html);
@@ -288,10 +275,22 @@ function priceCheck(){
 		couponPrice += Number($(this).val());
 	});
 	
+	
+	<c:forEach items="${dto}" var="dto">
+		<c:if test="${dto.gubunCode == 3 || dto.gubunCode == 6}">
+			<c:set var= "sum" value="${sum + (dto.goodsPrice * dto.quantity)}"/>
+		</c:if>
+	</c:forEach>
+
+	var	dcTicketPay = 0;
+	<c:if test="${not empty sum}">
+		dcTicketPay = ${sum};
+		dcTicketPay = dcTicketPay-couponPrice;
+	</c:if>
+	
 	var url = "<%=cp%>/pay/price";
 	var query = "price="+price+"&card="+card+"&couponPrice="+couponPrice
 		+"&dcTicketPay="+dcTicketPay;
-	console.log(query);
 	
 	$.ajax({
 		type : "post",
@@ -304,6 +303,17 @@ function priceCheck(){
 			$("#dcPrice").html(dcPrice);
 			$("#payPrice").html(payPrice);
 			$("#payPrice2").html(payPrice);
+			var html = "<input type='hidden' name='payPrice' value='"+data.payPrice2+"'>";
+				html += "<input type='hidden' name='dcPrice' value='"+data.dcPrice2+"'>";
+				html += "<input type='hidden' name='useCoupon' value='"+data.useCoupon+"'>";
+				
+			$("#hiddenPay").html(html);	
+			
+			if(data.payPrice2 < 50000){
+				$("#paySectionSelect > option[value='일시불']").attr("selected","selected");
+				$("#paySectionSelect").attr("disabled", true);
+			}
+				
 		},
 		beforeSend : function(jqXHR){
 			jqXHR.setRequestHeader("AJAX", true);
@@ -434,6 +444,9 @@ function validOk() {
 						<input type="hidden" name="plist[<%=n%>].goodsCode" value="${dto.goodsCode}">
 						<input type="hidden" name="plist[<%=n%>].goodsName" value="${dto.goodsName}">
 						<input type="hidden" name="plist[<%=n%>].cartCode" value="${dto.cartCode}">
+						<input type="hidden" name="plist[<%=n%>].gubunCode" value="${dto.gubunCode}">
+						<input type="hidden" name="plist[<%=n%>].endDate" value="${dto.endDate}">
+						<input type="hidden" name="parentCode" value="${dto.parentCode}">
 						${dto.goodsName}
 					</td>
 					<td class="customer_col2">
@@ -473,7 +486,7 @@ function validOk() {
 					<td>
 						<div style="padding-left: 15px;">
 						<select id="couponSelect" ${gubunCode == 1? '':"disabled='disabled'"}>
-							<option value="0">사용안함</option>
+							<option value="0">쿠폰선택</option>
 							<c:if test="${not empty mcouponlist}">
 								<c:forEach var="mdto" items="${mcouponlist}">
 									<option value="${mdto.price}" data-memo="${mdto.memo}" data-couponCode="${mdto.couponCode}">${mdto.memo} | <fmt:formatNumber value="${mdto.price}" type="number" pattern="#,###원"/></option>
@@ -658,11 +671,10 @@ function validOk() {
 		   				<tr height="40">
 		      				<td align="center" width="100">
 		      					<input type="hidden" name="price" value="${price}">
-		      					<input type="hidden" name="payPrice" value="${payPrice}">
-		      					<input type="hidden" name="dcPrice" value="${dcPrice}">
 		      					<input type="hidden" id="cardCo" name="cardCo">
 		      					<input type="hidden" id="paySection" name="paySection">
 		      					<input type="hidden" id="curDate" name="curDate">
+		      					<div id="hiddenPay"></div>
 		          				<button type="button" class="btn btn-danger" style="font-weight: bold;" onclick="validOk();">확인</button>
 		     	 				<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;" onclick="isTermsCheck();">취소</button>
 		     	 			</td>

@@ -11,6 +11,15 @@ public class PayOrder {
 	private List<String> gubunName;
 	private List<Integer> parentCode;
 	private List<Integer> cartCode;
+	private List<String> endDate;
+
+	public List<String> getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(List<String> endDate) {
+		this.endDate = endDate;
+	}
 
 	public List<Integer> getGubunCode() {
 		return gubunCode;

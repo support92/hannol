@@ -42,6 +42,16 @@
 		</foreach>
 	</update>
 	
+	<update id="insertTicket" parameterType="com.sp.pay.Pay">
+		INSERT INTO ticket(ticketCode, startDate, endDate, gubun, payCode, goodsCode)
+		SELECT ticket_seq.NEXTVAL, a.*
+		FROM(
+		<foreach collection="plist" item="plist" index="index" separator=" UNION ALL " close=")a">
+			SELECT #{plist.endDate}, #{plist.endDate}, #{plist.gubunCode}, #{payCode}, #{plist.goodsCode}
+			FROM dual
+		</foreach>
+	</update>
+	
 	<update id="insertGift" parameterType="com.sp.pay.Pay">
 		INSERT INTO gift(giftCode, endDate, payCode, goodsCode)
 		SELECT gift_seq.NEXTVAL, a.*
