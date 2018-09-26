@@ -7,4 +7,5 @@ public interface ShowService {
 	public List<Show> listShow(Map<String, Object> map) throws Exception;
 	public List<String> listShowTime(Map<String, Object> map) throws Exception;
 	public Show readShowInfo(Map<String, Object> map) throws Exception;
+	public int readSeatCount(int facilityCode) throws Exception;
 }

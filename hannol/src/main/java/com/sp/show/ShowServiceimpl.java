@@ -25,6 +25,8 @@ public class ShowServiceimpl implements ShowService {
 			for(Show s : list) {
 				pMap.put("showInfoCode", s.getShowInfoCode());
 				s.setShowTime(listShowTime(pMap));
+				int seatCount = readSeatCount(s.getFacilityCode());
+				s.setSeatCount(seatCount);
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -53,6 +55,17 @@ public class ShowServiceimpl implements ShowService {
 			System.out.println(e.toString());
 		}
 		return dto;
+	}
+
+	@Override
+	public int readSeatCount(int facilityCode) throws Exception {
+		int count = 0;
+		try {
+			count = dao.selectOne("show.readSeatCount", facilityCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return count;
 	}
 	
 }

@@ -27,7 +27,10 @@
 						</c:forEach>
 					<br> 
 					<span style="font-weight: bold;">공연장소</span>&nbsp;&nbsp;${dto.name}<br><br>
-					<button class="btn btn-default btn-info" type="button" onclick="reservation()"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;좌석예약</button></td>
+					<c:if test="${gubunCode == '3' && dto.seatCount != 0}">
+						<button class="btn btn-default btn-info" type="button" onclick="reservation('${dto.showInfoCode}')"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;좌석예약</button>
+					</c:if>
+				</td>
 				<td width="15%" valign="bottom" style="padding: 10px;">
 					<button type="button" class="btn" onclick="detailShow('${dto.showInfoCode}')">상세보기</button>
 				</td>

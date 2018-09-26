@@ -37,9 +37,11 @@
 <script type="text/javascript">
 $(function() {
 	gubunCode = ${gubunCode};	
+	subMenu = ${subMenu};
 	initDateList();
 }); 
 var gubunCode;
+var subMenu;
 
 function ajaxHTML(url, type, query) {
 	$.ajax({
@@ -144,15 +146,16 @@ function detailShow(showInfoCode) {
 	var screenDate = $("span[class=activeDate]").attr('screenDate');
 	
 	var url = "<%=cp%>/show/article";
-	var query = "&subMenu=" + ${subMenu} + "&showInfoCode=" + showInfoCode + "&screenDate=" + screenDate;
+	var query = "subMenu=" + subMenu + "&showInfoCode=" + showInfoCode + "&screenDate=" + screenDate;
 	location.href = url + "?" + query;
-}
+} 
 
-function reservation() {
+function reservation(showInfoCode) {
+	var screenDate = $("span[class=activeDate]").attr('screenDate');
 	
 	var url = "<%=cp%>/show/reseration";
-//	var query = "&subMenu=" + ${subMenu} + "&showInfoCode=" + showInfoCode + "&screenDate=" + screenDate;
-	location.href = url;
+	var query = "subMenu=" + ${subMenu} + "&showInfoCode=" + showInfoCode + "&screenDate=" + screenDate;
+	location.href = url + "?" + query;
 }
 </script>
   

@@ -57,7 +57,7 @@ public class ShowController {
 		
 		List<Show> list = service.listShow(map);
 		model.addAttribute("list", list);
-		
+		model.addAttribute("gubunCode", gubunCode);
 		return "menu6/show/showList";
 	}
 	
@@ -83,8 +83,21 @@ public class ShowController {
 	
 	// 예약 페이지
 	@RequestMapping(value="/show/reseration", method=RequestMethod.GET)
-	public String reseration() {
+	public String reseration(
+			@RequestParam(value="subMenu") String subMenu,
+			@RequestParam(value="screenDate") String screenDate,
+			@RequestParam(value="showInfoCode") int showInfoCode,
+			Model model) throws Exception {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("showInfoCode", showInfoCode);
+		map.put("screenDate", screenDate);
 		
+		Show dto = service.readShowInfo(map);
+		
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("subMenu", subMenu);
 		return ".four.menu6.show.reservation";
 	}
 

@@ -8,6 +8,7 @@
 		    select schCode
 		    from showSch
 		    where screenDate = #{screenDate} and showInfoCode = #{showInfoCode})
+		order by startTime
 	</select>
 	
 	<select id="listShow" parameterType="map" resultType="com.sp.show.Show">
@@ -24,6 +25,13 @@
 		        where screenDate = #{screenDate})) si
 		    on s.showCode = si.showCode
 		where s.gubunCode = #{gubunCode}
+	</select>
+	
+	<select id="readSeatCount" parameterType="Integer" resultType="Integer">
+		select nvl(seatCount, 0) seatCount
+		from facility f left outer join stage s
+			on f.FACILITYCODE = s.FACILITYCODE
+		where gubuncode = 3 and f.facilitycode = #{facilityCode}
 	</select>
 	
 	<select id="readShowInfo" parameterType="map" resultType="com.sp.show.Show">

@@ -19,6 +19,14 @@ public class Show {
 	private String runningTime;
 	private String saveLocFilename;
 	
+	private int seatCount;
+	
+	public int getSeatCount() {
+		return seatCount;
+	}
+	public void setSeatCount(int seatCount) {
+		this.seatCount = seatCount;
+	}
 	public String getStartDate() {
 		return startDate;
 	}
