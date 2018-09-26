@@ -52,7 +52,7 @@
     			<h4>공연시간</h4><br><br><br><br>
     			<h4 class="boldH">
     				<c:forEach items="${dto.showTime}" var="vo" varStatus="status">
-							${vo}&nbsp;${(status.last) ? "" : " | "}
+							${vo}&nbsp;${(status.last) ? "" : " | "} 
 					</c:forEach>
 					<c:if test="${empty dto.showTime}">금일 휴연</c:if>
     			</h4>	

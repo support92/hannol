@@ -147,6 +147,13 @@ function detailShow(showInfoCode) {
 	var query = "&subMenu=" + ${subMenu} + "&showInfoCode=" + showInfoCode + "&screenDate=" + screenDate;
 	location.href = url + "?" + query;
 }
+
+function reservation() {
+	
+	var url = "<%=cp%>/show/reseration";
+//	var query = "&subMenu=" + ${subMenu} + "&showInfoCode=" + showInfoCode + "&screenDate=" + screenDate;
+	location.href = url;
+}
 </script>
   
 <div class="bodyFrame2">

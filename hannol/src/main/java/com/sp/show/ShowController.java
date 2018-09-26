@@ -80,5 +80,12 @@ public class ShowController {
 		model.addAttribute("dto", dto);
 		return ".four.menu6.show.article";
 	}
+	
+	// 예약 페이지
+	@RequestMapping(value="/show/reseration", method=RequestMethod.GET)
+	public String reseration() {
+		
+		return ".four.menu6.show.reservation";
+	}
 
 }
