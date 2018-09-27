@@ -42,7 +42,7 @@ $(function() {
 	facilityCode = ${dto.facilityCode};
 });
 
-function selectSeat() {
+function selectSeatForm() {
 	var startTime = $("select[name=showTimeSelect]").val();
 	if(!confirm( startTime + '에 예약하시겠습니까?')){
 		return;
@@ -52,6 +52,42 @@ function selectSeat() {
 	var query = "showInfoCode=" + showInfoCode + "&screenDate=" + screenDate + "&startTime=" + startTime + "&facilityCode=" + facilityCode;
 
 	ajaxHTML(url, "get", query);
+}
+
+
+$(function() {
+	$(document).on("click", "input[class=seat]", function() {
+		var cnt = $("input[class=selectedSeat]").length;
+		if(cnt == 2) {
+			alert('최대 2 좌석 선택 가능합니다.')
+			return;
+		}
+			
+		$(this).removeClass();
+		$(this).removeAttr('name');
+		$(this).addClass('selectedSeat');
+		$(this).attr('name', 'selectSeat');
+	});
+	
+	$(document).on("click", "input[class=selectedSeat]", function() {
+		$(this).removeClass();
+		$(this).removeAttr('name');
+		$(this).addClass('seat');
+		$(this).attr('name', 'seat');
+	});
+});
+
+function selectSeatSubmit() {
+	var cnt = $("input[class=selectedSeat]").length;
+	if(cnt < 1){
+		alert('좌석을 1개 이상 선택하세요');
+		return;
+	}
+	
+	var f = document.seatForm;
+	f.action = "<%=cp%>/show/selectSeatSubmit";
+	f.submit();
+
 }
 </script>
 
@@ -116,7 +152,7 @@ function selectSeat() {
 			</div>
 			
 			<div style="padding: 100px;">
-				<button class="btn btn-default btn-info" type="button" onclick="selectSeat()">&nbsp;좌석 신청하기</button>
+				<button class="btn btn-default btn-info" type="button" onclick="selectSeatForm();">&nbsp;좌석 신청하기</button>
 			</div>
 		</div>
     </div> 

@@ -7,66 +7,81 @@
 %>
 
 <%
-	boolean[][] seatList = new boolean[11][16];
+// 여기서 값 안넘어 오면 에러~~~~~~~~~!!! 조심조심~~~!!
+	Integer seatCount = (Integer)request.getAttribute("seatCount");
+	boolean[] seatList = new boolean[seatCount+1];
 	for (int i = 1; i < seatList.length; i++) {
-		for (int j = 1; j < seatList[0].length; j++) {
-			seatList[i][j] = true;
-		}
+		seatList[i] = true;
 	}
-	//	seatList[2][3] = false;
-	//	seatList[2][4] = false;
-	//	seatList[5][6] = false;
-	//	seatList[5][7] = false;
-	//	seatList[8][2] = false;
-	//	seatList[8][3] = false;
+		seatList[3] = false;
 %>
-<script type="text/javascript">
-	function check() {
-		var f = document.seatForm;
+<style>
+.seat{
+	cursor:pointer;
+}
+.noSelectSeat{
+	cursor: no-drop;
+	background-color: #69789d;
+}
+.selectedSeat{
+	background-color: #550adf;
+	color: white;
+	cursor:pointer;
+}
+input {
+	border: none;
+	text-align: center;
+}
+</style>
 
-		if ($(":checked").not($(":disabled")).length == 0) {
-			alert('좌석을 1개 이상 선택하세요~~')
-			return false;
-		}
-
-		return true;
-	}
-</script>
 
 <div style="margin: 30px auto; width: 600px; background-color: #dfe5f3; text-align: center;"><strong>stage</strong></div>
 <div style="margin: -10px auto; width: 600px;">
-	<form name="seatForm" method="post"	onsubmit="return check();">
+
+	<form action="" name="seatForm" method="post">
+
 		<table style="width: 100%; border-spacing: 1; border-collapse: collapse;">
+			
 			<%
-				for (int row = 1; row <= 5; row++) {
+				int row = 0;
+				row = seatCount / 15 + 1;
+				int k = 1; // 진짜 열
+				
+				jump:
+				for (int i = 1; i <= row; i++) {
 					out.print("<tr height='30' align='center' bgcolor='#dfe5f3'>");
-					int k = 1; // 진짜 열
 					for (int col = 1; col < 18; col++) {
 						if (col % 6 == 0) {
 							out.print("<td width='30' bgcolor='gray'>&nbsp;</td>");
 						} else {
-							if (seatList[row][k] == false) {
-								out.print("<td width='30' bgcolor='moccasin'>" + "<input type='checkbox' name='seat' id='"
-										+ row + ":" + k + "' checked='checked' disabled='disabled' value='" + row + ":" + k
-										+ "'></td>");
+							if (seatList[k] == false) {
+								out.print("<td width='30'>" + "<input type=text name='seat' id='"+  k + "' readonly='readonly' class='noSelectSeat' size='2' value='" + k + "'></div></td>");
 							} else {
-								out.print("<td width='30'><input type='checkbox' name='seat' id='" + row + ":" + k
-										+ "' value='" + row + ":" + k + "'></td>");
+								out.print("<td width='30'><input type=text name='seat' id='" + k + "' readonly='readonly' class='seat' size='2' value='" + k + "'></div></td>");
 							}
+							
+							if(k == seatCount) {
+								out.print("</tr>");
+								break jump;
+							}
+	
 							k++;
 						}
 					}
 					out.print("</tr>");
 				}
 			%>
-
 		</table>
-
-		<div style="margin: 30px auto; width: 600px; text-align: right;">
-			<button class="btn btn-default btn-info" type="submit">선택 완료</button>
-		</div>
-	</form>
 	
-	${seatCount}
+		<div style="margin: 30px auto; width: 600px; text-align: right;">
+			<button class="btn btn-default btn-info" type="button" onclick="selectSeatSubmit()">선택 완료</button>
+		</div>
+		
+		
+		<input type="hidden" name="screenDate" value="${screenDate}">
+		<input type="hidden" name="startTime" value="${startTime}">
+		<input type="hidden" name="showInfoCode" value="${showInfoCode}">
+	
+	</form>
 </div>
 

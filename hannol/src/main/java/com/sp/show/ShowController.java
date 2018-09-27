@@ -4,12 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.sp.member.SessionInfo;
 
 @Controller("show.ShowController")
 public class ShowController {
@@ -104,7 +108,7 @@ public class ShowController {
 	}
 
 	@RequestMapping(value="/show/selectSeatForm", method=RequestMethod.GET)
-	public String selectSeat(
+	public String selectSeatForm(
 		@RequestParam(value="screenDate") String screenDate,
 		@RequestParam(value="startTime") String startTime,
 		@RequestParam(value="showInfoCode") int showInfoCode,
@@ -115,7 +119,44 @@ public class ShowController {
 		int seatCount = service.readSeatCount(facilityCode);
 		model.addAttribute("seatCount", seatCount);
 		
+		model.addAttribute("screenDate", screenDate);
+		model.addAttribute("startTime", startTime);
+		model.addAttribute("showInfoCode", showInfoCode);
+		
 		return "menu6/show/selectSeat";
+	}
+
+	
+	// @RequestParam(value="selectSeat", required=false) List<Integer> selectSeat 
+	// 이렇게 받으면 계속 404 에러가 난다.
+	// 이유는 List 의 경우 dto 안에서만 받을 수 있다. RequestParam 으로 불가능
+	// 또는 배열로 받아야 한다.
+	
+	@RequestMapping(value="/show/selectSeatSubmit", method=RequestMethod.POST)
+	public String selectSeatSubmit(
+			@RequestParam(value="screenDate") String screenDate,
+			@RequestParam(value="startTime") String startTime,
+			@RequestParam(value="showInfoCode") int showInfoCode,
+			@RequestParam(value="selectSeat") List<Integer> selectSeat,
+			HttpSession session,
+			Model model) throws Exception{
+		
+		// 로그인 했는지 확인 - intercept 를 적용하지 않았으므로
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		if(info==null) {
+			return "redirect:/member/login";
+		}
+		
+		// screenDate가 startDate 와 endDate 사이에 있는 이용권의 리스트
+		// 구매 테이블은 필요 없는듯. 이용권 발급 리스트만
+		
+		// 만약 야간 이용권 - startTime 이 4시 이전이면 예약 불가
+		
+		// 이미 예약 했으면 또 예약 불가
+		
+		
+		
+		return "redirect:/show/list";
 	}
 
 }
