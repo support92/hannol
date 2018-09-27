@@ -38,7 +38,7 @@ var facilityCode;
 
 $(function() {
 	showInfoCode = ${showInfoCode};	
-	screenDate = ${screenDate};
+	screenDate = '${screenDate}';
 	facilityCode = ${dto.facilityCode};
 });
 
@@ -99,6 +99,7 @@ function selectSeatSubmit() {
     <div style="background-color: #dfe5f3; height: 650px;"> 
         <div align="center">
         	 
+        	 
 			<div style="font-size:x-large; padding: 60px;" align="center">
 		      	<span>${dto.name}에서 진행되는 공연을 <strong style="color: #550adf">좌석예약</strong>을 통해</span><br><br>
   			 	<span style="font-weight: bold;">더 앞에서! 더 편하게! 즐겨보세요.</span>
@@ -150,14 +151,14 @@ function selectSeatSubmit() {
 					<li>- 공연시작 10분전까지 입장하지 않을 경우, 이용이 불가합니다.</li>
 				</ul>
 			</div>
-			
+			<br>
+		    <div style="background: red;">&nbsp;${msg}</div>
 			<div style="padding: 100px;">
 				<button class="btn btn-default btn-info" type="button" onclick="selectSeatForm();">&nbsp;좌석 신청하기</button>
 			</div>
 		</div>
     </div> 
-   
-    
+
     <div id="selectSeat" style="padding: 75px;">
     
     </div>

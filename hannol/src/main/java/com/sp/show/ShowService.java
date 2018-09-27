@@ -8,4 +8,5 @@ public interface ShowService {
 	public List<String> listShowTime(Map<String, Object> map) throws Exception;
 	public Show readShowInfo(Map<String, Object> map) throws Exception;
 	public int readSeatCount(int facilityCode) throws Exception;
+	public List<Ticket> listTicket(Map<String, Object> map) throws Exception;
 }

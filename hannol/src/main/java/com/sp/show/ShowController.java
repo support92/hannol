@@ -6,12 +6,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.member.SessionInfo;
 
@@ -88,9 +90,10 @@ public class ShowController {
 	// 예약 페이지
 	@RequestMapping(value="/show/reseration", method=RequestMethod.GET)
 	public String reseration(
-			@RequestParam(value="subMenu") String subMenu,
+			@RequestParam(value="subMenu", defaultValue="3") String subMenu,
 			@RequestParam(value="screenDate") String screenDate,
 			@RequestParam(value="showInfoCode") int showInfoCode,
+			@RequestParam(value="msg", required=false) String msg,
 			Model model) throws Exception {
 
 		Map<String, Object> map = new HashMap<>();
@@ -104,6 +107,7 @@ public class ShowController {
 		model.addAttribute("subMenu", subMenu);
 		model.addAttribute("screenDate", screenDate);
 		model.addAttribute("showInfoCode", showInfoCode);
+		model.addAttribute("msg", msg);
 		return ".four.menu6.show.reservation";
 	}
 
@@ -122,7 +126,6 @@ public class ShowController {
 		model.addAttribute("screenDate", screenDate);
 		model.addAttribute("startTime", startTime);
 		model.addAttribute("showInfoCode", showInfoCode);
-		
 		return "menu6/show/selectSeat";
 	}
 
@@ -139,6 +142,7 @@ public class ShowController {
 			@RequestParam(value="showInfoCode") int showInfoCode,
 			@RequestParam(value="selectSeat") List<Integer> selectSeat,
 			HttpSession session,
+			final RedirectAttributes attr,
 			Model model) throws Exception{
 		
 		// 로그인 했는지 확인 - intercept 를 적용하지 않았으므로
@@ -149,10 +153,21 @@ public class ShowController {
 		
 		// screenDate가 startDate 와 endDate 사이에 있는 이용권의 리스트
 		// 구매 테이블은 필요 없는듯. 이용권 발급 리스트만
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenDate", screenDate);
+		map.put("memberId", info.getMemberId());
+		
+		List<Ticket> list = service.listTicket(map);
+		if(list.size()==0) {
+			attr.addFlashAttribute("msg", "해당 일자에 구매한 이용권이 없습니다.");
+			attr.addFlashAttribute("screenDate", screenDate);
+			attr.addFlashAttribute("showInfoCode", showInfoCode);
+			return "redirect:/show/reseration"; 
+		}
 		
 		// 만약 야간 이용권 - startTime 이 4시 이전이면 예약 불가
 		
-		// 이미 예약 했으면 또 예약 불가
+		// 이미 예약된 좌석이면 또 예약 불가
 		
 		
 		

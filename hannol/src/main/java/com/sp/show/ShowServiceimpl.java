@@ -67,5 +67,16 @@ public class ShowServiceimpl implements ShowService {
 		}
 		return count;
 	}
+
+	@Override
+	public List<Ticket> listTicket(Map<String, Object> map) throws Exception {
+		List<Ticket> list = null;
+		try {
+			list = dao.selectList("show.listTicket", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
 	
 }

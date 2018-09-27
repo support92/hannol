@@ -151,9 +151,6 @@ function detailShow(showInfoCode) {
 } 
 
 function reservation(showInfoCode) {
-//	var startTime = $("select[name=showTimeSelect]").val();
-//	alert(startTime);
-	
 	var screenDate = $("span[class=activeDate]").attr('screenDate');
 	
 	var url = "<%=cp%>/show/reseration";

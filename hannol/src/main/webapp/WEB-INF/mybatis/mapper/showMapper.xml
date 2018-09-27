@@ -52,4 +52,20 @@
 		where showInfoCode = #{showInfoCode}
 	</select>
 	
+	<select id="listTicket" parameterType="map" resultType="com.sp.show.Ticket">
+		select ticketCode, startDate, endDate, gubun
+		from ticket
+		where payCode in (
+			    select payCode from payment
+			    where usersCode = (
+			        select usersCode from member1
+			        where memberId = #{memberId}
+			    )
+			)
+		<![CDATA[
+			and startDate <= to_date(#{screenDate}, 'yyyy-mm-dd')
+			and to_date(#{screenDate}, 'yyyy-mm-dd') <= endDate
+		]]>
+	</select>
+	
 </mapper>
