@@ -67,7 +67,7 @@
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">매직패스<span class="caret"></span></a>
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/magicPass/rides">소개</a></li>
-                                  <li><a href="#">예약</a></li>
+                                  <li><a href="<%=cp%>/magicPass/booking">예약</a></li>
                               </ul>
                           </li>
                           <li class="dropdown">

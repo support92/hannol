@@ -17,6 +17,6 @@ $(function(){
 
 <div class="list-group">
        <div class="list-group-item lefthead"><i></i>매직패스</div>
-       <a href="#" class="list-group-item">소개</a>
-       <a href="#" class="list-group-item">예약</a>
+       <a href="<%=cp%>/magicPass/rides" class="list-group-item">소개</a>
+       <a href="<%=cp%>/magicPass/booking" class="list-group-item">예약</a>
 </div>

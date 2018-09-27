@@ -12,4 +12,10 @@ public class MagicPassController {
 		model.addAttribute("subMenu", "1");
 		return ".four.menu5.magicPass.info";
 	}
+	
+	@RequestMapping(value="/magicPass/booking")
+	public String masicpassBooking(Model model) throws Exception {
+		model.addAttribute("subMenu", "1");
+		return ".four.menu5.magicPass.booking";
+	}
 }
