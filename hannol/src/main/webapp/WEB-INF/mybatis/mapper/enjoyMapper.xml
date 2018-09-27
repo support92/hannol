@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="enjoy">
+
+	<select id="dataCount" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) 
+		FROM Facility
+		where gubunCode=1
+	</select>
+	
+	<select id="listEnjoy" parameterType="map" resultType="com.sp.enjoy.Enjoy">
+		select * from (
+   		select rownum rnum, tb.* from (
+				select facilityCode, name, state, originalMainFilename,saveMainFilename, memo 
+	            from facility 
+	            where gubunCode=1
+		<![CDATA[
+				) tb where rownum <= #{end}
+			)where rnum >= #{start}	
+		]]>
+		order by facilityCode desc
+	</select>
+	
+	<select id="listEnjoy2" resultType="com.sp.enjoy.Enjoy">
+
+	   select facilityCode, name, state, originalMainFilename,saveMainFilename, memo 
+       from facility 
+       where gubunCode=1
+
+	</select>
+	
+</mapper>
