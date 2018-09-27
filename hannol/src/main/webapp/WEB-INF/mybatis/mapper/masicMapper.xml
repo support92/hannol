@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="masic">
+	<select id="checkTicket" parameterType="Long" resultType="Integer">
+		SELECT COUNT(*) FROM ticket t
+		LEFT JOIN payment p ON p.paycode =  t.paycode
+		WHERE userscode=#{usersCode}
+		AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') BETWEEN startDate AND endDate
+	</select>
+</mapper>

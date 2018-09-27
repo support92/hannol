@@ -6,6 +6,15 @@
    String cp = request.getContextPath();
 %>
 
+<script type="text/javascript">
+$(function(){
+	var msg = "${msg}";
+	if(msg !=""){
+		alert(msg);
+	}
+});
+</script>
+
 <div class="bodyFrame2">
     <div class="body-title">
           <h3><span class="glyphicon glyphicon-tower"></span> 매직패스 </h3>
