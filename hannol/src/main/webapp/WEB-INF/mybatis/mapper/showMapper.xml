@@ -36,7 +36,7 @@
 	
 	<select id="readShowInfo" parameterType="map" resultType="com.sp.show.Show">
 		select s.showCode, showName, memo, saveFilename, name,
-		    startDate, endDate, runningTime, saveLocFilename
+		    startDate, endDate, runningTime, saveLocFilename, facilityCode 
 		from show s 
 		join showGubun sg
 		    on s.GUBUNCODE = sg.GUBUNCODE

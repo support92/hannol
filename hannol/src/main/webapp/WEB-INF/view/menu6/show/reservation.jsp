@@ -34,10 +34,12 @@ function ajaxHTML(url, type, query) {
 
 var showInfoCode;
 var screenDate;
+var facilityCode;
 
 $(function() {
 	showInfoCode = ${showInfoCode};	
 	screenDate = ${screenDate};
+	facilityCode = ${dto.facilityCode};
 });
 
 function selectSeat() {
@@ -47,7 +49,7 @@ function selectSeat() {
 	}
 	
 	var url = "<%=cp%>/show/selectSeatForm";
-	var query = "showInfoCode=" + showInfoCode + "&screenDate=" + screenDate + "&startTime=" + startTime;
+	var query = "showInfoCode=" + showInfoCode + "&screenDate=" + screenDate + "&startTime=" + startTime + "&facilityCode=" + facilityCode;
 
 	ajaxHTML(url, "get", query);
 }

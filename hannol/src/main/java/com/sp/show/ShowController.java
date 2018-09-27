@@ -107,10 +107,13 @@ public class ShowController {
 	public String selectSeat(
 		@RequestParam(value="screenDate") String screenDate,
 		@RequestParam(value="startTime") String startTime,
-		@RequestParam(value="showInfoCode") int showInfoCode
-			) throws Exception{
+		@RequestParam(value="showInfoCode") int showInfoCode,
+		@RequestParam(value="facilityCode") int facilityCode,
+		Model model) throws Exception{
 	
-		
+		// 시설의 총 좌석 수
+		int seatCount = service.readSeatCount(facilityCode);
+		model.addAttribute("seatCount", seatCount);
 		
 		return "menu6/show/selectSeat";
 	}

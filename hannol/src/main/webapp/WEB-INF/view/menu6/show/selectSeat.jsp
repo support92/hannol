@@ -36,30 +36,11 @@
 <div style="margin: 30px auto; width: 600px; background-color: #dfe5f3; text-align: center;"><strong>stage</strong></div>
 <div style="margin: -10px auto; width: 600px;">
 	<form name="seatForm" method="post"	onsubmit="return check();">
-		<table
-			style="width: 100%; border-spacing: 0; border-collapse: collapse;">
-			<tr height="30" align="center" bgcolor="#dfe5f3">
-				<%
-					out.print("<td width='30'>&nbsp;</td>");
-					int k = 1;
-					for (int i = 1; i < 18; i++) {
-						if (i % 6 == 0) {
-							out.print("<td width='30'>&nbsp;</td>");
-						} else {
-							out.print("<td width='30'>" + k + "</td>");
-							k++;
-						}
-					}
-				%>
-			</tr>
-
-			<!-- 1행부터 출력 -->
+		<table style="width: 100%; border-spacing: 1; border-collapse: collapse;">
 			<%
 				for (int row = 1; row <= 5; row++) {
-
 					out.print("<tr height='30' align='center' bgcolor='#dfe5f3'>");
-					out.print("<td width='30'>" + row + "</td>");
-					k = 1; // 진짜 열
+					int k = 1; // 진짜 열
 					for (int col = 1; col < 18; col++) {
 						if (col % 6 == 0) {
 							out.print("<td width='30' bgcolor='gray'>&nbsp;</td>");
@@ -85,5 +66,7 @@
 			<button class="btn btn-default btn-info" type="submit">선택 완료</button>
 		</div>
 	</form>
+	
+	${seatCount}
 </div>
 
