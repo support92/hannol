@@ -89,7 +89,7 @@
 	<select id="paylist" parameterType="map" resultType="com.sp.pay.Paylist">
 		SELECT * FROM(
 			SELECT p.payCode, payDate, payWay, payPrice, 
-    			quantity, goodsName, gs.price, gubunName, parentCode, cardCo, paySection, ci.state,
+    			quantity, goodsName, gg.gubunCode, gs.price, gubunName, parentCode, cardCo, paySection, ci.state,
     			DENSE_RANK() OVER(ORDER BY TO_CHAR(payDate,'YYYY-MM-DD') DESC) rnum,
     			(SELECT COUNT(*) FROM couponHistory WHERE payCode = p.payCode) AS couponCount
 			FROM payment p

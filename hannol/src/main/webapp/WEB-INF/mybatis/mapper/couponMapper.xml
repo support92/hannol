@@ -17,7 +17,7 @@
 		SELECT * FROM (
     		SELECT ROWNUM rnum, tb.* FROM(
         		SELECT g.payCode, usersCode, ${code}, TO_CHAR(endDate,'YYYY-MM-DD') endDate, 
-                    TO_CHAR(${date},'YYYY-MM-DD') ${date}, goodsName, gubunName, quantity 
+                    TO_CHAR(${date},'YYYY-MM-DD') ${date}, goodsName, gubunName, quantity, gg.gubunCode 
         		FROM ${thema} g
         		LEFT OUTER JOIN payment p ON g.payCode = p.payCode
         		LEFT OUTER JOIN goods gs ON g.goodsCode = gs.goodsCode
@@ -64,4 +64,9 @@
 	<select id="goodsCount" parameterType="Integer" resultType="Integer">
 		SELECT quantity FROM goodsCount WHERE goodsCode = #{goodsCode}
 	</select>
+	
+	<insert id="insertTicketHistory" parameterType="map">
+		INSERT INTO ticketHistory(ticketCode, useDate)
+		VALUES(#{ticketCode}, #{curDate})
+	</insert>
 </mapper>

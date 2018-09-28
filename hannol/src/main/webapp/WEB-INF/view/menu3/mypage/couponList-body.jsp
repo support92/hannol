@@ -44,8 +44,9 @@
 			      	<c:if test="${couponType == 0 and dto.quantity eq 0 and empty dto.useDate}"><div style="color: red;">${dto.gubunName}-${dto.goodsName}(품절!)</div></c:if>
 			      	<c:if test="${couponType == 0 and (not empty dto.useDate and (dto.quantity gt 0)) or (dto.quantity eq 0 and not empty dto.useDate) or dto.endDate}"><div style="color: gray;">${dto.gubunName}-${dto.goodsName}</div></c:if>
 			      	<c:if test="${couponType == 0 and empty dto.useDate and (dto.quantity gt 0)}"><a id="useCoupon" style="color: black; cursor: pointer;" data-couponCode='${code}'>${dto.gubunName}-${dto.goodsName}</a></c:if>
-			      	<c:if test="${couponType == 1 and (dto.startDate eq '0001-01-01')}"><div style="color: gray;">${dto.gubunName}-${dto.goodsName}</div></c:if>
-			      	<c:if test="${couponType == 1 and dto.startDate ne '0001-01-01'}"><a id="useCoupon" style="color: black; cursor: pointer;" data-couponCode='${dto.ticketCode}'>${dto.gubunName}-${dto.goodsName}</a></c:if>
+			      	<c:if test="${couponType == 1 and (dto.startDate eq '0001-01-01')and dto.gubunCode != 8}"><div style="color: gray;">${dto.gubunName}-${dto.goodsName}</div></c:if>
+			      	<c:if test="${couponType == 1 and dto.startDate ne '0001-01-01' and dto.gubunCode != 8}"><a id="useCoupon" style="color: black; cursor: pointer;" data-couponCode='${dto.ticketCode}'>${dto.gubunName}-${dto.goodsName}</a></c:if>
+			      	<c:if test="${couponType == 1 and dto.gubunCode == 8}"><a id="useCoupon" style="color: orange; cursor: pointer;" data-couponCode='${dto.ticketCode}'>${dto.gubunName}-${dto.goodsName}</a></c:if>
 			      	</div>
 			      </td>
 			      <td>${dto.endDate}</td>
@@ -79,7 +80,9 @@
 										<h5>${dto.gubunName} - ${dto.goodsName}</h5>
 									</div>
 									<div align="center" style="width: 100%; margin: 30px auto; border-spacing: 0px;">
-		   								<button id="useCouponButton" type="button" class="btn btn-info" style="font-weight: bold;" data-couponCode='${code}'>${couponType == 0?"사용" : "입장"}</button>
+										<c:if test="${dto.gubunCode == 8 || now eq dto.endDate}">
+		   								<button id="useCouponButton" type="button" class="btn btn-info" style="font-weight: bold;" data-couponCode='${code}' data-gubunCode='${dto.gubunCode}'>${couponType == 0?"사용" : "입장"}</button>
+		     	 						</c:if>
 		     	 						<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;">취소</button>
 									</div>
 							</div>

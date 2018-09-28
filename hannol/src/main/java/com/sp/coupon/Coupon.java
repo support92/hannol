@@ -4,6 +4,7 @@ public class Coupon {
 	private int listNum;
 	private int giftCode;
 	private int ticketCode;
+	private int gubunCode;
 	private String endDate;
 	private String startDate;
 	private String useDate;
@@ -35,6 +36,14 @@ public class Coupon {
 
 	public void setTicketCode(int ticketCode) {
 		this.ticketCode = ticketCode;
+	}
+
+	public int getGubunCode() {
+		return gubunCode;
+	}
+
+	public void setGubunCode(int gubunCode) {
+		this.gubunCode = gubunCode;
 	}
 
 	public String getEndDate() {

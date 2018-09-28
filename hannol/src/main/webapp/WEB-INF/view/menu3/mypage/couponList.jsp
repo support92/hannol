@@ -71,8 +71,9 @@ $("body").on("click", "#useCoupon", function(){
 
 $("body").on("click", "#useCouponButton", function(){
 	var couponCode = $(this).attr("data-couponCode");	/* giftCode */
+	var gubunCode = $(this).attr("data-gubunCode");
 	var url = "<%=cp%>/mypage/ajaxCouponUse"
-	var data = "couponCode="+couponCode+"&page="+page+"&thema="+couponType;
+	var data = "couponCode="+couponCode+"&page="+page+"&thema="+couponType+"&gubunCode="+gubunCode;
 	
 	$.ajax({
 		type : "post",

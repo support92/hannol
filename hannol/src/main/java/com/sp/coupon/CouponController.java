@@ -34,8 +34,13 @@ public class CouponController {
 	public String couponList(@RequestParam(value = "page", defaultValue = "1") String page,
 			@RequestParam(value = "thema", defaultValue = "0") String thema, Model model) throws Exception {
 
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+		Date currentTime  = new Date();
+		String now = fm.format(currentTime);
+		
 		model.addAttribute("page", page);
 		model.addAttribute("thema", thema);
+		model.addAttribute("now", now);
 
 		return ".four.menu3.mypage.couponList";
 	}
@@ -93,10 +98,11 @@ public class CouponController {
 				listNum = dataCount - (start + n - 1);
 				data.setListNum(listNum);
 				
+				if(list.get(n).getEndDate() != null) {
 				int compare = fm.parse(now).compareTo(fm.parse(list.get(n).getEndDate()));
-				System.out.println("날짜비교 : "+compare);
 				if(compare > 0)
 					list.get(n).setStartDate("0001-01-01");
+				}
 				n++;
 			}
 		}
@@ -117,26 +123,33 @@ public class CouponController {
 	@RequestMapping(value = "/mypage/ajaxCouponUse", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> price(@RequestParam(value = "couponCode") int couponCode,
+			@RequestParam(value = "gubunCode") int gubunCode,
 			@RequestParam(value = "page", defaultValue = "1") String page,
 			@RequestParam(value = "thema", defaultValue = "0") int thema) throws Exception {
-
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+		Date date = new Date();
+		String curDate = format.format(date);
+		
 		Coupon dto = null;
 		int result = 0;
 		if(thema == 0) {
 			dto = service.readGiftCoupon(couponCode);
 		
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-			Date date = new Date();
-			String curDate = format.format(date);
-
 			dto.setUseDate(curDate);
 			
 			result = service.updateGiftCoupon(dto);
 		}
 		else {
-			dto = service.readTicketCoupon(couponCode);
-			System.out.println(dto.getTicketCode());
-			result = service.updateTicketCoupon(dto);
+			if(gubunCode == 8) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("ticketCode", couponCode);
+				map.put("curDate", curDate);
+				service.insertTicketHistory(map);
+			}else {
+				dto = service.readTicketCoupon(couponCode);
+				result = service.updateTicketCoupon(dto);
+			}
 		}
 		
 		Map<String, Object> model = new HashMap<>();

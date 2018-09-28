@@ -485,7 +485,7 @@ function validOk() {
 					<th class="col_title">쿠폰</th>
 					<td>
 						<div style="padding-left: 15px;">
-						<select id="couponSelect" ${gubunCode == 1? '':"disabled='disabled'"}>
+						<select id="couponSelect" ${gubunCode == 1 && realGubunCode != 8? '':"disabled='disabled'"}>
 							<option value="0">쿠폰선택</option>
 							<c:if test="${not empty mcouponlist}">
 								<c:forEach var="mdto" items="${mcouponlist}">

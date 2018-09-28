@@ -42,6 +42,7 @@ public class PayController {
 
 		List<MCoupon> mcouponlist = null;
 		int gubunCode = dto.getParentCode().get(0);
+		int realGubunCode = dto.getGubunCode().get(0);
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		Date date = new Date();
@@ -89,6 +90,7 @@ public class PayController {
 		}
 
 		model.addAttribute("gubunCode", gubunCode);
+		model.addAttribute("realGubunCode", realGubunCode);
 		model.addAttribute("mcouponlist", mcouponlist);
 		model.addAttribute("price", price);
 		model.addAttribute("payPrice", price);

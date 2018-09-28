@@ -174,9 +174,9 @@ function refund(){
 		             			<th rowspan="${dto.rowspan}" style="width: 15%">
 		             				<p><fmt:formatNumber value="${dto.payPrice}" type="number" pattern="#,###원"/></p>
 		             				<c:forEach var="vo" items="${uselist}">	
-		             				<c:if test="${dto.state eq '결제취소'}"><h5>결제취소</h5></c:if>
+		             				<c:if test="${dto.payCode == vo.PAYCODE && dto.state eq '결제취소'}"><h5>결제취소</h5></c:if>
 		             				<c:if test="${dto.state eq '승인완료'}">
-		             				<c:if test="${dto.payCode == vo.PAYCODE || empty uselist}">
+		             				<c:if test="${(dto.payCode == vo.PAYCODE || empty uselist) && dto.gubunCode != 8}">
 		             					<button type="button" class="btn btn-danger" onclick="refundCheck(${dto.payCode});">구매취소</button>
 		             					
 		             					<!-- 모달창시작 -->

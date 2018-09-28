@@ -108,6 +108,17 @@ public class CouponServiceImpl implements CouponService {
 		return result;
 	}
 
+	@Override
+	public int insertTicketHistory(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.insertData("coupon.insertTicketHistory", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 	
 
 }

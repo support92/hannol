@@ -12,4 +12,5 @@ public interface CouponService {
 	public int updateTicketCoupon(Coupon dto) throws Exception;
 	public int updateGoodsCount(int goodsCode) throws Exception;
 	public int goodsCount(int goodsCode) throws Exception;
+	public int insertTicketHistory(Map<String, Object> map) throws Exception;
 }

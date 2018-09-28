@@ -10,6 +10,7 @@ public class Paylist {
 	private String goodsName;
 	private int price;
 	private String gubunName;
+	private int gubunCode;
 	private int parentCode;
 	private int rnum;
 	private int rowspan;
@@ -88,6 +89,14 @@ public class Paylist {
 
 	public void setGubunName(String gubunName) {
 		this.gubunName = gubunName;
+	}
+
+	public int getGubunCode() {
+		return gubunCode;
+	}
+
+	public void setGubunCode(int gubunCode) {
+		this.gubunCode = gubunCode;
 	}
 
 	public int getParentCode() {
