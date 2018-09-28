@@ -37,6 +37,8 @@ public class Pay {
 	private String dcWay;
 	private List<Pay> dclist; // discount
 
+	private List<Integer> couponCode;
+
 	public int getGubunCode() {
 		return gubunCode;
 	}
@@ -267,6 +269,14 @@ public class Pay {
 
 	public void setDclist(List<Pay> dclist) {
 		this.dclist = dclist;
+	}
+
+	public List<Integer> getCouponCode() {
+		return couponCode;
+	}
+
+	public void setCouponCode(List<Integer> couponCode) {
+		this.couponCode = couponCode;
 	}
 
 }

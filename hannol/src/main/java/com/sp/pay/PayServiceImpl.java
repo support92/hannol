@@ -1,5 +1,6 @@
 package com.sp.pay;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +41,15 @@ public class PayServiceImpl implements PayService {
 				dao.updateData("pay.insertGift", dto);
 				dao.deleteData("pay.deleteCart", dto);
 			}else {
-				dao.insertData("pay.insertTicket", dto);
-				dao.insertData("pay.insertDiscount", dto);
+				dao.updateData("pay.insertTicket", dto);
+				dao.updateData("pay.insertDiscount", dto);
+				dao.updateData("pay.insertCouponHistory", dto);
+				for(int i = 0; i < dto.getCouponCode().size(); i++) {
+					Map<String, Object> map = new HashMap<>();
+					map.put("couponCode", dto.getCouponCode().get(i));
+					map.put("usersCode", dto.getUsersCode());
+					dao.updateData("pay.updateCoupon", map);
+				}
 			}
 		} catch (Exception e) {
 			throw e;

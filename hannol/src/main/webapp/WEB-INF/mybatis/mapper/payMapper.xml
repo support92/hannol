@@ -95,6 +95,18 @@
 			FROM dual
 		</foreach>
     </update>
+    
+    <update id="insertCouponHistory" parameterType="java.util.List">
+        <foreach collection="couponCode" item="item" index="index"  open="INSERT ALL " separator=" " close="SELECT * FROM DUAL" > 
+         INTO couponHistory(couponCode, payCode)
+        VALUES
+            (#{item}, #{payCode})
+        </foreach>
+    </update>
+    
+    <update id="updateCoupon" parameterType="map">
+    	UPDATE coupon SET state = 1 WHERE couponCode = #{couponCode} and usersCode = #{usersCode}
+    </update>
 	
 	<select id="paylist" parameterType="map" resultType="com.sp.pay.Paylist">
 		SELECT * FROM(
