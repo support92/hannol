@@ -1,7 +1,6 @@
 package com.sp.coupon;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,18 +30,9 @@ public class CouponController {
 	@Autowired
 	MyUtilGeneral util;
 
-	@RequestMapping(value = "/mypage/rankCouponList")
-	public String rankCouponList(HttpSession session, Model model) throws Exception {
-
-		return ".four.menu3.mypage.rankCouponList";
-	}
-
 	@RequestMapping(value = "/mypage/couponList")
-	public String couponList(
-			@RequestParam(value = "page", defaultValue = "1") String page,
-			@RequestParam(value = "thema", defaultValue = "0") String thema,
-			Model model)
-			throws Exception {
+	public String couponList(@RequestParam(value = "page", defaultValue = "1") String page,
+			@RequestParam(value = "thema", defaultValue = "0") String thema, Model model) throws Exception {
 
 		model.addAttribute("page", page);
 		model.addAttribute("thema", thema);
@@ -51,12 +41,8 @@ public class CouponController {
 	}
 
 	@RequestMapping(value = "/mypage/ajaxCouponList")
-	public String aJaxListForm(
-			@RequestParam(value = "page", defaultValue = "1") int current_page, 
-			int couponType,
-			HttpSession session, 
-			HttpServletRequest req, 
-			Model model) throws Exception {
+	public String aJaxListForm(@RequestParam(value = "page", defaultValue = "1") int current_page, int couponType,
+			HttpSession session, HttpServletRequest req, Model model) throws Exception {
 
 		int rows = 10;
 		int total_page = 0;
@@ -66,10 +52,22 @@ public class CouponController {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("usersCode", info.getUsersCode());
+		
+		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
+		Date currentTime  = new Date();
+		String now = fm.format(currentTime);
 
 		if (couponType == 0) {
-			dataCount = service.dataCount(map);
+			map.put("thema", "gift");
+			map.put("date", "useDate");
+			map.put("code", "giftCode");
+		} else {
+			map.put("thema", "ticket");
+			map.put("date", "startDate");
+			map.put("code", "ticketCode");
 		}
+
+		dataCount = service.dataCount(map);
 
 		if (dataCount != 0) {
 			total_page = util.pageCount(rows, dataCount);
@@ -85,27 +83,32 @@ public class CouponController {
 		map.put("end", end);
 
 		List<Coupon> list = null;
-		if (couponType == 0) {
-			list = service.ajaxGiftCouponList(map);
+		list = service.ajaxGiftCouponList(map);
 
+		if (list.size() > 0) {
 			int listNum, n = 0;
 			Iterator<Coupon> it = list.iterator();
 			while (it.hasNext()) {
 				Coupon data = it.next();
 				listNum = dataCount - (start + n - 1);
 				data.setListNum(listNum);
+				
+				int compare = fm.parse(now).compareTo(fm.parse(list.get(n).getEndDate()));
+				System.out.println("날짜비교 : "+compare);
+				if(compare > 0)
+					list.get(n).setStartDate("0001-01-01");
 				n++;
 			}
 		}
 
 		String paging = util.paging(current_page, total_page);
-		
 
 		model.addAttribute("list", list);
 		model.addAttribute("page", current_page);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
+		model.addAttribute("couponType", couponType);
 
 		return "/menu3/mypage/couponList-body";
 
@@ -113,35 +116,43 @@ public class CouponController {
 
 	@RequestMapping(value = "/mypage/ajaxCouponUse", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> price(
-			@RequestParam(value = "giftCode") int giftCode,
+	public Map<String, Object> price(@RequestParam(value = "couponCode") int couponCode,
 			@RequestParam(value = "page", defaultValue = "1") String page,
-			@RequestParam(value = "thema", defaultValue = "0") String thema
-			) throws Exception {
+			@RequestParam(value = "thema", defaultValue = "0") int thema) throws Exception {
 
-		Coupon dto = service.readGiftCoupon(giftCode);
+		Coupon dto = null;
+		int result = 0;
+		if(thema == 0) {
+			dto = service.readGiftCoupon(couponCode);
+		
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+			Date date = new Date();
+			String curDate = format.format(date);
 
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-		Date date = new Date();
-		String curDate = format.format(date);
-
-		dto.setUseDate(curDate);
-
-		int result = service.updateGiftCoupon(dto);
-
+			dto.setUseDate(curDate);
+			
+			result = service.updateGiftCoupon(dto);
+		}
+		else {
+			dto = service.readTicketCoupon(couponCode);
+			System.out.println(dto.getTicketCode());
+			result = service.updateTicketCoupon(dto);
+		}
+		
 		Map<String, Object> model = new HashMap<>();
 		if (result != 1) {
 			return model;
 		}
-		service.updateGoodsCount(dto.getGoodsCode());
-		service.goodsCount(dto.getGoodsCode());
+		
+		if(thema == 0) {
+			service.updateGoodsCount(dto.getGoodsCode());
+			service.goodsCount(dto.getGoodsCode());
+		}
 		
 		model.put("page", page);
 		model.put("thema", thema);
 
 		return model;
 	}
-	
-	
-}
 
+}

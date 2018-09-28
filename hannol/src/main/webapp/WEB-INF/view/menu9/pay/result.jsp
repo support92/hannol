@@ -137,7 +137,7 @@
 		   	<tr height="40">
 		      	<td align="center" width="100">
 		          	<button type="button" class="btn btn-danger" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/mypage/paylist'">구매내역 확인</button>
-		     	 	<button type="button" class="btn btn-default" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/giftshop/list'">쇼핑 계속하기</button>
+		     	 	<button type="button" class="btn btn-default" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/giftshop/list'">${dto.parentCode == 2? '쇼핑 계속하기' : '기프트샵으로 이동'}</button>
 		     	 </td>
 		   	</tr>
 		</table>

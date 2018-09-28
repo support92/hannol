@@ -3,7 +3,9 @@ package com.sp.coupon;
 public class Coupon {
 	private int listNum;
 	private int giftCode;
+	private int ticketCode;
 	private String endDate;
+	private String startDate;
 	private String useDate;
 	private String goodsName;
 	private String gubunName;
@@ -27,12 +29,28 @@ public class Coupon {
 		this.giftCode = giftCode;
 	}
 
+	public int getTicketCode() {
+		return ticketCode;
+	}
+
+	public void setTicketCode(int ticketCode) {
+		this.ticketCode = ticketCode;
+	}
+
 	public String getEndDate() {
 		return endDate;
 	}
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 
 	public String getUseDate() {
@@ -82,4 +100,5 @@ public class Coupon {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+
 }

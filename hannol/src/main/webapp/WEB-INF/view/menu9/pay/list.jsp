@@ -277,7 +277,7 @@ function priceCheck(){
 	
 	
 	<c:forEach items="${dto}" var="dto">
-		<c:if test="${dto.gubunCode == 3 || dto.gubunCode == 6}">
+		<c:if test="${dto.gubunCode == 4 || dto.gubunCode == 6}">
 			<c:set var= "sum" value="${sum + (dto.goodsPrice * dto.quantity)}"/>
 		</c:if>
 	</c:forEach>

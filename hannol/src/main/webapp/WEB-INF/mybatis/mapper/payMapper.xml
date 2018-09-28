@@ -117,17 +117,24 @@
 	</select>
 	
 	<select id="useDate" parameterType="map" resultType="java.util.HashMap">
-		SELECT p.payCode payCodelist
-        FROM payment p
-        LEFT OUTER JOIN gift g ON p.payCode = g.payCode
-        LEFT OUTER JOIN ticket t ON p.payCode = t.payCode   
-        WHERE usersCode = #{usersCode} 
-        	AND (useDate IS NOT NULL
-        	<![CDATA[ 
-        	OR TO_CHAR(g.endDate,'YYYY-MM-DD') < #{endDate}
-        	OR TO_CHAR(t.endDate,'YYYY-MM-DD') < #{endDate})
-        	]]>
-        GROUP BY p.payCode
+        SELECT pp.payCode
+        FROM payment pp
+        LEFT OUTER JOIN gift g ON pp.payCode = g.payCode
+        LEFT OUTER JOIN ticket t ON pp.payCode = t.payCode   
+        WHERE usersCode = #{usersCode} AND pp.payCode NOT IN(
+            SELECT p.payCode payCodelist
+            FROM payment p
+            LEFT OUTER JOIN gift g ON p.payCode = g.payCode
+            LEFT OUTER JOIN ticket t ON p.payCode = t.payCode   
+            WHERE usersCode = #{usersCode}
+                AND (useDate IS NOT NULL
+                <![CDATA[ 
+                OR TO_CHAR(g.endDate,'YYYY-MM-DD') < #{endDate})
+                OR TO_CHAR(t.startDate,'YYYY-MM-DD') < #{endDate}
+                ]]>
+            GROUP BY p.payCode
+        )
+        GROUP BY pp.payCode
 	</select>
 	
 	<update id="updateCardInfo" parameterType="Integer">

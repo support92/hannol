@@ -38,12 +38,24 @@ public class CouponServiceImpl implements CouponService {
 
 		return list;
 	}
+	
 
 	@Override
-	public Coupon readGiftCoupon(int giftCode) throws Exception {
+	public Coupon readGiftCoupon(int couponCode) throws Exception {
 		Coupon dto = null;
 		try {
-			dto = dao.selectOne("coupon.readGiftCoupon", giftCode);
+			dto = dao.selectOne("coupon.readGiftCoupon", couponCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+	
+	@Override
+	public Coupon readTicketCoupon(int couponCode) throws Exception {
+		Coupon dto = null;
+		try {
+			dto = dao.selectOne("coupon.readTicketCoupon", couponCode);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -55,6 +67,18 @@ public class CouponServiceImpl implements CouponService {
 		int result = 0;
 		try {
 			result = dao.updateData("coupon.updateGiftCoupon", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+
+		return result;
+	}
+	
+	@Override
+	public int updateTicketCoupon(Coupon dto) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("coupon.updateTicketCoupon", dto);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -83,5 +107,7 @@ public class CouponServiceImpl implements CouponService {
 		}
 		return result;
 	}
+
+	
 
 }

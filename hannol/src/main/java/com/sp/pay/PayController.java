@@ -79,7 +79,7 @@ public class PayController {
 			if (dto.getEndDate() != null)
 				pay.setEndDate(dto.getEndDate().get(i));
 			
-			if(dto.getGubunCode().get(i) == 3 || dto.getGubunCode().get(i)==6)
+			if(dto.getGubunCode().get(i) == 4 || dto.getGubunCode().get(i)==6)
 				usableCount++;
 			
 			if (dto.getCartCode() != null)
@@ -110,12 +110,13 @@ public class PayController {
 			HttpSession session)
 			throws Exception {
 		
-		int useCoupon = 0;
-		if(couponPrice != null)
-			useCoupon = 1;
-		
 		couponPrice = couponPrice.replaceAll(",", "");
 		couponPrice = couponPrice.replaceAll("원", "");
+		
+		int useCoupon = 0;
+		if(couponPrice != null && Integer.parseInt(couponPrice) > 0)
+			useCoupon = 1;
+		
 		price = price.replaceAll(",", "");
 		price = price.replaceAll("원", "");
 		// 지불할 금액
@@ -249,7 +250,6 @@ public class PayController {
 		int total_page = util.pageCount(rows, dataCount);
 
 		List<Integer> uselist = service.useDate(map);
-
 		List<Paylist> list = service.paylist(map);
 		if (list != null && list.size() > 0) {
 			int count = list.get(list.size() - 1).getRnum();
@@ -266,11 +266,12 @@ public class PayController {
 			
 			
 			String cp = req.getContextPath();
-			String list_url = cp + "/mypage/list";
+			String list_url = cp + "/mypage/paylist";
 
 			String paging = util.paging(current_page, total_page, list_url);
 			String lastPayDate = list.get(0).getPayDate();
 
+			
 			model.addAttribute("list", list);
 			model.addAttribute("paging", paging);
 			model.addAttribute("lastPayDate", lastPayDate);

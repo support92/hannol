@@ -70,9 +70,9 @@ $("body").on("click", "#useCoupon", function(){
 });
 
 $("body").on("click", "#useCouponButton", function(){
-	var giftCode = $(this).attr("data-couponCode");	/* giftCode */
+	var couponCode = $(this).attr("data-couponCode");	/* giftCode */
 	var url = "<%=cp%>/mypage/ajaxCouponUse"
-	var data = "giftCode="+giftCode+"&page="+page+"&thema="+couponType;
+	var data = "couponCode="+couponCode+"&page="+page+"&thema="+couponType;
 	
 	$.ajax({
 		type : "post",
