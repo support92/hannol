@@ -10,6 +10,7 @@ import org.apache.commons.io.filefilter.FalseFileFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -93,7 +94,7 @@ public class ShowController {
 			@RequestParam(value="subMenu", defaultValue="3") String subMenu,
 			@RequestParam(value="screenDate") String screenDate,
 			@RequestParam(value="showInfoCode") int showInfoCode,
-			@RequestParam(value="msg", required=false) String msg,
+
 			Model model) throws Exception {
 
 		Map<String, Object> map = new HashMap<>();
@@ -107,7 +108,7 @@ public class ShowController {
 		model.addAttribute("subMenu", subMenu);
 		model.addAttribute("screenDate", screenDate);
 		model.addAttribute("showInfoCode", showInfoCode);
-		model.addAttribute("msg", msg);
+
 		return ".four.menu6.show.reservation";
 	}
 
@@ -159,10 +160,8 @@ public class ShowController {
 		
 		List<Ticket> list = service.listTicket(map);
 		if(list.size()==0) {
-			attr.addFlashAttribute("msg", "해당 일자에 구매한 이용권이 없습니다.");
-			attr.addFlashAttribute("screenDate", screenDate);
-			attr.addFlashAttribute("showInfoCode", showInfoCode);
-			return "redirect:/show/reseration"; 
+			attr.addFlashAttribute("msg", "해당 일자에 구매한 이용권이 없습니다.");		// 세션에 저장
+			return "redirect:/show/reseration?screenDate=" + screenDate + "&showInfoCode=" + showInfoCode;  // 동시에 보낼 수 있다.
 		}
 		
 		// 만약 야간 이용권 - startTime 이 4시 이전이면 예약 불가

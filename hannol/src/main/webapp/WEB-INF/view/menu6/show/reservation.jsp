@@ -152,7 +152,7 @@ function selectSeatSubmit() {
 				</ul>
 			</div>
 			<br>
-		    <div style="background: red;">&nbsp;${msg}</div>
+		    <div style="color: red;">&nbsp;<strong>${msg}</strong></div>
 			<div style="padding: 100px;">
 				<button class="btn btn-default btn-info" type="button" onclick="selectSeatForm();">&nbsp;좌석 신청하기</button>
 			</div>
