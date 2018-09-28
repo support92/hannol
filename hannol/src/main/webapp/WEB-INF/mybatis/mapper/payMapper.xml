@@ -7,9 +7,10 @@
 	</select>
 
 	<select id="couponCount" parameterType="map" resultType="com.sp.pay.MCoupon">
-		SELECT couponCode, issuedDate, startDate, endDate, memo, c.goodsCode, price 
+		SELECT couponCode, issuedDate, startDate, endDate, memo, c.goodsCode, price, couponMngName 
 		FROM coupon c
 		JOIN goods g ON c.goodsCode = g.goodsCode 
+		JOIN couponMng cm ON cm.couponMngCode = c.couponMngCode
 		<![CDATA[
 			WHERE usersCode = #{usersCode} 
 				AND c.state = 0 

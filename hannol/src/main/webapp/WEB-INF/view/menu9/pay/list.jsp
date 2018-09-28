@@ -210,7 +210,7 @@ function totalCount(){
 }
 
 $(function(){
-	var memo;
+	var couponName;
 	var couponCode;
 	var couponPrice;
 	
@@ -225,7 +225,7 @@ $(function(){
 		
 		$(this).closest("li").remove();
 		console.log($(this).closest("span").prev().text());
-		var option = $("<option value='"+$(this).closest("span").next().val()+"' data-memo='"+$(this).closest("span").prev().text()+"' data-couponCode='"+$(this).closest("li").attr("data-couponCode")+"'>"+$(this).closest("span").prev().text()+" | "+numberWithCommas($(this).closest("span").next().val())+"원</option>");
+		var option = $("<option value='"+$(this).closest("span").next().val()+"' data-couponName='"+$(this).closest("span").prev().text()+"' data-couponCode='"+$(this).closest("li").attr("data-couponCode")+"'>"+$(this).closest("span").prev().text()+" | "+numberWithCommas($(this).closest("span").next().val())+"원</option>");
         $("#couponSelect").append(option);
 		priceCheck();
 	});
@@ -243,17 +243,17 @@ function priceCheck(){
 	couponPrice = $coupon.val();
 	if(couponPrice != 0){
 		couponCode = $coupon.attr("data-couponCode");
-		memo = $coupon.attr("data-memo");
+		couponName = $coupon.attr("data-couponName");
 	
 
 	
 		var html ="<li data-couponCode="+couponCode+">";
 			html+="<span class='input-count'></span>";
-			html+="<span style='float:left; margin-right:10px;'>"+memo+"</span>";
+			html+="<span style='float:left; margin-right:10px;'>"+couponName+"</span>";
 			html+="<span><button type='button' class='btn_delete'></button></span>";
 				html+="<input type='hidden' name='couponPrice' value="+couponPrice+">";
 				html+="<input type='hidden' name='couponCode' value="+couponCode+">";
-				html+="<input type='hidden' name='memo' value="+memo+">";
+				html+="<input type='hidden' name='couponName' value="+couponName+">";
 				html+="</li>";
 	
 			$("#coupon_result").find("ul").append(html);
@@ -489,7 +489,7 @@ function validOk() {
 							<option value="0">쿠폰선택</option>
 							<c:if test="${not empty mcouponlist}">
 								<c:forEach var="mdto" items="${mcouponlist}">
-									<option value="${mdto.price}" data-memo="${mdto.memo}" data-couponCode="${mdto.couponCode}">${mdto.memo} | <fmt:formatNumber value="${mdto.price}" type="number" pattern="#,###원"/></option>
+									<option value="${mdto.price}" data-couponName="${mdto.couponMngName}" data-couponCode="${mdto.couponCode}">${mdto.couponMngName} | <fmt:formatNumber value="${mdto.price}" type="number" pattern="#,###원"/></option>
 								</c:forEach>
 							</c:if>
 						</select>

@@ -8,14 +8,7 @@ public class MCoupon {
 	private String memo;
 	private int goodsCode;
 	private int price;
-
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
+	private String couponMngName;
 
 	public int getCouponCode() {
 		return couponCode;
@@ -63,6 +56,22 @@ public class MCoupon {
 
 	public void setGoodsCode(int goodsCode) {
 		this.goodsCode = goodsCode;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getCouponMngName() {
+		return couponMngName;
+	}
+
+	public void setCouponMngName(String couponMngName) {
+		this.couponMngName = couponMngName;
 	}
 
 }

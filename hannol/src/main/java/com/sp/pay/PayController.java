@@ -75,7 +75,9 @@ public class PayController {
 			pay.setQuantity(dto.getQuantity().get(i));
 			pay.setGubunName(dto.getGubunName().get(i));
 			pay.setParentCode(dto.getParentCode().get(i));
-			pay.setEndDate(dto.getEndDate().get(i));
+			
+			if (dto.getEndDate() != null)
+				pay.setEndDate(dto.getEndDate().get(i));
 			
 			if(dto.getGubunCode().get(i) == 3 || dto.getGubunCode().get(i)==6)
 				usableCount++;
