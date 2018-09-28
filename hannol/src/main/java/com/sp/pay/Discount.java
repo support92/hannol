@@ -1,25 +1,23 @@
 package com.sp.pay;
 
-import java.util.List;
-
 public class Discount {
-	List<String> dcWay;
-	List<Integer> dcPay;
+	String dcWay;
+	int dcPay;
 	int payCode;
 
-	public List<String> getDcWay() {
+	public String getDcWay() {
 		return dcWay;
 	}
 
-	public void setDcWay(List<String> dcWay) {
+	public void setDcWay(String dcWay) {
 		this.dcWay = dcWay;
 	}
 
-	public List<Integer> getDcPay() {
+	public int getDcPay() {
 		return dcPay;
 	}
 
-	public void setDcPay(List<Integer> dcPay) {
+	public void setDcPay(int dcPay) {
 		this.dcPay = dcPay;
 	}
 

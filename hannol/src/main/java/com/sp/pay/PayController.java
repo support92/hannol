@@ -128,6 +128,7 @@ public class PayController {
 		int dcPrice = 0; 
 		dcPrice += Integer.parseInt(couponPrice);
 		
+		int cardPrice = 0;
 		// 이용권일때만 제휴카드 목록 가져와서 card랑 비교해서 할인율만큼 자유이용권 가격 할인
 		if(cardCo != null && cardCo.length() > 0) {
 			int discount = service.isCard(cardCo+"%");
@@ -135,6 +136,7 @@ public class PayController {
 			
 			if(discount > 0) {
 				dcPrice = (int) (dcPrice + dcTicketPay * discountd);
+				cardPrice = (int)(dcTicketPay * discountd);
 			}
 		}
 		
@@ -148,6 +150,8 @@ public class PayController {
 		model.put("dcPrice2", dcPrice);
 		model.put("payPrice2", payPrice);
 		model.put("useCoupon", useCoupon);
+		model.put("couponPrice", couponPrice);
+		model.put("cardPrice", cardPrice);
 		
 		return model;
 	}
@@ -156,6 +160,8 @@ public class PayController {
 	public String createdSubmit(
 			Pay dto, 
 			int useCoupon,
+			int couponPriced,
+			int cardPriced,
 			HttpSession session, 
 			Model model) throws Exception {
 		
@@ -165,6 +171,24 @@ public class PayController {
 		dto.setPayWay("신용카드");
 		if(useCoupon == 1) 
 			dto.setPayWay("신용카드+할인쿠폰");
+		
+		List<Pay> dclist = new ArrayList<>();
+		if(couponPriced > 0) {
+			Pay pay  = new Pay();
+			pay.setDcPay(couponPriced);
+			pay.setDcWay("할인쿠폰");
+			
+			dclist.add(pay);
+		}
+		
+		if(cardPriced > 0) {
+			Pay pay  = new Pay();
+			pay.setDcPay(cardPriced);
+			pay.setDcWay("신용카드");
+			
+			dclist.add(pay);
+		}
+		dto.setDclist(dclist);
 
 		// 카드번호
 		String cardNum2 = dto.getCardNum2();

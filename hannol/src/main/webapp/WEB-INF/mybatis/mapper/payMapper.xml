@@ -86,6 +86,16 @@
 		SELECT discount FROM card WHERE cardCo LIKE #{cardCo}
 	</select>
 	
+	<update id="insertDiscount" parameterType="com.sp.pay.Pay">
+        INSERT INTO discount(dcCode, memo, dcPrice, payCode)
+		SELECT discount_seq.NEXTVAL, a.*
+		FROM(
+		<foreach collection="dclist" item="dclist" index="index" separator=" UNION ALL " close=")a">
+			SELECT #{dclist.dcWay}, #{dclist.dcPay}, #{payCode}
+			FROM dual
+		</foreach>
+    </update>
+	
 	<select id="paylist" parameterType="map" resultType="com.sp.pay.Paylist">
 		SELECT * FROM(
 			SELECT p.payCode, payDate, payWay, payPrice, 

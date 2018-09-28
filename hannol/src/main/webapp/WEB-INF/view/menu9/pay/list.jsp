@@ -306,6 +306,8 @@ function priceCheck(){
 			var html = "<input type='hidden' name='payPrice' value='"+data.payPrice2+"'>";
 				html += "<input type='hidden' name='dcPrice' value='"+data.dcPrice2+"'>";
 				html += "<input type='hidden' name='useCoupon' value='"+data.useCoupon+"'>";
+				html += "<input type='hidden' name='couponPriced' value='"+data.couponPrice+"'>";
+				html += "<input type='hidden' name='cardPriced' value='"+data.cardPrice+"'>";
 				
 			$("#hiddenPay").html(html);	
 			

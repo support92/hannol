@@ -41,6 +41,7 @@ public class PayServiceImpl implements PayService {
 				dao.deleteData("pay.deleteCart", dto);
 			}else {
 				dao.insertData("pay.insertTicket", dto);
+				dao.insertData("pay.insertDiscount", dto);
 			}
 		} catch (Exception e) {
 			throw e;

@@ -33,6 +33,10 @@ public class Pay {
 	private String endDate;
 	private String payDate;
 
+	private int dcPay;
+	private String dcWay;
+	private List<Pay> dclist; // discount
+
 	public int getGubunCode() {
 		return gubunCode;
 	}
@@ -239,6 +243,30 @@ public class Pay {
 
 	public void setPayDate(String payDate) {
 		this.payDate = payDate;
+	}
+
+	public int getDcPay() {
+		return dcPay;
+	}
+
+	public void setDcPay(int dcPay) {
+		this.dcPay = dcPay;
+	}
+
+	public String getDcWay() {
+		return dcWay;
+	}
+
+	public void setDcWay(String dcWay) {
+		this.dcWay = dcWay;
+	}
+
+	public List<Pay> getDclist() {
+		return dclist;
+	}
+
+	public void setDclist(List<Pay> dclist) {
+		this.dclist = dclist;
 	}
 
 }
