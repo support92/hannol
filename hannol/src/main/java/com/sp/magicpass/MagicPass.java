@@ -1,5 +1,7 @@
 package com.sp.magicpass;
 
+import java.util.List;
+
 public class MagicPass {
 	private long facilityCode;
 	private String name;
@@ -9,10 +11,13 @@ public class MagicPass {
 	private long themeCode; // 1: 프린세스, 2: 토이스토리, 3:미니언즈, 5: 라이온킹, 6: 니모
 	private int congestion; // 0: 혼잡, 1: 보통, 2: 원활
 	private long mpCode;
-	private int mgTime;
-	private String mgDate;
-	private int ticketCode;
+	private int mpTime;
+	private String mpDate;
+	private List<Integer> ticketCode;
+	private int ticketsCode;
+	private String goodsName;
 	private long usersCode;
+	private int cnt;
 
 	public long getFacilityCode() {
 		return facilityCode;
@@ -78,28 +83,44 @@ public class MagicPass {
 		this.mpCode = mpCode;
 	}
 
-	public int getMgTime() {
-		return mgTime;
+	public int getMpTime() {
+		return mpTime;
 	}
 
-	public void setMgTime(int mgTime) {
-		this.mgTime = mgTime;
+	public void setMpTime(int mpTime) {
+		this.mpTime = mpTime;
 	}
 
-	public String getMgDate() {
-		return mgDate;
+	public String getMpDate() {
+		return mpDate;
 	}
 
-	public void setMgDate(String mgDate) {
-		this.mgDate = mgDate;
+	public void setMpDate(String mpDate) {
+		this.mpDate = mpDate;
 	}
 
-	public int getTicketCode() {
+	public List<Integer> getTicketCode() {
 		return ticketCode;
 	}
 
-	public void setTicketCode(int ticketCode) {
+	public void setTicketCode(List<Integer> ticketCode) {
 		this.ticketCode = ticketCode;
+	}
+
+	public int getTicketsCode() {
+		return ticketsCode;
+	}
+
+	public void setTicketsCode(int ticketsCode) {
+		this.ticketsCode = ticketsCode;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
 	}
 
 	public long getUsersCode() {
@@ -108,6 +129,22 @@ public class MagicPass {
 
 	public void setUsersCode(long usersCode) {
 		this.usersCode = usersCode;
+	}
+
+	public int getCnt() {
+		return cnt;
+	}
+
+	public void setCnt(int cnt) {
+		this.cnt = cnt;
+	}
+
+	@Override
+	public String toString() {
+		return "facilityCode : " + facilityCode + "name : " + name + "state : " + state + "saveMainFileName : "
+				+ saveMainFileName + "gubunCode : " + gubunCode + "themeCode : " + themeCode + "congestion : "
+				+ congestion + "mpCode : " + mpCode + "mpTime : " + mpTime + "mpDate : " + mpDate + "ticketCode : "
+				+ ticketCode + "goodsName : " + goodsName + "usersCode : " + usersCode + "cnt : " + cnt;
 	}
 
 }

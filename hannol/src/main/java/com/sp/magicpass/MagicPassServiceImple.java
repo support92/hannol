@@ -47,4 +47,52 @@ public class MagicPassServiceImple implements MagicPassService {
 		return result;
 	}
 
+	@Override
+	public List<MagicPass> listReservation(long facilityCode) throws Exception {
+		List<MagicPass> list = null;
+		try {
+			list = dao.selectList("magic.listReservation", facilityCode);
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public List<MagicPass> getTicket(Map<String, Object> map) throws Exception {
+		List<MagicPass> list = null;
+		try {
+			list = dao.selectList("magic.getTicket", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public int insertReservation(MagicPass dto) throws Exception {
+		int result = 0;
+		try {
+			for(int i=0; i<dto.getTicketCode().size(); i++) {
+				dto.setTicketsCode(dto.getTicketCode().get(i));
+				int count = dao.selectOne("magic.checkReservation", dto);
+				result += count;
+				
+				if(result!=0) {
+					return 0;
+				}
+			}
+			
+			for(int i=0; i<dto.getTicketCode().size(); i++) {
+				dto.setTicketsCode(dto.getTicketCode().get(i));
+				dao.insertData("magic.insertReservation", dto);
+			}
+			
+			result = 1;
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
 }

@@ -2,6 +2,8 @@ package com.sp.magicpass;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.common.MyUtil;
@@ -40,7 +44,7 @@ public class MagicPassController {
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(value = "searchKey", defaultValue = "name") String searchKey,
 			@RequestParam(value = "searchValue", defaultValue = "") String searchValue,
-			@RequestParam(value = "theme", defaultValue="0") int thema,
+			@RequestParam(value = "thema", defaultValue="0") int thema,
 			HttpSession session, 
 			HttpServletRequest req,
 			RedirectAttributes redirectAttributes, 
@@ -97,7 +101,7 @@ public class MagicPassController {
 		}
 		
 		if (query.length() != 0) {
-			listUrl += query;
+			listUrl += "?"+query;
 		}
 		
 		String paging = myUtil.paging(current_page, total_page, listUrl);
@@ -113,4 +117,57 @@ public class MagicPassController {
 		
 		return ".four.menu5.magicPass.booking";
 	}
+	
+	@RequestMapping(value="/magicPass/getReservation", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> getReservation(@RequestParam(value="facilityCode") long facilityCode, HttpSession session) throws Exception{
+		Map<String, Object> model = new HashMap<>();
+		
+		List<MagicPass> list = service.listReservation(facilityCode);
+		for(MagicPass dto : list) {
+			if(dto.getCnt() > 100) {
+				dto.setState(1); //예약불가
+			}else {
+				dto.setState(0); //예약가능
+			}
+			
+		}
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		long usersCode = info.getUsersCode();
+		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("today", today);
+		paramMap.put("usersCode", usersCode);
+		
+		List<MagicPass> ticketList = service.getTicket(paramMap);
+		
+		model.put("list", list);
+		model.put("ticketList", ticketList);
+		
+		return model; 
+	}
+	
+	@RequestMapping(value="/magicPass/reservation", method=RequestMethod.POST)
+	public String submitReservation(MagicPass dto,
+			HttpSession session,
+			RedirectAttributes redirectAttributes) throws Exception{
+		
+		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		dto.setMpDate(today);
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		dto.setUsersCode(info.getUsersCode());
+		
+		int result = service.insertReservation(dto);
+		if(result==0) {
+			redirectAttributes.addFlashAttribute("msg", "시간당 예약은 1번만 가능합니다.");
+			return "redirect:/magicPass/booking";
+		}
+		
+		redirectAttributes.addFlashAttribute("msg", "예약 되었습니다.");
+		
+		return "redirect:/magicPass/booking";
+	}		
 }

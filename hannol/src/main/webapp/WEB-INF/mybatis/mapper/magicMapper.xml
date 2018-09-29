@@ -40,4 +40,33 @@
 		    WHERE ROWNUM &lt;=#{end}
 		) WHERE rnum &gt;=#{start}
 	</select>
+	
+	<select id="listReservation" parameterType="Long" resultType="com.sp.magicpass.MagicPass">
+		SELECT mpTime, COUNT(mpTime) cnt FROM magicpass
+		WHERE TO_CHAR(mpDate, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND facilityCode=#{facilityCode}
+		GROUP BY mpTime
+		ORDER BY mpTime ASC
+	</select>
+	
+	<select id="getTicket" parameterType="Map" resultType="com.sp.magicpass.MagicPass">
+		SELECT ticketCode AS ticketsCode, goodsName, usersCode 
+		FROM ticket t
+		JOIN goods g ON t.goodsCode=g.goodsCode
+		JOIN payment p ON p.payCode = t.payCode
+		WHERE #{today} BETWEEN TO_CHAR(startDate, 'YYYY-MM-DD') AND TO_CHAR(endDate, 'YYYY-MM-DD')	
+		AND usersCode=#{usersCode}
+	</select>
+	
+	<insert id="insertReservation" parameterType="com.sp.magicpass.MagicPass">
+		INSERT INTO magicpass(mpCode, mpDate, mpTime, facilityCode, ticketCode, usersCode)
+    	VALUES(magicpass_seq.nextval, SYSDATE, #{mpTime}, ${facilityCode}, ${ticketsCode}, #{usersCode})
+	</insert>
+	
+	<select id="checkReservation" parameterType="com.sp.magicpass.MagicPass" resultType="Integer">
+		SELECT COUNT(*) FROM magicpass
+		WHERE mpTime=#{mpTime} AND usersCode=#{usersCode}
+		AND TO_CHAR(mpDate, 'YYYY-MM-DD') = #{mpDate}
+		AND ticketCode=#{ticketsCode}
+	</select>
 </mapper>
