@@ -13,7 +13,7 @@ import com.sp.common.dao.CommonDAO;
 public class PayServiceImpl implements PayService {
 	@Autowired
 	CommonDAO dao;
-	
+
 	@Override
 	public List<MCoupon> couponCount(Map<String, Object> map) throws Exception {
 		List<MCoupon> list = null;
@@ -22,7 +22,7 @@ public class PayServiceImpl implements PayService {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		
+
 		return list;
 	}
 
@@ -32,32 +32,36 @@ public class PayServiceImpl implements PayService {
 		try {
 			int seq = dao.selectOne("pay.seq");
 			dto.setPayCode(seq);
-			
+
 			result = dao.insertData("pay.insertPay", dto);
 			dao.insertData("pay.insertPayInfo", dto);
 			dao.insertData("pay.insertCardInfo", dto);
 			dao.updateData("pay.insertPaymentInfo", dto);
-			if(dto.getParentCode() == 2) {
+			if (dto.getParentCode() == 2) {
 				dao.updateData("pay.insertGift", dto);
 				dao.deleteData("pay.deleteCart", dto);
-			}else {
+			} else {
 				dao.updateData("pay.insertTicket", dto);
-				dao.updateData("pay.insertDiscount", dto);
-				dao.updateData("pay.insertCouponHistory", dto);
-				for(int i = 0; i < dto.getCouponCode().size(); i++) {
-					Map<String, Object> map = new HashMap<>();
-					map.put("couponCode", dto.getCouponCode().get(i));
-					map.put("usersCode", dto.getUsersCode());
-					dao.updateData("pay.updateCoupon", map);
+				if (dto.getDclist().size() > 0)
+					dao.updateData("pay.insertDiscount", dto);
+				if (dto.getCouponCode() != null && dto.getCouponCode().size() > 0)
+					dao.updateData("pay.insertCouponHistory", dto);
+				if (dto.getCouponCode() != null && dto.getCouponCode().size() > 0) {
+					for (int i = 0; i < dto.getCouponCode().size(); i++) {
+						Map<String, Object> map = new HashMap<>();
+						map.put("couponCode", dto.getCouponCode().get(i));
+						map.put("usersCode", dto.getUsersCode());
+						dao.updateData("pay.updateCoupon", map);
+					}
 				}
-			}
+			} 
 		} catch (Exception e) {
 			throw e;
 		}
 		return result;
 	}
-	
-	public Pay readResult(int payCode) throws Exception{
+
+	public Pay readResult(int payCode) throws Exception {
 		Pay dto = null;
 		try {
 			dto = dao.selectOne("pay.readResult", payCode);
@@ -66,7 +70,7 @@ public class PayServiceImpl implements PayService {
 		}
 		return dto;
 	}
-	
+
 	@Override
 	public int isCard(String cardCo) throws Exception {
 		int result = 0;
@@ -75,17 +79,17 @@ public class PayServiceImpl implements PayService {
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		
+
 		return result;
 	}
 
-	//paylist
+	// paylist
 	@Override
 	public List<Paylist> paylist(Map<String, Object> map) throws Exception {
 		List<Paylist> list = null;
 		try {
 			list = dao.selectList("pay.paylist", map);
-			
+
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -108,7 +112,7 @@ public class PayServiceImpl implements PayService {
 		List<Integer> list = null;
 		try {
 			list = dao.selectList("pay.useDate", map);
-			
+
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -127,7 +131,5 @@ public class PayServiceImpl implements PayService {
 		}
 		return result;
 	}
-
-	
 
 }
