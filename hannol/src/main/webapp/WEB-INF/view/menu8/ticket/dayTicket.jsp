@@ -63,7 +63,7 @@
 </style>
 
 <script>
-var endDate = "${day}";
+var selectDate = "${day}";
 var limit = "${limit}";
 
 
@@ -152,7 +152,8 @@ $(function(){
 		html+="<input type='hidden' name='gubunName' value="+gubunName+">";
 		html+="<input type='hidden' name='parentCode' value="+parentCode+">";
 		html+="<input type='hidden' name='quantity' value="+quantity+">";
-		html+="<input type='hidden' name='endDate' value="+endDate+">";
+		html+="<input type='hidden' name='startDate' value="+selectDate+">";
+		html+="<input type='hidden' name='endDate' value="+selectDate+">";
 		html+="</li>";
 			
 		$(".ticket_result").find("ul").append(html);

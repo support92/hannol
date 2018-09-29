@@ -90,6 +90,8 @@ $(function(){
     			<input type="hidden" name="goodsPrice" value="${ticket.goodsPrice}">
     			<input type="hidden" name="gubunName" value="${ticket.gubunName}">
     			<input type="hidden" name="parentCode" value="${ticket.parentCode}">
+    			<input type="hidden" name="startDate" value="${startDate}">
+    			<input type="hidden" name="endDate" value="${endDate}">
     			<input type="hidden" name="quantity" value="1">
     		</form>
     	</div>

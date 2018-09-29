@@ -100,6 +100,13 @@ public class TicketController {
 	        	model.addAttribute("ticket", ticket.get(1));
 	        }
 	        
+	        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	        LocalDate startDate = LocalDate.now();
+			LocalDate endDate = LocalDate.now().plusYears(1);
+			
+			model.addAttribute("startDate", dateFormat.format(startDate));
+			model.addAttribute("endDate", dateFormat.format(endDate));
+			
 		}
 		
 		return ".four.menu8.ticket.yearTicket";
