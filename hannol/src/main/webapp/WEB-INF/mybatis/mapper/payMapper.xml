@@ -171,4 +171,20 @@
 		DELETE FROM ticket WHERE payCode = #{payCode}
 	</delete>
 	
+	<delete id="deleteDiscount" parameterType="Integer">
+		DELETE FROM Discount WHERE payCode = #{payCode}
+	</delete>
+	
+	<select id="getCouponCode" parameterType="Integer" resultType="java.util.HashMap">
+		SELECT couponCode FROM couponHistory WHERE payCode = #{payCode}
+	</select>
+	
+	<update id="updateCouponState" parameterType="map">
+		UPDATE coupon SET state = 0 WHERE couponCode = #{couponCode}
+	</update>
+	
+	<delete id="deleteCouponHistory" parameterType="Integer">
+		DELETE FROM couponHistory WHERE payCode=#{payCode}
+	</delete>
+	
 </mapper> 

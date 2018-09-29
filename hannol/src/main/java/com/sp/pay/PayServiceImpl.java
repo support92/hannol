@@ -54,7 +54,7 @@ public class PayServiceImpl implements PayService {
 						dao.updateData("pay.updateCoupon", map);
 					}
 				}
-			} 
+			}
 		} catch (Exception e) {
 			throw e;
 		}
@@ -123,9 +123,24 @@ public class PayServiceImpl implements PayService {
 	public int deleteRefund(int payCode) throws Exception {
 		int result = 0;
 		try {
-			result = dao.deleteData("pay.deleteTicket", payCode);
-			dao.deleteData("pay.deleteGift", payCode);
+			result = dao.deleteData("pay.deleteGift", payCode);
 			dao.updateData("pay.updateCardInfo", payCode);
+
+			dao.deleteData("pay.deleteTicket", payCode);
+			dao.deleteData("pay.deleteDiscount", payCode);
+
+			List<Map<String, Object>> couponCode = dao.selectList("pay.getCouponCode", payCode);
+			if (couponCode != null && couponCode.size() > 0) {
+				for (int i = 0; i < couponCode.size(); i++) {
+					System.out.println(couponCode.get(i).get("COUPONCODE").toString());
+					Map<String, Object> map = new HashMap<>();
+					map.put("couponCode", (couponCode.get(i)).get("COUPONCODE"));
+					dao.updateData("pay.updateCouponState", map);
+				}
+			}
+			
+			dao.deleteData("pay.deleteCouponHistory", payCode);
+
 		} catch (Exception e) {
 			throw e;
 		}
