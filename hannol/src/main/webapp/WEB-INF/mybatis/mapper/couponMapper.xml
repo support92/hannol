@@ -69,4 +69,32 @@
 		INSERT INTO ticketHistory(ticketCode, useDate)
 		VALUES(#{ticketCode}, #{curDate})
 	</insert>
+	
+	<select id="rankCouponList" parameterType="map" resultType="com.sp.coupon.LankCoupon">
+		SELECT * FROM(
+			SELECT ROWNUM rnum, tb.* FROM(
+				SELECT usersCode,couponMngName couponName, couponCode, TO_CHAR(startDate, 'YYYY-MM-DD') startDate, TO_CHAR(endDate, 'YYYY-MM-DD') endDate, state
+				FROM COUPON c
+				JOIN couponMng cm ON cm.couponMngCode=c.couponMngCode
+				WHERE usersCode=#{usersCode}
+				<if test="order=='recent'">
+					ORDER BY state ASC, issuedDate DESC
+				</if>
+				<if test="order=='endDate'">
+					ORDER BY state ASC, endDate ASC
+				</if>
+			)tb WHERE ROWNUM &lt;= #{end}
+		)WHERE rnum &gt;=#{start}
+	</select>
+	
+	<select id="dataCountRank" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) FROM coupon
+		WHERE usersCode=#{usersCode}
+		<if test="order=='recent'">
+			ORDER BY state ASC, issuedDate DESC
+		</if>
+		<if test="order=='endDate'">
+			ORDER BY state ASC, endDate ASC
+		</if>
+	</select>
 </mapper>

@@ -119,6 +119,28 @@ public class CouponServiceImpl implements CouponService {
 		return result;
 	}
 
+	@Override
+	public List<LankCoupon> lankCouponList(Map<String, Object> map) throws Exception {
+		List<LankCoupon> list = null;
+		try {
+			list = dao.selectList("coupon.rankCouponList", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public int dataCountRank(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("coupon.dataCountRank", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
 	
 
 }

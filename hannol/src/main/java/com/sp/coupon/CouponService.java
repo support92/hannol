@@ -13,4 +13,7 @@ public interface CouponService {
 	public int updateGoodsCount(int goodsCode) throws Exception;
 	public int goodsCount(int goodsCode) throws Exception;
 	public int insertTicketHistory(Map<String, Object> map) throws Exception;
+	
+	public List<LankCoupon> lankCouponList(Map<String, Object> map) throws Exception;
+	public int dataCountRank(Map<String, Object> map) throws Exception;
 }
