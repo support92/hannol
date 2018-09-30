@@ -128,7 +128,6 @@ $(function(){
     <div>
        <div style="clear: both;">
            <ul class="tabs">
-		       <li id="tab-all" data-tab="all" data-gubuncode="0">전체</li>
 		       <li id="tab-magicpass" data-tab="magicpass" data-gubuncode="1">매직패스</li>
 		       <li id="tab-guide" data-tab="guide" data-gubuncode="2">가이드</li>
 		       <li id="tab-stage" data-tab="stage" data-gubuncode="3">무대공연</li>

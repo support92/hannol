@@ -28,4 +28,36 @@
 	<delete id="deleteGuideBook" parameterType="Integer">
 		DELETE FROM GUIDEBOOK WHERE BOOKCODE = #{bookCode}
 	</delete>
+	
+	<select id="dataCountMagic" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) FROM (
+		    SELECT m.facilitycode, name, mpTime, COUNT(ticketCode) cnt, TO_CHAR(mpDate, 'YYYY-MM-DD') mpDate
+	        FROM magicpass m
+	        JOIN facility f ON m.facilitycode=f.facilitycode
+	        WHERE usersCode=#{usersCode}
+	        group by m.FACILITYCODE, name, mpTime, TO_CHAR(mpDate, 'YYYY-MM-DD')
+	        ORDER BY mpDate DESC, mpTime DESC, facilityCode ASC
+		)
+	</select>
+	
+	<select id="listMymagic" parameterType="map" resultType="com.sp.magicpass.MagicPass">
+		SELECT * FROM(
+		    SELECT ROWNUM rnum, tb.* FROM (
+		        SELECT m.facilitycode, name, mpTime, COUNT(ticketCode) cnt, TO_CHAR(mpDate, 'YYYY-MM-DD') mpDate
+		        FROM magicpass m
+		        JOIN facility f ON m.facilitycode=f.facilitycode
+		        WHERE usersCode=#{usersCode}
+		        group by m.FACILITYCODE, name, mpTime, TO_CHAR(mpDate, 'YYYY-MM-DD')
+		        ORDER BY mpDate DESC, mpTime DESC, facilityCode ASC
+		    )tb WHERE ROWNUM &lt;=#{end}
+		)WHERE rnum &gt;=#{start}
+	</select>
+	
+	<delete id="deleteMagic" parameterType="map">
+		DELETE FROM magicpass
+		WHERE TO_CHAR(mpDate, 'YYYY-MM-DD')=#{mpDate} 
+		AND usersCode = #{usersCode} 
+		AND facilitycode=#{facilityCode} 
+		AND mpTime=${mpTime}	
+	</delete>
 </mapper>
