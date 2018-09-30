@@ -20,7 +20,28 @@
 					</c:if>
 					 <span class="itemTitle">${dto.name}</span>
 					</a>
-					<div class="ridesState"><fmt:formatNumber value="" type="number"/>상태</div>
+					<div class="ridesState"><fmt:formatNumber value="" type="number"/>상태 : 
+						<%-- <c:choose>
+							<c:when test="${dto.waiting < 9}">
+								여유
+							</c:when>
+							<c:when test="${dto.waiting < 19}">
+								보통
+							</c:when>
+							<c:when test="${dto.waiting < 39}">
+								대기
+							</c:when>
+							<c:when test="${dto.waiting < 59}">
+								많음
+							</c:when>
+							<c:otherwise>
+								혼잡
+							</c:otherwise>
+						</c:choose> --%>
+						<%-- ${state} --%>
+					
+					
+					</div>
 				</div>
 			</div>
 		</div>

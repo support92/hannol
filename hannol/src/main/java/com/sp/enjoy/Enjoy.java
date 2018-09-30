@@ -27,7 +27,29 @@ public class Enjoy {
 	int timezone;
 	int waiting;
 	int boarding;
-
+	Date yyyymmdd;
+	int hh;
+	String sample;
+	
+	
+	public String getSample() {
+		return sample;
+	}
+	public void setSample(String sample) {
+		this.sample = sample;
+	}
+	public Date getYyyymmdd() {
+		return yyyymmdd;
+	}
+	public void setYyyymmdd(Date yyyymmdd) {
+		this.yyyymmdd = yyyymmdd;
+	}
+	public int getHh() {
+		return hh;
+	}
+	public void setHh(int hh) {
+		this.hh = hh;
+	}
 	public Date getRecordDate() {
 		return recordDate;
 	}

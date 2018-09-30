@@ -2,8 +2,12 @@ package com.sp.enjoy;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +55,38 @@ public class EnjoyController {
 		System.out.println("**********************SUBlist 입장******************************");
 		String cp = req.getContextPath();
 		
+		//현재시간 구하기
+		//SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+		//방법1
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
+		//방법2
+		SimpleDateFormat formatter2 = new SimpleDateFormat ("yyyy-MM-dd");
+		SimpleDateFormat formatter3 = new SimpleDateFormat ("hh");
+		
+		//방법1
+		LocalDate test = LocalDate.now();
+		System.out.println(dateFormat.format(test)+":::::::왓::::");
+		
+		//방법2_1
+		String date = formatter2.format(new Date());
+		
+		System.out.println(date+":::::::::::::::::::::::::::");
+		
+		Calendar cal = Calendar.getInstance();
+		String yyyymmdd = null;
+		String chh = null;
+		
+		//방법2_2
+		yyyymmdd = formatter2.format(cal.getTime());
+		chh = formatter3.format(cal.getTime());
+		 
+		System.out.println("test:::::::"+test);
+		System.out.println("formatter2:"+formatter2);
+		System.out.println("string:"+yyyymmdd);
+		System.out.println("int:"+chh);
+		
+		int hh = Integer.parseInt(chh);
+		/////////////////////////////////////////////////////////////////////////////////
 		int rows = 9;
 		int total_page;
 		int dataCount;
@@ -74,9 +110,18 @@ public class EnjoyController {
 
 		map.put("start", start);
 		map.put("end", end);
+		map.put("yyyymmdd", dateFormat.format(test));
+		map.put("hh", hh-1);
 		
-		List<Enjoy> list = service.listEnjoy(map);
-
+		/*Enjoy dto = new Enjoy();
+        dto.setYyyymmdd(yyyymmdd);
+        dto.setHh(hh-1);
+        dto.setWaiting(0);
+        dto = service.calcul(dto);*/
+       
+		//List<Enjoy> list1 = service.listEnjoy(map);	
+		List<Enjoy> list2 = service.listEnjoy2(map);	
+        
 
 		String query = "";
         String articleUrl = cp+"/enjoy/article?page=" + current_page;
@@ -90,8 +135,17 @@ public class EnjoyController {
         }
 		
         String paging = myUtil.paging(current_page, total_page);
-	
-	    model.addAttribute("list", list);
+        
+        /*if(dto.getWaiting()==0) {
+        	System.out.println("데이터가 없습니다.");
+        	String state="집계중";
+        	model.addAttribute("state",state);
+        	model.addAttribute("list", list1);
+        }else {
+        	model.addAttribute("list", list2);
+        	
+        }        */
+        model.addAttribute("list", list2);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("articleUrl", articleUrl);
