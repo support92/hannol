@@ -55,6 +55,7 @@
 		JOIN goods g ON t.goodsCode=g.goodsCode
 		JOIN payment p ON p.payCode = t.payCode
 		WHERE #{today} BETWEEN TO_CHAR(startDate, 'YYYY-MM-DD') AND TO_CHAR(endDate, 'YYYY-MM-DD')	
+		AND g.GUBUNCODE IN (4, 6, 9)
 		AND usersCode=#{usersCode}
 	</select>
 	

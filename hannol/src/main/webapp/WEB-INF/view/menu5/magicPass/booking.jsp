@@ -97,6 +97,7 @@ $(function(){
 		alert(msg);
 	}
 	
+	//예약하기 모달창 띄우기
 	$(".btn-magicPass").click(function(){
 		var facilityCode = $(this).attr("data-facilityCode");
 		var url = "<%=cp%>/magicPass/getReservation";
@@ -108,6 +109,7 @@ $(function(){
 			$(this).attr("disabled", false);
 		});
 		$(".check-ticket").html("");
+		$(".select-Time").val("");
 		 
 		
 		//시간별 탑승가능 여부 확인
@@ -116,31 +118,30 @@ $(function(){
 			,url:url
 			,data: data
 			,success:function(data) {
-				if(data.list != null){
-					for(var i=0; i < data.list.length; i++){
-						$(".select-Time option").each(function(){
-							if($(this).val() == data.list[i].mpTime){
-								if(data.list[i].state==1){
-									$(this).attr("disabled", true);
-								}
-							}
-						});		
+				
+				$(".select-Time option").not(":first").each(function(){
+					//지난 시간 예약불가
+					if(Number($(this).val()) <= Number(data.timeStamp)){
+						$(this).attr("disabled", true);
 					}
 					
-					var html = "";
-					console.log(data.ticketList);
-					for(var i=0; i < data.ticketList.length; i++){
-						html+="<input type='checkbox' name='ticketCode' value="+data.ticketList[i].ticketsCode+">"+data.ticketList[i].goodsName;
+					for(var i=0; i < data.list.length; i++){	
+						//100명이상 예약 불가
+						if($(this).val() == data.list[i].mpTime && data.list[i].state==1){
+							$(this).attr("disabled", true);
+						}	
 					}
+				});	
 					
-					$(".check-ticket").html(html);
-					
-					$("#myModal").modal();
-					
-				}else{
-					alert("예약이 불가능 합니다.");
+				//이용권 추가
+				var html = "";
+				for(var i=0; i < data.ticketList.length; i++){
+					html+="<input type='checkbox' name='ticketCode' value="+data.ticketList[i].ticketsCode+">"+data.ticketList[i].goodsName;
 				}
 				
+				$(".check-ticket").html(html);
+				
+				$("#myModal").modal();
 				
 			}
 		    ,error:function(e) {

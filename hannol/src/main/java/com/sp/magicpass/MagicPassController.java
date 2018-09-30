@@ -142,9 +142,11 @@ public class MagicPassController {
 		paramMap.put("usersCode", usersCode);
 		
 		List<MagicPass> ticketList = service.getTicket(paramMap);
+		String timeStamp = new SimpleDateFormat("HH").format(new Date());
 		
 		model.put("list", list);
 		model.put("ticketList", ticketList);
+		model.put("timeStamp", timeStamp);
 		
 		return model; 
 	}
@@ -162,7 +164,7 @@ public class MagicPassController {
 		
 		int result = service.insertReservation(dto);
 		if(result==0) {
-			redirectAttributes.addFlashAttribute("msg", "시간당 예약은 1번만 가능합니다.");
+			redirectAttributes.addFlashAttribute("msg", "이용권으로 매직패스 예약은 이용권당, 한 시간당 하나만 예약이 가능합니다.");
 			return "redirect:/magicPass/booking";
 		}
 		
