@@ -14,7 +14,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>spring</title>
+<title>HANNOL</title>
 
 <script type="text/javascript" src="<%=cp%>/resource/fullcalendar/lib/moment.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=cp%>/resource/fullcalendar/fullcalendar.css"/>

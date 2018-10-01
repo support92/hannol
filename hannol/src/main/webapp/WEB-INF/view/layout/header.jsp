@@ -20,9 +20,9 @@
                 <c:if test="${sessionScope.member.memberId=='admin'}">
                     <a href="#">관리자</a> <i></i>
                 </c:if>
-                <a href="<%=cp%>/member/logout"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
             	<a href="<%=cp%>/mypage/info">마이페이지</a><i></i>
-            	<a href="<%=cp%>/giftshop/cart"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a>
+            	<a href="<%=cp%>/giftshop/cart"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a><i></i>
+            	<a href="<%=cp%>/member/logout"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
             </c:if>
         </div>
         <div class="clear"></div>
@@ -52,7 +52,6 @@
                                   <li><a href="#">가이드맵</a></li>
                                   <li><a href="<%=cp%>/ticket/list">이용요금</a></li>
                                   <li><a href="<%=cp%>/card/list">제휴카드</a></li>
-                                  <li><a href="#">인재채용</a></li>
                               </ul>
                           </li>
                           <li class="dropdown">
@@ -94,7 +93,7 @@
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/reservation/ticket">예매</a></li>
                                   <li><a href="<%=cp%>/guide/list">가이드</a></li>
-                                  <li><a href="#">페스티벌</a></li>
+                                  <li><a href="#">공연</a></li>
                                   <li><a href="#">편의시설</a></li>
                               </ul>
                           </li>
