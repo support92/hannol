@@ -136,7 +136,7 @@ $(function(){
 				//이용권 추가
 				var html = "";
 				for(var i=0; i < data.ticketList.length; i++){
-					html+="<input type='checkbox' name='ticketCode' value="+data.ticketList[i].ticketsCode+">"+data.ticketList[i].goodsName;
+					html+="<input type='checkbox' name='ticketCode' data-gubun="+data.ticketList[i].ticketGubun+" value="+data.ticketList[i].ticketsCode+">"+data.ticketList[i].goodsName;
 				}
 				
 				$(".check-ticket").html(html);
@@ -152,6 +152,30 @@ $(function(){
 	});
 	
 	$(".btn-magicpass-rsv").click(function(){
+		var times = $(".select-Time").val();
+		if(times == ""){
+			alert("시간대를 선택해 주세요");
+			return;
+		}
+		
+		var $tickets = $("input[name$='ticketCode']");
+		var state = "false";
+		for(var i=0; i<$tickets.length; i++){
+			if($($tickets[i]).is(":checked")){
+				state = "true";
+				
+				if($($tickets[i]).attr("data-gubun")=="6" && (Number(times) < Number("16"))){
+					alert("야간권+매직패스권은 오후 4시부터 예약이 가능합니다.");
+					return;
+				}
+			}
+		}
+		
+		if(state=="false"){
+			alert("선택된 이용권이 없습니다.");
+			return;
+		}
+		
 		var f = document.reservationForm;
 		f.submit();
 	});

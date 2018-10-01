@@ -50,7 +50,7 @@
 	</select>
 	
 	<select id="getTicket" parameterType="Map" resultType="com.sp.magicpass.MagicPass">
-		SELECT ticketCode AS ticketsCode, goodsName, usersCode 
+		SELECT ticketCode AS ticketsCode, goodsName, usersCode, gubun AS ticketGubun 
 		FROM ticket t
 		JOIN goods g ON t.goodsCode=g.goodsCode
 		JOIN payment p ON p.payCode = t.payCode
