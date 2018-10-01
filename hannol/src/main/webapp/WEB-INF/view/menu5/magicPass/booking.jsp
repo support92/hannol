@@ -78,6 +78,15 @@
 
 .check-ticket input{
 	vertical-align: middle;
+	margin: 0px 10px 0px 10px;
+}
+
+.check-ticket{
+	display: block;
+	clear: both;
+	margin-left: 10px;
+	vertical-align: middle;
+	
 }
 
 .modal-body{
@@ -136,10 +145,10 @@ $(function(){
 				//이용권 추가
 				var html = "";
 				for(var i=0; i < data.ticketList.length; i++){
-					html+="<input type='checkbox' name='ticketCode' data-gubun="+data.ticketList[i].ticketGubun+" value="+data.ticketList[i].ticketsCode+">"+data.ticketList[i].goodsName;
+					html+="<span class='check-ticket'><input type='checkbox' name='ticketCode' data-gubun="+data.ticketList[i].ticketGubun+" value="+data.ticketList[i].ticketsCode+">"+data.ticketList[i].goodsName+"</span>";
 				}
 				
-				$(".check-ticket").html(html);
+				$(".p-ticket").html(html);
 				
 				$("#myModal").modal();
 				
@@ -278,9 +287,8 @@ $(function(){
 		          </p>
 		          <p style="margin-top: 10px;">
 		          	<span class="txtTitle">이용권</span>
-		          	<span class="check-ticket">
-		          	
-		          	</span>
+		          </p>
+		          <p class="p-ticket">
 		          </p>
 		        </div>
 		        <div class="modal-footer">
