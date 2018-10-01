@@ -20,5 +20,5 @@ $(function(){
        <a href="<%=cp %>/reservation/ticket" class="list-group-item">예매</a>
        <a href="<%=cp %>/guide/list" class="list-group-item">가이드</a>
        <a href="#" class="list-group-item">페스티벌</a>
-       <a href="#" class="list-group-item">편의시설</a>
+       <a href="<%=cp%>/amenities/list" class="list-group-item">편의시설</a> 
 </div>
