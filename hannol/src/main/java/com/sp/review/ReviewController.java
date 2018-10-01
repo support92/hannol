@@ -51,9 +51,9 @@ public class ReviewController {
  	}
  	
  	@RequestMapping(value = "/review/listReview", method = RequestMethod.GET)
-	public String listReview(@RequestParam(value="page", defaultValue="1") int current_page,
+	public String listReview(@RequestParam(value="pageNo", defaultValue="1") int current_page,
+			HttpSession session,
 			Model model) throws Exception {
- 		
  		int rows = 5;
  		int total_page = 0;
  		int dataCount = 0;
@@ -69,6 +69,7 @@ public class ReviewController {
  		Map<String, Object> map = new HashMap<>();
  		map.put("start", start);
  		map.put("end", end);
+ 		
  		List<Review> list = service.listReview(map);
  		
  		for(Review dto : list) {

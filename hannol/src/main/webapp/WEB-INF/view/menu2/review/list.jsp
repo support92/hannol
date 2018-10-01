@@ -66,6 +66,14 @@ function createReview() {
 	ajaxJSON(url, "post", query);
 }
 
+function updateReview(reviewCode) {
+	
+}
+
+function deleteReview(reviewCode) {
+	
+}
+
 function listPage(page) {
 	var url = "<%=cp%>/review/listReview";
 	var query = "pageNo=" + page;

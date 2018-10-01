@@ -7,7 +7,6 @@
 		values(review_seq.nextval, #{content}, #{reviewDate}, #{usersCode})	
 	</insert>
 	
-	
 	<!-- 후기 개수 -->
 	<select id="dataCount" resultType="Integer">
 		select nvl(count(*), 0) from review r

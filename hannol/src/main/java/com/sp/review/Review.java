@@ -9,9 +9,10 @@ public class Review {
 	private String memberIdWithStar;
 	private String content;
 	private String reviewDate;	// 방문일자
+	private int myLike;
+
 	
-	
-	
+
 	public String getMemberIdWithStar() {
 		return memberIdWithStar;
 	}
