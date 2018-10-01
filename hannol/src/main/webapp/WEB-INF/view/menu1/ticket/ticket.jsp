@@ -174,6 +174,12 @@
     <div style="clear: both; content: ''"></div>
     <div class="note">
     	<p style="font-size: 20px; font-weight: bold;">꼭 알아두세요</p>
-    	<p style="margin-top: 10px; font-size: 16px;">연간회원권은 매직패스가 포함된 가격입니다</p>
+    	<p style="margin-top: 30px; font-size: 16px; font-weight: bold;">＊ 연령에 따른 우대</p>
+    	<p style="margin-top: 10px; font-size: 16px;">-36개월 미만 : 무료이용</p>
+    	<p style="margin-top: 10px; font-size: 16px;">-소인 : 36개월 ~ 만 12세</p>
+    	<p style="margin-top: 10px; font-size: 16px; font-weight: bold;">＊ 우대</p>
+    	<p style="margin-top: 10px; font-size: 16px;">장애인우대(장애인등록증 제시)</p>
+    	<p style="margin-top: 10px; font-size: 16px;">국가유공자우대(증명서류 제시)</p>
+    	<p style="margin-top: 10px; font-size: 16px; font-weight: bold;">＊ 연간회원권은 매직패스가 포함된 가격입니다</p>
     </div>
 </div>
