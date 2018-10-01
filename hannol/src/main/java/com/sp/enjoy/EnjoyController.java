@@ -3,8 +3,6 @@ package com.sp.enjoy;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,8 +35,11 @@ public class EnjoyController {
 
 		List<Enjoy> list = service.listEnjoy();
 		
+		String tab = "princess";
+		
 	    model.addAttribute("listEnjoy", list);
 		model.addAttribute("page", current_page);
+		model.addAttribute("tab", tab);
 	    
 		System.out.println("**********************list******************************");
 		
@@ -47,6 +48,8 @@ public class EnjoyController {
 	
 	@RequestMapping(value="/enjoy/subList")
 	public String subList(@RequestParam(value="page", defaultValue="1") int current_page,
+			@RequestParam(value="tab", defaultValue="princess") String tab,
+			@RequestParam(value="gubunCode", defaultValue="0") int code,
 			@RequestParam(value="searchKey", defaultValue="subject") String searchKey,
 			@RequestParam(value="searchValue", defaultValue="") String searchValue,
 			HttpServletRequest req,
@@ -55,37 +58,23 @@ public class EnjoyController {
 		System.out.println("**********************SUBlist 입장******************************");
 		String cp = req.getContextPath();
 		
+		System.out.println(code+":::::::::::::::::code:::");
+		
 		//현재시간 구하기
 		//SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
-		//방법1
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
-		//방법2
-		SimpleDateFormat formatter2 = new SimpleDateFormat ("yyyy-MM-dd");
-		SimpleDateFormat formatter3 = new SimpleDateFormat ("hh");
 		
-		//방법1
-		LocalDate test = LocalDate.now();
-		System.out.println(dateFormat.format(test)+":::::::왓::::");
+		SimpleDateFormat formatter2 = new SimpleDateFormat ("yyyyMMdd");
+		SimpleDateFormat formatter3 = new SimpleDateFormat ("kk");
 		
-		//방법2_1
-		String date = formatter2.format(new Date());
-		
-		System.out.println(date+":::::::::::::::::::::::::::");
+		Date today = new Date();
+		String date = formatter2.format(today);
 		
 		Calendar cal = Calendar.getInstance();
-		String yyyymmdd = null;
+		
 		String chh = null;
-		
-		//방법2_2
-		yyyymmdd = formatter2.format(cal.getTime());
 		chh = formatter3.format(cal.getTime());
-		 
-		System.out.println("test:::::::"+test);
-		System.out.println("formatter2:"+formatter2);
-		System.out.println("string:"+yyyymmdd);
-		System.out.println("int:"+chh);
-		
 		int hh = Integer.parseInt(chh);
+		System.out.println("시간::::::::"+hh);
 		/////////////////////////////////////////////////////////////////////////////////
 		int rows = 9;
 		int total_page;
@@ -98,7 +87,10 @@ public class EnjoyController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("searchKey", searchKey);
         map.put("searchValue", searchValue);
-
+        map.put("yyyymmdd", date);
+		map.put("hh",hh-1);
+		map.put("code",code);
+		
 		dataCount = service.dataCount(map);
 		total_page = myUtil.pageCount(rows, dataCount);
 
@@ -110,16 +102,8 @@ public class EnjoyController {
 
 		map.put("start", start);
 		map.put("end", end);
-		map.put("yyyymmdd", dateFormat.format(test));
-		map.put("hh", hh-1);
 		
-		/*Enjoy dto = new Enjoy();
-        dto.setYyyymmdd(yyyymmdd);
-        dto.setHh(hh-1);
-        dto.setWaiting(0);
-        dto = service.calcul(dto);*/
-       
-		//List<Enjoy> list1 = service.listEnjoy(map);	
+		
 		List<Enjoy> list2 = service.listEnjoy2(map);	
         
 
@@ -136,15 +120,6 @@ public class EnjoyController {
 		
         String paging = myUtil.paging(current_page, total_page);
         
-        /*if(dto.getWaiting()==0) {
-        	System.out.println("데이터가 없습니다.");
-        	String state="집계중";
-        	model.addAttribute("state",state);
-        	model.addAttribute("list", list1);
-        }else {
-        	model.addAttribute("list", list2);
-        	
-        }        */
         model.addAttribute("list", list2);
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);

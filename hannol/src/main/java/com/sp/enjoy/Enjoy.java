@@ -30,8 +30,22 @@ public class Enjoy {
 	Date yyyymmdd;
 	int hh;
 	String sample;
+	int sortby;
+	Date ymd;
 	
 	
+	public int getSortby() {
+		return sortby;
+	}
+	public void setSortby(int sortby) {
+		this.sortby = sortby;
+	}
+	public Date getYmd() {
+		return ymd;
+	}
+	public void setYmd(Date ymd) {
+		this.ymd = ymd;
+	}
 	public String getSample() {
 		return sample;
 	}
