@@ -56,7 +56,7 @@ public class ReviewController {
 			Model model) throws Exception {
  		int rows = 5;
  		int total_page = 0;
- 		int dataCount = 0;
+ 		int dataCount = 0; 
 
  		dataCount = service.dataCount();
  		total_page = myUtil.pageCount(rows, dataCount);
