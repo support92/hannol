@@ -3,10 +3,24 @@ package com.sp.review;
 public class Review {
 	private int reviewCode;
 	private int usersCode;
+	private int likecount;
+	
+	private String memberId;
 	private String content;
 	private String reviewDate;	// 방문일자
 	
-	
+	public int getLikecount() {
+		return likecount;
+	}
+	public void setLikecount(int likecount) {
+		this.likecount = likecount;
+	}
+	public String getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
 	public int getReviewCode() {
 		return reviewCode;
 	}

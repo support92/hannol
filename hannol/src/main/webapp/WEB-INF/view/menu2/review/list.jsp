@@ -166,8 +166,7 @@ function ajaxJSON(url, type, query) {
 	</div>
 	<div align="center" id="msg"  style="color: red; font-weight: bold;"></div>
 
-	<div>
-		<img src="<%=cp%>/resource/images/like_heart_icon.png"  style="padding: 5px;" width="30px;" onerror="this.src='<%=cp%>/resource/images/gray_heart_icon.png'">
-		<div id="listReview"></div>
-    </div>
+
+	<div id="listReview" style="padding: 15px;"></div>
+
 </div>

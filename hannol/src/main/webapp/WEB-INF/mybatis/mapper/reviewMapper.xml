@@ -17,8 +17,9 @@
 	<select id="listReview" parameterType="map" resultType="com.sp.review.Review">
 		select * from (
 		    select rownum rnum, tb.* from (
-		        select r.reviewCode, content, reviewdate, userscode, likecount
-		        from review r
+		        select r.reviewCode, content, reviewdate, r.userscode, nvl(likecount, 0) likecount, m.memberId
+		        from review r join member1 m
+		        	on r.userscode = m.userscode
 		        left outer join (
 		            select reviewcode, nvl(count(usersCode), 0) likeCount
 		            from reviewlike
@@ -28,6 +29,7 @@
 		    ) tb where rownum <= #{end}
 		) where rnum >= #{start}
 ]]>	
+        order by likecount desc
 	</select>
 	
 </mapper>

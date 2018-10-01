@@ -6,12 +6,16 @@
    String cp = request.getContextPath();
 %>
 
-<div class="bodyFrame2">
-    <div class="body-title">
-          <h3><span class="glyphicon glyphicon-tower"></span> 제목 <small>Page header</small></h3>
-    </div>
-    
+
+<c:forEach items="${list}" var="dto">
     <div>
-            내용...
+		<div style="width: 80%; background-color: red; float: left;" align="left" >
+			${dto.content}		
+		</div>
+    	<div style="width: 20%; background-color: blue; float: left;" align="center">
+			<img src="<%=cp%>/resource/images/gray_heart_icon.png"  style="padding: 5px;" width="30px;"> ${dto.likecount}
+		</div>
     </div>
-</div>
+</c:forEach>    
+
+${paging}
