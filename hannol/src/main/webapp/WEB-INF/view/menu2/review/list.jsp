@@ -8,7 +8,7 @@
 
 <div class="bodyFrame2">
     <div class="body-title">
-          <h3><span class="glyphicon glyphicon-pencil"></span> 방명록 <small>Guest Book</small></h3>
+          <h3><span class="glyphicon glyphicon-pencil"></span> 이용후기 </h3>
     </div>
     
     <div class="alert alert-info">
