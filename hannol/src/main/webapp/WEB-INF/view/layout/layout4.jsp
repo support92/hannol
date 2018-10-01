@@ -34,6 +34,7 @@
 <script type="text/javascript" src="<%=cp%>/resource/js/util-jquery.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/js/common.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=56b9e67cb5d44443d2b347f1156acbac"></script>
 
 <style type="text/css">
 .sub_contents {
