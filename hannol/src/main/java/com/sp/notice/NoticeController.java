@@ -1,5 +1,6 @@
 package com.sp.notice;
 
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -8,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sp.common.FileManager;
 import com.sp.common.MyUtil;
 
 @Controller("bbs.noticeController")
@@ -22,8 +26,12 @@ public class NoticeController {
 
 	@Autowired
 	private NoticeService service;
+
 	@Autowired
 	private MyUtil myUtil;
+
+	@Autowired
+	private FileManager fileManager;
 
 	@RequestMapping(value = "/notice/list")
 	public String userList(@RequestParam(value = "page", defaultValue = "1") int current_page,
@@ -136,6 +144,29 @@ public class NoticeController {
 		model.addAttribute("nextReadDto", nextReadDto);
 
 		return ".four.menu2.notice.article";
+	}
+
+	@RequestMapping(value = "/notice/download")
+	public void download(@RequestParam String saveFilename, @RequestParam String originalFilename,
+			HttpServletResponse resp, HttpSession session) throws Exception {
+		// 관리자 폴더에 저장된 이미지에 접근해야 하기에 경로를 지정해줌. 사용자 페이지와 관리자페이지가 같은 서버에서 돌기에 가능한 접근법
+		// String root = session.getServletContext().getRealPath("/");
+		// String pathname = root + "uploads" + File.separator + "noticeFile";
+		String pathname = "C:\\study\\work\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\hannolAdmin\\uploads\\noticeFile";
+
+		boolean b = false;
+
+		b = fileManager.doFileDownload(saveFilename, originalFilename, pathname, resp);
+
+		if (!b) {
+			try {
+				resp.setContentType("text/html; charset=utf-8");
+				PrintWriter out = resp.getWriter();
+				out.println("<script>alert('파일 다운로드가 불가능 합니다 !!!');history.back();</script>");
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
+		}
 	}
 
 }
