@@ -106,7 +106,7 @@
                                   <li><a href="<%=cp%>/notice/list">공지</a></li>
                                   <li><a href="#">이벤트</a></li>
                                   <li><a href="#">FAQ</a></li>
-                                  <li><a href="#">1:1문의</a></li>
+                                  <li><a href="<%=cp%>/question/list">1:1문의</a></li>
                                   <li><a href="<%=cp%>/review/list">이용후기</a></li>
                               </ul>
                           </li>
