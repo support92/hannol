@@ -15,22 +15,19 @@ public class EnjoyServiceImpl implements EnjoyService{
 	@Autowired
 	private CommonDAO  dao;
 	
-	@Autowired
-	private FileManager fileManager;
-	
 	@Override
 	public int dataCount(Map<String, Object> map) {
 		int result=0;
 		
 		try {
-			result=dao.selectOne("enjoy.dataCount");
+			result=dao.selectOne("enjoy.dataCount", map);
 		} catch (Exception e) {
 		}
 		
 		return result;
 	}
 
-	@Override
+/*	@Override
 	public List<Enjoy> listEnjoy(Map<String, Object> map) {
 		List<Enjoy> list = null;
 		
@@ -40,7 +37,7 @@ public class EnjoyServiceImpl implements EnjoyService{
 			System.out.println(e.toString());
 		}
 		return list;
-	}
+	}*/
 	
 	@Override
 	public List<Enjoy> listEnjoy2(Map<String, Object> map) {
@@ -48,6 +45,13 @@ public class EnjoyServiceImpl implements EnjoyService{
 		
 		try {
 			list = dao.selectList("enjoy.listEnjoyCal", map);
+			
+			for(Enjoy e : list) {
+				e.setWaiting(-1);
+				int waiting = dao.selectOne("enjoy.calcul", map);
+				e.setWaiting(waiting);
+			}
+			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -67,7 +71,7 @@ public class EnjoyServiceImpl implements EnjoyService{
 		return list;
 	}
 
-	@Override
+/*	@Override
 	public Enjoy calcul(Enjoy dto) {
 		
 		dto.setWaiting(0);
@@ -83,5 +87,5 @@ public class EnjoyServiceImpl implements EnjoyService{
 		
 		return dto;
 	}
-
+*/
 }

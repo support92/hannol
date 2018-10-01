@@ -3,13 +3,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="enjoy">
 
-	<select id="dataCount" resultType="Integer">
-		SELECT NVL(COUNT(*), 0) 
-		FROM Facility
-		where gubunCode=1
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		select count (*) FROM 
+		(select f.facilityCode, name, state, f.themeCode,originalMainFilename,saveMainFilename, memo
+	            from facility f
+	            left join theme t on f.themeCode = t.themeCode
+	            where gubunCode=1 and f.themeCode= #{code})
 	</select>
 	
-	<select id="listEnjoy" parameterType="map" resultType="com.sp.enjoy.Enjoy">
+<!-- 	<select id="listEnjoy" parameterType="map" resultType="com.sp.enjoy.Enjoy">
 		select * from (
    		select rownum rnum, tb.* from (
 				select facilityCode, name, state, originalMainFilename,saveMainFilename, memo 
@@ -20,22 +22,23 @@
 			)where rnum >= #{start}	
 		]]>
 		order by facilityCode desc
-	</select>
+	</select> -->
 	
-<!-- 	<select id="listEnjoyCal" parameterType="map" resultType="com.sp.enjoy.Enjoy">
+	<select id="listEnjoyCal" parameterType="map" resultType="com.sp.enjoy.Enjoy">
 		select * from (
    		select rownum rnum, tb.* from (
-				select f.facilityCode, name, state, originalMainFilename,saveMainFilename, memo, waiting,to_char(recordDate,'yyyymmdd')recordDate, timezone 
+				select f.facilityCode, name, state, f.themeCode,originalMainFilename,saveMainFilename, memo
 	            from facility f
-	            left join ridesState r on f.facilityCode = r.facilityCode
-	            where gubunCode=1 and timezone=10 and recordDate= #{yyyymmdd}
+	            left join theme t on f.themeCode = t.themeCode
+	            where gubunCode=1 and f.themeCode= #{code}
+	            <!-- order by #{sortby} desc -->
 		<![CDATA[
 				) tb where rownum <= #{end}
 			)where rnum >= #{start}	
 		]]>
 		order by facilityCode desc
 	</select>
-	 -->
+	
 	
 	<select id="listEnjoy2" resultType="com.sp.enjoy.Enjoy">
 
@@ -45,10 +48,14 @@
 
 	</select>
 	
-	<select id="calcul" parameterType="com.sp.enjoy.Enjoy" resultType="com.sp.enjoy.Enjoy">
-		select waiting,to_char(recordDate,'yyyymmdd')recordDate, timezone 
-		from ridesState 
-		where recordDate=#{yyyymmdd} and timezone=#{hh}
+	<select id="calcul" parameterType="map" resultType="com.sp.enjoy.Enjoy">
+
+	select waiting
+	from facility f
+	left join ridesState r on f.facilityCode = r.facilityCode
+	left join theme t on f.themeCode = t.themeCode
+	where gubunCode=1 and timezone=#{hh} and to_char(recordDate,'yyyymmdd')=#{yyyymmdd} and f.themeCode= #{code};
+	
 	</select>
 	
 </mapper>
