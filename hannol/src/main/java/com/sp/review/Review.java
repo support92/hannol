@@ -6,9 +6,18 @@ public class Review {
 	private int likecount;
 	
 	private String memberId;
+	private String memberIdWithStar;
 	private String content;
 	private String reviewDate;	// 방문일자
 	
+	
+	
+	public String getMemberIdWithStar() {
+		return memberIdWithStar;
+	}
+	public void setMemberIdWithStar(String memberIdWithStar) {
+		this.memberIdWithStar = memberIdWithStar;
+	}
 	public int getLikecount() {
 		return likecount;
 	}

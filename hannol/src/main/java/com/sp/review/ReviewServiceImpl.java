@@ -40,6 +40,10 @@ public class ReviewServiceImpl implements ReviewService {
 		List<Review> list = null;
 		try {
 			list = dao.selectList("review.listReview", map);
+			for(Review r : list) {
+				String memberIdWithStar = r.getMemberId().substring(0, 4).concat("****");
+				r.setMemberIdWithStar(memberIdWithStar);
+			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
