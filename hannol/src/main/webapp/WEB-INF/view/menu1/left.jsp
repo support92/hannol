@@ -22,5 +22,4 @@ $(function(){
        <a href="#" class="list-group-item">가이드맵</a>
        <a href="<%=cp%>/ticket/list" class="list-group-item">이용요금</a>
        <a href="<%=cp%>/card/list" class="list-group-item">제휴카드</a>
-       <a href="#" class="list-group-item">인재채용</a>
 </div>

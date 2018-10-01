@@ -139,14 +139,14 @@ $(function(){
 $(function(){
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
-        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        center: new daum.maps.LatLng(37.5575312,126.9222782), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };
 	
 	var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 	
 	// 마커가 표시될 위치입니다 
-	var markerPosition  = new daum.maps.LatLng(33.450701, 126.570667); 
+	var markerPosition  = new daum.maps.LatLng(37.5575312,126.9222782); 
 	
 	// 마커를 생성합니다
 	var marker = new daum.maps.Marker({
@@ -166,14 +166,14 @@ $(function(){
     <div>
 		<ul class="nav nav-tabs">
 		  <li class="nav-item active">
-		    <a class="nav-link" href="#" data-gubun="subway">지하철</a>
+		    <a class="nav-link" href="#" data-gubun="bus">버스&지도</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" href="#" data-gubun="bus">버스&지도</a>
+		    <a class="nav-link" href="#" data-gubun="subway">지하철</a>
 		  </li>
 		</ul>
 		
-		<div class="subway">
+		<div class="subway" style="display: none;">
 			<div>
 				<img alt="지하철노선도" src="<%=cp%>/resource/images/img_subway.png" style="width: 100%;">
 			</div>
@@ -206,9 +206,9 @@ $(function(){
 		</div>
 		
 		
-		<div class="bus" style="display: none;">
+		<div class="bus">
 			<div>
-				<div id="map" style="width:100%;height:400px;"></div>
+				<div id="map" style="width:100%;height:350px;"></div>
 				<p class="tit">버스 이용시</p>
 				<ul>
 					<li>
