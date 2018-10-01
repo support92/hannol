@@ -21,95 +21,20 @@
  	margin: 10px auto;
 }
 
-.custom_h2 {
-    padding-left: 2px;
-    margin-bottom: 8px;
-    font-size: 20px;
-    font-weight: 700;
-    color: #333;
-}
-
 .custom_table {
     width: 100%;
     border-top: 2px solid #cecece;
-}
-
-.custom_col1 {
-    width: 50%;
-    border: solid #e4e4e4;
-    border-width: 0 1px 1px 0;
-    padding: 7px 10px 7px 15px;
-    font-weight: bold;
-    text-align: left;
-}
-
-.customer_col2 {
-	width: 50%;
-    border-bottom: 1px solid #e4e4e4;
-    padding: 10px 16px;
-}
-
-.pay_price {
-    border-top: 2px solid #cecece;
-}
-
-.col_title {
-    vertical-align: top;
-    text-align: right;
-    padding-right: 10px;
-    border-right: 1px solid #e4e4e4;
-    border-bottom: 1px solid #e4e4e4;
-    background: #f4f4f4;
-}
-
-.price {
-    display: inline-block;
-    padding-left: 17px;  
-    padding-bottom: 10px;
-    width: 100px;
-}
-
-.table_col{
-	border-bottom: 1px solid #e4e4e4;
+    margin-top: 15px;
 }
 
 select {
-    height: 23px;
+    height: 30px;
     font-size: 12px;
     vertical-align: middle;
 }
 
-.pay-type-section {
-    padding: 10px 0;
-    margin: 0;
-    line-height: 21px;
-    border-bottom: 1px solid #e4e4e4;
-}
-
-.line-title {
-    display: inline-block;
-    width: 90px;
-    font-size: 12px;
-    font-weight: bold;
-    margin: 0;
-    vertical-align: middle;
-    padding-left: 15px;
-}
-
-.pay-type-section .line-title:before {
-    content: "";
-    position: relative;
-    display: inline-block;
-    width: 3px;
-    height: 3px;
-    margin-left: 2px;
-    margin-right: 4px;
-    vertical-align: middle;
-    background: #55575f;
-}
-
-.modal_th {
-    width: 30%;
+th {
+    width: 25%;
     border: solid #e4e4e4;
     border-width: 0 1px 1px 0;
     padding: 7px 10px 7px 15px;
@@ -118,19 +43,16 @@ select {
     background: #f4f4f4;
 }
 
-.modal_td {
-	width: 70%;
+td {
+	width: 75%;
     border-bottom: 1px solid #e4e4e4;
     padding: 10px 16px;
 }
 
-.btn_delete{
-  width: 21px;
-  height: 21px;
-  background: url('<%=cp%>/resource/images/delete.png') no-repeat -1px -1px;
-  border: none;
-  line-height : 21px;
-  float: left;
+.td_custom {
+	width: 75%;
+	border-bottom: #ffffff;
+    padding: 10px 16px;
 }
 </style>
 
@@ -140,7 +62,95 @@ select {
 
 <div class="bodyFrame2">
     <div class="body-title">
-          <h3><span class="glyphicon glyphicon-credit-card"></span> 1:1문의 </h3>
+          <h3><span class="glyphicon glyphicon-pencil"></span> 1:1문의 </h3>
     </div>
-     
+    
+    <div>
+    	<img width="100%" src="<%=cp%>/resource/images/questionInfo.png">
+    </div>
+    
+    <div align="center">
+    	<table class="custom_table">
+		    <colgroup width="144">
+		    </colgroup>
+		  
+		  <tbody>
+				<tr>
+					<th>문의유형</th>
+					<td>
+						<select id="gubun">
+							<option value="0">전체</option>
+							<option value="0">요금 문의</option>
+							<option value="0">제휴 할인</option>
+							<option value="0">온라인 예매</option>
+							<option value="0">연간 회원</option>
+							<option value="0">예약 문의</option>
+							<option value="0">기타 문의</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td>
+						<input type="text" id="subject" name="subject" style="height: 30px; width: 100%;">
+					</td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td>
+						<textarea id="content" name="content" rows="12" style="width: 100%; resize: none;"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>첨부파일</th>
+					<td>
+						<input type="file" id="upload" name="upload">
+					</td>
+				</tr>
+		  </tbody>
+		</table>
+		
+		<table class="custom_table">
+			<tr>
+				<td class="td_custom">
+					<label>개인정보 수집, 이용동의서</label>
+				</td>
+			</tr>
+			<tr>
+				<td align="left">
+					<textarea rows="8" style="width: 100%; resize: none; text-align: left; white-space: pre-line; padding-left: 15px;" readonly="readonly">
+						개인 정보 수집, 이용 동의서
+						본인은 방문 전 이용문의 작성과 관련하여 귀사가 아래와 같이 본인의 개인정보를 수집, 이용하는데 동의합니다.
+						
+						개인정보 수집, 이용에 관한 사항
+						1.개인정보의 수집, 이용 목적
+						   고객의 요청ㆍ문의사항 확인, 사실조사를 위한 연락ㆍ통지, 처리결과 통보 등의 목적
+						
+						2.수집하는 개인정보의 항목
+						   ㆍ서비스 이용과정이나 사업처리 과정에서 아래와 같은 정보들이 생성되어 수집될 수 있습니다.
+						   접속로그, 쿠키, 접속IP정보
+						
+						3.개인정보의 보유, 이용기간
+						   수집, 이용에 관한 동의일로부터 1년(이후에는 제목, 작성 내용만 보관됩니다.)
+						
+						※ 귀하는 개인정보 수집, 이용에 대한 동의를 거부하실 권리가 있으며, 동의를 거부하실 경우 서비스 이용이 제한됩니다.
+					</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" style="vertical-align: middle;"><label style="margin-left: 5px;">개인정보 수집 및 이용에 동의합니다.</label>
+				</td>
+			</tr>
+		</table>
+		
+		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
+			<tr height="40">
+		    	<td align="center" width="100" class="td_custom">
+		          	<button type="button" class="btn btn-info" style="font-weight: bold;" onclick="validOk();">문의하기</button>
+		     	 	<button type="reset" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;" onclick="isTermsCheck();">취소하기</button>
+		     	</td>
+		   	</tr>
+		</table>
+    </div>
 </div>   
