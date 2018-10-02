@@ -21,6 +21,9 @@
     </div>
     
     <div>
-    가이드 맵
+    	<div style="position: relative;">
+	    	<img alt="가이드맵" src="<%=cp%>/resource/images/guide_map.png" style="width: 100%;">
+	    	<a href="<%=cp%>/resource/files/guide_map.pdf" style="position: absolute; top: 30%; left: 5%;"><button class="btn btn-info">PDF 다운로드</button></a>    	
+    	</div>
     </div>
 </div>
