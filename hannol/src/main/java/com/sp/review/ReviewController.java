@@ -39,7 +39,7 @@ public class ReviewController {
  		return "/menu2/review/create";
  	}
 	
- 	@RequestMapping(value="/review/create", method=RequestMethod.POST)
+ 	@RequestMapping(value="/review/created", method=RequestMethod.POST)
  	@ResponseBody
  	public Map<String, Object> createReviewSubmit(Review dto,
  			HttpSession session) throws Exception {
@@ -124,9 +124,17 @@ public class ReviewController {
  		int start = (current_page-1)*rows+1;
  		int end = current_page*rows;
  		
+ 		SessionInfo info = (SessionInfo) session.getAttribute("member");
+ 		
  		Map<String, Object> map = new HashMap<>();
  		map.put("start", start);
  		map.put("end", end);
+ 		
+ 		if(info == null) {
+ 			map.put("usersCode", null); 			
+ 		} else {
+ 			map.put("usersCode", info.getUsersCode()); 			
+ 		}
  		
  		List<Review> list = service.listReview(map);
  		
@@ -144,5 +152,59 @@ public class ReviewController {
  		
 		return "menu2/review/reviewList";
 	}
+ 	
+ 	// 좋아요
+ 	@RequestMapping(value="/review/like", method=RequestMethod.GET)
+ 	@ResponseBody
+ 	public Map<String, Object> reviewLike(
+ 			@RequestParam(value="reviewCode") int reviewCode,
+ 			HttpSession session
+ 			) throws Exception {
+ 		Map<String, Object> model=new HashMap<>();
+ 		SessionInfo info = (SessionInfo) session.getAttribute("member"); 	
+ 		if(info == null) {
+ 			model.put("state", "false");
+ 			model.put("msg", "좋아요 하기 전에 로그인을 먼저 해야합니다.");
+ 			return model;
+ 		}
+ 		
+ 		Map<String, Object> map = new HashMap<>();
+ 		map.put("reviewCode", reviewCode);
+ 		map.put("usersCode", info.getUsersCode());
+ 		service.insertReviewLike(map);
+ 		
+ 		int likeCount = service.likeCount(reviewCode);
+
+ 		model.put("state", "true");
+ 		model.put("likeCount", likeCount);
+ 		return model;
+ 	}
+ 	
+ 	// 좋아요
+ 	@RequestMapping(value="/review/likeCancel", method=RequestMethod.GET)
+ 	@ResponseBody
+ 	public Map<String, Object> reviewLikeCancel(
+ 			@RequestParam(value="reviewCode") int reviewCode,
+ 			HttpSession session
+ 			) throws Exception {
+ 		Map<String, Object> model=new HashMap<>();
+ 		SessionInfo info = (SessionInfo) session.getAttribute("member"); 	
+ 		if(info == null) {
+ 			model.put("state", "false");
+ 			model.put("msg", "좋아요를 취소하기 전에 로그인을 먼저 해야합니다.");
+ 			return model;
+ 		}
+ 		
+ 		Map<String, Object> tmp=new HashMap<>();
+ 		tmp.put("usersCode", info.getUsersCode());
+ 		tmp.put("reviewCode", reviewCode);
+ 		service.deleteReviewLike(tmp);
+ 		
+ 		int likeCount = service.likeCount(reviewCode);
+ 		
+ 		model.put("state", "true");
+ 		model.put("likeCount", likeCount);
+ 		return model;
+ 	}
  	
 }

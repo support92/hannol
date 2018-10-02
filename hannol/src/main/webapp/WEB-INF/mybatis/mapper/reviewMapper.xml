@@ -7,10 +7,28 @@
 		values(review_seq.nextval, #{content}, #{reviewDate}, #{usersCode})	
 	</insert>
 	
+	<insert id="insertReviewLike" parameterType="map">
+		insert into ReviewLike(reviewCode, usersCode)
+		values(#{reviewCode}, #{usersCode})
+	</insert>
+	
 	<update id="updateReview" parameterType="com.sp.review.Review">
 		update review set content = #{content}, reviewDate = #{reviewDate}
 		where reviewCode = #{reviewCode}
 	</update>
+	
+	<select id="likeCount" parameterType="Integer" resultType="Integer">
+		select count(*) 
+		from reviewLike
+		where reviewCode = #{reviewCode}
+	</select>
+	
+	<!-- 내가 좋아요를 눌렀는지 여부 -->
+	<select id="isMyLike" parameterType="map" resultType="Integer">
+		select count(*) 
+		from reviewLike
+		where reviewCode = #{reviewCode} and usersCode = #{usersCode}
+	</select>
 	
 	<!-- 후기 개수 -->
 	<select id="dataCount" resultType="Integer">
@@ -45,7 +63,12 @@
 	
 	<delete id="deleteReviewLike" parameterType="Integer">
 		delete from reviewLike 
-		where reviewCode = #{reviewCode}
+		where reviewCode = #{reviewCode} 
+	</delete>
+		
+	<delete id="deleteReviewLike2" parameterType="map">
+		delete from reviewLike 
+		where reviewCode = #{reviewCode} and usersCode = #{usersCode}
 	</delete>
 	
 	<delete id="deleteReview" parameterType="Integer">

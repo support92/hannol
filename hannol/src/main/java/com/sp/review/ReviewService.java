@@ -11,4 +11,9 @@ public interface ReviewService {
 	public int updateReview(Review dto) throws Exception;
 	public int deleteReview(int reviewCode) throws Exception;
 	public int deleteReviewLike(int reviewCode) throws Exception;
+	public int deleteReviewLike(Map<String, Object> map) throws Exception;
+	public int isMyLike(Map<String, Object> map) throws Exception;
+	
+	public int likeCount(int reviewCode) throws Exception;
+	public int insertReviewLike(Map<String, Object> map) throws Exception;
 }

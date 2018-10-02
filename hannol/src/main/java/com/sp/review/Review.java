@@ -12,7 +12,12 @@ public class Review {
 	private int myLike;
 
 	
-
+	public int getMyLike() {
+		return myLike;
+	}
+	public void setMyLike(int myLike) {
+		this.myLike = myLike;
+	}
 	public String getMemberIdWithStar() {
 		return memberIdWithStar;
 	}

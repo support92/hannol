@@ -5,6 +5,12 @@
 <%
    String cp = request.getContextPath();
 %>
+<style>
+.heart{
+	cursor: pointer;
+}
+</style>
+
 
 <script>
 
@@ -28,8 +34,99 @@ $(function(){
 		}
 	});
 	
-
+	$("body").on("click", ".grayHeart", function () {
+		if(!confirm('좋아요 하시겠습니까?')){
+			return;
+		}
+		var reviewCode = $(this).parent().attr('data-reviewCode');
+		reviewLike(reviewCode);
+	});
+	
+	$("body").on("click", ".redHeart", function () {
+		if(!confirm('좋아요 취소 하시겠습니까?')){
+			return;
+		}		
+		var reviewCode = $(this).parent().attr('data-reviewCode');
+		reviewLikeCancel(reviewCode);		
+	});
+	
 });
+
+function reviewLike(reviewCode) {
+	var type = "get";
+	var url = "<%=cp%>/review/like"
+	var query = "reviewCode=" + reviewCode;
+	
+	
+	$.ajax({
+		type:type
+		,url:url
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			var state=data.state;
+			if(state=="true") {			
+				// 좋아요 수 갱신
+				var count = data.likeCount;
+				$("input[name=likeCount"+reviewCode+"]").val(count);
+				// 아이콘 빨간 하트로 변경 - prev
+				$("#likeCount"+reviewCode).removeClass('grayHeart');
+				$("#likeCount"+reviewCode).addClass('redHeart');
+			} else if(state=="false") {
+				$("#msg").text(data.msg);
+			}
+		}
+		,beforeSend : function(jqXHR) {
+	        jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status==403) {
+	    		login();
+	    		return;
+	    	}
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+	
+}
+
+function reviewLikeCancel(reviewCode) {
+	var type = "get";
+	var url = "<%=cp%>/review/likeCancel"
+	var query = "reviewCode=" + reviewCode;
+	
+	
+	$.ajax({
+		type:type
+		,url:url
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			var state=data.state;
+			if(state=="true") {			
+				// 좋아요 수 갱신
+				var count = data.likeCount;
+				$("input[name=likeCount"+reviewCode+"]").val(count);
+				// 아이콘 회색 하트로 변경
+				$("#likeCount"+reviewCode).removeClass('redHeart');
+				$("#likeCount"+reviewCode).addClass('grayHeart');
+			} else if(state=="false") {
+				$("#msg").text(data.msg);
+			}
+		}
+		,beforeSend : function(jqXHR) {
+	        jqXHR.setRequestHeader("AJAX", true);
+	    }
+	    ,error:function(jqXHR) {
+	    	if(jqXHR.status==403) {
+	    		login();
+	    		return;
+	    	}
+	    	console.log(jqXHR.responseText);
+	    }
+	});
+}
+
 
 // ajax-json : 후기 등록
 function createReview(mode) {

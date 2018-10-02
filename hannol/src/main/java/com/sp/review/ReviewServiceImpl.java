@@ -1,5 +1,6 @@
 package com.sp.review;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,14 +41,34 @@ public class ReviewServiceImpl implements ReviewService {
 		List<Review> list = null;
 		try {
 			list = dao.selectList("review.listReview", map);
+			
+			Map<String, Object> tmp = new HashMap<>();
+			
 			for(Review r : list) {
 				String memberIdWithStar = r.getMemberId().substring(0, 4).concat("****");
 				r.setMemberIdWithStar(memberIdWithStar);
+				
+				//
+				tmp.put("usersCode", map.get("usersCode"));
+				tmp.put("reviewCode", r.getReviewCode());
+				int myLike = isMyLike(tmp);
+				r.setMyLike(myLike);
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		return list;
+	}
+	
+	@Override
+	public int isMyLike(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("review.isMyLike", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
 	}
 
 	@Override
@@ -90,6 +111,39 @@ public class ReviewServiceImpl implements ReviewService {
 		int result = 0;
 		try {
 			result = dao.deleteData("review.deleteReviewLike", reviewCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int likeCount(int reviewCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("review.likeCount", reviewCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int insertReviewLike(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.insertData("review.insertReviewLike", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteReviewLike(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("review.deleteReviewLike2", map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
