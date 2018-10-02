@@ -115,7 +115,7 @@ $(function(){
 				<tr>
 					<th>문의유형</th>
 					<td>
-						<select id="gubun">
+						<select id="gubun" name="gubun">
 							<option value="">:::문의유형:::</option>
 							<option value="요금 문의">요금 문의</option>
 							<option value="제휴 할인">제휴 할인</option>
