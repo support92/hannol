@@ -72,4 +72,28 @@ public class ReviewServiceImpl implements ReviewService {
 		return result;
 	}
 
+	@Override
+	public int deleteReview(int reviewCode) throws Exception {
+		int result = 0;
+		try {
+			deleteReviewLike(reviewCode);
+			result = dao.deleteData("review.deleteReview", reviewCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	
+	@Override
+	public int deleteReviewLike(int reviewCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("review.deleteReviewLike", reviewCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }

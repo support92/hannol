@@ -67,7 +67,9 @@ function updateReview(reviewCode) {
 }
 
 function deleteReview(reviewCode) {
-	
+	var url = "<%=cp%>/review/delete";
+	var query = "reviewCode=" + reviewCode;
+	ajaxJSON(url, "get", query);
 }
 
 function listPage(page) {

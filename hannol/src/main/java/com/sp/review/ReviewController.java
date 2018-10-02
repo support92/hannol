@@ -58,6 +58,26 @@ public class ReviewController {
  		return model;
  	}
  	
+ 	@RequestMapping(value="/review/delete", method=RequestMethod.GET)
+ 	@ResponseBody
+ 	public Map<String, Object> deleteReview(
+ 			@RequestParam(value="reviewCode") int reviewCode,
+ 			HttpSession session
+ 			) throws Exception {
+ 		Map<String, Object> model=new HashMap<>();
+ 		SessionInfo info = (SessionInfo) session.getAttribute("member"); 	
+ 		if(info == null) {
+ 			model.put("state", "false");
+ 			model.put("msg", "후기를 삭제하기 전에 로그인을 먼저 해야합니다.");
+ 			return model;
+ 		}
+ 		
+ 		service.deleteReview(reviewCode);
+ 		model.put("state", "true");
+ 		
+ 		return model;
+ 	}
+ 	
  	@RequestMapping(value="/review/update", method=RequestMethod.GET)
  	public String updateReviewForm(
  			@RequestParam(value="reviewCode") int reviewCode,
