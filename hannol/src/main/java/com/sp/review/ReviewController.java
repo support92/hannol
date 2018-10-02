@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,13 @@ public class ReviewController {
 		return ".four.menu2.review.list";
 	}
 
+ 	@RequestMapping(value="/review/create", method=RequestMethod.GET)
+ 	public String createReviewForm(
+ 			Model model) throws Exception {
+ 		model.addAttribute("mode", "created");
+ 		return "/menu2/review/create";
+ 	}
+	
  	@RequestMapping(value="/review/create", method=RequestMethod.POST)
  	@ResponseBody
  	public Map<String, Object> createReviewSubmit(Review dto,
@@ -40,12 +48,42 @@ public class ReviewController {
  		SessionInfo info = (SessionInfo) session.getAttribute("member"); 	
  		if(info == null) {
  			model.put("state", "false");
- 			model.put("msg", "로그인을 해야만 후기를 남길 수 있습니다.");
+ 			model.put("msg", "후기를 남기기 전에 로그인을 먼저 해야합니다.");
  			return model;
  		}
  		
  		dto.setUsersCode((int) info.getUsersCode());
  		service.insertReview(dto);
+ 		model.put("state", "true");
+ 		return model;
+ 	}
+ 	
+ 	@RequestMapping(value="/review/update", method=RequestMethod.GET)
+ 	public String updateReviewForm(
+ 			@RequestParam(value="reviewCode") int reviewCode,
+ 			HttpServletResponse response,
+ 			Model model) throws Exception {
+ 		Review dto = service.readReview(reviewCode);
+
+ 		model.addAttribute("mode", "update");
+ 		model.addAttribute("dto", dto);
+ 		
+ 		return "/menu2/review/create";
+ 	}
+ 	
+ 	@RequestMapping(value="/review/update", method=RequestMethod.POST)
+ 	@ResponseBody
+ 	public Map<String, Object> updateReviewSubmit(Review dto,
+ 			HttpSession session) throws Exception {
+ 		Map<String, Object> model=new HashMap<>();
+ 		SessionInfo info = (SessionInfo) session.getAttribute("member"); 	
+ 		if(info == null) {
+ 			model.put("state", "false");
+ 			model.put("msg", "수정을 하기 전에 로그인을 먼저 해야합니다.");
+ 			return model;
+ 		}
+ 		
+ 		service.updateReview(dto);
  		model.put("state", "true");
  		return model;
  	}

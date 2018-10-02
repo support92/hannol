@@ -50,4 +50,26 @@ public class ReviewServiceImpl implements ReviewService {
 		return list;
 	}
 
+	@Override
+	public Review readReview(int reviewCode) throws Exception {
+		Review dto = null;
+		try {
+			dto = dao.selectOne("review.readReview", reviewCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
+	@Override
+	public int updateReview(Review dto) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("review.updateReview", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }

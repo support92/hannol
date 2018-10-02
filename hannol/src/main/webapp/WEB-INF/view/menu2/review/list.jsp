@@ -5,48 +5,34 @@
 <%
    String cp = request.getContextPath();
 %>
-<style>
-	.table td{text-align:center;}
-	.table td{text-overflow:ellipsis; overflow:hidden; white-space:nowrap;}
-
-	.datepickerBox{display:inline-block;}
-	.datepickerBox .datepicker{width:203px;} 
-	
-	.datepicker + img{width:22px; margin:0px 0px 0px -31px; padding-left:8px; border-left:1px solid #dddddd; cursor:pointer;}
-	  
-</style>
 
 <script>
 
 $(function(){
-	$(".reviewLayout").hide(); 
 	listPage(1);
 	
 	$("body").on("click", ".btn-review", function(){
-		var $reviewLayout = $(this).next("div");
-		
-		var isVisible = $reviewLayout.is(':visible');
+		var $reviewForm = $("#reviewForm");
+		var isVisible = $reviewForm.is(':visible');
 			
 		if(isVisible) {
-			$reviewLayout.hide();
+			$reviewForm.hide();
 		} else {
-			$reviewLayout.show();
+			var url = "<%=cp%>/review/create";
+			var type = "get";
+			var query = "";
+			var divId = "reviewForm";
+			
+			ajaxHTML(url, type, query, divId);
+			$reviewForm.show();
 		}
 	});
 	
-	$("input[name=reviewDate]").datepicker({
-		dateFormat:'yy-mm-dd',
-		showOn:"both",
-        buttonImage:"<%=cp%>/resource/images/date24.png",
-        buttonImageOnly:true,
-        showAnim:"slideDown",
-        buttonText:"선택",
-        maxDate:0,
-	}); 
+
 });
 
 // ajax-json : 후기 등록
-function createReview() {
+function createReview(mode) {
  	var f = document.reviewCreateForm;
 	
 	var val = f.reviewDate.value;
@@ -61,13 +47,23 @@ function createReview() {
 		return;
 	}
 	
-	var url = "<%=cp%>/review/create";
+	var url = "<%=cp%>/review/" + mode;
+	
 	var query = $("#reviewCreateForm").serialize();
 	ajaxJSON(url, "post", query);
 }
 
 function updateReview(reviewCode) {
+	if(!confirm('수정하시겠습니까?')){
+		return;
+	}
 	
+	$("#reviewForm").show();
+	var url = "<%=cp%>/review/update";
+	var type = "get";
+	var query = "reviewCode=" + reviewCode;
+	var divId = "reviewForm";
+	ajaxHTML(url, type, query, divId);
 }
 
 function deleteReview(reviewCode) {
@@ -89,6 +85,7 @@ function ajaxHTML(url, type, query, divId) {
 		data:query,
 		success:function(data){
 			if($.trim(data)=="error"){
+				alert('잘못된 요청입니다.');
 				listPage(1);
 				return;
 			}
@@ -118,6 +115,7 @@ function ajaxJSON(url, type, query) {
 			var state=data.state;
 			if(state=="true") {
 				listPage(1);
+				$("#reviewForm").hide();				
 //				var count = data.boardLikeCount;
 //				$("#boardLikeCount").text(count);
 			} else if(state=="false") {
@@ -150,31 +148,11 @@ function ajaxJSON(url, type, query) {
 
 	<div align="right">
 		<button type='button' class='btn btn-info btn-review' style='padding: 10px 20px;'>후기 등록</button>
-	
-		<div style="margin: 10px 0px;" class="reviewLayout">
-			<form name="reviewCreateForm" id="reviewCreateForm" method="post">
-				<table style='width: 80%; margin: 15px auto 0px; border-spacing: 0px;'>
-					<tr>
-						<th width="15%">방문날짜</th>
-						<td>
-							<span class="datepickerBox"><input type="text" name="reviewDate" class="boxTF datepicker" readonly="readonly" value="${searchStartDate}"></span> 
-						</td>
-					</tr>
-					<tr>
-						<th>후 기</th>
-						<td>
-							<textarea class='boxTA'	style='width: 99%; height: 70px;' name="content" placeholder="10자이상 입력하세요"></textarea>
-						</td>
-					</tr>
-				</table>
-				<div align="center"><button type='button' class='btn' style='padding: 10px 20px;' onclick="createReview()">등록</button></div>
-			</form>
-		</div>  
-		
+		<div id="reviewForm"></div>
 	</div>
+	
 	<div align="center" id="msg"  style="color: red; font-weight: bold;"></div>
-
-
+	
 	<div id="listReview" style="padding: 15px;"></div>
 
 </div>

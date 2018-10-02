@@ -7,9 +7,21 @@
 		values(review_seq.nextval, #{content}, #{reviewDate}, #{usersCode})	
 	</insert>
 	
+	<update id="updateReview" parameterType="com.sp.review.Review">
+		update review set content = #{content}, reviewDate = #{reviewDate}
+		where reviewCode = #{reviewCode}
+	</update>
+	
 	<!-- 후기 개수 -->
 	<select id="dataCount" resultType="Integer">
 		select nvl(count(*), 0) from review r
+	</select>
+	
+	<!-- 후기 하나 -->
+	<select id="readReview" parameterType="Integer" resultType="com.sp.review.Review">
+		select reviewCode, content, to_char(reviewdate, 'yyyy-mm-dd') reviewDate, usersCode
+		from review
+		where reviewCode = #{reviewCode}
 	</select>
 	 
 	<!-- 후기 리스트 -->
