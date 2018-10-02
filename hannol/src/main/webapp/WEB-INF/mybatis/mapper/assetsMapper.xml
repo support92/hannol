@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="assets">
+	<!-- 테마 리스트 -->
+	<select id="listTheme" resultType="map">
+		SELECT themeCode, themeName 
+		FROM theme WHERE themeCode!=4
+	</select>
+	
+	<!-- 구입한 이용권 검색 -->
+	<select id="searchPayment" resultType="map" parameterType="Long"> 
+		SELECT DISTINCT p.payCode, TO_CHAR(endDate, 'YYYY-MM-DD') endDate, usersCode, quantity, g.goodsCode, goodsName
+		FROM payment p
+		LEFT OUTER JOIN paymentInfo pi ON p.payCode = pi.payCode
+		LEFT OUTER JOIN goods g ON pi.goodsCode = g.goodsCode
+		LEFT OUTER JOIN ticket t ON p.payCode = t.payCode
+		WHERE usersCode = #{usersCode} AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') &lt; endDate
+		ORDER BY endDate
+	</select>
+	
+	<!-- 구입한 이용권 검색vs2 -->
+	<select id="searchPayment2" resultType="map" parameterType="map"> 
+		SELECT DISTINCT goodsName
+		FROM payment p
+		LEFT OUTER JOIN paymentInfo pi ON p.payCode = pi.payCode
+		LEFT OUTER JOIN goods g ON pi.goodsCode = g.goodsCode
+		LEFT OUTER JOIN ticket t ON p.payCode = t.payCode
+		WHERE usersCode = #{usersCode} AND endDate = #{endDate}
+		ORDER BY endDate
+	</select>
+	
+	<!-- 테마별, 편의시설별 대여소 검색 -->
+	<select id="searchFacility" resultType="map" parameterType="map">
+		SELECT ROWNUM, tb.* FROM(
+		    SELECT assetsCode, a.facilityCode, name 
+		    FROM assets a
+		    LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+		    WHERE a.gubunCode=#{gubunCode} AND f.themeCode=#{themeCode} AND state=1 AND 
+		            assetsCode NOT IN(
+		            	SELECT assetsCode FROM assetsBook
+		            )
+		    ORDER BY assetsCode
+		)tb WHERE ROWNUM=1
+	</select>
+	
+	<!-- 예약 추가 -->
+	<insert id="insertAssetsBook" parameterType="com.sp.assets.Assets">
+		INSERT INTO assetsBook(bookCode, useDate, bookTime, state, tel, usersCode, assetsCode, name)  
+		VALUES (assetsBook_seq.NEXTVAL, #{useDate}, #{bookTime}, 0, #{tel}, #{usersCode}, #{assetsCode}, #{name})
+	</insert>
+</mapper>
