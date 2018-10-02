@@ -49,16 +49,15 @@ public class TodayParkController {
 		List<Today> list = service.listToday();
 		
 		String tab = "princess";
-		String orderby = "facilityCode";
+		String sort = "waiting";
 		
-		model.addAttribute("orderby", orderby);
+		model.addAttribute("sort", sort);
 	    model.addAttribute("listToday", list);
 		model.addAttribute("page", current_page);
 		model.addAttribute("tab", tab);
 	    
 		System.out.println("**********************list******************************");
 
-		
 		return ".four.menu4.todayPark.list";
 	}
 	
@@ -68,6 +67,7 @@ public class TodayParkController {
 			@RequestParam(value="gubunCode", defaultValue="0") int code,
 			@RequestParam(value="searchKey", defaultValue="subject") String searchKey,
 			@RequestParam(value="searchValue", defaultValue="") String searchValue,
+			@RequestParam(value="orderby", defaultValue="waiting") String orderby,
 			HttpServletRequest req,
 			Model model) throws Exception {
 		

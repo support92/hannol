@@ -52,7 +52,9 @@
 
 $(function() {
 	var page = ${page};
-
+	var sort = ${sort};
+	alert(sort);
+	
 	$("#tab-${tab}").addClass("active");
 	listPage(page);
 	
@@ -63,11 +65,18 @@ $(function() {
 		});
 		
 		$("#tab-"+tab).addClass("active");
-		listPage(1);
+		listPage(1,orderby);
 	});
+	
+	//정렬변경될때마다 이벤트 발생.. 처리
+	function orderList(){
+		alert("정렬선택!");
+		var orderby = $(".form-control rides-form-control").val();
+		listPage(1,sort);
+	};
 });
 
-function listPage(page) {
+function listPage(page, sort) {
 	var $tab = $(".tabs .active");
 	var tab = $tab.attr("data-tab");
 	var gubunCode = $tab.attr("data-gubuncode");
@@ -77,7 +86,7 @@ function listPage(page) {
 	
 	var url = "<%=cp%>/today/subList";
 	
-	var query = "page="+page+"&tab="+tab+"&gubunCode="+gubunCode;
+	var query = "page="+page+"&tab="+tab+"&gubunCode="+gubunCode+"&sort="+sort;
 	ajaxHTML(url, "get", query);
 }
 
@@ -135,7 +144,7 @@ function ajaxHTML(url, type, query) {
 -->
 
 	<div class="div-menu">
-		<select class="select-menu" name="searchKey" id="searchKey">
+		<select class="form-control rides-form-control" name="searchKey" id="searchKey" onchange="orderList();">
 				<option value="waitTime">대기시간</option>
 				<option value="population">인기</option>
 		</select>
