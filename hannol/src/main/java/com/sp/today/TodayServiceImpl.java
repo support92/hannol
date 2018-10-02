@@ -35,8 +35,11 @@ public class TodayServiceImpl implements TodayService{
 			
 			for(Today e : list) {
 				e.setWaiting(-1);
-				int waiting = dao.selectOne("today.calcul", map);
-				e.setWaiting(waiting);
+				Integer waiting = dao.selectOne("today.calcul", map);
+				if(waiting!= null) {
+					e.setWaiting(waiting);
+					System.out.println(e.getWaiting()+"::::::::::::::::::::::::");
+				}
 			}
 			
 		} catch (Exception e) {

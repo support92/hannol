@@ -49,9 +49,9 @@ public class TodayParkController {
 		List<Today> list = service.listToday();
 		
 		String tab = "princess";
-		String sort = "waiting";
+		String orderby = "waiting";
 		
-		model.addAttribute("sort", sort);
+		model.addAttribute("orderby", orderby);
 	    model.addAttribute("listToday", list);
 		model.addAttribute("page", current_page);
 		model.addAttribute("tab", tab);
@@ -75,6 +75,7 @@ public class TodayParkController {
 		String cp = req.getContextPath();
 		
 		System.out.println(code+":::::::::::::::::code:::");
+		System.out.println(orderby+":::::::::::::orderby");
 		
 		//현재시간 구하기
 		//SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
@@ -106,6 +107,7 @@ public class TodayParkController {
         map.put("yyyymmdd", date);
 		map.put("hh",hh-1);
 		map.put("code",code);
+		map.put("orderby",orderby);
 		
 		dataCount = service.dataCount(map);
 		total_page = myUtil.pageCount(rows, dataCount);
@@ -122,7 +124,6 @@ public class TodayParkController {
 		
 		List<Today> list2 = service.listToday2(map);	
         
-
 		String query = "";
         String articleUrl = cp+"/today/article?page=" + current_page;
         if(searchValue.length()!=0) {

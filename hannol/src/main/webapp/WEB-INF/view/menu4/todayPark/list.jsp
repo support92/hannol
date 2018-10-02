@@ -52,8 +52,8 @@
 
 $(function() {
 	var page = ${page};
-	var sort = ${sort};
-	alert(sort);
+	var orderby = '${orderby}'; //String일 때는 꼭 ''를 해주기
+	alert(orderby);
 	
 	$("#tab-${tab}").addClass("active");
 	listPage(page);
@@ -72,11 +72,11 @@ $(function() {
 	function orderList(){
 		alert("정렬선택!");
 		var orderby = $(".form-control rides-form-control").val();
-		listPage(1,sort);
+		listPage(1,orderby);
 	};
 });
 
-function listPage(page, sort) {
+function listPage(page, orderby) {
 	var $tab = $(".tabs .active");
 	var tab = $tab.attr("data-tab");
 	var gubunCode = $tab.attr("data-gubuncode");
@@ -86,7 +86,7 @@ function listPage(page, sort) {
 	
 	var url = "<%=cp%>/today/subList";
 	
-	var query = "page="+page+"&tab="+tab+"&gubunCode="+gubunCode+"&sort="+sort;
+	var query = "page="+page+"&tab="+tab+"&gubunCode="+gubunCode+"&orderby="+orderby;
 	ajaxHTML(url, "get", query);
 }
 

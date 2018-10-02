@@ -25,7 +25,7 @@ public class Today {
 	private MultipartFile upload2;
 	Date recordDate;
 	int timezone;
-	int waiting;
+	Integer waiting;
 	int boarding;
 	Date yyyymmdd;
 	int hh;
@@ -76,10 +76,10 @@ public class Today {
 	public void settimezone(int timezone) {
 		this.timezone = timezone;
 	}
-	public int getWaiting() {
+	public Integer getWaiting() {
 		return waiting;
 	}
-	public void setWaiting(int waiting) {
+	public void setWaiting(Integer waiting) {
 		this.waiting = waiting;
 	}
 	public int getBoarding() {

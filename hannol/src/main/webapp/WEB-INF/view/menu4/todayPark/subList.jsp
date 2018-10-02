@@ -41,7 +41,6 @@
 									혼잡
 								</c:otherwise>
 							</c:choose>
-							<%-- ${state} --%>
 						</div>
 					</c:if>
 					<c:if test="${dto.waiting==-1}">

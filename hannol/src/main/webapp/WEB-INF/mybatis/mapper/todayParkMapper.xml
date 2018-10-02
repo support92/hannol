@@ -18,7 +18,7 @@
 	            from facility f
 	            left join theme t on f.themeCode = t.themeCode
 	            where gubunCode=1 and f.themeCode= #{code}
-	            <!-- order by #{sortby} desc -->
+	            order by #{orderby} desc
 		<![CDATA[
 				) tb where rownum <= #{end}
 			)where rnum >= #{start}	
@@ -35,7 +35,7 @@
 
 	</select>
 	
-	<select id="calcul" parameterType="map" resultType="com.sp.today.Today">
+	<select id="calcul" parameterType="map" resultType="Integer">
 
 	select waiting
 	from facility f
