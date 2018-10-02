@@ -14,4 +14,5 @@ public class QuestionController {
 		
 		return ".four.menu2.question.question";
 	}
+	
 }

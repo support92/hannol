@@ -75,7 +75,7 @@ function validOk() {
     var str = f.content.value;
     if(!str) {
         f.content.focus();
-        return;
+        return; 
     }
 
     if($("input:checkbox[id='aler']").is(":checked") == false){

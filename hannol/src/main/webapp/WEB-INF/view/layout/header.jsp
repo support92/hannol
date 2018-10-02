@@ -6,7 +6,7 @@
    String cp = request.getContextPath();
 %>
 
-<div class="container">
+<div class="container"> 
     <div id="page-header">
         <div class="header-brand"><a href="<%=cp%>/"><img src="<%=cp%>/resource/images/hannol_logo.jpg" alt="로고"/></a></div>
 				
