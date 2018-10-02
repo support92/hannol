@@ -18,4 +18,10 @@ public class CompanyController {
 		return ".four.menu1.company.way";
 	}
 	
+	@RequestMapping(value="/company/guideMap")
+	public String guideMap(Model model) throws Exception {
+		model.addAttribute("subMenu", "3");
+		return ".four.menu1.company.guidemap";
+	}
+	
 }

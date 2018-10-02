@@ -23,7 +23,7 @@
 	margin: 15px 0px 0px 10px;
 }
 
-.subway li{
+.subway li, .bus li{
 	list-style: none;
 	font-size: 15px;
 	margin-top: 10px;
