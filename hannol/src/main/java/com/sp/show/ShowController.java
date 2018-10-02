@@ -120,11 +120,19 @@ public class ShowController {
 	
 		// 시설의 총 좌석 수
 		int seatCount = service.readSeatCount(facilityCode);
-		model.addAttribute("seatCount", seatCount);
 		
+		// 예약된 좌석 리스트
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenDate", screenDate);
+		map.put("showInfoCode", showInfoCode);
+		map.put("startTime", startTime);
+		List<Integer> seatList = service.listSeat(map);
+		
+		model.addAttribute("seatCount", seatCount);
 		model.addAttribute("screenDate", screenDate);
 		model.addAttribute("startTime", startTime);
 		model.addAttribute("showInfoCode", showInfoCode);
+		model.addAttribute("seatList", seatList);
 		return "menu6/show/selectSeat";
 	}
 
@@ -162,10 +170,22 @@ public class ShowController {
 			return "redirect:/show/reseration?screenDate=" + screenDate + "&showInfoCode=" + showInfoCode;  // 동시에 보낼 수 있다.
 		}
 		
-		// 만약 야간 이용권 - startTime 이 4시 이전이면 예약 불가
+		// 만약 야간 이용권 - startTime 이 4시 이전이면 예약 불가 - 이건 안막음
 		
-		// 이미 예약된 좌석이면 또 예약 불가
+		// 이미 예약 했으면 또 예약 불가
 		
+		// 이미 예약된 좌석은 예약 불가
+//		map.put("showInfoCode", showInfoCode);
+//		map.put("startTime", startTime);
+//		List<Integer> seatList = service.listSeat(map);		// 예약된 좌석
+//		for(Integer ss : selectSeat) {
+//			for(Integer sl : seatList) {
+//				if(sl == ss) {
+//					attr.addFlashAttribute("msg", "이미 예약된 좌석입니다.");		// 세션에 저장
+//					return "redirect:/show/reseration?screenDate=" + screenDate + "&showInfoCode=" + showInfoCode;  // 동시에 보낼 수 있다.
+//				}
+//			}
+//		}
 		
 		
 		return "redirect:/show/list";

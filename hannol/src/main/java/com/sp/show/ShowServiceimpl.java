@@ -78,5 +78,16 @@ public class ShowServiceimpl implements ShowService {
 		}
 		return list;
 	}
+
+	@Override
+	public List<Integer> listSeat(Map<String, Object> map) throws Exception {
+		List<Integer> list = null;
+		try {
+			list = dao.selectList("show.listSeat", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
 	
 }

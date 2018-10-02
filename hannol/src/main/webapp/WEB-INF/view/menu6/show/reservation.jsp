@@ -87,7 +87,7 @@ function selectSeatSubmit() {
 	var f = document.seatForm;
 	f.action = "<%=cp%>/show/selectSeatSubmit";
 	f.submit();
-
+	
 }
 </script>
 
@@ -153,7 +153,7 @@ function selectSeatSubmit() {
 			</div>
 			<br>
 		    <div style="color: red;">&nbsp;<strong>${msg}</strong></div>
-			<div style="padding: 100px;">
+			<div style="padding: 60px;">
 				<button class="btn btn-default btn-info" type="button" onclick="selectSeatForm();">&nbsp;좌석 신청하기</button>
 			</div>
 		</div>

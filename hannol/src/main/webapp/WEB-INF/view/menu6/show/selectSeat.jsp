@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,11 +10,16 @@
 <%
 // 여기서 값 안넘어 오면 에러~~~~~~~~~!!! 조심조심~~~!!
 	Integer seatCount = (Integer)request.getAttribute("seatCount");
+	List<Integer> sList = (List<Integer>)request.getAttribute("seatList");
+
 	boolean[] seatList = new boolean[seatCount+1];
 	for (int i = 1; i < seatList.length; i++) {
 		seatList[i] = true;
 	}
-		seatList[3] = false;
+	
+	for(Integer i : sList) {
+		seatList[i] = false;
+	}
 %>
 <style>
 .seat{
