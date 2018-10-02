@@ -133,6 +133,7 @@ $("body").on("click", "#delete", function(){
 		</table>
 	</form>
 	
+	<c:if test="${not empty adminAnswer}">
 	<table class="custom_table">
 		    <colgroup width="144">
 		    </colgroup>
@@ -145,6 +146,7 @@ $("body").on("click", "#delete", function(){
 					</td>
 				</tr>
 		  </tbody>
-		</table>
+	</table>
+	</c:if>
     </div>
 </div>

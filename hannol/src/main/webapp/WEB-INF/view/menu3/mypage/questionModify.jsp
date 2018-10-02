@@ -134,7 +134,7 @@ var f = document.questionForm;
 		      <td align="center" class="td_custom">
 		        <button type="button" class="btn btn-default" onclick="sendOk();">수정완료</button>
 		        <button type="reset" class="btn btn-default">다시입력</button>
-		        <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/mypage/question';">수정취소</button>
+		        <button type="button" class="btn btn-default" onclick="javascript:location.href='<%=cp%>/mypage/question?page=${page}';">수정취소</button>
 		        <input type="hidden" name="num" value="${dto.qnaCode}">
 		        <input type="hidden" name="page" value="${page}">
 		      </td>

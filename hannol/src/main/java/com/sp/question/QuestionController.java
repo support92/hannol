@@ -112,10 +112,9 @@ public class QuestionController {
 		Question dto = service.readQuestion(num);
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		
-		Question adminAnswer = null;
-		if(dto.getParentCode() != 0 || dto != null) {
-			adminAnswer = service.readAnswer(num);
-			adminAnswer.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		Question adminAnswer = service.readAnswer(num);
+		if(adminAnswer != null) {
+			adminAnswer.setContent(adminAnswer.getContent().replaceAll("\n", "<br>"));
 			model.addAttribute("adminAnswer", adminAnswer);
 		}
 		
