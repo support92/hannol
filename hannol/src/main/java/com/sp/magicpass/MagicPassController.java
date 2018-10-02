@@ -112,8 +112,7 @@ public class MagicPassController {
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
-		
-		
+		model.addAttribute("subMenu", "2");
 		
 		return ".four.menu5.magicPass.booking";
 	}

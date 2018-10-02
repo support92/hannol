@@ -58,7 +58,7 @@
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">오늘의 파크<span class="caret"></span></a>
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/todayPark/rides">놀이기구</a></li>
-                                  <li><a href="#">추천코스</a></li>
+                                  <li><a href="<%=cp%>/todayPark/recommand">추천코스</a></li>
                                   <li><a href="#">오늘의 공연</a></li>
                               </ul>
                           </li>
@@ -73,7 +73,7 @@
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">즐길거리<span class="caret"></span></a>
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/enjoy/rides">놀이기구</a></li>
-                                  <li><a href="#">기프트 샵</a></li>
+                                  <li><a href="<%=cp%>/enjoy/giftshop">기프트 샵</a></li>
                                   <li><a href="<%=cp%>/show/list">공연</a></li>
                                   <li><a href="<%=cp%>/show/experience">체험</a></li>
                                   <li><a href="<%=cp%>/show/parade">퍼레이드</a></li>
@@ -135,7 +135,7 @@
                    <a href="#">오늘의 파크</a>
                    <ul>
                        <li><a href="<%=cp%>/todayPark/rides">놀이기구</a></li>
-                       <li><a href="#">추천코스</a></li>
+                       <li><a href="<%=cp%>/todayPark/recommand">추천코스</a></li>
                        <li><a href="#">오늘의 공연</a></li>
                    </ul>
                </li>
@@ -150,7 +150,7 @@
                    <a href="#">즐길거리</a>
                    <ul>
                        <li><a href="<%=cp%>/enjoy/rides">놀이기구</a></li>
-                       <li><a href="#">기프트샵</a></li>
+                       <li><a href="<%=cp%>/enjoy/giftshop">기프트샵</a></li>
                        <li><a href="#">공연</a></li>
                        <li><a href="#">체험</a></li>
                        <li><a href="#">퍼레이드</a></li>

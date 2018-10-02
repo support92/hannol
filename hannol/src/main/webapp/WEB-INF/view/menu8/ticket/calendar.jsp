@@ -16,6 +16,11 @@
 td.fc-other-month .fc-day-number{
    visibility: hidden;
 }
+
+.fc-other-month{
+	background : #d7d7d7;
+	opacity : .3;
+}
 </style>
 <script>
 $(function(){
