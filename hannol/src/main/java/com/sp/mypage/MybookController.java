@@ -1,6 +1,7 @@
 package com.sp.mypage;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sp.assets.Assets;
 import com.sp.common.MyUtil;
 import com.sp.magicpass.MagicPass;
 import com.sp.member.SessionInfo;
+
+import ch.qos.logback.classic.pattern.Util;
 
 @Controller("mypage.mybookController")
 public class MybookController {
@@ -118,7 +122,53 @@ public class MybookController {
 			return "";
 			
 		} else if (gubunCode.equals("4")) { // 편의시설 탭
-			return "";
+			
+			dataCount = service.assetsBookData(map);
+			if(dataCount!=0) 
+				total_page = myUtil.pageCount(rows, dataCount);
+				
+			if (current_page > total_page)
+				current_page = total_page;
+			
+			int start = (current_page - 1) * rows + 1;
+			int end = current_page * rows;
+			map.put("start", start);
+			map.put("end", end);
+			
+			List<Assets> list = service.assetsBookList(map);
+			
+			/*//기간 만료 처리
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cal = Calendar.getInstance();
+			String today = sdf.format(cal.getTime()); 
+			System.out.println(today);
+			
+			for(Assets dto:list) {
+				if(dto.getState()!=1 && today) {
+					
+				}
+			}*/ 
+			
+			int listNum, n = 0;
+			Iterator<Assets> it = list.iterator();
+			while(it.hasNext()) {
+				Assets data = it.next();
+				listNum = dataCount - (start+n-1);
+				data.setListNum(listNum);
+				n++;
+			}
+			
+			String listUrl = cp + "/mybook/"+gubunCode+"/list";
+			
+			String paging = myUtil.paging(current_page, total_page, listUrl);
+			
+			model.addAttribute("list", list);
+			model.addAttribute("dataCount", dataCount);
+			model.addAttribute("page", current_page);
+			model.addAttribute("paging", paging);
+			model.addAttribute("total_page", total_page);
+			
+			return "menu3/mypage/assetsBookList"; 
 			
 		} else { //매직패스 탭
 			

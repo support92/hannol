@@ -60,4 +60,33 @@
 		AND facilitycode=#{facilityCode} 
 		AND mpTime=${mpTime}	
 	</delete>
+	
+	
+	<!-- 편의시설 예약 총개수 -->
+	<select id="dataCountAssets" resultType="Integer" parameterType="map">
+		SELECT COUNT(*) FROM(
+			SELECT bookCode, ab.name, tel, TO_CHAR(useDate, 'YYYY-MM-DD') useDate, TO_CHAR(bookDate, 'YYYY-MM-DD') bookDate, bookTime, ab.state, ab.assetsCode, f.name facName, f.facilityCode
+	        FROM assetsBook ab
+	        LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
+	        LEFT OUTER JOIN assetsGubun ag ON a.gubunCode = ag.gubunCode
+	        LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+	        WHERE usersCode=#{usersCode} 
+	        ORDER BY useDate
+		)    
+	</select>
+	
+	<!-- 편의시설 예약 리스트 -->
+	<select id="assetsBookList" resultType="com.sp.assets.Assets" parameterType="map">
+		SELECT * FROM( 
+		    SELECT ROWNUM rnum, tb.* FROM(
+		        SELECT bookCode, ab.name, tel, TO_CHAR(useDate, 'YYYY-MM-DD') useDate, TO_CHAR(bookDate, 'YYYY-MM-DD') bookDate, bookTime, ab.state, ab.assetsCode, f.name facName, f.facilityCode
+		        FROM assetsBook ab
+		        LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
+		        LEFT OUTER JOIN assetsGubun ag ON a.gubunCode = ag.gubunCode
+		        LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
+		        WHERE usersCode=#{usersCode} 
+		        ORDER BY useDate DESC 
+		    ) tb WHERE ROWNUM &lt;= #{end}
+		) WHERE rnum &gt;= #{start}
+	</select>
 </mapper>

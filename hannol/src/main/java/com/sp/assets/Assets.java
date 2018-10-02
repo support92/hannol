@@ -1,11 +1,12 @@
 package com.sp.assets;
 
 public class Assets {
+	private int listNum;		//리스트번호
 	private int bookCode;		//예약코드
 	private String bookDate;	//예약날짜
 	private String useDate;		//사용예정일
-	private int bookTime;		//예약시간(오전/오후/종일)
-	private int state;			//상태(예약/반납완료/대여중)
+	private int bookTime;		//예약시간(오후/종일)
+	private int state;			//상태(예약/반납완료/대여중/기간만료)
 	private String name;		//이름 (예약자)
 	private String tel;			//전화번호(예약자)
 	private String tel1;
@@ -14,8 +15,18 @@ public class Assets {
 	
 	private long usersCode;		//유저코드
 	private int assetsCode;		//자산코드
+	private int facilityCode; 	//시설코드
+	private String facName; 	//시설이름
 	
 	
+	public int getListNum() {
+		return listNum;
+	}
+
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+
 	public int getBookCode() {
 		return bookCode;
 	}
@@ -110,5 +121,21 @@ public class Assets {
 
 	public void setAssetsCode(int assetsCode) {
 		this.assetsCode = assetsCode;
+	}
+
+	public int getFacilityCode() {
+		return facilityCode;
+	}
+
+	public void setFacilityCode(int facilityCode) {
+		this.facilityCode = facilityCode;
+	}
+
+	public String getFacName() {
+		return facName;
+	}
+
+	public void setFacName(String facName) {
+		this.facName = facName;
 	}
 }
