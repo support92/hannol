@@ -50,6 +50,7 @@ public class TicketController {
 		model.addAttribute("big", big);
 		model.addAttribute("years", years);
 		
+		model.addAttribute("subMenu", "4");
 		return ".four.menu1.ticket.ticket";
 	}
 	

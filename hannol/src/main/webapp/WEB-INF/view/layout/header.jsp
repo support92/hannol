@@ -49,7 +49,7 @@
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/company/info">인사말</a></li>
                                   <li><a href="<%=cp%>/company/way">오시는길</a></li>
-                                  <li><a href="#">가이드맵</a></li>
+                                  <li><a href="<%=cp%>/company/guideMap">가이드맵</a></li>
                                   <li><a href="<%=cp%>/ticket/list">이용요금</a></li>
                                   <li><a href="<%=cp%>/card/list">제휴카드</a></li>
                               </ul>
@@ -126,10 +126,9 @@
                   <ul>
                       <li><a href="<%=cp%>/company/info">인사말</a></li>
                        <li><a href="<%=cp%>/company/way">오시는길</a></li>
-                       <li><a href="#">가이드맵</a></li>
-                       <li><a href="#">이용요금</a></li>
-                       <li><a href="#">제휴카드</a></li>
-                       <li><a href="#">인재채용</a></li>
+                       <li><a href="<%=cp%>/company/guideMap">가이드맵</a></li>
+                       <li><a href="<%=cp%>/ticket/list">이용요금</a></li>
+                       <li><a href="<%=cp%>/card/list">제휴카드</a></li>
                   </ul>
               </li>
                <li>
