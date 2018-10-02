@@ -54,6 +54,12 @@ td {
 }
 </style>
 
+<script>
+$("body").on("click", "#delete", function(){
+	$("#deleteModal").modal();
+});
+</script>
+
 <div class="bodyFrame2">
     <div class="body-title">
           <h3><span class="glyphicon glyphicon-pencil"></span> 문의내역</h3>
@@ -69,15 +75,7 @@ td {
 				<tr>
 					<th>문의유형</th>
 					<td>
-						<select id="gubun" name="gubun">
-							<option value="">:::문의유형:::</option>
-							<option value="요금 문의">요금 문의</option>
-							<option value="제휴 할인">제휴 할인</option>
-							<option value="온라인 예매">온라인 예매</option>
-							<option value="연간 회원">연간 회원</option>
-							<option value="예약 문의">예약 문의</option>
-							<option value="기타 문의">기타 문의</option>
-						</select>
+						${dto.gubun}
 					</td>
 				</tr>
 				<tr>
@@ -88,21 +86,65 @@ td {
 				</tr>
 				<tr>
 					<th>내용</th>
-					<td>
+					<td align="left" valign="top" height="300">
 						${dto.content}
 					</td>
 				</tr>
 		  </tbody>
 		</table>
 		
+		<div style="display: none;" id="deleteModal" role="dialog" class="modal" tabindex="-1">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+		    				<div class="modal-header">
+ 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  								<span aria-hidden="true">×</span></button>
+ 								<div align="center">
+ 									<h5 class="modal-title" id="myModalLabel">해당 문의글을 삭제하시겠습니까?</h5>
+ 								</div>
+							</div>
+							<div class="modal-body">
+									<div align="center" style="margin: 30px auto;">
+										<p>[${dto.gubun}]</p>
+										<p>${dto.subject}</p>
+									</div>
+									<div align="center" style="width: 100%; margin: 30px auto; border-spacing: 0px;">
+		   								<button id="deleteButton" type="button" class="btn btn-info" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/mypage/questionDelete?num=${dto.qnaCode}&page=${page}';">삭제</button>
+		     	 						<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;">취소</button>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 			<tr height="40">
-		    	<td align="center" width="100" class="td_custom">
-		          	<button type="button" class="btn btn-info" style="font-weight: bold;">수정하기</button>
-		     	 	<button type="reset" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/mypage/question';">리스트</button>
-		     	</td>
-		   	</tr>
+			    <td width="300" align="left" class="td_custom">
+			    <c:if test="${usersCode == dto.usersCode}">
+			         <button type="button" class="btn btn-default" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/mypage/questionModify?num=${dto.qnaCode}&page=${page}';">수정하기</button>
+			         <button id="delete" type="button" class="btn btn-default" style="font-weight: bold;">삭제하기</button>
+			    </c:if>
+			    </td>
+			
+			    <td align="right" class="td_custom">
+			        <button type="reset" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;" onclick="javascript:location.href='<%=cp%>/mypage/question?page=${page}';">리스트</button>
+			    </td>
+			</tr>
 		</table>
 	</form>
+	
+	<table class="custom_table">
+		    <colgroup width="144">
+		    </colgroup>
+		  
+		  <tbody>
+				<tr>
+					<th>답변</th>
+					<td align="left" valign="top" height="100">
+						${adminAnswer.content}
+					</td>
+				</tr>
+		  </tbody>
+		</table>
     </div>
 </div>

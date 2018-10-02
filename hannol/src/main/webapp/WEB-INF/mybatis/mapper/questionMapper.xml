@@ -14,7 +14,7 @@
 	<select id="listQuestion" parameterType="map" resultType="com.sp.question.Question">
 		SELECT * FROM(
 		    SELECT ROWNUM rnum, tb.* FROM(
-		        SELECT q.qnaCode, gubun, subject, qDate, parentCode, a.qnaCode as answer
+		        SELECT q.qnaCode, gubun, subject, TO_CHAR(qDate,'YYYY-MM-DD') qDate, parentCode, q.qnaCode as answer
 		        FROM question q
 		        LEFT OUTER JOIN (
 		            SELECT qnaCode
@@ -30,8 +30,20 @@
 	</select>
 	
 	<select id="readQuestion" parameterType="Integer" resultType="com.sp.question.Question">
-		SELECT gubun, subject, content, TO_CHAR(qDate,'YYYY-MM-DD') qDate, parentCode, usersCode
+		SELECT qnaCode, gubun, subject, content, TO_CHAR(qDate,'YYYY-MM-DD') qDate, parentCode, usersCode
 		FROM question
 		WHERE qnaCode = #{num}
+	</select>
+	
+	<update id="updateQuestion" parameterType="com.sp.question.Question">
+		UPDATE question SET gubun=#{gubun}, subject=#{subject}, content=#{content} WHERE qnaCode=#{qnaCode}
+	</update>
+	
+	<delete id="deleteQuestion" parameterType="Integer">
+		DELETE FROM question WHERE qnaCode = #{num} OR parentCode = #{num}
+	</delete>
+	
+	<select id="readAnswer" parameterType="Integer" resultType="com.sp.question.Question">
+		SELECT content FROM question WHERE parentCode = #{num}
 	</select>
 </mapper>

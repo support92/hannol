@@ -62,4 +62,40 @@ public class QuestionServiceImpl implements QuestionService{
 		return dto;
 	}
 
+	@Override
+	public int updateQuestion(Question dto) throws Exception {
+		int result= 0;
+		try {
+			result = dao.updateData("question.updateQuestion", dto);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int deleteQuestion(int num) throws Exception {
+		int result= 0;
+		try {
+			result = dao.deleteData("question.deleteQuestion", num);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return result;
+	}
+
+	@Override
+	public Question readAnswer(int num) throws Exception {
+		Question dto = null;
+		try {
+			dto = dao.selectOne("question.readAnswer", num);
+		}catch(Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return dto;
+	}
+
 }

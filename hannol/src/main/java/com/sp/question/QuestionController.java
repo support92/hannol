@@ -9,15 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sp.card.Card;
 import com.sp.common.MyUtilGeneral;
 import com.sp.member.SessionInfo;
-import com.sp.notice.Notice;
 
 @Controller("question.questionController")
 public class QuestionController {
@@ -107,12 +106,50 @@ public class QuestionController {
 	}
 	
 	@RequestMapping(value = "/mypage/article")
-	public String article(int num, Model model) throws Exception{
+	public String article(int num, int page, HttpSession session, Model model) throws Exception{
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		Question dto = service.readQuestion(num);
+		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		
+		Question adminAnswer = null;
+		if(dto.getParentCode() != 0 || dto != null) {
+			adminAnswer = service.readAnswer(num);
+			adminAnswer.setContent(dto.getContent().replaceAll("\n", "<br>"));
+			model.addAttribute("adminAnswer", adminAnswer);
+		}
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("page", page);
+		model.addAttribute("usersCode", (int)info.getUsersCode());
+		
+		return ".four.menu3.mypage.questionArticle";
+	}
+	
+	@RequestMapping(value = "/mypage/questionModify")
+	public String modify(int num, int page, Model model) throws Exception{
 		
 		Question dto = service.readQuestion(num);
 		
 		model.addAttribute("dto", dto);
+		model.addAttribute("page", page);
 		
-		return ".four.menu3.mypage.questionArticle";
+		return ".four.menu3.mypage.questionModify";
+	}
+	
+	@RequestMapping(value = "/mypage/updateQuestion")
+	public String update(Question dto, int page, @RequestParam int num) throws Exception{
+		dto.setQnaCode(num);
+		service.updateQuestion(dto);
+		
+		return "redirect:/mypage/article?num="+num+"&page="+page;
+	}
+	
+	@RequestMapping(value = "/mypage/questionDelete")
+	public String delete(int page, @RequestParam int num) throws Exception{
+
+		service.deleteQuestion(num);
+		
+		return "redirect:/mypage/question?page="+page;
 	}
 }

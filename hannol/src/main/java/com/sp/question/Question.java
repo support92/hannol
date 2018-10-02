@@ -9,7 +9,7 @@ public class Question {
 	private String qDate;
 	private int parentCode;
 	private int usersCode;
-	private String answer;
+	private int answer;
 
 	public int getListNum() {
 		return listNum;
@@ -75,11 +75,11 @@ public class Question {
 		this.usersCode = usersCode;
 	}
 
-	public String getAnswer() {
+	public int getAnswer() {
 		return answer;
 	}
 
-	public void setAnswer(String answer) {
+	public void setAnswer(int answer) {
 		this.answer = answer;
 	}
 

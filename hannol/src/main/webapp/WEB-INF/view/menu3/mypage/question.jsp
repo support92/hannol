@@ -41,7 +41,7 @@
 					      <td><a href="${articleUrl}&num=${dto.qnaCode}">${dto.subject}</a></td>
 					      <td>${dto.qDate}</td>
 					      <td>
-					      	<c:if test="${not empty dto.answer}">
+					      	<c:if test="${dto.answer != 0}">
 					      		답변완료
 					      	</c:if>
 					      </td>
@@ -60,8 +60,7 @@
 					        <c:if test="${dataCount!=0 }">${paging}</c:if>
 					 </td>
 				   </tr>
-				</table>
-				
+				</table>		
 		    </div>
 		
 		</div>
