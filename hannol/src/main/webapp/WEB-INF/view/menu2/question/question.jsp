@@ -57,7 +57,43 @@ td {
 </style>
 
 <script type="text/javascript">
+function validOk() {
+    var f = document.questionForm;
+    
+    var str = $("#gubun option:checked").val();
+    if(!str) {
+        $("#gubun").focus();
+        return;
+    }
 
+	var str = f.subject.value;
+    if(!str) {
+        f.subject.focus();
+        return;
+    }
+    
+    var str = f.content.value;
+    if(!str) {
+        f.content.focus();
+        return;
+    }
+
+    if($("input:checkbox[id='aler']").is(":checked") == false){
+    	$("#alerCheck").show();
+    	return;
+    }
+    
+	f.action="<%=cp%>/question/insertQuestion";
+    f.submit();
+}
+
+$(function(){
+	$("input:checkbox[id='aler']").click(function(){
+		if($("input:checkbox[id='aler']").is(":checked")){
+			$("#alerCheck").hide();
+		}
+	});
+});
 </script>
 
 <div class="bodyFrame2">
@@ -70,6 +106,7 @@ td {
     </div>
     
     <div align="center">
+    <form name="questionForm" method="post">
     	<table class="custom_table">
 		    <colgroup width="144">
 		    </colgroup>
@@ -79,13 +116,13 @@ td {
 					<th>문의유형</th>
 					<td>
 						<select id="gubun">
-							<option value="0">전체</option>
-							<option value="0">요금 문의</option>
-							<option value="0">제휴 할인</option>
-							<option value="0">온라인 예매</option>
-							<option value="0">연간 회원</option>
-							<option value="0">예약 문의</option>
-							<option value="0">기타 문의</option>
+							<option value="">:::문의유형:::</option>
+							<option value="요금 문의">요금 문의</option>
+							<option value="제휴 할인">제휴 할인</option>
+							<option value="온라인 예매">온라인 예매</option>
+							<option value="연간 회원">연간 회원</option>
+							<option value="예약 문의">예약 문의</option>
+							<option value="기타 문의">기타 문의</option>
 						</select>
 					</td>
 				</tr>
@@ -101,12 +138,6 @@ td {
 						<textarea id="content" name="content" rows="12" style="width: 100%; resize: none;"></textarea>
 					</td>
 				</tr>
-				<tr>
-					<th>첨부파일</th>
-					<td>
-						<input type="file" id="upload" name="upload">
-					</td>
-				</tr>
 		  </tbody>
 		</table>
 		
@@ -118,7 +149,7 @@ td {
 			</tr>
 			<tr>
 				<td align="left">
-					<textarea rows="8" style="width: 100%; resize: none; text-align: left; white-space: pre-line; padding-left: 15px;" readonly="readonly">
+					<textarea rows="8" style="width: 100%; resize: none; text-align: left; white-space: pre-line; padding-left: 15px;" readonly="readonly" disabled="disabled">
 						개인 정보 수집, 이용 동의서
 						본인은 방문 전 이용문의 작성과 관련하여 귀사가 아래와 같이 본인의 개인정보를 수집, 이용하는데 동의합니다.
 						
@@ -139,11 +170,11 @@ td {
 			</tr>
 			<tr>
 				<td>
-					<input type="checkbox" style="vertical-align: middle;"><label style="margin-left: 5px;">개인정보 수집 및 이용에 동의합니다.</label>
+					<input id="aler" name="aler" type="checkbox" style="vertical-align: middle;"><label style="margin-left: 5px;">개인정보 수집 및 이용에 동의합니다.</label>
 				</td>
 			</tr>
 		</table>
-		
+		<div id="alerCheck" style="display: none;"><span style="color: red; margin-top: 5px; margin-left: 15px;">구매조건 확인 및 결제대행 서비스 약관에 동의하셔야 합니다.</span></div>	
 		<table style="width: 100%; margin: 10px auto; border-spacing: 0px;">
 			<tr height="40">
 		    	<td align="center" width="100" class="td_custom">
@@ -152,5 +183,6 @@ td {
 		     	</td>
 		   	</tr>
 		</table>
+	</form>
     </div>
 </div>   

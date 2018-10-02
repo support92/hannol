@@ -20,6 +20,6 @@ $(function(){
        <a href="<%=cp%>/notice/list" class="list-group-item">공지</a>
        <a href="#" class="list-group-item">이벤트</a>
        <a href="#" class="list-group-item">FAQ</a>
-       <a href="<%=cp%>/question/list" class="list-group-item">1:1문의</a>
+       <a href="<%=cp%>/question/question" class="list-group-item">1:1문의</a>
        <a href="<%=cp%>/review/list" class="list-group-item">이용후기</a>
 </div>
