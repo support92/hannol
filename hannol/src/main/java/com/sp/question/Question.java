@@ -1,6 +1,7 @@
 package com.sp.question;
 
 public class Question {
+	private int listNum;
 	private int qnaCode;
 	private String gubun;
 	private String subject;
@@ -8,6 +9,15 @@ public class Question {
 	private String qDate;
 	private int parentCode;
 	private int usersCode;
+	private String answer;
+
+	public int getListNum() {
+		return listNum;
+	}
+
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
 
 	public int getQnaCode() {
 		return qnaCode;
@@ -63,6 +73,14 @@ public class Question {
 
 	public void setUsersCode(int usersCode) {
 		this.usersCode = usersCode;
+	}
+
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
 	}
 
 }
