@@ -17,8 +17,8 @@ $(function(){
 
 <div class="list-group">
        <div class="list-group-item lefthead"><i></i>편의시설</div>
-       <a href="#" class="list-group-item">안내소</a>
-       <a href="#" class="list-group-item">유모차대여소</a>
-       <a href="#" class="list-group-item">휠체어대여소</a>
-       <a href="#" class="list-group-item">보관함</a>
+       <a href="<%=cp%>/facilities/info" class="list-group-item">안내소</a>
+       <a href="<%=cp%>/facilities/baby" class="list-group-item">유모차대여소</a>
+       <a href="<%=cp%>/facilities/bathchair" class="list-group-item">휠체어대여소</a>
+       <a href="<%=cp%>/facilities/locker" class="list-group-item">보관함</a>
 </div>

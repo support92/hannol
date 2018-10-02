@@ -38,7 +38,7 @@
 <script>
 $(function(){
 	$(".btn-history-back").click(function(){
-		location.href="<%=cp%>/enjoy/giftshop?page="+${page};
+		location.href="<%=cp%>/facilities/${pageName}?page="+${page};
 	});
 });
 </script>

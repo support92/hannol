@@ -83,9 +83,9 @@
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">편의시설<span class="caret"></span></a>
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/facilities/info">안내소</a></li>
-                                  <li><a href="#">유모차대여소</a></li>
-                                  <li><a href="#">휠체어대여소</a></li>
-                                  <li><a href="#">보관함</a></li>
+                                  <li><a href="<%=cp%>/facilities/baby">유모차대여소</a></li>
+                                  <li><a href="<%=cp%>/facilities/bathchair">휠체어대여소</a></li>
+                                  <li><a href="<%=cp%>/facilities/locker">보관함</a></li>
                               </ul>
                           </li> 
                           <li class="dropdown">
