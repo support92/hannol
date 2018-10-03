@@ -10,15 +10,14 @@
 	            left join theme t on f.themeCode = t.themeCode
 	            where gubunCode=1 and f.themeCode= #{code})
 	</select>
-<!-- 	
+	
 	<select id="listEnjoyCal" parameterType="map" resultType="com.sp.enjoy.Enjoy">
 		select * from (
    		select rownum rnum, tb.* from (
-				select f.facilityCode, name, state, f.themeCode,originalMainFilename,saveMainFilename, memo
-	            from facility f
-	            left join theme t on f.themeCode = t.themeCode
-	            where gubunCode=1 and f.themeCode= #{code}
-	            order by #{sortby} desc
+			select f.facilityCode, name, state, f.themeCode,originalMainFilename,saveMainFilename, memo
+            from facility f
+            left join theme t on f.themeCode = t.themeCode
+            where gubunCode=1 and f.themeCode= #{code}
 		<![CDATA[
 				) tb where rownum <= #{end}
 			)where rnum >= #{start}	
@@ -35,14 +34,4 @@
 
 	</select>
 	
-	<select id="calcul" parameterType="map" resultType="com.sp.enjoy.Enjoy">
-
-	select waiting
-	from facility f
-	left join ridesState r on f.facilityCode = r.facilityCode
-	left join theme t on f.themeCode = t.themeCode
-	where gubunCode=1 and timezone=#{hh} and to_char(recordDate,'yyyymmdd')=#{yyyymmdd} and f.themeCode= #{code}
-	
-	</select>
-	 -->
 </mapper>

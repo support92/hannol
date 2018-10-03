@@ -35,10 +35,11 @@ public class TodayServiceImpl implements TodayService{
 			
 			for(Today e : list) {
 				e.setWaiting(-1);
+				int facilityCode = e.getFacilityCode();
+				map.put("facilityCode", facilityCode);
 				Integer waiting = dao.selectOne("today.calcul", map);
 				if(waiting!= null) {
 					e.setWaiting(waiting);
-					System.out.println(e.getWaiting()+"::::::::::::::::::::::::");
 				}
 			}
 			

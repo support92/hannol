@@ -21,38 +21,12 @@
 					 <span class="itemTitle">${dto.name}</span>
 					</a>
 					
-					<c:if test="${dto.waiting!=-1}">			
-						<div class="ridesState"><fmt:formatNumber value="" type="number"/>상태 : 
-							<c:choose>
-								<c:when test="${dto.waiting < 9}">
-									여유
-								</c:when>
-								<c:when test="${dto.waiting < 19}">
-									보통
-								</c:when>
-								<c:when test="${dto.waiting < 39}">
-									대기
-								</c:when>
-								<c:when test="${dto.waiting < 59}">
-									많음
-								</c:when>
-								<c:otherwise>
-									혼잡
-								</c:otherwise>
-							</c:choose>
-							<%-- ${state} --%>
-						</div>
-					</c:if>
-					<c:if test="${dto.waiting==-1}">
-						<div>
-							&nbsp;
-						</div>
-					</c:if>
 				</div>
 			</div>
 		</div>
 	</c:forEach>
 </div>
+
 <div class="div-paging" style="width: 100%; text-align: center; margin: 0px auto; clear: both;">${paging}</div>
 
 

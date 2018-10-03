@@ -61,7 +61,7 @@ public class TodayParkController {
 		return ".four.menu4.todayPark.list";
 	}
 	
-	@RequestMapping(value="/today/subList")
+	@RequestMapping(value="/todayPark/subList")
 	public String subList(@RequestParam(value="page", defaultValue="1") int current_page,
 			@RequestParam(value="tab", defaultValue="princess") String tab,
 			@RequestParam(value="gubunCode", defaultValue="0") int code,

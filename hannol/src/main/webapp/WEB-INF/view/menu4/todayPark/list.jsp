@@ -8,12 +8,6 @@
 <link rel="stylesheet" href="<%=cp%>/resource/css/tabs.css" type="text/css">
 <style type="text/css">
 
-.giftSelect{
-	height: 30px;
-	margin: 15px;
-	float: left;
-}
-
 .imgLayout{
 	width: 190px;
 	height: 205px;
@@ -53,10 +47,9 @@
 $(function() {
 	var page = ${page};
 	var orderby = '${orderby}'; //String일 때는 꼭 ''를 해주기
-	alert(orderby);
 	
 	$("#tab-${tab}").addClass("active");
-	listPage(page);
+	listPage(page, orderby);
 	
 	$("ul.tabs li").click(function() {
 		var tab = $(this).attr("data-tab");
@@ -65,16 +58,16 @@ $(function() {
 		});
 		
 		$("#tab-"+tab).addClass("active");
-		listPage(1,orderby);
+		listPage(1, orderby);
 	});
 	
-	//정렬변경될때마다 이벤트 발생.. 처리
-	function orderList(){
-		alert("정렬선택!");
-		var orderby = $(".form-control rides-form-control").val();
-		listPage(1,orderby);
-	};
 });
+
+//정렬변경될때마다 이벤트 발생.. 처리
+function orderList(){
+	var orderby = $("#test").val();
+	listPage(1,orderby);
+};
 
 function listPage(page, orderby) {
 	var $tab = $(".tabs .active");
@@ -84,7 +77,7 @@ function listPage(page, orderby) {
 	if(!gubunCode)
 		gubunCode=0;		
 	
-	var url = "<%=cp%>/today/subList";
+	var url = "<%=cp%>/todayPark/subList";
 	
 	var query = "page="+page+"&tab="+tab+"&gubunCode="+gubunCode+"&orderby="+orderby;
 	ajaxHTML(url, "get", query);
@@ -118,12 +111,9 @@ function ajaxHTML(url, type, query) {
 }
 
 /* 정렬 */
-
-
-
 </script>
 
-<div class="bodyFrame2" style="width: 630px;">
+<div class="bodyFrame2" style="width: 100%;">
     <div class="body-title">
         <h3>
         	<span class="glyphicon glyphicon-gift"></span> 놀이기구
@@ -131,22 +121,11 @@ function ajaxHTML(url, type, query) {
     </div>
 
 <!-- 정렬폼 -->    
-<!-- 
-    <div class="ridesSelect">
-		<div class="itemSelect">
-			<select class="form-control rides-form-control" onchange="orderList();">
-				<option value="facilityCode">::정렬::</option>
-				<option value="waitTime">대기시간</option>
-				<option value="population">인기</option>
-			</select>
-		</div>
-	</div> 
--->
 
 	<div class="div-menu">
-		<select class="form-control rides-form-control" name="searchKey" id="searchKey" onchange="orderList();">
-				<option value="waitTime">대기시간</option>
-				<option value="population">인기</option>
+		<select style="width:100px; margin: 10px auto 10px 0px;  align:right"  class="form-control rides-form-control" id="test" onchange="orderList();">
+				<option value="waiting">대기시간</option>
+				<option value="facilityCode">시설번호</option>
 		</select>
 	</div>
 

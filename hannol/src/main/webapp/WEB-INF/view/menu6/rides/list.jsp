@@ -45,12 +45,9 @@
 	margin-bottom: 5%;
 }
 
-
 </style>
 
 <script type="text/javascript">
-
-
 $(function() {
 	var page = ${page};
 
@@ -67,8 +64,6 @@ $(function() {
 		listPage(1);
 	});
 });
-
-
 
 function listPage(page) {
 	var $tab = $(".tabs .active");
@@ -112,77 +107,15 @@ function ajaxHTML(url, type, query) {
 }
 
 /* 정렬 */
-<%-- var dataQuery ="";
-
-function orderList(){
-	var orderList = $('.form-control rides-form-control').val();
-	
-	if(dataQuery.indexOf("order=") == -1){
-		dataQuery=dataQuery+"&order="+orderList;
-	}else{
-		var index = dataQuery.indexOf("order=");
-		if(index == 0){
-			dataQuery="order="+orderList;
-		}else{
-			var str = dataQuery.substring(0,index).trim();
-			dataQuery=str+"&order="+orderList;
-		}
-	}
-	
-	listPage(1, dataQuery);
-	
-}
-function listPage(page, query){
-	if (query === undefined || query === null) {
-		query = dataQuery;
-	}
-	
-	var url = "<%=cp%>/giftshop/aJaxList"
-	var data = "page="+page;
-	
-	if(query!=''){
-		data+="&"+query;
-	}
-	
-	data+="&thema="+giftThema;
-	
-	
-	$.ajax({
-		type:"GET"
-		,url:url
-		,data: data
-		,success:function(data) {
-			$(".giftList").html(data);			
-			
-		}
-	    ,error:function(e) {
-	    	console.log(e.responseText);
-	    }
-	});
-} --%>
-
 
 </script>
 
-<div class="bodyFrame2" style="width: 630px;">
+<div class="bodyFrame2" style="width: 100%;">
     <div class="body-title">
         <h3>
         	<span class="glyphicon glyphicon-gift"></span> 놀이기구
 		</h3>
     </div>
-
-<!-- 정렬폼 -->    
-<!-- 
-    <div class="ridesSelect">
-		<div class="itemSelect">
-			<select class="form-control rides-form-control" onchange="orderList();">
-				<option value="default">::정렬::</option>
-				<option value="waitTime">대기시간</option>
-				<option value="population">인기</option>
-			</select>
-		</div>
-	</div>
--->
     
 	<div>
 		<div style="clear: both;">

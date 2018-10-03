@@ -28,13 +28,13 @@
 								<c:when test="${dto.waiting < 9}">
 									여유
 								</c:when>
-								<c:when test="${dto.waiting < 19}">
+								<c:when test="${dto.waiting < 29}">
 									보통
 								</c:when>
-								<c:when test="${dto.waiting < 39}">
+								<c:when test="${dto.waiting < 69}">
 									대기
 								</c:when>
-								<c:when test="${dto.waiting < 59}">
+								<c:when test="${dto.waiting < 99}">
 									많음
 								</c:when>
 								<c:otherwise>

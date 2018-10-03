@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sp.common.FileManager;
 import com.sp.common.dao.CommonDAO;
 
 @Service("rides.ridesServiceImple")
@@ -27,31 +26,12 @@ public class EnjoyServiceImpl implements EnjoyService{
 		return result;
 	}
 
-/*	@Override
-	public List<Enjoy> listEnjoy(Map<String, Object> map) {
-		List<Enjoy> list = null;
-		
-		try {
-			list = dao.selectList("enjoy.listEnjoy", map);
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-		return list;
-	}*/
-	
 	@Override
 	public List<Enjoy> listEnjoy2(Map<String, Object> map) {
 		List<Enjoy> list = null;
 		
 		try {
 			list = dao.selectList("enjoy.listEnjoyCal", map);
-			
-			for(Enjoy e : list) {
-				e.setWaiting(-1);
-				int waiting = dao.selectOne("enjoy.calcul", map);
-				e.setWaiting(waiting);
-			}
-			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -71,21 +51,4 @@ public class EnjoyServiceImpl implements EnjoyService{
 		return list;
 	}
 
-/*	@Override
-	public Enjoy calcul(Enjoy dto) {
-		
-		dto.setWaiting(0);
-		try {
-			dto = dao.selectOne("enjoy.calcul", dto);
-			if(dto.getWaiting()==0)
-				System.out.println("해당 자료가 없음");
-				
-				
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		}
-		
-		return dto;
-	}
-*/
 }
