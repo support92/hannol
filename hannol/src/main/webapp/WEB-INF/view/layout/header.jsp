@@ -93,7 +93,7 @@
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/reservation/ticket">예매</a></li>
                                   <li><a href="<%=cp%>/guide/list">가이드</a></li>
-                                  <li><a href="#">공연</a></li>
+                                  <li><a href="<%=cp%>/reservation/show">공연</a></li>
                                   <li><a href="#">편의시설</a></li>
                               </ul>
                           </li>
@@ -151,9 +151,9 @@
                    <ul>
                        <li><a href="<%=cp%>/enjoy/rides">놀이기구</a></li>
                        <li><a href="<%=cp%>/enjoy/giftshop">기프트샵</a></li>
-                       <li><a href="#">공연</a></li>
-                       <li><a href="#">체험</a></li>
-                       <li><a href="#">퍼레이드</a></li>
+                       <li><a href="<%=cp%>/show/list">공연</a></li>
+                       <li><a href="<%=cp%>/show/experience">체험</a></li>
+                       <li><a href="<%=cp%>/show/parade">퍼레이드</a></li>
                    </ul>
                </li>
                <li>
@@ -170,7 +170,7 @@
                    <ul>
                        <li><a href="<%=cp%>/reservation/reservate">예매</a></li>
                        <li><a href="#">가이드</a></li>
-                       <li><a href="#">페스티벌</a></li>
+                       <li><a href="<%=cp%>/reservation/show">공연</a></li>
                        <li><a href="#">편의시설</a></li>
                    </ul>
                </li>
