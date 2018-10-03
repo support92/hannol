@@ -59,7 +59,7 @@
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/todayPark/rides">놀이기구</a></li>
                                   <li><a href="<%=cp%>/todayPark/recommand">추천코스</a></li>
-                                  <li><a href="#">오늘의 공연</a></li>
+                                  <li><a href="<%=cp%>/todayPark/show">오늘의 공연</a></li>
                               </ul>
                           </li>
                           <li class="dropdown">
@@ -136,7 +136,7 @@
                    <ul>
                        <li><a href="<%=cp%>/todayPark/rides">놀이기구</a></li>
                        <li><a href="<%=cp%>/todayPark/recommand">추천코스</a></li>
-                       <li><a href="#">오늘의 공연</a></li>
+                       <li><a href="<%=cp%>/todayPark/show">오늘의 공연</a></li>
                    </ul>
                </li>
                <li>
