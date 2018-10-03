@@ -22,6 +22,32 @@ public class ShowController {
 	@Autowired
 	ShowService service;
 	
+	// 예매/예약 - 공연 리스트
+	@RequestMapping(value="/reservation/show", method=RequestMethod.GET)
+	public String reservationShowList(Model model) {
+		model.addAttribute("subMenu", "3");
+		model.addAttribute("gubunCode", "3");
+		model.addAttribute("gubun", "무대공연");
+		return ".four.menu8.show.list";
+	}
+	
+	// 예매/예약 - 공연 예약 상세
+	@RequestMapping(value="/reservation/show/detail", method=RequestMethod.GET)
+	public String reservatioShowList(
+			@RequestParam(value="gubunCode") String gubunCode,
+			@RequestParam(value="date") String date,
+			Model model) throws Exception {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("screenDate", date);
+		map.put("gubunCode", gubunCode);
+		
+		List<Show> list = service.listShow(map);
+		model.addAttribute("list", list);
+		model.addAttribute("gubunCode", gubunCode);
+		return "menu8/show/showList";
+	}
+	
 	// 금주의 무대공연 리스트
 	@RequestMapping(value="/show/list", method=RequestMethod.GET)
 	public String stageList(Model model) {
@@ -100,7 +126,6 @@ public class ShowController {
 		map.put("screenDate", screenDate);
 		
 		Show dto = service.readShowInfo(map);
-		
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("subMenu", subMenu);
