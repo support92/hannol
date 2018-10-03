@@ -150,7 +150,7 @@ public class ShowController {
 			@RequestParam(value="selectSeat") List<Integer> selectSeat,
 			HttpSession session,
 			final RedirectAttributes attr,
-			Model model) throws Exception{
+			Model model){
 		
 		// 로그인 했는지 확인 - intercept 를 적용하지 않았으므로
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -158,37 +158,63 @@ public class ShowController {
 			return "redirect:/member/login";
 		}
 		
+		String query = "screenDate=" + screenDate + "&showInfoCode=" + showInfoCode;
+		
 		// screenDate가 startDate 와 endDate 사이에 있는 이용권의 리스트
 		// 구매 테이블은 필요 없는듯. 이용권 발급 리스트만
 		Map<String, Object> map = new HashMap<>();
 		map.put("screenDate", screenDate);
 		map.put("memberId", info.getMemberId());
 		
-		List<Ticket> list = service.listTicket(map);
-		if(list.size()==0) {
-			attr.addFlashAttribute("msg", "해당 일자에 구매한 이용권이 없습니다.");		// 세션에 저장
-			return "redirect:/show/reseration?screenDate=" + screenDate + "&showInfoCode=" + showInfoCode;  // 동시에 보낼 수 있다.
+		List<Ticket> list;
+		try {
+			list = service.listTicket(map);
+			if(list.size()==0) {
+				attr.addFlashAttribute("msg", "해당 일자에 구매한 이용권이 없습니다.");		// 세션에 저장
+				return "redirect:/show/reseration?" + query;  // 동시에 보낼 수 있다.
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 		
 		// 만약 야간 이용권 - startTime 이 4시 이전이면 예약 불가 - 이건 안막음
 		
-		// 이미 예약 했으면 또 예약 불가
+		// sStartCode
+		map.put("showInfoCode", showInfoCode);
+		map.put("startTime", startTime);				
+		int sStartCode = 0;
+		try {
+			sStartCode = service.readSstartCode(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// 이미 예약 했으면 또 예약 불가 - (sStartCode, usersCode) 가 이미 있으면 못하도록
+		map.put("usersCode", info.getUsersCode());
+		map.put("sStartCode", sStartCode);
 		
-		// 이미 예약된 좌석은 예약 불가
-//		map.put("showInfoCode", showInfoCode);
-//		map.put("startTime", startTime);
-//		List<Integer> seatList = service.listSeat(map);		// 예약된 좌석
-//		for(Integer ss : selectSeat) {
-//			for(Integer sl : seatList) {
-//				if(sl == ss) {
-//					attr.addFlashAttribute("msg", "이미 예약된 좌석입니다.");		// 세션에 저장
-//					return "redirect:/show/reseration?screenDate=" + screenDate + "&showInfoCode=" + showInfoCode;  // 동시에 보낼 수 있다.
-//				}
-//			}
-//		}
+		int result = 0;
+		try {
+			result = service.readShowBookCount(map);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		if(result > 0) {
+			attr.addFlashAttribute("msg", "하루에 한 번만 예약 가능합니다.");		// 세션에 저장
+			return "redirect:/show/reseration?" + query;
+		}
 		
+		// 예약 - 이미 예약된 좌석은 예약(insert) 불가. 따라서 catch 할 때 
+		map.put("bookCount", selectSeat.size());
+		map.put("seatList", selectSeat);
+		try {
+			service.insertShowBook(map);
+		} catch (Exception e) {		// 예매 실패
+			attr.addFlashAttribute("msg", "이미 예약된 좌석입니다");		// 세션에 저장
+			return "redirect:/show/reseration?" + query;
+		}
 		
-		return "redirect:/show/list";
+		return "redirect:/show/list";	// 예매가 완료되었습니다 페이지 만들어서 이동
 	}
 
 }

@@ -69,20 +69,54 @@
 	</select>
 	
 	<!-- 예약좌석 리스트 -->
-	<select id="listSeat" parameterType="map" resultType="Integer">
-		select seatNum 
-		from showBookInfo
-		where showBookCode in (
-		    select showBookCode
-		    from showBook
-		    where sStartCode = (
-		        select sStartCode
-		        from showStartTime
-		        where startTime = #{startTime} and schCode = (
-		            select schCode
-		            from showSch
-		            where screenDate = #{screenDate} and showInfoCode = #{showInfoCode}))
+ 	<select id="listSeat" parameterType="map" resultType="Integer">
+		select seatNum
+		from showbookinfo
+		where sStartCode = (
+		    select sStartCode
+		    from showStartTime
+		    where startTime = #{startTime} and schCode = (
+		        select schCode
+		        from showSch
+		        where screenDate = #{screenDate} and showInfoCode = #{showInfoCode})
 		)
+	</select>
+	
+	<!-- sStartCode  -->
+	<select id="readSstartCode" parameterType="map" resultType="Integer">	
+		select sStartCode
+        from showStartTime
+        where startTime = #{startTime} and schCode = (
+            select schCode
+            from showSch
+            where screenDate = #{screenDate} and showInfoCode = #{showInfoCode})
+	</select>
+
+
+	<!-- 공연 예약 insert -->
+	<insert id="insertShowBook" parameterType="map">
+		insert into showBook(showBookCode, bookDate, bookCount, usersCode, sStartCode)
+		values(showBook_seq.nextval, sysdate, #{bookCount}, #{usersCode}, #{sStartCode})
+	</insert>
+
+	<select id="readShowBookCode" parameterType="map" resultType="Integer">
+		select showBookCode
+		from showBook
+		where usersCode = #{usersCode} and sStartCode = #{sStartCode}
+	</select>
+
+	<!-- 공연 예약 상세 insert -->
+	<insert id="insertShowBookInfo" parameterType="map">
+		insert into showBookInfo(sStartCode, seatNum, showBookCode)
+		values(#{sStartCode}, #{seatNum}, #{showBookCode})
+	</insert>
+
+
+	<!-- 공연 예약 중복 검사 -->
+	<select id="readShowBookCount" parameterType="map" resultType="Integer">
+		select count(*)
+		from showBook
+		where usersCode = #{usersCode} and sStartCode = #{sStartCode}
 	</select>
 	
 </mapper>

@@ -89,5 +89,70 @@ public class ShowServiceimpl implements ShowService {
 		}
 		return list;
 	}
+
+	@Override
+	public int readSstartCode(Map<String, Object> map) throws Exception {
+		int sStartCode = 0;
+		try {
+			sStartCode = dao.selectOne("show.readSstartCode", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return sStartCode;
+	}
+
+	// 공연 예약 
+	@Override
+	public int insertShowBook(Map<String, Object> map) throws ShowInsertException, Exception{
+		int result = 0;
+		int showBookCode = 0;
+
+		try {
+			result = dao.insertData("show.insertShowBook", map);
+
+			showBookCode = readShowBookCode(map);
+			map.put("showBookCode", showBookCode);
+			
+			List<Integer> seatList = (List<Integer>) map.get("seatList");
+			for(Integer i : seatList) {
+				map.put("seatNum", i);
+				insertShowBookInfo(map);
+			}
+		} catch (Exception e) {
+			throw new ShowInsertException();
+		}
+		return result;
+	}
+
+	@Override
+	public int readShowBookCode(Map<String, Object> map) throws Exception {
+		int showBookCode = 0;
+		try {
+			showBookCode = dao.selectOne("show.readShowBookCode", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return showBookCode;
+	}
+
+	@Override
+	public int insertShowBookInfo(Map<String, Object> map) throws Exception {
+		int result = 0;
+
+		result = dao.insertData("show.insertShowBookInfo", map);
+
+		return result;
+	}
+
+	@Override
+	public int readShowBookCount(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("show.readShowBookCount", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
 	
 }

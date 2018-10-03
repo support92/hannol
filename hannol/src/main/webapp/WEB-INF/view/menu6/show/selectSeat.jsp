@@ -17,8 +17,10 @@
 		seatList[i] = true;
 	}
 	
-	for(Integer i : sList) {
-		seatList[i] = false;
+	if(sList != null) {
+		for(Integer i : sList) {
+			seatList[i] = false;
+		}
 	}
 %>
 <style>
