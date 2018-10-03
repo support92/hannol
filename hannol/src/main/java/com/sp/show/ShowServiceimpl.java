@@ -154,5 +154,53 @@ public class ShowServiceimpl implements ShowService {
 		}
 		return result;
 	}
+
+	@Override
+	public int deleteShowBookInfo(int showBookCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("show.deleteShowBookInfo", showBookCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteShowBook(int showBookCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("show.deleteShowBook", showBookCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public List<Show> listMyShow(int usersCode) throws Exception {
+		List<Show> list = null;
+		try {
+			list = dao.selectList("show.listMyShow", usersCode);
+			for(Show s : list) {
+				List<Integer> seatNum = listMyShowSeat(s.getShowBookCode());
+				s.setSeatNum(seatNum);
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
+	public List<Integer> listMyShowSeat(int showBookCode) throws Exception {
+		List<Integer> list = null;
+		try {
+			list = dao.selectList("show.listMyShowSeat", showBookCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
 	
 }

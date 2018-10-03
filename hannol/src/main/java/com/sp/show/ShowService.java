@@ -15,4 +15,12 @@ public interface ShowService {
 	public int readShowBookCode(Map<String, Object> map) throws Exception;
 	public int insertShowBookInfo(Map<String, Object> map) throws Exception;
 	public int readShowBookCount(Map<String, Object> map) throws Exception;
+	
+	// 삭제
+	public int deleteShowBookInfo(int showBookCode) throws Exception;
+	public int deleteShowBook(int showBookCode) throws Exception;
+	
+	// 내 공연예약
+	public List<Show> listMyShow(int usersCode) throws Exception;
+	public List<Integer> listMyShowSeat(int showBookCode) throws Exception;
 }

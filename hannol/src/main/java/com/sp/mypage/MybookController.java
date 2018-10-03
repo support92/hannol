@@ -1,7 +1,6 @@
 package com.sp.mypage;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,11 +24,16 @@ import com.sp.assets.Assets;
 import com.sp.common.MyUtil;
 import com.sp.magicpass.MagicPass;
 import com.sp.member.SessionInfo;
+import com.sp.show.Show;
+import com.sp.show.ShowService;
 
 @Controller("mypage.mybookController")
 public class MybookController {
 	@Autowired
 	private MybookService service;
+	
+	@Autowired
+	private ShowService sService;
 
 	@Autowired
 	MyUtil myUtil;
@@ -49,7 +53,6 @@ public class MybookController {
 		// model - tab
 		model.addAttribute("tab", tab);
 		model.addAttribute("pageNo", page);
-
 		model.addAttribute("subMenu", "5");
 
 		return ".four.menu3.mypage.myBook";
@@ -118,7 +121,34 @@ public class MybookController {
 
 			return "menu3/mypage/bookList";
 		} else if (gubunCode.equals("3")) { // 무대공연 탭
-			return "";
+			
+			List<Show> list = sService.listMyShow(usersCode);
+			if(list != null) {
+				dataCount = ((List<Show>)sService.listMyShow(usersCode)).size();
+			}
+			
+			if(dataCount != 0)
+				total_page = myUtil.pageCount(rows, dataCount);
+			
+			if(current_page > total_page)
+				current_page = total_page;
+			
+			int start = (current_page - 1) * rows + 1;
+			int end = current_page * rows;
+			map.put("start", start);
+			map.put("end", end);
+			
+			
+			String listUrl = cp + "/mybook/" + gubunCode + "/list";
+			String paging = myUtil.pagingMethod(current_page, total_page, listUrl);
+			
+			model.addAttribute("list", list);
+			model.addAttribute("dataCount", dataCount);
+			model.addAttribute("current_page", current_page);
+			model.addAttribute("paging", paging);
+			model.addAttribute("total_page", total_page);
+			
+			return "menu3/mypage/showBookList";
 			
 		} else if (gubunCode.equals("4")) { // 편의시설 탭
 			
@@ -238,6 +268,21 @@ public class MybookController {
 
 		return "menu3/mypage/bookList";
 	}
+	
+	
+	// 무대공연 예약취소
+	@RequestMapping(value = "/mybook/deleteShow")
+	@ResponseBody
+	public Map<String, Object> deleteShow(@RequestParam(value = "showBookCode[]") int[] showBookCode) throws Exception {
+		for(int s : showBookCode) {
+			sService.deleteShowBookInfo(s);
+			sService.deleteShowBook(s);
+		}
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", "true");
+		return model;
+	}
+	
 	
 	//매직패스 예약취소
 	@RequestMapping(value = "/mybook/deleteMagic")

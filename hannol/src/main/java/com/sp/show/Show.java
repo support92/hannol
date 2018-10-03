@@ -11,7 +11,7 @@ public class Show {
 	private String showName;
 	private String memo;
 	private String saveFilename;
-	private String name;	// facility
+	private String name;				// facility
 	private List<String> showTime;
 	
 	private String startDate;
@@ -19,8 +19,43 @@ public class Show {
 	private String runningTime;
 	private String saveLocFilename;
 	
+	private int showBookCode;
 	private int seatCount;
+	private List<Integer> seatNum;		// 좌석
+	private String bookDate;			// 예약일자
+	private String startTime;			// 시작시각
+	private String screenDate;			// 상영날짜
 	
+	public String getScreenDate() {
+		return screenDate;
+	}
+	public void setScreenDate(String screenDate) {
+		this.screenDate = screenDate;
+	}
+	public int getShowBookCode() {
+		return showBookCode;
+	}
+	public void setShowBookCode(int showBookCode) {
+		this.showBookCode = showBookCode;
+	}
+	public String getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getBookDate() {
+		return bookDate;
+	}
+	public void setBookDate(String bookDate) {
+		this.bookDate = bookDate;
+	}
+	public List<Integer> getSeatNum() {
+		return seatNum;
+	}
+	public void setSeatNum(List<Integer> seatNum) {
+		this.seatNum = seatNum;
+	}
 	public int getSeatCount() {
 		return seatCount;
 	}
