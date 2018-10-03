@@ -75,11 +75,11 @@ function chkSingle(){
 
 //전체 체크박스
 function checkAll(){
-	if($("#chkAll").is(':checked')){
-		$("input[name=chk]").prop("checked",true);
+	if($("#chkAll").is(':checked')){      
+		$("input[name=chk]").not(':disabled').prop("checked",true);
 	}else{
-		$("input[name=chk]").prop("checked",false);
-	}
+		$("input[name=chk]").not(':disabled').prop("checked",false);
+	}  
 }
 
 //ajax로 값들을 보낸다

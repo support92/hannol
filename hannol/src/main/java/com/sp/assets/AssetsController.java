@@ -118,7 +118,7 @@ public class AssetsController {
 			System.out.println(e.toString());
 		}
 		
-		return ".four.menu3.mypage.myBook"; 
+		return ".four.menu3.mypage.myBook";            
 	}
 	
 	

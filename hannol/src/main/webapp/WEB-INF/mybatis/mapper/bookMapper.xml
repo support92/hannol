@@ -89,4 +89,9 @@
 		    ) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>
+	
+	<!-- 예약 삭제 -->
+	<delete id="deleteAssetsBook" parameterType="Integer">  
+		DELETE FROM assetsBook WHERE bookCode = #{booksCode} 	
+	</delete>  
 </mapper>

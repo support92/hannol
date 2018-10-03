@@ -103,4 +103,20 @@ public class MybookServiceImpl implements MybookService {
 		return result;
 	}
 
+	@Override
+	public int deleteAssetsBook(Assets dto) throws Exception {
+		int result = 0;
+		try {
+			for(int i=0; i<dto.getBookCodes().size(); i++) {
+				dao.deleteData("book.deleteAssetsBook", dto.getBookCodes().get(i));
+			}
+			result = 1;
+		} catch (Exception e) {
+			throw e;
+		}
+		return result; 
+	}
+
+	
+
 }

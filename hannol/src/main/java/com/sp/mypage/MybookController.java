@@ -1,6 +1,7 @@
 package com.sp.mypage;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,8 +25,6 @@ import com.sp.assets.Assets;
 import com.sp.common.MyUtil;
 import com.sp.magicpass.MagicPass;
 import com.sp.member.SessionInfo;
-
-import ch.qos.logback.classic.pattern.Util;
 
 @Controller("mypage.mybookController")
 public class MybookController {
@@ -137,18 +136,22 @@ public class MybookController {
 			
 			List<Assets> list = service.assetsBookList(map);
 			
-			/*//기간 만료 처리
+			//기간 만료 처리
+			//오늘날짜
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar cal = Calendar.getInstance();
-			String today = sdf.format(cal.getTime()); 
-			System.out.println(today);
+			String today = sdf.format(cal.getTime());  
 			
 			for(Assets dto:list) {
-				if(dto.getState()!=1 && today) {
-					
+				String userDate = dto.getUseDate(); //사용예정일
+				int Compare = userDate.compareTo(today);  
+				 
+				if(Compare<0) {
+					dto.setState(4); //기간만료
 				}
-			}*/ 
+			}   
 			
+			  
 			int listNum, n = 0;
 			Iterator<Assets> it = list.iterator();
 			while(it.hasNext()) {
@@ -258,6 +261,23 @@ public class MybookController {
 		}
 		
 		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		
+		return model;
+	}
+	
+	//편의시설 예약 삭제
+	@RequestMapping(value="/mybook/deleteAssets", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteAssets(Assets dto) throws Exception{
+		
+		String state = "true";
+		
+		int result = service.deleteAssetsBook(dto);    
+		if(result==0)
+			state = "false";
+		
+		Map<String, Object> model = new HashMap<String, Object>();	
 		model.put("state", state);
 		
 		return model;

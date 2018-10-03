@@ -21,4 +21,5 @@ public interface MybookService {
 	//편의시설
 	public int assetsBookData(Map<String, Object> map) throws Exception;
 	public List<Assets> assetsBookList(Map<String, Object> map) throws Exception;
+	public int deleteAssetsBook(Assets dto) throws Exception;
 }
