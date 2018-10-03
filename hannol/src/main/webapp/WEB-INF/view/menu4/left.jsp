@@ -19,5 +19,5 @@ $(function(){
        <div class="list-group-item lefthead"><i></i>오늘의 파크</div>
        <a href="#" class="list-group-item">놀이기구</a>
        <a href="<%=cp%>/todayPark/recommand" class="list-group-item">추천코스</a>
-       <a href="#" class="list-group-item">오늘의 공연</a>
+       <a href="<%=cp%>/todayPark/show" class="list-group-item">오늘의 공연</a>
 </div>

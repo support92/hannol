@@ -39,6 +39,13 @@ public class TodayParkController {
 		model.addAttribute("subMenu", "2");
 		return ".four.menu4.todayPark.recommand";
 	}
+
+	// 오늘의 공연
+	@RequestMapping(value="/todayPark/show")
+	public String todayShow(Model model) throws Exception {
+		model.addAttribute("subMenu", "3");
+		return ".four.menu4.todayPark.todayShow";
+	}
 	
 	@RequestMapping(value="/todayPark/rides")
 	public String list(@RequestParam(value="page", defaultValue="1") int current_page,
