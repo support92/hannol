@@ -214,7 +214,14 @@ public class ShowController {
 			return "redirect:/show/reseration?" + query;
 		}
 		
-		return "redirect:/show/list";	// 예매가 완료되었습니다 페이지 만들어서 이동
+		return "redirect:/show/confirm";	// 예매가 완료되었습니다 페이지 만들어서 이동
+	}
+	
+	// 금주의 무대공연 리스트
+	@RequestMapping(value="/show/confirm", method=RequestMethod.GET)
+	public String showCofirm(Model model) {
+		model.addAttribute("subMenu", "3");
+		return ".four.menu6.show.confirm";
 	}
 
 }
