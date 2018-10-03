@@ -105,7 +105,7 @@
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/notice/list">공지</a></li>
                                   <li><a href="#">이벤트</a></li>
-                                  <li><a href="#">FAQ</a></li>
+                                  <li><a href="<%=cp%>/faq/list">FAQ</a></li>
                                   <li><a href="<%=cp%>/question/question">1:1문의</a></li>
                                   <li><a href="<%=cp%>/review/list">이용후기</a></li>
                               </ul>
@@ -180,7 +180,7 @@
                    <ul>
                        <li><a href="<%=cp%>/notice/list">공지</a></li>
                        <li><a href="#">이벤트</a></li>                       
-                       <li><a href="#">FAQ</a></li>
+                       <li><a href="<%=cp%>/faq/list">FAQ</a></li>
                        <li><a href="#">1:1문의</a></li>
                        <li><a href="<%=cp%>/review/list">이용후기</a></li>
                    </ul>
