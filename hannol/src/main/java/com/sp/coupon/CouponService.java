@@ -16,4 +16,6 @@ public interface CouponService {
 	
 	public List<LankCoupon> lankCouponList(Map<String, Object> map) throws Exception;
 	public int dataCountRank(Map<String, Object> map) throws Exception;
+	
+	public List<Grade> gradelist() throws Exception;
 }

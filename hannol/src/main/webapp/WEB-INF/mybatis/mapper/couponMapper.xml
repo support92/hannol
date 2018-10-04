@@ -97,4 +97,10 @@
 			ORDER BY state ASC, endDate ASC
 		</if>
 	</select>
+	
+	<select id="gradelist" resultType="com.sp.coupon.Grade">
+		SELECT gradeCode, gradeName, condition, benefit, originalFileName, saveFileName
+		FROM grade
+		ORDER BY condition DESC
+	</select>
 </mapper>

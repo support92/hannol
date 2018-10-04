@@ -37,6 +37,7 @@ public class CouponController {
 		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
 		Date currentTime = new Date();
 		String now = fm.format(currentTime);
+		
 
 		model.addAttribute("page", page);
 		model.addAttribute("thema", thema);
@@ -168,8 +169,11 @@ public class CouponController {
 	}
 
 	@RequestMapping(value = "/mypage/rankCouponList")
-	public String rankCouponList() throws Exception {
+	public String rankCouponList(Model model) throws Exception {
 
+		List<Grade> glist = service.gradelist();
+		model.addAttribute("glist", glist);
+		
 		return ".four.menu3.mypage.rankCouponList";
 	}
 

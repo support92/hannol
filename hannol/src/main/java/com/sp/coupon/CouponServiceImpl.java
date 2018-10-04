@@ -141,6 +141,17 @@ public class CouponServiceImpl implements CouponService {
 		return result;
 	}
 
+	@Override
+	public List<Grade> gradelist() throws Exception {
+		List<Grade> list = null;
+		try {
+			list = dao.selectList("coupon.gradelist");
+		} catch (Exception e) {
+			throw e;
+		}
+		return list;
+	}
+
 	
 
 }
