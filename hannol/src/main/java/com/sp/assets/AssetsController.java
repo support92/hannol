@@ -37,14 +37,15 @@ public class AssetsController {
 			@RequestParam(required=false, value="selectDay") String selectDay,
 			HttpServletRequest req,    
 			HttpSession session,
+			Assets dto,
 			Model model) throws Exception{
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
 		try {
 			long usersCode = info.getUsersCode(); //유저 번호
-			List<Map<String, Object>> searchPayList = service.searchPayment(usersCode);
-		 
+			List<Map<String, Object>> searchPayList = service.searchPayment(usersCode); //이용권 리스트
+
 			//이용권 구분번호
 			String goodsCode =  String.valueOf(searchPayList.get(0).get("GOODSCODE"));
   
@@ -60,11 +61,14 @@ public class AssetsController {
 				//테마 리스트
 				List<Map<String, Object>> listTheme = service.listTheme();
 
+				String title = gubunCode==1 ? "유모차" : (gubunCode==2 ? "휠체어" : "보관함"); 
+				
 				model.addAttribute("searchPayList", searchPayList);
 				model.addAttribute("listTheme", listTheme);
 				model.addAttribute("usersCode", usersCode); 
 				model.addAttribute("gubunCode", gubunCode); 
 				model.addAttribute("selectDay", selectDay);
+				model.addAttribute("title", title);
 				
 			}
 		} catch (Exception NullPointerException) {
@@ -152,5 +156,31 @@ public class AssetsController {
 		return ".four.menu8.amenities.calendar";  
 	}
 	
+	//예약내역이 있는지 검색 AJAX-JSON
+	@RequestMapping(value="/amenities/searchReservation", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> searchReservation(HttpSession session,
+			@RequestParam(value="useDate") String useDate,
+			@RequestParam(value="gubunCode") int gubunCode) throws Exception{
+
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		long usersCode = info.getUsersCode(); //유저 번호
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("usersCode", usersCode);
+		map.put("useDate", useDate);
+		map.put("gubunCode", gubunCode); 
+		
+		String state = "notExistence";
+		int result = service.searchReservation(map);
+		
+		if(result!=0) 
+			state = "existence";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		
+		return model;
+	}
 	
 } 

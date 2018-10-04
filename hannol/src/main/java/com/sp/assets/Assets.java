@@ -19,16 +19,9 @@ public class Assets {
 	private int assetsCode; // 자산코드
 	private int facilityCode; // 시설코드
 	private String facName; // 시설이름
+	private int gubunCode; //구분 코드
 
 	private List<Integer> bookCodes;
-
-	public List<Integer> getBookCodes() {
-		return bookCodes;
-	}
-
-	public void setBookCodes(List<Integer> bookCodes) {
-		this.bookCodes = bookCodes;
-	}
 
 	public int getListNum() {
 		return listNum;
@@ -148,5 +141,21 @@ public class Assets {
 
 	public void setFacName(String facName) {
 		this.facName = facName;
+	}
+
+	public int getGubunCode() {
+		return gubunCode;
+	}
+
+	public void setGubunCode(int gubunCode) {
+		this.gubunCode = gubunCode;
+	}
+
+	public List<Integer> getBookCodes() {
+		return bookCodes;
+	}
+
+	public void setBookCodes(List<Integer> bookCodes) {
+		this.bookCodes = bookCodes;
 	}
 }

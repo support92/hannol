@@ -49,4 +49,12 @@
 		INSERT INTO assetsBook(bookCode, useDate, bookTime, state, tel, usersCode, assetsCode, name)  
 		VALUES (assetsBook_seq.NEXTVAL, #{useDate}, #{bookTime}, 0, #{tel}, #{usersCode}, #{assetsCode}, #{name})
 	</insert>
+	
+	<!-- 예약내역이 있는지 검색 -->
+	<select id="searchReservation" resultType="Integer" parameterType="map">
+		SELECT bookCode
+		FROM assetsBook ab
+		LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
+		WHERE usersCode=#{usersCode} AND TO_CHAR(useDate, 'YYYY-MM-DD') = #{useDate} AND gubunCode=#{gubunCode}
+	</select>
 </mapper>

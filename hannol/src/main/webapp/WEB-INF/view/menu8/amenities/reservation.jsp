@@ -26,6 +26,8 @@
 	.btnBox{margin-top:50px; text-align:right;}  
 	
 	.noStyle_tf{background-color:transparent; border:0 none;}  
+	
+	.warning{color:tomato;}  
 </style> 
  
 <script type="text/javascript">
@@ -71,8 +73,12 @@
 					$("#assetsCode").val("");
 					  
 					if(data.searchFacility!=null){ 
-						$("#rental").text(data.searchFacility.NAME)
+						$("#rental").removeClass("warning").text(data.searchFacility.NAME);  
 						$("#assetsCode").val(data.searchFacility.ASSETSCODE);     
+					}else if($("#theme").val()==0){    
+						$("#rental").addClass("warning").text("테마를 선택하세요.");  
+					} else{
+						$("#rental").addClass("warning").text("예약 가능한 대여소가 없습니다.");
 					}       
 				},
 				error:function(e){
@@ -87,6 +93,8 @@
 		$("#useDate").change(function(){ 
 			var useDate = $(this).val(); //예약 날짜
 			var usersCode = $("#usersCode").val(); //사용자 코드
+			
+			searchReseation(useDate);//예약내역 있는지 검색 
 			
 			var url = "<%=cp%>/amenities/searchPayment";
 			var query = "useDate="+useDate+"&usersCode="+usersCode; 
@@ -146,6 +154,59 @@
 		f.action = "<%=cp%>/amenities/reservation";	  		
 		f.submit();
 	} 
+	
+	//이용권 검색(연간회원권일때만 선택할 수 있는 사용날짜 값이 넘어온다면 이용권 검색)
+	<c:if test="${not empty selectDay}"> 
+		$(function(){
+			var usersCode = $("#usersCode").val(); //회원 번호 
+			var endDate = $("#endDate").val(); //연간회원권 종료날짜  
+			
+			var useDate  = $("input[name=useDate]").val();//예약날짜
+			searchReseation(useDate); //예약내역 있는지 검색     
+			
+			var url = "<%=cp%>/amenities/searchPayment";  
+			var query = "useDate="+endDate+"&usersCode="+usersCode;      
+			
+			$.ajax({
+				type:"get",
+				url:url,
+				data:query,
+				dataType:"json",
+				success:function(data){ 
+					if(data.searchPayment2!=null){ 
+						$("#ticket").text(data.searchPayment2.GOODSNAME);       
+					}       
+				},
+				error:function(e){
+					console.log(e.responseText);
+				}
+			});
+		});
+	</c:if>
+	
+	
+	//예약내역이 있는지 검색
+	function searchReseation(useDate){
+		var url = "<%=cp%>/amenities/searchReservation";
+		var query = "useDate="+useDate+"&gubunCode=${gubunCode}"; 
+		
+		$.ajax({
+			type:"post",
+			url:url,
+			data:query,
+			dataType:"json",
+			success:function(data){   
+				if(data.state=="existence"){
+					alert("이미 예약되어 있습니다.");
+					location.href="<%=cp%>/amenities/list";  
+				}
+			},
+			error:function(e){
+				console.log(e.responseText);
+			}
+		}); 	
+	}
+	
 </script> 
 
 
@@ -157,7 +218,7 @@
 	</div>
 	
 	<div class="contents"> 
-		<h3 class="contents_title">유모차 예약</h3> 
+		<h3 class="contents_title">${title} 예약</h3>   
 		<form name="reservationForm" method="post">
 			<table class="table_01">
 			    <colgroup>
@@ -179,7 +240,7 @@
 					<tr>
 						<th>대여소</th>
 						<td>
-							<span id="rental"></span> 
+							<span id="rental" class="warning">테마를 선택하세요.</span>  
 						</td>
 					</tr>
 					<tr>
@@ -240,35 +301,6 @@
 		</form>
 	</div>
 </div> 
-
-<script type="text/javascript">
-	//이용권 검색(연간회원권일때만 선택할 수 있는 사용날짜 값이 넘어온다면 이용권 검색)
-	<c:if test="${not empty selectDay}"> 
-		$(function(){
-			var usersCode = $("#usersCode").val(); //회원 번호 
-			var endDate = $("#endDate").val(); //연간회원권 종료날짜  
-			
-			var url = "<%=cp%>/amenities/searchPayment";  
-			var query = "useDate="+endDate+"&usersCode="+usersCode;      
-			
-			$.ajax({
-				type:"get",
-				url:url,
-				data:query,
-				dataType:"json",
-				success:function(data){ 
-					if(data.searchPayment2!=null){ 
-						$("#ticket").text(data.searchPayment2.GOODSNAME);       
-					}       
-				},
-				error:function(e){
-					console.log(e.responseText);
-				}
-			});
-		});
-	</c:if>
-</script>
-
 
 
 
