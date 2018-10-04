@@ -25,7 +25,7 @@
 	
 	.btnBox{margin-top:50px; text-align:right;}  
 	
-
+	.noStyle_tf{background-color:transparent; border:0 none;}  
 </style> 
  
 <script type="text/javascript">
@@ -143,7 +143,7 @@
 			} 
 		} 
 		
-		f.action = "<%=cp%>/amenities/${mode}";	 		
+		f.action = "<%=cp%>/amenities/reservation";	  		
 		f.submit();
 	} 
 </script> 
@@ -185,12 +185,18 @@
 					<tr>
 						<th>예약 날짜</th>
 						<td>
-							<select id="useDate" name="useDate" class="TFbox" data-name="예약날짜를">
-								<option value="">선택</option> 
-								<c:forEach var="vo" items="${searchPayList}">
-									<option value="${vo.ENDDATE}">${vo.ENDDATE}</option>  	
-								</c:forEach>  
-							</select>
+							<c:if test="${not empty selectDay}">  
+								<input type="text" name="useDate" class="noStyle_tf" value="${selectDay}" readonly="readonly"> 
+								<input type="hidden" id="endDate" value="${searchPayList.get(0).get('ENDDATE')}">
+							</c:if>  
+							<c:if test="${empty selectDay}">    
+								<select id="useDate" name="useDate" class="TFbox" data-name="예약날짜를">
+									<option value="">선택</option> 
+									<c:forEach var="vo" items="${searchPayList}">
+										<option value="${vo.ENDDATE}">${vo.ENDDATE}</option>  	
+									</c:forEach>    
+								</select>
+							</c:if>
 						</td>
 					</tr>
 					<tr>
@@ -235,6 +241,33 @@
 	</div>
 </div> 
 
+<script type="text/javascript">
+	//이용권 검색(연간회원권일때만 선택할 수 있는 사용날짜 값이 넘어온다면 이용권 검색)
+	<c:if test="${not empty selectDay}"> 
+		$(function(){
+			var usersCode = $("#usersCode").val(); //회원 번호 
+			var endDate = $("#endDate").val(); //연간회원권 종료날짜  
+			
+			var url = "<%=cp%>/amenities/searchPayment";  
+			var query = "useDate="+endDate+"&usersCode="+usersCode;      
+			
+			$.ajax({
+				type:"get",
+				url:url,
+				data:query,
+				dataType:"json",
+				success:function(data){ 
+					if(data.searchPayment2!=null){ 
+						$("#ticket").text(data.searchPayment2.GOODSNAME);       
+					}       
+				},
+				error:function(e){
+					console.log(e.responseText);
+				}
+			});
+		});
+	</c:if>
+</script>
 
 
 

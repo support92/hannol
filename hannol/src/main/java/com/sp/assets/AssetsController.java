@@ -1,5 +1,7 @@
 package com.sp.assets;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +34,8 @@ public class AssetsController {
 	//예약
 	@RequestMapping(value="/amenities/reservation", method=RequestMethod.GET)
 	public String reservation(@RequestParam(value="gubunCode") int gubunCode,
-			HttpServletRequest req,
+			@RequestParam(required=false, value="selectDay") String selectDay,
+			HttpServletRequest req,    
 			HttpSession session,
 			Model model) throws Exception{
 		
@@ -41,20 +44,27 @@ public class AssetsController {
 		try {
 			long usersCode = info.getUsersCode(); //유저 번호
 			List<Map<String, Object>> searchPayList = service.searchPayment(usersCode);
-		
+		 
+			//이용권 구분번호
+			String goodsCode =  String.valueOf(searchPayList.get(0).get("GOODSCODE"));
+  
 			//이용권을 구매하지 않았다면 구매페이지로
 			if(searchPayList==null || searchPayList.size()==0) {
 				model.addAttribute("state", "noTicket"); 
+			
+			//만약 연간 회원권 구매자라면 날짜 선택페이지로 이동
+			}else if (goodsCode.equals("2") && selectDay==null)  {    
+				return "redirect:/amenities/dayCalendar?gubunCode="+gubunCode;         
 				
 			}else {
 				//테마 리스트
 				List<Map<String, Object>> listTheme = service.listTheme();
 
-				model.addAttribute("mode", "reservation");
 				model.addAttribute("searchPayList", searchPayList);
 				model.addAttribute("listTheme", listTheme);
 				model.addAttribute("usersCode", usersCode); 
-				model.addAttribute("gubunCode", gubunCode);
+				model.addAttribute("gubunCode", gubunCode); 
+				model.addAttribute("selectDay", selectDay);
 				
 			}
 		} catch (Exception NullPointerException) {
@@ -63,7 +73,7 @@ public class AssetsController {
 			return ".member.login";     
 		}	
 		
-		return ".four.menu8.amenities.reservation"; 
+		return ".four.menu8.amenities.reservation";   
 	}
 	
 	//테마 선택하면 대여소 검색 : AJAX-JSON
@@ -89,7 +99,7 @@ public class AssetsController {
 	@ResponseBody
 	public Map<String, Object> searchPayment(@RequestParam(value="useDate") String useDate,
 			@RequestParam(value="usersCode") String usersCode) throws Exception{
-		 
+	
 		//입장권 검색
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("endDate", useDate); 
@@ -97,6 +107,7 @@ public class AssetsController {
 		Map<String, Object> searchPayment2 = service.searchPayment2(map); 
 		
 		Map<String, Object> model = new HashMap<String, Object>();
+		
 		model.put("searchPayment2", searchPayment2); 
  
 		return model;
@@ -118,31 +129,28 @@ public class AssetsController {
 			System.out.println(e.toString());
 		}
 		
-		return ".four.menu3.mypage.myBook";            
+		return ".four.menu3.mypage.myBook"; 
+	}
+	
+	//날짜 선택 폼 (연간이용권회원만, 한달이내에만 선택가능)
+	@RequestMapping(value="/amenities/dayCalendar", method = RequestMethod.GET) 
+	public String calendarForm(@RequestParam(value="gubunCode") String gubunCode,
+			Model model) throws Exception{
+	
+		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
+		Calendar start = Calendar.getInstance(); //시작날짜(오늘 날짜)
+		Calendar end = Calendar.getInstance(); //끝날짜(한달후까지만)
+		end.add(Calendar.MONTH, +1); 
+		
+		String startDay = sdf.format(start.getTime());
+		String endDay = sdf.format(end.getTime());  
+		
+		model.addAttribute("startDay", startDay);
+		model.addAttribute("endDay", endDay);  
+		model.addAttribute("gubunCode", gubunCode);    
+		
+		return ".four.menu8.amenities.calendar";  
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	//날짜 선택 폼 
-	/*@RequestMapping(value="/amenities/dayCalendar", method = RequestMethod.GET) 
-	public String calendarForm(Model model) throws Exception{
-	
-		SimpleDateFormat sdf = new SimpleDateFormat("yyy-MM-dd");
-		Calendar start = Calendar.getInstance(); //시작날짜
-		Calendar end = Calendar.getInstance(); //끝날짜
-		end.add(Calendar.MONTH, +1); 
-		
-		String startDate = sdf.format(start.getTime());
-		String endDate = sdf.format(end.getTime());     
-		
-		model.addAttribute("startDate", startDate);
-		model.addAttribute("endDate", endDate); 
-		
-		return ".four.menu8.amenities.calendar";  
-	}*/
 } 
