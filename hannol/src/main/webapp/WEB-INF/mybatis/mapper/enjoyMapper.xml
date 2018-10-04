@@ -34,4 +34,14 @@
 
 	</select>
 	
+	<select id="dialogEnjoy" parameterType="Integer" resultType="com.sp.enjoy.Enjoy">
+
+		select themeName, name, passengers, minHeight, maxHeight, limit,originalMainFilename,saveMainFilename,saveLocFilename
+		from facility f
+		join rides r on f.facilityCode=r.facilityCode
+		join theme t on f.themeCode = t.themeCode
+        where f.facilityCode=#{code}
+
+	</select>
+	
 </mapper>

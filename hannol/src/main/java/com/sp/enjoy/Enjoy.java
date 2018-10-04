@@ -32,8 +32,35 @@ public class Enjoy {
 	String sample;
 	int sortby;
 	Date ymd;
+	int passengers;
+	int minHeight;
+	int maxHeight;
+	String limit;
 	
-	
+	public String getLimit() {
+		return limit;
+	}
+	public void setLimit(String limit) {
+		this.limit = limit;
+	}
+	public int getPassengers() {
+		return passengers;
+	}
+	public void setPassengers(int passengers) {
+		this.passengers = passengers;
+	}
+	public int getMinHeight() {
+		return minHeight;
+	}
+	public void setMinHeight(int minHeight) {
+		this.minHeight = minHeight;
+	}
+	public int getMaxHeight() {
+		return maxHeight;
+	}
+	public void setMaxHeight(int maxHeight) {
+		this.maxHeight = maxHeight;
+	}
 	public int getSortby() {
 		return sortby;
 	}

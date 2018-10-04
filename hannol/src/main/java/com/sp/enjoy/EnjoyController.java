@@ -133,4 +133,20 @@ public class EnjoyController {
 		return "/menu6/rides/subList";
 	}
 	
+	@RequestMapping(value="/enjoy/dialog")
+	public String dialog(Model model,
+			@RequestParam(value="code", defaultValue="0") int code ) throws Exception {
+		System.out.println(code);
+		if(code==0) {
+			System.out.println("코드가 넘어오지 않음");
+		}
+		
+		Enjoy dialog = service.dialogEnjoy(code);
+		
+		System.out.println(dialog.getName()+":::::::::::::");
+		model.addAttribute("vo", dialog);
+
+		return "/menu6/rides/sub-Infolist";
+	}
+	
 }

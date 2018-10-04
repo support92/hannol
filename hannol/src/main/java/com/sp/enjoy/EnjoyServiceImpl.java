@@ -51,4 +51,17 @@ public class EnjoyServiceImpl implements EnjoyService{
 		return list;
 	}
 
+	@Override
+	public Enjoy dialogEnjoy(int code) {
+		Enjoy dto = new Enjoy();
+		
+		try {
+			dto = dao.selectOne("enjoy.dialogEnjoy",code);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return dto;
+	}
+
 }
