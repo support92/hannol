@@ -85,7 +85,7 @@
 		        LEFT OUTER JOIN assetsGubun ag ON a.gubunCode = ag.gubunCode
 		        LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
 		        WHERE usersCode=#{usersCode} 
-		        ORDER BY useDate DESC 
+		        ORDER BY useDate DESC, bookCode DESC  
 		    ) tb WHERE ROWNUM &lt;= #{end}
 		) WHERE rnum &gt;= #{start}
 	</select>

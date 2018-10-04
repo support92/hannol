@@ -16,19 +16,18 @@
 <script>
 	//편의시설 예약 삭제
 	$(function(){
-		$(document).on("click", "button[name=assetsDelete]", function(){
+		$(document).off("click").on("click", "button[name=assetsDelete]", function(){  
 			var data = "";
 			
 			//체크된것들 리스트에 넣음
 			$("input[name=chk]:checked").each(function(){
 				data+="bookCodes="+$(this).attr("data-num")+"&"
 			});
-			
 			data=data.substring(0, data.length-1);
 		
 			if(data.length == 0){
 				alert("삭제할 예약정보를 선택해주세요");
-				return;     
+				return false;       
 			} 
 			
 			 
@@ -94,7 +93,7 @@
 						<td>${dto.name}</td> 
 						<td>${dto.tel}</td>
 						<td>${dto.facName}</td> 
-						<td>${dto.state==0?"오후":"종일"}</td>
+						<td>${dto.bookTime==0?"오후":"종일"}</td>  
 						<td>${dto.useDate}</td>
 						<td>${dto.bookDate}</td>
 						<td>${dto.state==0?"예약":(dto.state==1?"반납완료":(dto.state==2?"대여중":"기간만료"))}</td>  
