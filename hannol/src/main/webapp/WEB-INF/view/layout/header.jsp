@@ -104,7 +104,7 @@
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">소통<span class="caret"></span></a>
                               <ul class="dropdown-menu">
                                   <li><a href="<%=cp%>/notice/list">공지</a></li>
-                                  <li><a href="#">이벤트</a></li>
+                                  <li><a href="<%=cp%>/event/list">이벤트</a></li>
                                   <li><a href="<%=cp%>/faq/list">FAQ</a></li>
                                   <li><a href="<%=cp%>/question/question">1:1문의</a></li>
                                   <li><a href="<%=cp%>/review/list">이용후기</a></li>
@@ -143,7 +143,7 @@
                    <a href="#">매직패스</a>
                    <ul>
                        <li><a href="<%=cp%>/magicPass/rides">소개</a></li>
-                       <li><a href="#">예약</a></li>
+                       <li><a href="<%=cp%>/magicPass/booking">예약</a></li>
                    </ul>
                </li>
                <li>
@@ -160,8 +160,8 @@
                    <a href="#">편의시설</a>
                    <ul>
                        <li><a href="<%=cp%>/facilities/info">안내소</a></li>
-                       <li><a href="#">유모차대여소</a></li>
-                       <li><a href="#">휠체어대여소</a></li>
+                       <li><a href="<%=cp%>/facilities/baby">유모차대여소</a></li>
+                       <li><a href="<%=cp%>/facilities/bathchair">휠체어대여소</a></li>
                        <li><a href="#">보관함</a></li>
                    </ul>
                </li>
@@ -169,7 +169,7 @@
                    <a href="#">예매/예약</a>
                    <ul>
                        <li><a href="<%=cp%>/reservation/reservate">예매</a></li>
-                       <li><a href="#">가이드</a></li>
+                       <li><a href="<%=cp%>/guide/list">가이드</a></li>
                        <li><a href="<%=cp%>/reservation/show">공연</a></li>
                        <li><a href="#">편의시설</a></li>
                    </ul>
@@ -179,9 +179,9 @@
                <a href="#">소통</a>
                    <ul>
                        <li><a href="<%=cp%>/notice/list">공지</a></li>
-                       <li><a href="#">이벤트</a></li>                       
+                       <li><a href="<%=cp%>/event/list">이벤트</a></li>                       
                        <li><a href="<%=cp%>/faq/list">FAQ</a></li>
-                       <li><a href="#">1:1문의</a></li>
+                       <li><a href="<%=cp%>/question/question">1:1문의</a></li>
                        <li><a href="<%=cp%>/review/list">이용후기</a></li>
                    </ul>
                </li>
