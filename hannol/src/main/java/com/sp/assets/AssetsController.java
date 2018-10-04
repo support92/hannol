@@ -26,8 +26,10 @@ public class AssetsController {
 	
 	//편의시설 리스트
 	@RequestMapping(value="/amenities/list", method=RequestMethod.GET)
-	public String list() throws Exception{
+	public String list(Model model) throws Exception{
 	
+		model.addAttribute("subMenu", "4");
+		
 		return ".four.menu8.amenities.list"; 
 	}
 	
@@ -69,6 +71,8 @@ public class AssetsController {
 				model.addAttribute("gubunCode", gubunCode); 
 				model.addAttribute("selectDay", selectDay);
 				model.addAttribute("title", title);
+				
+				model.addAttribute("subMenu", "4");
 				
 			}
 		} catch (Exception NullPointerException) {
@@ -151,7 +155,8 @@ public class AssetsController {
 		
 		model.addAttribute("startDay", startDay);
 		model.addAttribute("endDay", endDay);  
-		model.addAttribute("gubunCode", gubunCode);    
+		model.addAttribute("gubunCode", gubunCode);   
+		model.addAttribute("subMenu", "4");
 		
 		return ".four.menu8.amenities.calendar";  
 	}

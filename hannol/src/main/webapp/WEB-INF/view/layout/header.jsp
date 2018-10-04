@@ -94,7 +94,7 @@
                                   <li><a href="<%=cp%>/reservation/ticket">예매</a></li>
                                   <li><a href="<%=cp%>/guide/list">가이드</a></li>
                                   <li><a href="<%=cp%>/reservation/show">공연</a></li>
-                                  <li><a href="#">편의시설</a></li>
+                                  <li><a href="<%=cp%>/amenities/list">편의시설</a></li>  
                               </ul>
                           </li>
                           <li>
