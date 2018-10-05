@@ -22,8 +22,11 @@
   font-size:14px;
   border-radius:4px;
 }
+.loginwithkakao {
+	cursor: pointer;
+}
 </style>
-
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script type="text/javascript">
 function bgLabel(ob, id) {
     if(!ob.value) {
@@ -53,6 +56,48 @@ function sendLogin() {
     f.action = "<%=cp%>/member/login";
     f.submit();
 }
+
+Kakao.init('5b33a44dcabba4ece4cb2555523ab8af');
+function loginWithKakao() {
+      Kakao.Auth.login({										// 로그인 - 사용자가 앱에 로그인할 수 있도록 로그인 팝업창을 띄우는 함
+          success: function(authObj) {
+	          Kakao.API.request({									// 로그인 성공 시 유저 정보를 요구
+	                url: '/v2/user/me',
+	                success: function(res) {
+	             	    console.log(JSON.stringify(res));
+	             	    var query = "id=" + res.id + "&"
+	             	    <%-- location.href = "<%=cp%>/member/kakao_oauth"; --%>
+	             	    
+		                /* $.ajax({
+		                      type:"post",
+		               		  dataType:"json",
+		                      url:"/indb.jsp",
+		                      data : {
+		                         "email":res.kaccount_email,
+		                         "id":res.id,
+		                         "nickname":res.properties.nickname,
+		                      },
+		                      success:function(data){
+		                       	 if(data.login == "success"){
+		                           alert("로그인되었습니다");
+		                           location.href="/";					// 로그인 이후 
+		                       	 }
+		                      },
+		                      error:function(data){
+		                         alert('error:'+data.result);
+		                      }
+		                }); */
+	                },
+	                fail: function(error) {
+	                  alert(JSON.stringify(error));
+	                }
+	              });
+	         },
+         fail: function(err) {
+              alert(JSON.stringify(err));
+         }
+      });
+};
 </script>
 
 <div class="body-container">
@@ -86,6 +131,13 @@ function sendLogin() {
 		       		<a href="<%=cp%>/">패스워드찾기</a>
 		      </td>
 		  </tr>
+ 		  <tr align="center" height="45">
+		      <td colspan="2">
+		      		<img class="loginwithkakao" alt="" src="<%=cp%>/resource/images/kakao_account_login_btn_medium_narrow_ov.png" onclick="javascript:loginWithKakao()">
+		      </td>
+		  </tr>
+		  
+		  
 		  
 		  <tr align="center" height="40" >
 		    	<td><span style="color: blue;">${message}</span></td>
@@ -94,3 +146,22 @@ function sendLogin() {
 		</form>           
 	</div>
 </div>
+
+<a id="kakao-login-btn"></a>
+<a href="http://developers.kakao.com/logout"></a>
+<script type='text/javascript'>
+  //<![CDATA[
+    // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('5b33a44dcabba4ece4cb2555523ab8af');
+    // 카카오 로그인 버튼을 생성합니다.
+    Kakao.Auth.createLoginButton({
+      container: '#kakao-login-btn',
+      success: function(authObj) {
+        alert(JSON.stringify(authObj));
+      },
+      fail: function(err) {
+         alert(JSON.stringify(err));
+      }
+    });
+  //]]>
+</script>

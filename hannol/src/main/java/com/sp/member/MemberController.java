@@ -20,12 +20,21 @@ public class MemberController {
 		return ".member.member";
 	}
 
-	
-	
 	@RequestMapping(value="/member/login", method=RequestMethod.GET)
 	public String loginForm() {
 		return ".member.login";
 	}
+
+	@RequestMapping(value="/member/kakao_oauth", method=RequestMethod.GET)
+	public String kakaologinForm() {
+		
+		
+		
+		
+		return "redirect:/";
+	}
+	
+	
 	
 	@RequestMapping(value="/member/login", method=RequestMethod.POST)
 	public String loginSubmit(
