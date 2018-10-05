@@ -30,6 +30,18 @@
 		values(#{usersCode}, #{help}, #{email}, #{birth}, #{post}, #{addr1}, #{addr2}, #{tel}, sysdate, #{joinPath}, #{loginDate}, 3)
 	</insert>
 	
-	
+	<select id="readMember" parameterType="String" resultType="com.sp.member.Member">
+      SELECT usersCode, memberId, memberName, authority FROM member1
+      WHERE memberId = #{userId}
+   </select>
+   
+   <update id="updateLastLogin" parameterType="Long">
+      UPDATE member2 SET loginDate = SYSDATE WHERE usersCode = #{usersCode}
+   </update>
+
+	<update id="updatePwd" parameterType="com.sp.member.Member">
+		update member1 set memberPwd = #{memberPwd} 
+		where usersCode = #{usersCode}
+	</update>   
 	
 </mapper>

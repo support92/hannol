@@ -112,7 +112,7 @@ function listPage(page){
 				</tr>
 			</table>
 		</div>
-		<div>
+		<div>  
 			<h5 style="margin: 3px;"><small>- 매년 1일을 기준으로 등급이 산정됩니다.</small></h5>
 		</div>
 	</div>	

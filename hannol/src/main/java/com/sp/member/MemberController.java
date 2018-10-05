@@ -1,8 +1,7 @@
 package com.sp.member;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +19,13 @@ public class MemberController {
 		return ".member.member";
 	}
 
-	@RequestMapping(value="/member/login", method=RequestMethod.GET)
-	public String loginForm() {
+	@RequestMapping(value = "/member/login", method = RequestMethod.GET)
+	public String loginForm(@RequestParam(required=false)String login_error, Model model) {
+		
+		if (login_error != null) {
+			model.addAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
+		}
+
 		return ".member.login";
 	}
 
@@ -36,7 +40,7 @@ public class MemberController {
 	
 	
 	
-	@RequestMapping(value="/member/login", method=RequestMethod.POST)
+	/*@RequestMapping(value="/member/login", method=RequestMethod.POST)
 	public String loginSubmit(
 			@RequestParam String userId,
 			@RequestParam String userPwd,
@@ -80,7 +84,7 @@ public class MemberController {
 		session.invalidate();
 		
 		return "redirect:/";
-	}
+	}*/
 	
 	@RequestMapping(value="/member/pwd", method=RequestMethod.GET)
 	public String pwdForm(

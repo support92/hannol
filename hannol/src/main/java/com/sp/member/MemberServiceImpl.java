@@ -47,4 +47,37 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Override
+	   public Member readMember(String userId) {
+	      Member dto = null;
+	      try {
+	         dto = dao.selectOne("member.readMember", userId);
+	      } catch (Exception e) {
+	         System.out.println(e);
+	      }
+	      return dto;
+	   }
+
+	   @Override
+	   public int updateLastLogin(long usersCode) throws Exception {
+	      int result = 0;
+	      try {
+	         result = dao.updateData("member.updateLastLogin", usersCode);
+	      } catch (Exception e) {
+	         throw e;
+	      }
+	      return result;
+	   }
+
+	@Override
+	public int updatePwd(Member dto) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("member.updatePwd", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }
