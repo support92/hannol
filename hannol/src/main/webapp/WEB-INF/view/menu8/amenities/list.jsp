@@ -30,7 +30,7 @@
  
 <script type="text/javascript">
 	$(function(){
-		$(".assets_box").click(function(){
+		$(".assets_box.facility").click(function(){ 
 			var gubunCode = $(this).attr("data-gubun"); //구분 코드
 			location.href="<%=cp%>/amenities/reservation?gubunCode="+gubunCode;     
 		}); 
@@ -46,7 +46,7 @@
 	</div>
 	
 	<div class="assetsContents">
-		<dl id="stroller" class="assets_box" data-gubun="1">
+		<dl id="stroller" class="assets_box facility" data-gubun="1">
 			<dt>
 				<img src="<%=cp%>/resource/images/assets_01.jpg" alt="유모차">
 			</dt>
@@ -58,7 +58,7 @@
 			</dd>
 		</dl>
 		
-		<dl id="wheelchair" class="assets_box" data-gubun="2">
+		<dl id="wheelchair" class="assets_box facility" data-gubun="2">
 			<dt>
 				<img src="<%=cp%>/resource/images/assets_02.jpg" alt="휠체어"> 
 			</dt>
