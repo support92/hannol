@@ -11,16 +11,44 @@ public class Member {
 	private int isAlarm;
 	private String email;
 	private String birth;
+	private String post;
+	private String addr1;
+	private String addr2;
 	private String tel;
 	private String tel1;
 	private String tel2;
 	private String tel3;
 	private String joinDate;
 	private String joinPath;
+	private String loginDate;
 	private int gradeCode;
 	
 	private String authority;
-	
+
+	public String getPost() {
+		return post;
+	}
+	public void setPost(String post) {
+		this.post = post;
+	}
+	public String getAddr1() {
+		return addr1;
+	}
+	public void setAddr1(String addr1) {
+		this.addr1 = addr1;
+	}
+	public String getAddr2() {
+		return addr2;
+	}
+	public void setAddr2(String addr2) {
+		this.addr2 = addr2;
+	}
+	public String getLoginDate() {
+		return loginDate;
+	}
+	public void setLoginDate(String loginDate) {
+		this.loginDate = loginDate;
+	}
 	public String getAuthority() {
 		return authority;
 	}

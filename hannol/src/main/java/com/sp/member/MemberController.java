@@ -58,7 +58,6 @@ public class MemberController {
 		info.setAuthority(dto.getAuthority());
 		
 		session.setMaxInactiveInterval(30*60); // 세션유지시간 30분, 기본:30분
-		
 		session.setAttribute("member", info);
 		
 		// 로그인 이전 URI로 이동

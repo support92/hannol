@@ -22,8 +22,29 @@ public class MemberServiceImpl implements MemberService {
 		
 		return dto;
 	}
-	
-	
-	
+
+	@Override
+	public int userSeq() throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("member.usersSeq");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int insertMember(Member dto) throws Exception {
+		int result = 0;
+		try {
+			result = dao.insertData("member.insertUsers", dto.getUsersCode());
+			result += dao.insertData("member.insertMember1", dto);
+			result += dao.insertData("member.insertMember2", dto);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
 
 }
