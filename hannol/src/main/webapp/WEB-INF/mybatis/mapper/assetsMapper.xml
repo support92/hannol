@@ -52,7 +52,7 @@
 	
 	<!-- 예약내역이 있는지 검색 -->
 	<select id="searchReservation" resultType="Integer" parameterType="map">
-		SELECT bookCode
+		SELECT COUNT(*)
 		FROM assetsBook ab
 		LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
 		WHERE usersCode=#{usersCode} AND TO_CHAR(useDate, 'YYYY-MM-DD') = #{useDate} AND gubunCode=#{gubunCode}

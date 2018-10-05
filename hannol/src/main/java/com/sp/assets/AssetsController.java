@@ -180,7 +180,7 @@ public class AssetsController {
 		int result = service.searchReservation(map);
 		
 		if(result!=0) 
-			state = "existence";
+			state = "existence";    
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("state", state);

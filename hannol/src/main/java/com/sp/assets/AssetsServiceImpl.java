@@ -14,73 +14,74 @@ public class AssetsServiceImpl implements AssetsService{
 	CommonDAO dao;
 
 	@Override
-	public List<Map<String, Object>> listTheme() throws Exception{
+	public List<Map<String, Object>> listTheme(){
 		List<Map<String, Object>> list = null;
 		
 		try {
 			list = dao.selectList("assets.listTheme");
 		} catch (Exception e) {
-			throw e;
+			System.out.println(e.toString());
 		}
 		return list;
 	}
 	
 	@Override
-	public List<Map<String, Object>> searchPayment(long num) throws Exception {
+	public List<Map<String, Object>> searchPayment(long num){
 		List<Map<String, Object>> list = null;
 		
 		try {
 			list = dao.selectList("assets.searchPayment", num);  
 		} catch (Exception e) {
-			throw e;
+			System.out.println(e.toString());
 		}
 		return list;
 	}
 	
 	@Override
-	public Map<String, Object> searchPayment2(Map<String, Object> data) throws Exception {
+	public Map<String, Object> searchPayment2(Map<String, Object> data){
 		Map<String, Object> map = null;
 		
 		try {
 			map = dao.selectOne("assets.searchPayment2", data);
 		} catch (Exception e) {
-			throw e;
+			System.out.println(e.toString());
 		} 
 		return map;
 	}
 
 	@Override
-	public Map<String, Object> searchFacility(Map<String, Object> data) throws Exception {
+	public Map<String, Object> searchFacility(Map<String, Object> data){
 		Map<String, Object> map = null;
 		
 		try {
 			map = dao.selectOne("assets.searchFacility", data);
 		} catch (Exception e) {
-			throw e;
+			System.out.println(e.toString());
 		} 
 		return map;
 	}
 
 	@Override
-	public int insertAssetsBook(Assets dto) throws Exception {
+	public int insertAssetsBook(Assets dto){
 		int result = 0;
 		
 		try {
 			result = dao.insertData("assets.insertAssetsBook", dto);
 		} catch (Exception e) {
-			throw e;
+			
 		}
 		return result;
 	}
 
 	@Override
-	public int searchReservation(Map<String, Object> map) throws Exception {
+	public int searchReservation(Map<String, Object> map){
 		int result = 0;
 		
 		try {
 			result = dao.selectOne("assets.searchReservation", map);
+			
 		} catch (Exception e) {
-			throw e;
+			System.out.println(e.toString()); 
 		}
 		return result;  
 	}
