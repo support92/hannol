@@ -33,6 +33,8 @@ public class MyAuthenticationSuccessHandler extends SavedRequestAwareAuthenticat
 		SessionInfo info = new SessionInfo();
 		info.setMemberId(userId);
 		info.setMemberName(dto.getMemberName());
+		info.setUsersCode(dto.getUsersCode());
+		info.setAuthority(dto.getAuthority());
 		
 		// 로그인 날짜 변경
 		try {
