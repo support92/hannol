@@ -309,22 +309,21 @@ public class PayController {
 	@RequestMapping(value = "/mypage/refundPay")
 	public String paylist(int payCode) throws Exception {
 
-		int result = deleteIfPayCanceled(payCode);
+		deleteIfPayCanceled(payCode);
 		service.deleteRefund(payCode);
 
 		return "redirect:/mypage/paylist";
 	}
 
-	public int deleteIfPayCanceled(@RequestParam(value = "payCode") int payCode) throws Exception {
+	public void deleteIfPayCanceled(@RequestParam(value = "payCode") int payCode) throws Exception {
 
 		// 결제취소할 이용권의 사용예정일에 가이드 예약이 있는지 검사
 		Guide dto = gservice.getGuideBookCancleDay(payCode);
 
-		int okTicket = 0;
 		if (dto != null) { // 취소할 가이드 예약이 있다면
 			if (dto.getTimezone() == 1) {
 				// 예약한 가이드일정이 오전일 때
-				okTicket = gservice.okMorningTicketIfPayCancled(payCode);
+				int okTicket = gservice.okMorningTicketIfPayCancled(payCode);
 				
 				if (okTicket == 0) {
 					// 사용가능 티켓이 0개면 가이드 예약 취소
@@ -333,15 +332,13 @@ public class PayController {
 			} else {
 				// 예약한 가이드일정이 오후일 때
 				// 취소할 결제코드에서 이용권 사용일자 가져오고 그 일자에 사용가능한 이용권이 남는지 검사(지금 결제취소할 이용권외)
-				okTicket = gservice.okTicketIfPayCancled(payCode);
+				int okTicket = gservice.okTicketIfPayCancled(payCode);
 				if (okTicket == 0) {
 					// 사용가능 티켓이 0개면 가이드 예약 취소
 					gservice.deleteGuidebookIfPayCanceled(payCode);
 				}
 			}
 		}
-
-		return okTicket;
 	}
 
 }
