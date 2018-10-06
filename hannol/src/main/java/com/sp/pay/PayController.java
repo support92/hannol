@@ -22,12 +22,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtilGeneral;
+import com.sp.guide.Guide;
+import com.sp.guide.GuideController;
+import com.sp.guide.GuideService;
 import com.sp.member.SessionInfo;
 
 @Controller("pay.payContoller")
 public class PayController {
 	@Autowired
 	PayService service;
+
+	@Autowired
+	GuideService gservice;
 
 	@Autowired
 	MyUtilGeneral util;
@@ -76,13 +82,13 @@ public class PayController {
 			pay.setQuantity(dto.getQuantity().get(i));
 			pay.setGubunName(dto.getGubunName().get(i));
 			pay.setParentCode(dto.getParentCode().get(i));
-			
+
 			if (dto.getEndDate() != null)
 				pay.setEndDate(dto.getEndDate().get(i));
-			
-			if(dto.getGubunCode().get(i) == 4 || dto.getGubunCode().get(i)==6)
+
+			if (dto.getGubunCode().get(i) == 4 || dto.getGubunCode().get(i) == 6)
 				usableCount++;
-			
+
 			if (dto.getCartCode() != null)
 				pay.setCartCode(dto.getCartCode().get(i));
 
@@ -104,46 +110,42 @@ public class PayController {
 
 	@RequestMapping(value = "/pay/price", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> price(
-			@RequestParam(value = "couponPrice") String couponPrice,
-			@RequestParam(value = "dcTicketPay") int dcTicketPay,
-			@RequestParam(value = "price") String price, 
-			@RequestParam(value = "card") String cardCo, 
-			HttpSession session)
-			throws Exception {
-		
+	public Map<String, Object> price(@RequestParam(value = "couponPrice") String couponPrice,
+			@RequestParam(value = "dcTicketPay") int dcTicketPay, @RequestParam(value = "price") String price,
+			@RequestParam(value = "card") String cardCo, HttpSession session) throws Exception {
+
 		couponPrice = couponPrice.replaceAll(",", "");
 		couponPrice = couponPrice.replaceAll("원", "");
-		
+
 		int useCoupon = 0;
-		if(couponPrice != null && Integer.parseInt(couponPrice) > 0)
+		if (couponPrice != null && Integer.parseInt(couponPrice) > 0)
 			useCoupon = 1;
-		
+
 		price = price.replaceAll(",", "");
 		price = price.replaceAll("원", "");
 		// 지불할 금액
 		int payPrice = Integer.parseInt(price);
 
 		// 매직패스쿠폰 할인가격
-		int dcPrice = 0; 
+		int dcPrice = 0;
 		dcPrice += Integer.parseInt(couponPrice);
-		
+
 		int cardPrice = 0;
 		// 이용권일때만 제휴카드 목록 가져와서 card랑 비교해서 할인율만큼 자유이용권 가격 할인
-		if(cardCo != null && cardCo.length() > 0) {
-			int discount = service.isCard(cardCo+"%");
-			double discountd = (double)discount/(double)100;
-			
-			if(discount > 0) {
+		if (cardCo != null && cardCo.length() > 0) {
+			int discount = service.isCard(cardCo + "%");
+			double discountd = (double) discount / (double) 100;
+
+			if (discount > 0) {
 				dcPrice = (int) (dcPrice + dcTicketPay * discountd);
-				cardPrice = (int)(dcTicketPay * discountd);
+				cardPrice = (int) (dcTicketPay * discountd);
 			}
 		}
-		
+
 		payPrice = payPrice - dcPrice;
 
 		DecimalFormat df = new DecimalFormat("#,###원");
-		
+
 		Map<String, Object> model = new HashMap<>();
 		model.put("dcPrice", df.format(dcPrice));
 		model.put("payPrice", df.format(payPrice));
@@ -152,40 +154,35 @@ public class PayController {
 		model.put("useCoupon", useCoupon);
 		model.put("couponPrice", couponPrice);
 		model.put("cardPrice", cardPrice);
-		
+
 		return model;
 	}
 
 	@RequestMapping(value = "/pay/insertPay", method = RequestMethod.POST)
-	public String createdSubmit(
-			Pay dto, 
-			int useCoupon,
-			int couponPriced,
-			int cardPriced,
-			HttpSession session, 
+	public String createdSubmit(Pay dto, int useCoupon, int couponPriced, int cardPriced, HttpSession session,
 			Model model) throws Exception {
-		
+
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		dto.setUsersCode(info.getUsersCode());
 
 		dto.setPayWay("신용카드");
-		if(useCoupon == 1) 
+		if (useCoupon == 1)
 			dto.setPayWay("신용카드+할인쿠폰");
-		
+
 		List<Pay> dclist = new ArrayList<>();
-		if(couponPriced > 0) {
-			Pay pay  = new Pay();
+		if (couponPriced > 0) {
+			Pay pay = new Pay();
 			pay.setDcPay(couponPriced);
 			pay.setDcWay("할인쿠폰");
-			
+
 			dclist.add(pay);
 		}
-		
-		if(cardPriced > 0) {
-			Pay pay  = new Pay();
+
+		if (cardPriced > 0) {
+			Pay pay = new Pay();
 			pay.setDcPay(cardPriced);
 			pay.setDcWay("신용카드");
-			
+
 			dclist.add(pay);
 		}
 		dto.setDclist(dclist);
@@ -215,7 +212,7 @@ public class PayController {
 		for (int i = 0; i < dto.getPlist().size(); i++) {
 			for (int j = 0; j < dto.getPlist().get(i).getQuantity(); j++) {
 				plist.add(dto.getPlist().get(i));
-				if(dto.getParentCode() == 2) {
+				if (dto.getParentCode() == 2) {
 					plist.get(n).setEndDate(endDate);
 				}
 				n++;
@@ -226,8 +223,8 @@ public class PayController {
 		int result = service.insertPay(dto);
 		if (result != 1)
 			return "redirect:/giftshop/list";
-		 
-		 model.addAttribute("dto", dto);
+
+		model.addAttribute("dto", dto);
 
 		return "redirect:/pay/result?payCode=" + dto.getPayCode();
 	}
@@ -261,7 +258,7 @@ public class PayController {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy", Locale.KOREA);
 		Date date = new Date();
 		String curDate = format.format(date); // select용
-		
+
 		format = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
 		date = new Date();
 		String endDate = format.format(date);
@@ -271,7 +268,7 @@ public class PayController {
 			year = curDate;
 		}
 		map.put("year", year + "%");
-		
+
 		int dataCount = service.dataCount(map);
 		int total_page = util.pageCount(rows, dataCount);
 
@@ -289,15 +286,13 @@ public class PayController {
 					list.get(i).setRowspan(rowspan);
 				}
 			}
-			
-			
+
 			String cp = req.getContextPath();
 			String list_url = cp + "/mypage/paylist";
 
 			String paging = util.paging(current_page, total_page, list_url);
 			String lastPayDate = list.get(0).getPayDate();
 
-			
 			model.addAttribute("list", list);
 			model.addAttribute("paging", paging);
 			model.addAttribute("lastPayDate", lastPayDate);
@@ -310,13 +305,43 @@ public class PayController {
 
 		return ".four.menu3.mypage.paylist";
 	}
-	
+
 	@RequestMapping(value = "/mypage/refundPay")
 	public String paylist(int payCode) throws Exception {
-		
-		service.deleteRefund(payCode);
-		
+
+		int result = deleteIfPayCanceled(payCode);
+		System.out.println(result);
+		/*service.deleteRefund(payCode);*/
+
 		return "redirect:/mypage/paylist";
+	}
+
+	public int deleteIfPayCanceled(@RequestParam(value = "payCode") int payCode) throws Exception {
+
+		// 결제취소할 이용권의 사용예정일에 가이드 예약이 있는지 검사
+		Guide dto = gservice.getGuideBookCancleDay(payCode);
+
+		int okTicket = 0;
+		if (dto != null) { // 취소할 가이드 예약이 있다면
+			if (dto.getTimezone() == 1) {
+				// 예약한 가이드일정이 오전일 때
+				okTicket = gservice.okMorningTicketIfPayCancled(payCode);
+				if (okTicket == 0) {
+					// 사용가능 티켓이 0개면 가이드 예약 취소
+					gservice.deleteGuidebookIfPayCanceled(payCode);
+				}
+			} else {
+				// 예약한 가이드일정이 오후일 때
+				// 취소할 결제코드에서 이용권 사용일자 가져오고 그 일자에 사용가능한 이용권이 남는지 검사(지금 결제취소할 이용권외)
+				okTicket = gservice.okTicketIfPayCancled(payCode);
+				if (okTicket == 0) {
+					// 사용가능 티켓이 0개면 가이드 예약 취소
+					gservice.deleteGuidebookIfPayCanceled(payCode);
+				}
+			}
+		}
+
+		return okTicket;
 	}
 
 }
