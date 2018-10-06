@@ -70,4 +70,10 @@
 		AND TO_CHAR(mpDate, 'YYYY-MM-DD') = #{mpDate}
 		AND ticketCode=#{ticketsCode}
 	</select>
+	
+	<delete id="deleteMagicpassAll" parameterType="Integer">
+		DELETE FROM magicpass WHERE ticketCode IN (
+		    SELECT TICKETCODE FROM ticket WHERE PAYCODE=#{paycode}
+		)
+	</delete>
 </mapper>
