@@ -249,7 +249,6 @@ public class GuideController {
 				// 사용가능 티켓이 0개면 가이드 예약 취소
 				service.deleteGuidebookIfPayCanceled(payCode);
 			}
-
 		} else {
 			// 예약한 가이드일정이 오후일 때
 			// 취소할 결제코드에서 이용권 사용일자 가져오고 그 일자에 사용가능한 이용권이 남는지 검사(지금 결제취소할 이용권외)
