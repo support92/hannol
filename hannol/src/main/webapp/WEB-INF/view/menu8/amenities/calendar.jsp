@@ -57,7 +57,7 @@
 			}  
 			
 			
-			location.href="<%=cp%>/amenities/reservation?gubunCode=${gubunCode}&selectDay="+selectDay;         
+			location.href="<%=cp%>/amenities/checkTicket?gubunCode=${gubunCode}&selectDay="+selectDay;         
 		});   
 	});
 	

@@ -87,36 +87,6 @@
 			});  
 		});
 	});
-	
-	//예약 날짜 선택하면  입장권 검색
-	$(function(){
-		$("#useDate").change(function(){ 
-			var useDate = $(this).val(); //예약 날짜
-			var usersCode = $("#usersCode").val(); //사용자 코드
-			
-			searchReseation(useDate);//예약내역 있는지 검색 
-			
-			var url = "<%=cp%>/amenities/searchPayment";
-			var query = "useDate="+useDate+"&usersCode="+usersCode; 
-			
-			$.ajax({
-				type:"get",
-				url:url,
-				data:query,
-				dataType:"json",
-				success:function(data){ 
-					$("#ticket").text(""); 
-					  
-					if(data.searchPayment2!=null){ 
-						$("#ticket").text(data.searchPayment2.GOODSNAME);     
-					}       
-				},
-				error:function(e){
-					console.log(e.responseText);
-				}
-			});  
-		});
-	});
 
 	//연락처 숫자만
 	$(function(){
@@ -246,18 +216,7 @@
 					<tr>
 						<th>예약 날짜</th>
 						<td>
-							<c:if test="${not empty selectDay}">  
-								<input type="text" name="useDate" class="noStyle_tf" value="${selectDay}" readonly="readonly"> 
-								<input type="hidden" id="endDate" value="${searchPayList.get(0).get('ENDDATE')}">
-							</c:if>  
-							<c:if test="${empty selectDay}">    
-								<select id="useDate" name="useDate" class="TFbox" data-name="예약날짜를">
-									<option value="">선택</option> 
-									<c:forEach var="vo" items="${searchPayList}">
-										<option value="${vo.ENDDATE}">${vo.ENDDATE}</option>  	
-									</c:forEach>    
-								</select>
-							</c:if>
+							<input type="text" name="useDate" value="${selectDay}" readonly="readonly" class="noStyle_tf"> 
 						</td>
 					</tr>
 					<tr>
@@ -266,10 +225,6 @@
 							<input type="radio" id="pm_time" name="bookTime" value="0" checked="checked"/> <span class="radioSpan">오후</span>
 							<input type="radio" id="all_time" name="bookTime" value="1"/> <span class="radioSpan">종일 </span> 
 						</td>
-					</tr>
-					<tr>
-						<th>입장권</th>
-						<td><span id="ticket"></span></td>
 					</tr>
 					<tr>
 						<th>이름</th>
@@ -293,7 +248,6 @@
 			</table>
 			
 			<div class="btnBox">
-				<input type="hidden" id="usersCode" name="usersCode" value="${usersCode}"> 
 				<input type="hidden" id="gubunCode" name="gubunCode" value="${gubunCode}">
 				<input type="hidden" id="assetsCode" name="assetsCode">
 				<button type="button" class="btn btn-danger" style="font-weight:bold;" onclick="sendOk();">예약하기</button>
