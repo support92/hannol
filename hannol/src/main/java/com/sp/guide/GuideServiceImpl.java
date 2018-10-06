@@ -128,7 +128,7 @@ public class GuideServiceImpl implements GuideService {
 		List<Guide> list = null;
 		try {
 			list = dao.selectList("guide.checkTicket1", usersCodeM);
-			
+
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -140,7 +140,7 @@ public class GuideServiceImpl implements GuideService {
 		List<Guide> list = null;
 		try {
 			list = dao.selectList("guide.checkTicket2", usersCodeM);
-			
+
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
@@ -149,13 +149,56 @@ public class GuideServiceImpl implements GuideService {
 
 	@Override
 	public int checkDoublebook(String workDate) throws Exception {
-		int result =0;
+		int result = 0;
 		try {
 			result = dao.selectOne("guide.checkDoublebook", workDate);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		return result;
+	}
+
+	@Override
+	public int okTicketIfPayCancled(int payCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("guide.okTicketIfPayCancled", payCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int okMorningTicketIfPayCancled(int payCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("guide.okMorningTicketIfPayCancled", payCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteGuidebookIfPayCanceled(int payCode) throws Exception {
+		int result = 0;
+		try {
+			result = dao.deleteData("guide.deleteGuidebookIfPayCanceled", payCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
+	@Override
+	public Guide getGuideBookCancleDay(int payCode) throws Exception {
+		Guide dto =null;
+		try {
+			dto = dao.selectOne("guide.getGuideBookCancleDay", payCode);
+		} catch (Exception e) {
+		}
+		return dto;
 	}
 
 }

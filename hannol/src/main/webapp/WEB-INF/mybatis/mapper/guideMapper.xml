@@ -72,4 +72,64 @@
 		JOIN GUIDE G ON G.SCHCODE = GB.SCHCODE
 		WHERE WORKDATE = #{workDate}
 	</select> 
+	
+	<select id="okTicketIfPayCancled" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*),0)
+		FROM PAYMENT P
+		JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		WHERE USERSCODE = 8 AND STARTDATE = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+		AND P.PAYCODE != #{payCode}
+	</select>
+	
+	<select id="okMorningTicketIfPayCancled" parameterType="Integer" resultType="com.sp.guide.Guide">
+		SELECT NVL(COUNT(*),0)
+		FROM PAYMENT P
+		JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		WHERE USERSCODE = 8 AND (GUBUN != 5 OR GUBUN != 6)  AND STARTDATE = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+		AND P.PAYCODE != #{payCode}
+	</select>
+	
+	<select id="getGuideBookCancleDay" parameterType="Integer" resultType="Integer">
+		SELECT SCHCODE, TIMEZONE, WORKDATE
+		FROM GUIDE
+		WHERE USERSCODE = (
+		    SELECT DISTINCT USERSCODE
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		) 
+		AND WORKDATE = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+	</select>
+	
+	<!-- 결제취소 제외하고 사용가능한 이용권수가 0이면 예약 취소 -->
+	<delete id="deleteGuidebookIfPayCanceled" parameterType="Integer">
+		DELETE FROM GUIDE
+		WHERE USERSCODE = (
+		    SELECT DISTINCT USERSCODE
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		) 
+		AND WORKDATE = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+	</delete>
 </mapper>

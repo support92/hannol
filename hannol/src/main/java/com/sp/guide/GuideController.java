@@ -40,10 +40,10 @@ public class GuideController {
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDate startDay = LocalDate.now();
 		LocalDate endDay = LocalDate.now().plusMonths(1);
-		
+
 		model.addAttribute("startDay", dateFormat.format(startDay));
 		model.addAttribute("endDay", dateFormat.format(endDay));
-		
+
 		return ".four.menu8.guide.list";
 	}
 
@@ -62,11 +62,12 @@ public class GuideController {
 	}
 
 	@RequestMapping(value = "/guide/info")
-	public String readInfo(@RequestParam Integer schCode, Model model,RedirectAttributes redirectAttributes) throws Exception {
+	public String readInfo(@RequestParam Integer schCode, Model model, RedirectAttributes redirectAttributes)
+			throws Exception {
 		Guide dto = service.readInfo(schCode);
-		
-		//일정이 null이거나 예약이 된상태면 돌아가기
-		if (dto == null || dto.getBookCode()!=0) {
+
+		// 일정이 null이거나 예약이 된상태면 돌아가기
+		if (dto == null || dto.getBookCode() != 0) {
 			redirectAttributes.addFlashAttribute("msg", "예약할 수 없습니다. 다른 가이드를 선택해주세요");
 			return "redirect:/guide/list";
 		}
@@ -96,7 +97,7 @@ public class GuideController {
 		}
 
 		String query = "schCode=" + schCode;
-		
+
 		model.addAttribute("dto", dto);
 		model.addAttribute("query", query);
 		model.addAttribute("mode", "info");
@@ -105,72 +106,73 @@ public class GuideController {
 
 		return ".four.menu8.guide.info";
 	}
-	
-	@RequestMapping(value="/guide/book")
-	public String bookForm(Integer schCode, HttpSession session,RedirectAttributes redirectAttributes, Model model)throws Exception{
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
-		if(info==null) {
-			//로그인 안함
+
+	@RequestMapping(value = "/guide/book")
+	public String bookForm(Integer schCode, HttpSession session, RedirectAttributes redirectAttributes, Model model)
+			throws Exception {
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		if (info == null) {
+			// 로그인 안함
 			redirectAttributes.addFlashAttribute("msg", "로그인 후에 진행해주세요");
 			return "redirect:/guide/list";
 		}
-		
+
 		Guide dto = service.readInfo(schCode);
 		if (dto == null) {
-				redirectAttributes.addFlashAttribute("msg", "일정오류. 다른 일정을 선택해주세요");
+			redirectAttributes.addFlashAttribute("msg", "일정오류. 다른 일정을 선택해주세요");
 			return "redirect:/guide/list";
 		}
 
-		//타임존 오전인지 오후인지 검사
+		// 타임존 오전인지 오후인지 검사
 		int timezone = dto.getTimezone();
 
-		//그 날짜, 시간에 이용권 있는지 검사
-		//test
-		List<Guide> ticket =null;
-		int usersCodeM = (int)info.getUsersCode();
-		
-		if(timezone ==1) {
-			//오전
-			ticket= service.checkTicket1(usersCodeM);
-		}else {
-			//오후
-			ticket= service.checkTicket2(usersCodeM);
-		}
-		
-		String workDate = dto.getWorkDate();
-		
-		String startDt =null;
-		String endDt =null;
-		
-		int okTicket=0;
+		// 그 날짜, 시간에 이용권 있는지 검사
+		// test
+		List<Guide> ticket = null;
+		int usersCodeM = (int) info.getUsersCode();
 
-		for(Guide g:ticket) {
+		if (timezone == 1) {
+			// 오전
+			ticket = service.checkTicket1(usersCodeM);
+		} else {
+			// 오후
+			ticket = service.checkTicket2(usersCodeM);
+		}
+
+		String workDate = dto.getWorkDate();
+
+		String startDt = null;
+		String endDt = null;
+
+		int okTicket = 0;
+
+		for (Guide g : ticket) {
 			startDt = g.getStartDate();
 			endDt = g.getEndDate();
-			
-			if(startDt.compareTo(workDate)<=0 && endDt.compareTo(workDate)>=0) {
+
+			if (startDt.compareTo(workDate) <= 0 && endDt.compareTo(workDate) >= 0) {
 				okTicket++;
 			}
-			
+
 		}
-		
-		if(okTicket == 0) {
-			//유효한 티켓 없음
+
+		if (okTicket == 0) {
+			// 유효한 티켓 없음
 			redirectAttributes.addFlashAttribute("msg", "선택하신 날에 대한 입장권이 있어야 예약가능합니다");
 			return "redirect:/guide/list";
 		}
-		
+
 		int checkDoublebook = service.checkDoublebook(workDate);
-		if(checkDoublebook > 0) {
-			//하루에 가이드서비스는 한번만 예약가능
+		if (checkDoublebook > 0) {
+			// 하루에 가이드서비스는 한번만 예약가능
 			redirectAttributes.addFlashAttribute("msg", "가이드서비스는 하루에 한번만 예약가능합니다");
 			return "redirect:/guide/list";
 		}
-		
+
 		dto.setMemberId(info.getMemberId());
-		dto.setUsersCodeM((int)info.getUsersCode());
-		
+		dto.setUsersCodeM((int) info.getUsersCode());
+
 		String role = dto.getRole().substring(0, 2);
 		String roleImg = "";
 
@@ -202,29 +204,61 @@ public class GuideController {
 		model.addAttribute("mode", "created");
 		model.addAttribute("roleImg", roleImg);
 		model.addAttribute("subMenu", "2");
-		
+
 		return ".four.menu8.guide.info";
 	}
-	
-	@RequestMapping(value="/guide/createBook")
-	public String bookSubmit(Guide dto, int schCode) throws Exception{
-		
+
+	@RequestMapping(value = "/guide/createBook")
+	public String bookSubmit(Guide dto, int schCode) throws Exception {
+
 		dto.setSchCode(schCode);
-		//예약하기 연결
+		// 예약하기 연결
 		service.insertBook(dto);
-		
-		return "redirect:/guide/info?schCode="+dto.getSchCode();
+
+		return "redirect:/guide/info?schCode=" + dto.getSchCode();
 	}
 
 	@RequestMapping(value = "/guide/delete")
 	public String delete(@RequestParam(value = "schCode") int schCode,
 			@RequestParam(value = "usersCodeM") Integer usersCodeM) throws Exception {
 		// 예약한 회원이 있는 경우 예약한 일정 코드를 0으로 바꿔주고 일정은 삭제
-		boolean isBooked=false;
-		if(usersCodeM != null) {
+		boolean isBooked = false;
+		if (usersCodeM != null) {
 			isBooked = true;
 		}
 		service.deleteGuide(schCode, isBooked);
+
+		return "redirect:/guide/list";
+	}
+
+	@RequestMapping(value = "/guide/deleteIfPayCanceled")
+	public String deleteIfPayCanceled(@RequestParam(value = "payCode") int payCode) throws Exception {
+
+		// 결제취소할 이용권의 사용예정일에 가이드 예약이 있는지 검사
+		Guide dto = service.getGuideBookCancleDay(payCode);
+
+		if (dto == null) {
+			// 취소할 가이드 예약없음
+			return "redirect:/guide/list";
+		}
+
+		if (dto.getTimezone() == 1) {
+			// 예약한 가이드일정이 오전일 때
+			int okTicket = service.okMorningTicketIfPayCancled(payCode);
+			if (okTicket == 0) {
+				// 사용가능 티켓이 0개면 가이드 예약 취소
+				service.deleteGuidebookIfPayCanceled(payCode);
+			}
+
+		} else {
+			// 예약한 가이드일정이 오후일 때
+			// 취소할 결제코드에서 이용권 사용일자 가져오고 그 일자에 사용가능한 이용권이 남는지 검사(지금 결제취소할 이용권외)
+			int okTicket = service.okTicketIfPayCancled(payCode);
+			if (okTicket == 0) {
+				// 사용가능 티켓이 0개면 가이드 예약 취소
+				service.deleteGuidebookIfPayCanceled(payCode);
+			}
+		}
 
 		return "redirect:/guide/list";
 	}
