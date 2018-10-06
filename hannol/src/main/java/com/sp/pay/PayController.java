@@ -310,8 +310,7 @@ public class PayController {
 	public String paylist(int payCode) throws Exception {
 
 		int result = deleteIfPayCanceled(payCode);
-		System.out.println(result);
-		/*service.deleteRefund(payCode);*/
+		service.deleteRefund(payCode);
 
 		return "redirect:/mypage/paylist";
 	}
@@ -326,6 +325,7 @@ public class PayController {
 			if (dto.getTimezone() == 1) {
 				// 예약한 가이드일정이 오전일 때
 				okTicket = gservice.okMorningTicketIfPayCancled(payCode);
+				
 				if (okTicket == 0) {
 					// 사용가능 티켓이 0개면 가이드 예약 취소
 					gservice.deleteGuidebookIfPayCanceled(payCode);
