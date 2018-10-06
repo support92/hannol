@@ -57,4 +57,13 @@
 		LEFT OUTER JOIN assets a ON ab.assetsCode = a.assetsCode
 		WHERE usersCode=#{usersCode} AND TO_CHAR(useDate, 'YYYY-MM-DD') = #{useDate} AND gubunCode=#{gubunCode}
 	</select>
+	
+	<!-- 해당 날짜에 이용권 여부 확인 -->
+	<select id="checkTicketCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM ticket t
+		JOIN payment p ON p.payCode = t.payCode
+		WHERE usersCode = #{usersCode}
+		AND #{selectDay} BETWEEN startDate AND endDate
+	</select>
 </mapper>

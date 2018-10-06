@@ -12,4 +12,7 @@ public interface AssetsService {
 	public int insertAssetsBook(Assets dto);
 	
 	public int searchReservation(Map<String, Object> map);
+	
+	/*지영*/
+	public int checkTicketCount(Map<String, Object> map) throws Exception;
 }

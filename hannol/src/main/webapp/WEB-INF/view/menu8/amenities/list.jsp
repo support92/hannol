@@ -34,7 +34,14 @@
 			var gubunCode = $(this).attr("data-gubun"); //구분 코드
 			location.href="<%=cp%>/amenities/reservation?gubunCode="+gubunCode;     
 		}); 
-	}); 	
+	}); 
+	
+	$(function(){
+		var msg = "${msg}";
+		if(msg != ""){
+			alert(msg);
+		}
+	})
 </script>
 
 

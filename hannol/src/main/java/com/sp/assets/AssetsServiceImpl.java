@@ -86,6 +86,17 @@ public class AssetsServiceImpl implements AssetsService{
 		return result;  
 	}
 
+	@Override
+	public int checkTicketCount(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("assets.checkTicketCount", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
 	
 
 }

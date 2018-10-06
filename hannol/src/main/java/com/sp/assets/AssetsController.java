@@ -1,6 +1,8 @@
 package com.sp.assets;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.member.SessionInfo;
 
@@ -26,8 +29,12 @@ public class AssetsController {
 	
 	//편의시설 리스트
 	@RequestMapping(value="/amenities/list", method=RequestMethod.GET)
-	public String list(Model model) throws Exception{
+	public String list(@RequestParam(value="msg", defaultValue="") String msg, Model model) throws Exception{
 	
+		if(msg.length() != 0) {
+			model.addAttribute("msg", msg);
+		}
+		
 		model.addAttribute("subMenu", "4");
 		
 		return ".four.menu8.amenities.list"; 
@@ -36,52 +43,56 @@ public class AssetsController {
 	//예약
 	@RequestMapping(value="/amenities/reservation", method=RequestMethod.GET)
 	public String reservation(@RequestParam(value="gubunCode") int gubunCode,
-			@RequestParam(required=false, value="selectDay") String selectDay,
 			HttpServletRequest req,    
 			HttpSession session,
 			Assets dto,
 			Model model) throws Exception{
 		
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		
-		try {
-			long usersCode = info.getUsersCode(); //유저 번호
-			List<Map<String, Object>> searchPayList = service.searchPayment(usersCode); //이용권 리스트
-
-			//이용권 구분번호
-			String goodsCode =  String.valueOf(searchPayList.get(0).get("GOODSCODE"));
-  
-			//이용권을 구매하지 않았다면 구매페이지로
-			if(searchPayList==null || searchPayList.size()==0) {
-				model.addAttribute("state", "noTicket"); 
-			
-			//만약 연간 회원권 구매자라면 날짜 선택페이지로 이동
-			}else if (goodsCode.equals("2") && selectDay==null)  {    
-				return "redirect:/amenities/dayCalendar?gubunCode="+gubunCode;         
-				
-			}else {
-				//테마 리스트
-				List<Map<String, Object>> listTheme = service.listTheme();
-
-				String title = gubunCode==1 ? "유모차" : (gubunCode==2 ? "휠체어" : "보관함"); 
-				
-				model.addAttribute("searchPayList", searchPayList);
-				model.addAttribute("listTheme", listTheme);
-				model.addAttribute("usersCode", usersCode); 
-				model.addAttribute("gubunCode", gubunCode); 
-				model.addAttribute("selectDay", selectDay);
-				model.addAttribute("title", title);
-				
-				model.addAttribute("subMenu", "4");
-				
-			}
-		} catch (Exception NullPointerException) {
-			//로그인이 되어있지 않다면 로그인 페이지로
+		if(info==null) {
 			model.addAttribute("message", "편의시설은 로그인 후 이용하실 수 있습니다.");
-			return ".member.login";     
-		}	
+			return ".member.login";
+		}
 		
-		return ".four.menu8.amenities.reservation";   
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDate startDay = LocalDate.now();
+		LocalDate endDay = LocalDate.now().plusMonths(1);
+		
+		model.addAttribute("startDay", dateFormat.format(startDay));
+		model.addAttribute("endDay", dateFormat.format(endDay));
+		model.addAttribute("gubunCode", gubunCode);
+		return ".four.menu8.amenities.calendar";
+	}
+	
+	//선택한 날짜에 구매티켓이 존재하는지 확인
+	@RequestMapping(value="/amenities/checkTicket")
+	public String checkTicket(
+			@RequestParam(value="gubunCode") int gubunCode, 
+			@RequestParam(required=false, value="selectDay") String selectDay, 
+			HttpSession session,
+			RedirectAttributes redirectAttributes,
+			Model model) throws Exception{
+		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("selectDay", selectDay);
+
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		long usersCode = info.getUsersCode();
+		paramMap.put("usersCode", usersCode);
+		
+		int result = service.checkTicketCount(paramMap);
+		if(result==0) {
+			redirectAttributes.addAttribute("msg", "해당 날짜에 이용가능한 티켓이 없습니다. 구매 후 시도해 주세요");
+			return "redirect:/amenities/list";
+		}
+		
+		List<Map<String, Object>> listTheme = service.listTheme();
+		model.addAttribute("listTheme", listTheme);
+		model.addAttribute("gubunCode", gubunCode);
+		model.addAttribute("selectDay", selectDay);
+		
+		
+		return ".four.menu8.amenities.reservation";
 	}
 	
 	//테마 선택하면 대여소 검색 : AJAX-JSON
@@ -123,9 +134,13 @@ public class AssetsController {
 	
 	//예약 추가
 	@RequestMapping(value="/amenities/reservation", method=RequestMethod.POST)
-	public String reservation(Assets dto) throws Exception{
+	public String reservation(Assets dto, HttpSession session) throws Exception{
 		
 		try {
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+			long usersCode = info.getUsersCode();
+			dto.setUsersCode(usersCode);
+			
 			String tel1 = dto.getTel1();
 			String tel2 = dto.getTel2();
 			String tel3 = dto.getTel3(); 
