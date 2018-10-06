@@ -10,6 +10,10 @@ public class MainController {
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	public String method() {
 		
+		/*//비밀번호 암호화만들기
+		String temp = new BCryptPasswordEncoder().encode("test");
+		System.out.println(temp);*/
+		
 		return ".mainLayout";
 	}
 }
