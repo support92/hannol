@@ -24,8 +24,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int userSeq() throws Exception {
-		int result = 0;
+	public long userSeq() throws Exception {
+		long result = 0;
 		try {
 			result = dao.selectOne("member.usersSeq");
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class MemberServiceImpl implements MemberService {
 			result += dao.insertData("member.insertMember1", dto);
 			result += dao.insertData("member.insertMember2", dto);
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			throw e;
 		}
 		return result;
 	}

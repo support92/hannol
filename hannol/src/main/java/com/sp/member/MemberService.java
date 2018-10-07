@@ -8,7 +8,7 @@ public interface MemberService {
 	// 패스워드 시험용
 	public int updatePwd(Member dto) throws Exception;
 	
-	public int userSeq() throws Exception;
+	public long userSeq() throws Exception;
 	public int insertMember(Member dto) throws Exception; // Member에 usersCode 포함
 	
 }

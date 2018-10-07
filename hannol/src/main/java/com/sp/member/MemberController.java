@@ -1,5 +1,8 @@
 package com.sp.member;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,15 +32,54 @@ public class MemberController {
 	}
 
 	@RequestMapping(value="/member/kakao_oauth", method=RequestMethod.GET)
-	public String kakaologinForm() {
+	public String kakaologinForm(HttpServletRequest request,
+			@RequestParam(required=true) String memberId,
+			@RequestParam(required=true) String memberName,
+			@RequestParam(required=false) String email) {
+		
+		System.out.println("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
 		
 		
+		// 회원테이블에 아이디가 존재하는지 확인
+		Member dto = service.readMember(memberId);
 		
+		// 아이디가 없을 경우 회원가입
+		try {
+			if(dto == null) {
+				dto = new Member();
+				long seq = service.userSeq();
+				dto.setUsersCode(seq);
+				dto.setMemberId(memberId);
+				dto.setMemberName(memberName);
+				dto.setEmail(email);
+				dto.setJoinPath("카카오톡");
+				service.insertMember(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		return "redirect:/";
+		// 세션에 로그인 정보 저장
+		HttpSession session = request.getSession();
+		SessionInfo info = new SessionInfo();
+		info.setMemberId(memberId);
+		info.setMemberName(dto.getMemberName());
+		info.setUsersCode(dto.getUsersCode());
+		info.setAuthority(dto.getAuthority());
+		
+		// 로그인 날짜 변경
+		try {
+			service.updateLastLogin(dto.getUsersCode());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// session에 member라는 이름으로 사용자 정보 저장
+		session.setAttribute("member", info);
+
+		// 메인으로 이동
+		return "redirect:/main";
 	}
-	
-	
 	
 	/*@RequestMapping(value="/member/login", method=RequestMethod.POST)
 	public String loginSubmit(

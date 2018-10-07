@@ -29,7 +29,9 @@
 		<intercept-url pattern="/resource/**" access="permitAll"/> <!-- img,css,javascript -->
 		
 		<!-- 공연 -->
-		<intercept-url pattern="/show/**" access="permitAll"/> <!-- img,css,javascript -->
+		<intercept-url pattern="/show/**" access="permitAll"/>
+
+		<intercept-url pattern="/member/kakao_oauth" access="permitAll"/> <!-- 카카오인증 -->
 	
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/> 
 		

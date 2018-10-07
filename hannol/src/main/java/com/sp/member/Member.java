@@ -5,10 +5,10 @@ public class Member {
 	private String memberId;
 	private String memberPwd;
 	private String memberName;
-	private int enabled;
+	private Integer enabled;
 
 	private String help;
-	private int isAlarm;
+	private Integer isAlarm;
 	private String email;
 	private String birth;
 	private String post;
@@ -21,7 +21,7 @@ public class Member {
 	private String joinDate;
 	private String joinPath;
 	private String loginDate;
-	private int gradeCode;
+	private Integer gradeCode;
 	
 	private String authority;
 
