@@ -14,4 +14,6 @@ public interface MemberService {
 	// 회원가입
 	public Member readMemberByEmail(String email);
 	
+	// 회원 정보 수정
+	public int updateMember(Member dto) throws Exception;
 }

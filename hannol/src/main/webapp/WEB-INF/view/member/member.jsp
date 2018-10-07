@@ -57,7 +57,23 @@ function idCheck() {
 	    }
 	});
 }
+
+var mode;
+
 $(function() {
+	mode = '${mode}';
+	
+	if(mode == 'update' && mode != null){
+		var help = '${dto.help}';
+		var strArray = help.split(",");
+		for(var i = 0; i < strArray.length; i++){
+			$("input[type=checkbox][class=" + strArray[i] + "]").prop("checked", "checked");
+		}
+	} else {
+		isIdChecked = true;
+		isEmailChecked = true;
+	}
+	
 	$("select[name=selectEmail]").change(function () {
 		var val = $("select[name=selectEmail] option:selected").val(); 
 		if(val!='direct'){
@@ -135,7 +151,7 @@ function memberOk() {
 		return false;
 	}
 	
-	if(isIdChecked==false){
+	if(mode=='created' && isIdChecked==false){
 		var str="<span style='color:red;font-weight: bold;'>아이디 중복여부를 확인하세요.</span>";
 		$("#userIdSpan").html(str);
 		f.memberId.focus();
@@ -176,7 +192,7 @@ function memberOk() {
         return false;
     }
 
-	if(isEmailChecked==false){
+	if(mode=='created' && isEmailChecked==false){
 		var str="<span style='color:red;font-weight: bold;'>이메일 중복여부를 확인하세요.</span>";
 		$("#emailSpan").html(str);
 		f.email1.focus();
@@ -355,7 +371,8 @@ function execPostCode() {
 			      </th>
 			      <td>
 			        <p>
-			            <input type="text" name="email1" value="${dto.email1}" size="13" maxlength="30"  class="boxTF">
+			            <input type="text" name="email1" value="${dto.email1}" size="13" maxlength="30"  class="boxTF"
+			            	${mode=="update" ? "readonly='readonly' ":""}>
 			            @ 
 			            <input type="text" name="email2" value="${dto.email2}" size="13" maxlength="30"  class="boxTF" readonly="readonly">
 			        	<select name="selectEmail" class="selectField">
@@ -444,9 +461,9 @@ function execPostCode() {
                </th>
                <td>
                   <p>
-                     <input type="checkbox" name="help" value="장애인">장애인
-                     <input type="checkbox" name="help" value="어르신">어르신
-                     <input type="checkbox" name="help" value="국가유공자">국가유공자 
+                     <input type="checkbox" name="help" class="chk1" value="chk1">장애인
+                     <input type="checkbox" name="help" class="chk2" value="chk2">어르신
+                     <input type="checkbox" name="help" class="chk3" value="chk3">국가유공자 
                </td>
            </tr>
 		</table>

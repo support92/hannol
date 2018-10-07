@@ -33,7 +33,10 @@
 	</insert>
 	
 	<select id="readMember" parameterType="String" resultType="com.sp.member.Member">
-      SELECT usersCode, memberId, memberName, authority FROM member1
+      select m1.usersCode, memberId, memberPwd, memberName, enabled, authority,
+		    help, email, to_char(birth, 'yyyy-mm-dd') birth, post, addr1, addr2, tel, joinDate, joinPath, loginDate, gradeCode
+	  from member1 m1 join member2 m2
+	  on m1.USERSCODE = m2.USERSCODE
       WHERE memberId = #{userId}
    </select>
    
@@ -51,5 +54,19 @@
 		from member2
 		where email = #{email}
 	</select>
+	
+	<update id="updateMember1" parameterType="com.sp.member.Member">
+		update member1 set memberPwd = #{memberPwd}
+		where memberId = #{memberId}
+	</update>
+	
+	<update id="updateMember2" parameterType="com.sp.member.Member">
+		update member2 set 
+			help = #{help, jdbcType=VARCHAR}, email = #{email, jdbcType=VARCHAR}, birth = #{birth, jdbcType=VARCHAR}, 
+			post = #{post, jdbcType=VARCHAR}, addr1 = #{addr1, jdbcType=VARCHAR}, addr2 = #{addr2, jdbcType=VARCHAR}, tel = #{tel, jdbcType=VARCHAR}
+		where usersCode = (
+			select usersCode from member1 where memberId = #{memberId}
+		)
+	</update>
 	
 </mapper>

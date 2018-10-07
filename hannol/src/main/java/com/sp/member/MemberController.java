@@ -214,5 +214,91 @@ public class MemberController {
 		return ".member.pwd";
 	}
 	
+	@RequestMapping(value="/member/pwd", method=RequestMethod.POST)
+	public String pwdSubmit(
+			@RequestParam String userPwd,
+			@RequestParam String mode,
+			Model model,
+			HttpSession session
+	     ) {
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		Member dto=service.readMember(info.getMemberId());
+		if(dto==null) {
+			session.invalidate();
+			return "redirect:/";
+		}
+		
+		// 암호화한 비밀번호 확인 - 비밀번호가 일치하지 않을 경우
+		if(! new BCryptPasswordEncoder().matches(userPwd, dto.getMemberPwd())) {
+			if(mode.equals("update")) {
+				model.addAttribute("mode", "update");
+			} else {
+				model.addAttribute("mode", "dropout");
+			}
+			model.addAttribute("message", "패스워드가 일치하지 않습니다.");
+			return ".member.pwd";
+		}
+		
+		if(mode.equals("dropout")){
+		/*	// 회원탈퇴 처리
+			session.removeAttribute("member");
+			session.invalidate();
+
+			StringBuffer sb=new StringBuffer();
+			sb.append(dto.getUserName()+ "님의 회원 탈퇴 처리가 정상적으로 처리되었습니다.<br>");
+			sb.append("메인화면으로 이동 하시기 바랍니다.<br>");
+			
+			model.addAttribute("title", "회원 탈퇴");
+			model.addAttribute("message", sb.toString());
+			
+			return ".member.complete";*/
+		}
+
+		// 회원정보 설정 - email1, email2, ...
+		String email[] = dto.getEmail().split("@");
+		dto.setEmail1(email[0]);
+		dto.setEmail2(email[1]);
+		String tel[] = dto.getTel().split("-");
+		dto.setTel1(tel[0]);
+		dto.setTel2(tel[1]);
+		dto.setTel3(tel[2]);
+		
+		// 회원정보수정폼
+		model.addAttribute("dto", dto);
+		model.addAttribute("mode", "update");
+		return ".member.member";
+	}
+	
+	@RequestMapping(value="/member/update",
+			method=RequestMethod.POST)
+	public String updateSubmit(
+			Member dto,
+			Model model) {
+		
+		try {
+			// 이메일, 전화번호 설정
+			dto.setEmail(dto.getEmail1() + "@" + dto.getEmail2());
+			dto.setTel(dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3());
+			dto.setJoinPath("홈페이지");
+			
+			// 비밀번호 암호화
+			String memberPwd = new BCryptPasswordEncoder().encode(dto.getMemberPwd());
+			dto.setMemberPwd(memberPwd);
+			
+			service.updateMember(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		StringBuffer sb=new StringBuffer();
+		sb.append(dto.getMemberName()+ "님의 회원정보가 정상적으로 변경되었습니다.<br>");
+		sb.append("메인화면으로 이동 하시기 바랍니다.<br>");
+		
+		model.addAttribute("title", "회원 정보 수정");
+		model.addAttribute("message", sb.toString());
+		return ".member.complete";
+	}
 	
 }
