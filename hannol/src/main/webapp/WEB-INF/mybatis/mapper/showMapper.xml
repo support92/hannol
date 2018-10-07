@@ -165,7 +165,7 @@
 	</select>
 	
 	<!-- 티켓코드->공연예약코드 -->
-	<select id="readShowBookCodeByTicketCode" parameterType="Ineteger" resultType="Integer">
+	<select id="readShowBookCodeByTicketCode" parameterType="Integer" resultType="Integer">
 		select showBookCode
 		from showBook
 		where ticketCode = #{ticketCode}

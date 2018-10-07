@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sp.common.MyUtilGeneral;
 import com.sp.guide.Guide;
-import com.sp.guide.GuideController;
 import com.sp.guide.GuideService;
 import com.sp.member.SessionInfo;
+import com.sp.show.ShowService;
 
 @Controller("pay.payContoller")
 public class PayController {
@@ -34,7 +34,10 @@ public class PayController {
 
 	@Autowired
 	GuideService gservice;
-
+	
+	@Autowired
+	ShowService sservice;
+	
 	@Autowired
 	MyUtilGeneral util;
 
@@ -310,6 +313,7 @@ public class PayController {
 	public String paylist(int payCode) throws Exception {
 
 		deleteIfPayCanceled(payCode);
+		sservice.readTicketCodeByPayCode(payCode);
 		service.deleteRefund(payCode);
 
 		return "redirect:/mypage/paylist";
