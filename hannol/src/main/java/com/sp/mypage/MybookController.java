@@ -33,7 +33,7 @@ public class MybookController {
 	private MybookService service;
 	
 	@Autowired
-	private ShowService sService;
+	private ShowService sService; 
 
 	@Autowired
 	MyUtil myUtil;
