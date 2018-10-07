@@ -268,7 +268,8 @@ public class MemberController {
 		// 회원정보수정폼
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");
-		return ".member.member";
+		model.addAttribute("subMenu", "6");
+		return ".four.menu3.mypage.member";
 	}
 	
 	@RequestMapping(value="/member/update",

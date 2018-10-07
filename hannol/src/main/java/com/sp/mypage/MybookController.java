@@ -38,13 +38,6 @@ public class MybookController {
 	@Autowired
 	MyUtil myUtil;
 
-	@RequestMapping(value = "/mypage/info")
-	public String info(Model model) throws Exception {
-		model.addAttribute("subMenu", "6");
-		model.addAttribute("mode", "update");
-		return ".four.menu3.mypage.info";
-	}
-
 	// 공연 리스트
 	@RequestMapping(value = "/mypage/myBook", method = RequestMethod.GET)
 	public String manageBook(@RequestParam(value = "tab", defaultValue = "magicpass") String tab,
