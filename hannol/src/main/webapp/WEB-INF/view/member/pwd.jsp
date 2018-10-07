@@ -67,7 +67,7 @@
 		        &nbsp;
 		        <input type="text" name="userId" class="loginTF" maxlength="15"
 		                   tabindex="1"
-		                   value="${sessionScope.member.userId}"
+		                   value="${sessionScope.member.memberId}"
                            readonly="readonly">
 		           &nbsp;
 		      </td>

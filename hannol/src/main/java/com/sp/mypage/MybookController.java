@@ -40,7 +40,7 @@ public class MybookController {
 
 	@RequestMapping(value = "/mypage/info")
 	public String info(Model model) throws Exception {
-		model.addAttribute("subMenu", "1");
+		model.addAttribute("subMenu", "6");
 		model.addAttribute("mode", "update");
 		return ".four.menu3.mypage.info";
 	}
@@ -53,7 +53,7 @@ public class MybookController {
 		// model - tab
 		model.addAttribute("tab", tab);
 		model.addAttribute("pageNo", page);
-		model.addAttribute("subMenu", "5");
+		model.addAttribute("subMenu", "1");
 
 		return ".four.menu3.mypage.myBook";
 	}
