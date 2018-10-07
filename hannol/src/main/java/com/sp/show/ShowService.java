@@ -18,7 +18,7 @@ public interface ShowService {
 	public int readShowBookCount(Map<String, Object> map) throws Exception;
 
 	// 결제 취소
-	public List<Integer> readTicketCodeByPayCode(int payCode) throws Exception;
+	public void readTicketCodeByPayCode(int payCode) throws Exception;
 	public List<Integer> readShowBookCodeByTicketCode(int ticketCode) throws Exception;		
 	
 	// 삭제

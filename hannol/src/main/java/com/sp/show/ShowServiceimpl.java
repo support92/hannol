@@ -204,14 +204,33 @@ public class ShowServiceimpl implements ShowService {
 	}
 
 	@Override
-	public List<Integer> readTicketCodeByPayCode(int payCode) throws Exception {
-		
-		return null;
+	public void readTicketCodeByPayCode(int payCode) throws Exception {
+		List<Integer> ticketCodelist = null;
+		try {
+			ticketCodelist = dao.selectList("show.readTicketCodeByPayCode", payCode);
+			for(Integer i : ticketCodelist) {
+				List<Integer> showBookCodeList = readShowBookCodeByTicketCode(i);
+				
+				// 삭제
+				for(Integer j : showBookCodeList) {
+					deleteShowBookInfo(j);
+					deleteShowBook(j);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
 	}
 
 	@Override
 	public List<Integer> readShowBookCodeByTicketCode(int ticketCode) throws Exception {
-		return null;
+		List<Integer> list = null;
+		try {
+			list = dao.selectList("show.readShowBookCodeByTicketCode", ticketCode);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
 	}
 
 }
