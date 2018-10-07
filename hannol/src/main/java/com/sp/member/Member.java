@@ -10,6 +10,8 @@ public class Member {
 	private String help;
 	private Integer isAlarm;
 	private String email;
+	private String email1;
+	private String email2;
 	private String birth;
 	private String post;
 	private String addr1;
@@ -25,6 +27,27 @@ public class Member {
 	
 	private String authority;
 
+	public String getEmail1() {
+		return email1;
+	}
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+	public String getEmail2() {
+		return email2;
+	}
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
+	}
+	public void setIsAlarm(Integer isAlarm) {
+		this.isAlarm = isAlarm;
+	}
+	public void setGradeCode(Integer gradeCode) {
+		this.gradeCode = gradeCode;
+	}
 	public String getPost() {
 		return post;
 	}

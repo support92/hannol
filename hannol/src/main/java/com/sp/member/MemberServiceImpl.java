@@ -80,4 +80,15 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Override
+	public Member readMemberByEmail(String email) {
+		Member dto = null;
+		try {
+			dto = dao.selectOne("member.readMemberByEmail", email);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return dto;
+	}
+
 }

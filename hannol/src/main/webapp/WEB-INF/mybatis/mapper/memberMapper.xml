@@ -46,4 +46,10 @@
 		where usersCode = #{usersCode}
 	</update>   
 	
+	<select id="readMemberByEmail" parameterType="String" resultType="com.sp.member.Member">
+		select usersCode, help, email, birth, post, addr1, addr2, tel, joinDate, joinPath, loginDate, gradeCode
+		from member2
+		where email = #{email}
+	</select>
+	
 </mapper>

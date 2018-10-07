@@ -11,4 +11,7 @@ public interface MemberService {
 	public long userSeq() throws Exception;
 	public int insertMember(Member dto) throws Exception; // Member에 usersCode 포함
 	
+	// 회원가입
+	public Member readMemberByEmail(String email);
+	
 }

@@ -1,5 +1,8 @@
 package com.sp.member;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller("member.memberController")
 public class MemberController {
@@ -20,7 +24,40 @@ public class MemberController {
 		model.addAttribute("mode", "created");
 		return ".member.member";
 	}
+	
+	@RequestMapping(value="/member/userIdCheck")
+	@ResponseBody
+	public Map<String, Object> userIdCheck(
+			@RequestParam String userId
+			) throws Exception {
+		String passed="false";
+		Member dto=service.readMember(userId);
+		if(dto==null)
+			passed="true";
+		
+   	    // 작업 결과를 json으로 전송
+		Map<String, Object> model = new HashMap<>(); 
+		model.put("passed", passed);
+		return model;
+	}
 
+	@RequestMapping(value="/member/userEmailCheck")
+	@ResponseBody
+	public Map<String, Object> userEmailCheck(
+			@RequestParam String email
+			) throws Exception {
+		String passed="false";
+		Member dto=service.readMemberByEmail(email);
+		if(dto==null)
+			passed="true";
+		
+		// 작업 결과를 json으로 전송
+		Map<String, Object> model = new HashMap<>(); 
+		model.put("passed", passed);
+		return model;
+	}
+	
+	
 	@RequestMapping(value = "/member/login", method = RequestMethod.GET)
 	public String loginForm(@RequestParam(required=false)String login_error, Model model) {
 		

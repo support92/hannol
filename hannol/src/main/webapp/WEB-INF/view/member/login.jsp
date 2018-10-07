@@ -57,6 +57,10 @@ function sendLogin() {
     f.submit();
 }
 
+var memberId;
+var memberName;
+var email;
+
 Kakao.init('5b33a44dcabba4ece4cb2555523ab8af');
 function loginWithKakao() {
       Kakao.Auth.login({										// 로그인 - 사용자가 앱에 로그인할 수 있도록 로그인 팝업창을 띄우는 함
@@ -65,8 +69,16 @@ function loginWithKakao() {
 	                url: '/v2/user/me',
 	                success: function(res) {
 	             	    console.log(JSON.stringify(res));
-	             	    var query = "memberId=" + res.id + "&memberName=" + res.properties.nickname + "&email=" + res.kakao_account.email;
-	             	    location.href = "<%=cp%>/member/kakao_oauth?" + query;
+
+	             	    memberId = res.id;
+	             	    memberName = res.properties.nickname;
+	             	    email= res.kakao_account.email;
+	             	    //alert(memberId + "::" + memberName + "::" + email);
+	             	    
+<%-- 	                    var query = "memberId=" + memberId + "&memberName=" + memberName + "&email=" + email;
+	                    alert(query);
+  	              	    location.href = "<%=cp%>/member/kakao_oauth?" + query;
+ --%>
 	             	    
 		                /* $.ajax({
 		                      type:"post",
@@ -97,6 +109,8 @@ function loginWithKakao() {
               alert(JSON.stringify(err));
          }
       });
+      
+
 };
 </script>
 
