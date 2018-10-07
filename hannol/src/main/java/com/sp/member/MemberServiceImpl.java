@@ -103,4 +103,15 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	@Override
+	public int deleteMember(String userId) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("member.deleteMember", userId);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return result;
+	}
+
 }

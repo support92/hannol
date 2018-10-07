@@ -69,4 +69,10 @@
 		)
 	</update>
 	
+	<!-- 회원탈퇴 -->
+	<update id="deleteMember" parameterType="String">
+		update member1 set enabled = 0 
+		where memberId = #{memberId}
+	</update>
+	
 </mapper>

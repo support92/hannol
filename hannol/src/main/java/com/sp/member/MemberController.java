@@ -242,18 +242,24 @@ public class MemberController {
 		}
 		
 		if(mode.equals("dropout")){
-		/*	// 회원탈퇴 처리
+			try {
+				service.deleteMember(info.getMemberId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			// 회원탈퇴 처리
 			session.removeAttribute("member");
 			session.invalidate();
 
 			StringBuffer sb=new StringBuffer();
-			sb.append(dto.getUserName()+ "님의 회원 탈퇴 처리가 정상적으로 처리되었습니다.<br>");
+			sb.append(dto.getMemberName() + "님의 회원 탈퇴 처리가 정상적으로 처리되었습니다.<br>");
 			sb.append("메인화면으로 이동 하시기 바랍니다.<br>");
 			
 			model.addAttribute("title", "회원 탈퇴");
 			model.addAttribute("message", sb.toString());
 			
-			return ".member.complete";*/
+			return ".member.complete";
 		}
 
 		// 회원정보 설정 - email1, email2, ...
