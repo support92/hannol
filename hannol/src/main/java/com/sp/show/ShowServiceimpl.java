@@ -202,5 +202,16 @@ public class ShowServiceimpl implements ShowService {
 		}
 		return list;
 	}
-	
+
+	@Override
+	public List<Integer> readTicketCodeByPayCode(int payCode) throws Exception {
+		
+		return null;
+	}
+
+	@Override
+	public List<Integer> readShowBookCodeByTicketCode(int ticketCode) throws Exception {
+		return null;
+	}
+
 }

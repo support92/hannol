@@ -65,8 +65,8 @@ function loginWithKakao() {
 	                url: '/v2/user/me',
 	                success: function(res) {
 	             	    console.log(JSON.stringify(res));
-	             	    var query = "id=" + res.id + "&"
-	             	    <%-- location.href = "<%=cp%>/member/kakao_oauth"; --%>
+	             	    var query = "memberId=" + res.id + "&memberName=" + res.properties.nickname + "&email=" + res.kakao_account.email;
+	             	    location.href = "<%=cp%>/member/kakao_oauth?" + query;
 	             	    
 		                /* $.ajax({
 		                      type:"post",

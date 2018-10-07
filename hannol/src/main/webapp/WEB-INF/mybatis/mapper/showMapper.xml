@@ -95,8 +95,8 @@
 
 	<!-- 공연 예약 insert -->
 	<insert id="insertShowBook" parameterType="map">
-		insert into showBook(showBookCode, bookDate, bookCount, usersCode, sStartCode)
-		values(showBook_seq.nextval, sysdate, #{bookCount}, #{usersCode}, #{sStartCode})
+		insert into showBook(showBookCode, bookDate, bookCount, usersCode, sStartCode, ticketCode)
+		values(showBook_seq.nextval, sysdate, #{bookCount}, #{usersCode}, #{sStartCode}, #{ticketCode})
 	</insert>
 
 	<select id="readShowBookCode" parameterType="map" resultType="Integer">
@@ -134,24 +134,18 @@
 	
 	<!-- 내 공연 예약 리스트 -->
 	<select id="listMyShow" parameterType="Integer" resultType="com.sp.show.Show">
-		select * from (
-			select rownum rnum, tb.* from(
-				select showBookCode, bookDate, sb.sStartCode, startTime, to_char(screenDate, 'yyyy-mm-dd') screenDate, f.name, showname
-				from showBook sb join showStartTime sst
-				    on sb.sStartCode = sst.sStartCode
-				join showSch sch
-				    on sst.schCode = sch.schCode
-				join showInfo si	
-				    on sch.showInfoCode = si.showInfoCode
-				join facility f
-				    on si.FACILITYCODE = f.FACILITYCODE
-				join show s
-				    on si.showCode = s.SHOWCODE
-				where usersCode = #{usersCode}
-<![CDATA[
-			) tb where rownum <= #{end}
-		) where rnum >= #{start}
-]]>
+		select showBookCode, bookDate, sb.sStartCode, startTime, to_char(screenDate, 'yyyy-mm-dd') screenDate, f.name, showname
+		from showBook sb join showStartTime sst
+		    on sb.sStartCode = sst.sStartCode
+		join showSch sch
+		    on sst.schCode = sch.schCode
+		join showInfo si	
+		    on sch.showInfoCode = si.showInfoCode
+		join facility f
+		    on si.FACILITYCODE = f.FACILITYCODE
+		join show s
+		    on si.showCode = s.SHOWCODE
+		where usersCode = #{usersCode}
 		order by screenDate desc		
 	</select>
 	

@@ -27,8 +27,11 @@
 		<!-- <intercept-url pattern="/member/userIdCheck" access="permitAll"/> -->
 		<intercept-url pattern="/member/logout" access="permitAll"/>
 		<intercept-url pattern="/resource/**" access="permitAll"/> <!-- img,css,javascript -->
+		
+		<!-- 공연 -->
+		<intercept-url pattern="/show/**" access="permitAll"/> <!-- img,css,javascript -->
 	
-		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER')"/> 
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/> 
 		
 		<!-- 사용자 정의 로그인 폼 -->
 		<!-- login-processing-url : login.jsp의 action에서 수행할 주소 -->

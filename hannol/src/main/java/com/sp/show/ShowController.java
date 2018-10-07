@@ -191,7 +191,7 @@ public class ShowController {
 		map.put("screenDate", screenDate);
 		map.put("memberId", info.getMemberId());
 		
-		List<Ticket> list;
+		List<Ticket> list = null;
 		try {
 			list = service.listTicket(map);
 			if(list.size()==0) {
@@ -232,6 +232,7 @@ public class ShowController {
 		// 예약 - 이미 예약된 좌석은 예약(insert) 불가. 따라서 catch 할 때 
 		map.put("bookCount", selectSeat.size());
 		map.put("seatList", selectSeat);
+		map.put("ticketCode", list.get(0).getTicketCode());
 		try {
 			service.insertShowBook(map);
 		} catch (Exception e) {		// 예매 실패

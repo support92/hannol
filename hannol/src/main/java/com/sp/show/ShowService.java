@@ -12,9 +12,14 @@ public interface ShowService {
 	public List<Integer> listSeat(Map<String, Object> map) throws Exception;
 	public int readSstartCode(Map<String, Object> map) throws Exception;
 	public int insertShowBook(Map<String, Object> map) throws Exception;
+	
 	public int readShowBookCode(Map<String, Object> map) throws Exception;
 	public int insertShowBookInfo(Map<String, Object> map) throws Exception;
 	public int readShowBookCount(Map<String, Object> map) throws Exception;
+
+	// 결제 취소
+	public List<Integer> readTicketCodeByPayCode(int payCode) throws Exception;
+	public List<Integer> readShowBookCodeByTicketCode(int ticketCode) throws Exception;		
 	
 	// 삭제
 	public int deleteShowBookInfo(int showBookCode) throws Exception;
