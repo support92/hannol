@@ -224,12 +224,6 @@ function memberOk() {
         f.birth.focus();
         return false;
     }
-    
-    str = f.help.value;
-    if(!str) {
-        f.help.focus();
-        return false;
-    }
 
 /* 	str = f.emailChk.value;
     if(!str) {
@@ -251,7 +245,7 @@ function memberOk() {
     	f.action = "<%=cp%>/member/update";
     }
     
-    return true;
+    f.submit();
 }
 
 
@@ -450,9 +444,9 @@ function execPostCode() {
                </th>
                <td>
                   <p>
-                     <input type="checkbox" name="help" value="chk1">장애인
-                     <input type="checkbox" name="help" value="chk2">어르신
-                     <input type="checkbox" name="help" value="chk3">국가유공자 
+                     <input type="checkbox" name="help" value="장애인">장애인
+                     <input type="checkbox" name="help" value="어르신">어르신
+                     <input type="checkbox" name="help" value="국가유공자">국가유공자 
                </td>
            </tr>
 		</table>

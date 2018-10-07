@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,41 @@ public class MemberController {
 	public String memberForm(Model model) {
 		model.addAttribute("mode", "created");
 		return ".member.member";
+	}
+
+	@RequestMapping(value="/member/member", method=RequestMethod.POST)
+	public String memberSubmit(Member dto, Model model) throws Exception {
+
+		// 이메일, 전화번호 설정
+		dto.setEmail(dto.getEmail1() + "@" + dto.getEmail2());
+		dto.setTel(dto.getTel1() + "-" + dto.getTel2() + "-" + dto.getTel3());
+		dto.setJoinPath("홈페이지");
+		
+		// 비밀번호 암호화
+		String memberPwd = new BCryptPasswordEncoder().encode(dto.getMemberPwd());
+		dto.setMemberPwd(memberPwd);
+		
+		// usersCode 
+		long usersCode = service.userSeq();
+		dto.setUsersCode(usersCode);
+
+		int result=service.insertMember(dto);
+		
+		if(result==3) {
+			StringBuffer sb=new StringBuffer();
+			sb.append(dto.getMemberName()+ "님의 회원 가입이 정상적으로 처리되었습니다.<br>");
+			sb.append("메인화면으로 이동하여 로그인 하시기 바랍니다.<br>");
+			
+			model.addAttribute("message", sb.toString());
+			model.addAttribute("title", "회원 가입");
+			
+			return ".member.complete";
+		} else {
+			model.addAttribute("mode", "created");
+			model.addAttribute("message", "회원가입이 실패했습니다.");
+			
+			return ".member.member";
+		}
 	}
 	
 	@RequestMapping(value="/member/userIdCheck")
