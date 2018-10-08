@@ -117,6 +117,17 @@ public class MybookServiceImpl implements MybookService {
 		return result; 
 	}
 
+	@Override
+	public int expireAssetsBook(int num) throws Exception {
+		int result = 0;
+		try {
+			dao.updateData("book.expireAssetsBook", num);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
 	
 
 }

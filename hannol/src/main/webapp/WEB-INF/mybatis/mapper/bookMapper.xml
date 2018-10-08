@@ -93,5 +93,10 @@
 	<!-- 예약 삭제 -->
 	<delete id="deleteAssetsBook" parameterType="Integer">  
 		DELETE FROM assetsBook WHERE bookCode = #{booksCode} 	
-	</delete>  
+	</delete> 
+	
+	<!-- 기간만료 -->
+	<update id="expireAssetsBook" parameterType="Integer">  
+		 UPDATE assetsBook SET state = 4 WHERE bookCode=#{num} 	
+	</update>  
 </mapper>

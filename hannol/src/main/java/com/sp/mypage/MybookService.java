@@ -22,4 +22,5 @@ public interface MybookService {
 	public int assetsBookData(Map<String, Object> map) throws Exception;
 	public List<Assets> assetsBookList(Map<String, Object> map) throws Exception;
 	public int deleteAssetsBook(Assets dto) throws Exception;
+	public int expireAssetsBook(int num) throws Exception;
 }

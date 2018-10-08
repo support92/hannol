@@ -166,11 +166,11 @@ public class MybookController {
 			String today = sdf.format(cal.getTime());  
 			
 			for(Assets dto:list) {
-				String userDate = dto.getUseDate(); //사용예정일
-				int Compare = userDate.compareTo(today);  
+				String useDate = dto.getUseDate(); //사용예정일
+				int Compare = useDate.compareTo(today);  
 				 
-				if(Compare<0) {
-					dto.setState(4); //기간만료
+				if(Compare<0 && dto.getState()!=4) {
+					service.expireAssetsBook(dto.getBookCode()); //기간만료
 				}
 			}   
 			
