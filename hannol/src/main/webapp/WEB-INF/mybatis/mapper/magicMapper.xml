@@ -7,6 +7,7 @@
 		LEFT JOIN payment p ON p.paycode =  t.paycode
 		WHERE userscode=#{usersCode}
 		AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') BETWEEN startDate AND endDate
+		AND gubun IN (4, 6, 8)
 	</select>
 	
 	<select id="dataCount" parameterType="map" resultType="Integer">
@@ -55,7 +56,7 @@
 		JOIN goods g ON t.goodsCode=g.goodsCode
 		JOIN payment p ON p.payCode = t.payCode
 		WHERE #{today} BETWEEN TO_CHAR(startDate, 'YYYY-MM-DD') AND TO_CHAR(endDate, 'YYYY-MM-DD')	
-		AND g.GUBUNCODE IN (4, 6, 9)
+		AND g.GUBUNCODE IN (4, 6, 8)
 		AND usersCode=#{usersCode}
 	</select>
 	
