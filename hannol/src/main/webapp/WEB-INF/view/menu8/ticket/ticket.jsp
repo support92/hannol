@@ -53,6 +53,13 @@
 </style>
 
 <script>
+$(function(){
+	var msg = "${msg}";
+	if(msg != ""){
+		alert(msg);
+	}
+})
+
 function checkYearTicket(){
 	var url = "<%=cp%>/reservation/checkYearTicket";
 	

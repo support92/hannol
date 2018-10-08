@@ -32,7 +32,7 @@ public class ReviewController {
 		return ".four.menu2.review.list";
 	}
 
- 	@RequestMapping(value="/review/create", method=RequestMethod.GET)
+ 	@RequestMapping(value="/review/createForm", method=RequestMethod.GET)
  	public String createReviewForm(
  			Model model) throws Exception {
  		model.addAttribute("mode", "created");

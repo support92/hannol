@@ -23,16 +23,47 @@
 		<intercept-url pattern="/index.jsp" access="permitAll"/>
 		<intercept-url pattern="/main" access="permitAll"/>
 		<intercept-url pattern="/member/login" access="permitAll"/>
-		<intercept-url pattern="/member/member" access="permitAll"/>
+		<intercept-url pattern="/member/member" access="permitAll"/><!-- 회원가입 -->
 		<intercept-url pattern="/member/userIdCheck" access="permitAll"/>
 		<intercept-url pattern="/member/userEmailCheck" access="permitAll"/>
 		<intercept-url pattern="/member/logout" access="permitAll"/>
 		<intercept-url pattern="/resource/**" access="permitAll"/> <!-- img,css,javascript -->
 		
-		<!-- 공연 -->
+		<!-- 회사소개 -->
+		<intercept-url pattern="/company/**" access="permitAll"/>
+		<intercept-url pattern="/ticket/list" access="permitAll"/>
+		<intercept-url pattern="/card/list" access="permitAll"/>
+		
+		<!-- 오늘의파크 -->
+		<intercept-url pattern="/todayPark/**" access="permitAll"/>
+		
+		<!-- 매직패스 -->
+		<intercept-url pattern="/magicPass/rides" access="permitAll"/>
+		
+		
+		<!-- 즐길거리 -->
+		<intercept-url pattern="/enjoy/**" access="permitAll"/>
 		<intercept-url pattern="/show/**" access="permitAll"/>
 
-		<intercept-url pattern="/member/kakao_oauth" access="permitAll"/> <!-- 카카오인증 -->
+		<!-- 편의시설 -->
+		<intercept-url pattern="/facilities/**" access="permitAll"/>
+
+		<!-- 기프트샵 -->
+		<intercept-url pattern="/giftshop/list" access="permitAll"/>
+		<intercept-url pattern="/giftshop/aJaxList" access="permitAll"/>
+		<intercept-url pattern="/giftshop/article" access="permitAll"/>
+		
+		<!-- 소통 -->
+		<intercept-url pattern="/notice/**" access="permitAll"/>
+		<intercept-url pattern="/event/**" access="permitAll"/>
+		<intercept-url pattern="/faq/**" access="permitAll"/>
+		<intercept-url pattern="/question/question" access="permitAll"/>
+		<intercept-url pattern="/review/list" access="permitAll"/>
+		<intercept-url pattern="/review/listReview" access="permitAll"/>
+		<intercept-url pattern="/review/createForm" access="permitAll"/>
+		
+		<!-- 카카오인증 -->
+		<intercept-url pattern="/member/kakao_oauth" access="permitAll"/> 
 	
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/> 
 		

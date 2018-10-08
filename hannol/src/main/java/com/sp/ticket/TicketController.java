@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sp.member.SessionInfo;
 
@@ -55,7 +57,8 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value="/reservation/ticket")
-	public String ticketSelect() throws Exception{
+	public String ticketSelect(@RequestParam(value="msg", defaultValue="") String msg, Model model) throws Exception{
+		model.addAttribute("msg", msg);
 		return ".four.menu8.ticket.ticket";
 	}
 	
@@ -73,7 +76,7 @@ public class TicketController {
 	}
 	
 	@RequestMapping(value="/reservation/yearTicket")
-	public String ticketYear(HttpSession session, Model model) throws Exception{
+	public String ticketYear(HttpSession session, Model model, RedirectAttributes redirectAttributes) throws Exception{
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		long usersCode = info.getUsersCode();
@@ -95,9 +98,20 @@ public class TicketController {
 	        if (month * 100 + day > currentMonth * 100 + currentDay)  
 	            age--;
 	        
+	        if(ticket==null) {
+	        	redirectAttributes.addFlashAttribute("msg", "판매중인 연간 이용권이 없어서 구매가 불가능 합니다. 죄송합니다.");
+	        	return "redirect:/reservation/ticket";
+	        }
+	        
 	        if(age>=20) {
 	        	model.addAttribute("ticket", ticket.get(0));
 	        }else {
+	        	
+	        	if(ticket.size()<2) {
+	        		redirectAttributes.addAttribute("msg", "판매중인 소인 연간 이용권이 없어서 구매가 불가능 합니다. 죄송합니다.");
+		        	return "redirect:/reservation/ticket";
+	        	}
+	        	
 	        	model.addAttribute("ticket", ticket.get(1));
 	        }
 	        

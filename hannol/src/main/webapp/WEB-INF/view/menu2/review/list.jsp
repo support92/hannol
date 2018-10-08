@@ -16,15 +16,17 @@
 
 $(function(){
 	listPage(1);
+	$("#reviewForm").hide();
 	
-	$("body").on("click", ".btn-review", function(){
+	$(".btn-review").click(function(){
 		var $reviewForm = $("#reviewForm");
 		var isVisible = $reviewForm.is(':visible');
+		console.log(isVisible);
 			
 		if(isVisible) {
 			$reviewForm.hide();
 		} else {
-			var url = "<%=cp%>/review/create";
+			var url = "<%=cp%>/review/createForm";
 			var type = "get";
 			var query = "";
 			var divId = "reviewForm";
@@ -81,7 +83,12 @@ function reviewLike(reviewCode) {
 	    }
 	    ,error:function(jqXHR) {
 	    	if(jqXHR.status==403) {
-	    		login();
+	    		location.href="<%=cp%>/member/login";
+	    		return;
+	    	}
+	    	
+	    	if(jqXHR.status==200) {
+	    		location.href="<%=cp%>/member/login";
 	    		return;
 	    	}
 	    	console.log(jqXHR.responseText);
@@ -119,7 +126,12 @@ function reviewLikeCancel(reviewCode) {
 	    }
 	    ,error:function(jqXHR) {
 	    	if(jqXHR.status==403) {
-	    		login();
+	    		location.href="<%=cp%>/member/login";
+	    		return;
+	    	}
+	    	
+	    	if(jqXHR.status==200) {
+	    		location.href="<%=cp%>/member/login";
 	    		return;
 	    	}
 	    	console.log(jqXHR.responseText);
@@ -198,6 +210,11 @@ function ajaxHTML(url, type, query, divId) {
 				location.href="<%=cp%>/member/login";
 				return;
 			}
+			
+			if(jqXHR.status==200) {
+	    		location.href="<%=cp%>/member/login";
+	    		return;
+	    	}
 			console.log(jqXHR.responseText);
 		}
 	});
@@ -226,9 +243,15 @@ function ajaxJSON(url, type, query) {
 	    }
 	    ,error:function(jqXHR) {
 	    	if(jqXHR.status==403) {
-	    		login();
+	    		location.href="<%=cp%>/member/login";
 	    		return;
 	    	}
+	    	
+	    	if(jqXHR.status==200) {
+	    		location.href="<%=cp%>/member/login";
+	    		return;
+	    	}
+	    	
 	    	console.log(jqXHR.responseText);
 	    }
 	});
