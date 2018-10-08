@@ -314,8 +314,8 @@ function execPostCode() {
 				<c:if test="${mode=='update'}">
 						<div style="width:30%;" class="text-center"> 
 					    	<span class="glyphicon glyphicon-heart-empty"></span><h3><mark>${dto.memberName}</mark>님의 2018년 회원등급</h3><br>
-					    	<img alt="" src="<%=cp%>/resource/images/logo.png" style="padding: 10px;"><br>
-					    	<button class="btn btn-default .btn-sm" onclick="#">구매 등급정보</button>
+					    	<img alt="" src="<%=cp%>/resource/images/first.jpg"" style="padding: 10px;"><br>
+					    	<button class="btn btn-default .btn-sm" onclick="">구매 등급정보</button>
 						</div>
 				</c:if>
 			</div>
