@@ -35,7 +35,7 @@
 	<select id="readMember" parameterType="String" resultType="com.sp.member.Member">
       select m1.usersCode, memberId, memberPwd, memberName, enabled, authority,
 		    help, email, to_char(birth, 'yyyy-mm-dd') birth, post, addr1, addr2, tel, joinDate, joinPath, 
-		    loginDate, m2.gradeCode, originalFileName
+		    loginDate, m2.gradeCode, saveFileName
 	  from member1 m1 
 	  join member2 m2 on m1.USERSCODE = m2.USERSCODE
 	  JOIN grade g ON g.gradeCode = m2.gradeCode
