@@ -21,10 +21,21 @@
  	.assets_box .as_subTitle{margin-top:2px;} 
  	.assets_box .as_btn{position:absolute; right:31px; bottom:32px; opacity:0.5;} 
  	
+ 	.note{
+ 		width:94%;
+    	margin:30px auto 0;   
+ 		border: 1px solid #e1e1e1;
+    	background: #f8f8f8;
+    	padding: 20px;
+	}
+	
+	
  	/*모바일*/
  	@media (max-width: 767px){
  		.assets_box{display:block; width:90%; margin:0 5% 10% 5%;}  
  		.assets_box:first-child{margin-left:5%;}   
+ 		
+ 		.note{width:90%;}  
  	}      
 </style> 
  
@@ -97,7 +108,12 @@
 			</dd>  
 		</dl> 
 	</div>
-</div>
+	
+	<div class="note">
+    	<p style="font-size: 20px; font-weight: bold;">꼭 알아두세요</p> 
+    	<p style="margin-top: 15px; font-size: 14px; color:#777777;">유모차와 휠체어는 하루에 한번만 예약할 수 있습니다.</p>  
+    </div>  
+</div>   
 
 
 
