@@ -66,4 +66,144 @@
 		WHERE usersCode = #{usersCode}
 		AND #{selectDay} BETWEEN startDate AND endDate
 	</select>
+	
+	<select id="listCube" parameterType="map" resultType="com.sp.assets.Assets">
+		select a.bookCode, bookDate, useDate, bookTime, a.state, tel, usersCode, a.assetsCode, a.name ,lockernum
+			from assetsBook a
+			join assets s on s.assetsCode = a.assetsCode 
+			join facility f on f.facilityCode = s.facilityCode
+			join theme t on f.themeCode = t.themeCode
+			join lockerInfo l on l.bookCode = a.bookCode
+			where useDate = #{pickDate} and bookTime=#{daynum}
+	</select>
+	
+	<select id="checkUserDate" parameterType="map" resultType="Integer">
+		select count(*) from(
+			select a.bookCode 
+			from assetsBook a 
+			join lockerInfo l on l.bookCode=a.bookCode
+			where useDate =#{pickDate} and bookTime=#{daynum} and lockerNum=#{lockerNum})
+	</select>
+	
+	<insert id="insertCube" parameterType="map" >
+		insert into assetsBook(bookCode, bookDate, useDate, bookTime, state, tel, usersCode, assetsCode, name) 
+		values(assetsBook_seq.Nextval, to_date(#{date},'yyyymmdd'), to_date(#{pickDate},'yyyy-mm-dd'), #{daynum}, 0, #{tel}, #{usersCode}, 3, #{name})
+	</insert>
+	
+<!-- 	<insert id="insertCube1" parameterType="map" >
+		insert into assetsBook(bookCode, bookDate, useDate, bookTime, state, tel, usersCode, assetsCode, name) 
+		values(assetsBook_seq.Nextval, to_date(#{date},'yyyymmdd'), to_date(#{pickDate},'yyyy-mm-dd'), 1, 0, #{tel}, #{usersCode}, 3, #{name})
+	</insert> -->
+	
+	<select id="checkCode" parameterType="map" resultType="Integer">
+		select bookCode from
+		(select rownum rnum, tb.* from
+		(select a.bookCode 
+				from assetsBook a 
+				where useDate =#{pickDate} and bookTime=#{daynum} and userscode=#{usersCode}
+		        order by a.bookCode desc)tb)
+		where rnum=1
+	</select>
+	
+	<insert id="insertCube2" parameterType="map">
+		INSERT INTO LockerInfo(lockerNum, bookCode)
+ 		   values(#{lockerNum}, #{code})
+	</insert>
+	
+	<select id="checkMulti" parameterType="map" resultType="Integer">
+		select count(*) from (select bookCode from assetsBook  where usersCode=#{usersCode})
+	</select>
+	
+<!-- 	<select id="checkAll" parameterType="map" resultType="Integer">
+		select count(*) from (select bookCode from assetsBook where bookTime=0)
+	</select> -->
+	
+	<select id="checkGoods" parameterType="map" resultType="Integer">
+		<!-- select distinct g.gubunCode from assetsBook a
+			join payment p on a.usersCode =p.usersCode
+			join paymentInfo i on p.payCode = i.payCode
+			join goods g on g.goodsCode = i.goodsCode
+			where a.usersCode = #{usersCode} and useDate = #{pickDate}  -->
+			
+			select distinct g.gubunCode from member1 m
+				join payment p on m.usersCode = p.usersCode
+				join paymentInfo i on i.payCode = p.payCode
+				join goods g on g.goodsCode = i.goodsCode
+				where m.usersCode = #{usersCode}
+			
+	</select>
+	
+	<select id="cancelCode" parameterType="map" resultType="Integer">
+		select bookCode from
+		(select rownum rnum, tb.* from
+		(select a.bookCode 
+				from assetsBook a 
+				where userscode=#{usersCode}
+		        order by a.bookCode desc)tb)
+		where rnum=1
+	</select>
+	
+	<delete id="cancel" parameterType="map">
+		delete from assetsBook
+		where usersCode = #{usersCode} and assetsCode =3
+	</delete>
+	
+	<delete id="cancelLocknum" parameterType="Integer">
+		delete from lockerInfo
+		where bookCode=#{code}
+	</delete>
+	
+	<select id="getCubeBookCancelDay" parameterType="Integer" resultType="com.sp.assets.Assets">
+		select bookCode, useDate,usersCode
+		from assetsBook 
+		where usersCode = (
+		    SELECT DISTINCT USERSCODE
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		) 
+		AND useDate = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+		and assetsCode=3
+	</select>
+	
+	<select id="okTicketIfPayCancledCube" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*),0)
+		FROM PAYMENT P
+		JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		WHERE USERSCODE = (
+            SELECT DISTINCT USERSCODE
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+        )
+        AND STARTDATE = (
+		    SELECT DISTINCT STARTDATE 
+		    FROM PAYMENT P
+		    JOIN TICKET T ON P.PAYCODE = T.PAYCODE
+		    WHERE P.PAYCODE = #{payCode}
+		)
+		AND P.PAYCODE != #{payCode}
+	</select>
+	
+	<select id="payBookCode" parameterType="Integer" resultType="Integer">
+		select bookCode from assetsBook a
+			join member1 m on a.usersCode = m.usersCode
+			join payment p on a.usersCode = p.usersCode
+			where payCode=#{payCode}
+	</select>
+	
+	<delete id="paydeleteLocker" parameterType="Integer">
+		delete from lockerInfo
+		where bookCode=#{cubepayCode}
+	</delete>
+	
+	<delete id="paydeleteBook" parameterType="Integer">
+		delete from assetsBook
+		where bookCode=#{cubepayCode}
+	</delete>
 </mapper>

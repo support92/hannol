@@ -42,6 +42,14 @@
 			alert(msg);
 		}
 	})
+	
+	$(function(){
+		$(".assets_box.cube").click(function(){
+			var gubunCode = $(this).attr("data-gubun");
+			location.href="<%=cp%>/amenities/cubelist";
+		});
+	});
+	
 </script>
 
 
@@ -77,7 +85,7 @@
 			</dd>
 		</dl>
 		
-		<dl id="storageBox" class="assets_box" data-gubun="3">
+				<dl id="storageBox" class="assets_box cube" data-gubun="3">
 			<dt>
 				<img src="<%=cp%>/resource/images/assets_03.jpg" alt="보관함"> 
 			</dt>

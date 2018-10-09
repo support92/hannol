@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sp.assets.Assets;
+import com.sp.assets.AssetsService;
 import com.sp.common.MyUtilGeneral;
 import com.sp.guide.Guide;
 import com.sp.guide.GuideService;
@@ -34,6 +36,9 @@ public class PayController {
 
 	@Autowired
 	GuideService gservice;
+	
+	@Autowired
+	AssetsService aservice;
 	
 	@Autowired
 	ShowService sservice;
@@ -343,6 +348,20 @@ public class PayController {
 				}
 			}
 		}
+		
+		Assets adto = aservice.getCubeBookCancelDay(payCode);
+		
+		if(adto !=null) {
+			int okTicketcube = aservice.okTicketIfPayCancledCube(payCode);
+			if(okTicketcube==0) {
+				//삭제할 예약번호 가져오기
+				int cubepayCode = aservice.payBookCode(payCode);
+				System.out.println(cubepayCode+":::::::삭제할 번호 가져옴::");
+				//예약된 보관함 삭제
+				aservice.paydeleteLocker(cubepayCode);
+				//예약된 코드 삭제
+				aservice.paydeleteBook(cubepayCode);
+			}
+		}
 	}
-
 }

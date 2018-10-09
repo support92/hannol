@@ -15,4 +15,22 @@ public interface AssetsService {
 	
 	/*지영*/
 	public int checkTicketCount(Map<String, Object> map) throws Exception;
+	
+	public List<Assets> listCube(Map<String, Object> map);
+	public int checkUserDate(Map<String, Object> map);
+	public int insertCube(Map<String, Object> map);
+	//public int insertCube1(Map<String, Object> map);
+	public int insertCube2(Map<String, Object> map);
+	public int selectCode(Map<String, Object> map);
+	public int cancelCode(Map<String, Object> map);
+	public int checkMulti(Map<String, Object> map);
+	//public int checkAll(Map<String, Object> map);
+	public int checkGoods(Map<String, Object> map);
+	public int cancel(Map<String, Object> map);
+	public int cancelLocknum(int code);
+	public Assets getCubeBookCancelDay(int payCode);
+	public int okTicketIfPayCancledCube(int payCode);
+	public int payBookCode(int payCode);
+	public int paydeleteLocker(int cubepayCode);
+	public int paydeleteBook(int cubepayCode);
 }
