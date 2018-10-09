@@ -20,7 +20,7 @@
 	</select>
 	
 	<!-- 구입한 이용권 검색vs2 -->
-	<select id="searchPayment2" resultType="map" parameterType="map"> 
+	<!-- <select id="searchPayment2" resultType="map" parameterType="map"> 
 		SELECT DISTINCT goodsName
 		FROM payment p
 		LEFT OUTER JOIN paymentInfo pi ON p.payCode = pi.payCode
@@ -28,9 +28,9 @@
 		LEFT OUTER JOIN ticket t ON p.payCode = t.payCode
 		WHERE usersCode = #{usersCode} AND endDate = #{endDate}
 		ORDER BY endDate
-	</select>
+	</select> -->
 	
-	<!-- 테마별, 편의시설별 대여소 검색 -->
+	<!-- 테마별, 편의시설별 대여소의 자산 검색(해당 당일만) -->
 	<select id="searchFacility" resultType="map" parameterType="map">
 		SELECT ROWNUM, tb.* FROM(
 		    SELECT assetsCode, a.facilityCode, name 
@@ -38,7 +38,7 @@
 		    LEFT OUTER JOIN facility f ON a.facilityCode = f.facilityCode
 		    WHERE a.gubunCode=#{gubunCode} AND f.themeCode=#{themeCode} AND state=1 AND 
 		            assetsCode NOT IN(
-		            	SELECT assetsCode FROM assetsBook
+		            	SELECT assetsCode FROM assetsBook WHERE TO_CHAR(useDate, 'YYYY-MM-DD') = #{useDate} 
 		            )
 		    ORDER BY assetsCode
 		)tb WHERE ROWNUM=1
@@ -46,8 +46,8 @@
 	
 	<!-- 예약 추가 -->
 	<insert id="insertAssetsBook" parameterType="com.sp.assets.Assets">
-		INSERT INTO assetsBook(bookCode, useDate, bookTime, state, tel, usersCode, assetsCode, name)  
-		VALUES (assetsBook_seq.NEXTVAL, #{useDate}, #{bookTime}, 0, #{tel}, #{usersCode}, #{assetsCode}, #{name})
+		INSERT INTO assetsBook(bookCode, useDate, bookTime, state, tel, usersCode, assetsCode, name, ticketCode)  
+		VALUES (assetsBook_seq.NEXTVAL, #{useDate}, #{bookTime}, 0, #{tel}, #{usersCode}, #{assetsCode}, #{name}, #{ticketCode})
 	</insert>
 	
 	<!-- 예약내역이 있는지 검색 -->
@@ -64,9 +64,31 @@
 		FROM ticket t
 		JOIN payment p ON p.payCode = t.payCode
 		WHERE usersCode = #{usersCode}
-		AND #{selectDay} BETWEEN startDate AND endDate
+		AND (#{selectDay} BETWEEN startDate AND endDate OR gubun=8) 
 	</select>
 	
+	<!-- 이용권 검색(야간권 찾기 위해서) -->
+	<!-- <select id="searchTicket" resultType="Integer" parameterType="Long">
+		SELECT NVL(COUNT(*), 0)
+		FROM payment p 
+		JOIN ticket t ON p.payCode = t.payCode
+		WHERE usersCode = #{usersCode} AND gubun IN(5, 6)
+	</select> -->
+	
+	<!-- 이용권 리스트 -->
+	<select id="ticketList" resultType="map" parameterType="Long">
+		SELECT DISTINCT ticketCode AS ticketsCode, goodsName, usersCode, gubun AS ticketGubun 
+		FROM ticket t
+		JOIN goods g ON t.goodsCode=g.goodsCode
+		JOIN payment p ON p.payCode = t.payCode
+		WHERE TO_CHAR(SYSDATE, 'YYYY-MM-DD') BETWEEN TO_CHAR(startDate, 'YYYY-MM-DD') AND TO_CHAR(endDate, 'YYYY-MM-DD')   
+		AND usersCode=#{usersCode}
+	</select>
+	
+	
+	
+	
+	<!-- 보관함 -->
 	<select id="listCube" parameterType="map" resultType="com.sp.assets.Assets">
 		select a.bookCode, bookDate, useDate, bookTime, a.state, tel, usersCode, a.assetsCode, a.name ,lockernum
 			from assetsBook a

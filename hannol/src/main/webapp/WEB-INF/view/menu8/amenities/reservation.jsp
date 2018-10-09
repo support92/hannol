@@ -35,8 +35,8 @@
 	var elementsNameText = [];
 	
 	$(function(){
-		var elements = $("form[name=reservationForm] input, form[name=reservationForm] select");  
-		 
+		var elements = $("form[name=reservationForm] input, form[name=reservationForm] select").not("input[type=radio]");  
+		  
 		for(var i=0; i<elements.length; i++){
 			elementsName[i] = elements[i];
 			elementsNameText[i] = elements[i].getAttribute("data-name");
@@ -44,24 +44,29 @@
 	}); 
 		
 	
-
-	//이용권을 구매하지 않았다면 구매페이지로
 	$(function(){
+		//이용권을 구매하지 않았다면 구매페이지로
 		var state = "${state}";
 		if(state=="noTicket"){
 			alert("편의시설은 이용권 구매 후 이용하실 수 있습니다."); 
 			location.href="<%=cp%>/reservation/ticket";
 		} 
+		
+		//예약 내역이 있는지 검색해서 있다면 다시 편의시설 선택 페이지로(예약은 구분(편의시설)별로 한사람당 한번만)
+		var useDate = $("input[name=useDate]").val();
+		searchReseation(useDate);  
+		
 	});
 	
-	//테마 선택하면 대여소 검색
+	//테마 선택하면 대여소의 자산검색
 	$(function(){
 		$("#theme").change(function(){ 
 			var themeCode = $(this).val(); //테마 코드
 			var gubunCode = $("#gubunCode").val(); //구분코드
-			
+			var useDate = $("input[name=useDate]").val(); //선택날짜 
+			 
 			var url = "<%=cp%>/amenities/assetsSerach";
-			var query = "themeCode="+themeCode+"&gubunCode="+gubunCode; 
+			var query = "themeCode="+themeCode+"&gubunCode="+gubunCode+"&useDate="+useDate; 
 			
 			$.ajax({
 				type:"get",
@@ -79,12 +84,31 @@
 						$("#rental").addClass("warning").text("테마를 선택하세요.");  
 					} else{
 						$("#rental").addClass("warning").text("예약 가능한 대여소가 없습니다.");
+						//$("#theme").val(0).trigger("change");    
 					}       
 				},
 				error:function(e){
 					console.log(e.responseText);
 				}
 			});  
+		});
+	});
+	
+	//이용권리스트중 선택
+	$(function(){
+		$("body").on("change", "select[name=ticketsCode]", function(){
+			var ticketCode = $(this).val();
+			var ticketGubun = $(this).children("option:selected").attr("data-gubun");
+			     
+			$("#ticketCode").val(ticketCode); 
+			
+			//야간이용권이면 종일대여는 할 수 없다.
+			if(ticketGubun==5||ticketGubun==6){
+				$("#pm_time").prop("checked", true); 
+				$("#all_time").prop("disabled", true);
+			}else{   
+				$("#all_time").prop("disabled", false);   
+			}
 		});
 	});
 
@@ -108,10 +132,10 @@
 		var f = document.reservationForm; 
 		
 		for(var i=0 ; i<elementsName.length ; i++){
-			if(elementsName[0].value==0){
+			if(elementsName[i].value==0){
 				elementsName[i].focus();
-				alert(elementsNameText[i]+" 입력해주세요.");
-				return false; 
+				alert(elementsNameText[i]+" 입력해주세요.");  
+				return false;  
 				
 			}else if(!elementsName[i].value){
 				elementsName[i].focus();
@@ -126,7 +150,7 @@
 	} 
 	
 	//이용권 검색(연간회원권일때만 선택할 수 있는 사용날짜 값이 넘어온다면 이용권 검색)
-	<c:if test="${not empty selectDay}"> 
+	<%-- <c:if test="${not empty selectDay}"> 
 		$(function(){
 			var usersCode = $("#usersCode").val(); //회원 번호 
 			var endDate = $("#endDate").val(); //연간회원권 종료날짜  
@@ -136,7 +160,8 @@
 			
 			var url = "<%=cp%>/amenities/searchPayment";  
 			var query = "useDate="+endDate+"&usersCode="+usersCode;      
-			
+			alert(query);
+			 
 			$.ajax({
 				type:"get",
 				url:url,
@@ -152,7 +177,7 @@
 				}
 			});
 		});
-	</c:if>
+	</c:if> --%>
 	
 	
 	//예약내역이 있는지 검색
@@ -220,9 +245,20 @@
 						</td>
 					</tr>
 					<tr>
+						<th>이용권</th>
+						<td>
+							<select name="ticketsCode" class="TFbox" data-name="이용권을">
+								<option value="0">선택</option>  
+								<c:forEach var="list" items="${ticketList}">
+									<option value="${list.TICKETSCODE}" data-gubun="${list.TICKETGUBUN}">${list.GOODSNAME}</option>
+								</c:forEach>
+							</select>
+						</td>
+					</tr> 
+					<tr>
 						<th>시간</th> 
 						<td> 
-							<input type="radio" id="pm_time" name="bookTime" value="0" checked="checked"/> <span class="radioSpan">오후</span>
+							<input type="radio" id="pm_time" name="bookTime" value="0" checked="checked"/> <span class="radioSpan">오후</span> 
 							<input type="radio" id="all_time" name="bookTime" value="1"/> <span class="radioSpan">종일 </span> 
 						</td>
 					</tr>
@@ -249,7 +285,8 @@
 			
 			<div class="btnBox">
 				<input type="hidden" id="gubunCode" name="gubunCode" value="${gubunCode}">
-				<input type="hidden" id="assetsCode" name="assetsCode">
+				<input type="hidden" id="assetsCode" name="assetsCode" data-name="대여소를 ">
+				<input type="hidden" id="ticketCode" name="ticketCode"> 
 				<button type="button" class="btn btn-danger" style="font-weight:bold;" onclick="sendOk();">예약하기</button>
 			</div>  
 		</form>

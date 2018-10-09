@@ -21,6 +21,8 @@ public class Assets {
 	private String facName; // 시설이름
 	private int gubunCode; //구분 코드
 
+	private int ticketCode; //티켓코드
+	
 	private List<Integer> bookCodes;
 
 	
@@ -643,4 +645,14 @@ public class Assets {
 	public void setBookCodes(List<Integer> bookCodes) {
 		this.bookCodes = bookCodes;
 	}
+
+	public int getTicketCode() {
+		return ticketCode;
+	}
+
+	public void setTicketCode(int ticketCode) {
+		this.ticketCode = ticketCode;
+	}
+	
+	
 }

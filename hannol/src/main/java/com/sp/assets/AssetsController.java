@@ -62,6 +62,7 @@ public class AssetsController {
 		model.addAttribute("startDay", dateFormat.format(startDay));
 		model.addAttribute("endDay", dateFormat.format(endDay));
 		model.addAttribute("gubunCode", gubunCode);
+		model.addAttribute("subMenu", "4");
 		return ".four.menu8.amenities.calendar";
 	}
 	
@@ -87,25 +88,34 @@ public class AssetsController {
 			return "redirect:/amenities/list";
 		}
 		
+		//사용가능 티켓 리스트
+		List<Map<String, Object>> ticketList = service.ticketList(usersCode);
+		
 		List<Map<String, Object>> listTheme = service.listTheme();
 		model.addAttribute("listTheme", listTheme);
 		model.addAttribute("gubunCode", gubunCode);
 		model.addAttribute("selectDay", selectDay);
+		model.addAttribute("ticketList", ticketList);
+		
+		model.addAttribute("subMenu", "4"); 
 		
 		
 		return ".four.menu8.amenities.reservation";
 	}
 	
-	//테마 선택하면 대여소 검색 : AJAX-JSON
+	//테마 선택하면 대여소 검색의 자산검색 : AJAX-JSON
 	@RequestMapping(value="/amenities/assetsSerach", method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> assetsSerach(@RequestParam(value="themeCode") int themeCode,
-			@RequestParam(value="gubunCode") String gubunCode) throws Exception{
+	public Map<String, Object> assetsSerach(
+			@RequestParam(value="themeCode") int themeCode,
+			@RequestParam(value="gubunCode") String gubunCode,
+			@RequestParam(value="useDate") String useDate) throws Exception{
 		
-		//대여소 검색
+		//사용가능한 대여소의 자산 검색
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("themeCode", themeCode);
 		map.put("gubunCode", gubunCode);
+		map.put("useDate", useDate);
 		Map<String, Object> searchFacility = service.searchFacility(map);
 		
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -153,7 +163,7 @@ public class AssetsController {
 			System.out.println(e.toString());
 		}
 		
-		return ".four.menu3.mypage.myBook"; 
+		return "redirect:/mypage/myBook";   
 	}
 	
 	//날짜 선택 폼 (연간이용권회원만, 한달이내에만 선택가능)
@@ -171,7 +181,8 @@ public class AssetsController {
 		
 		model.addAttribute("startDay", startDay);
 		model.addAttribute("endDay", endDay);  
-		model.addAttribute("gubunCode", gubunCode);   
+		model.addAttribute("gubunCode", gubunCode);  
+		
 		model.addAttribute("subMenu", "4");
 		
 		return ".four.menu8.amenities.calendar";  
@@ -180,7 +191,8 @@ public class AssetsController {
 	//예약내역이 있는지 검색 AJAX-JSON
 	@RequestMapping(value="/amenities/searchReservation", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> searchReservation(HttpSession session,
+	public Map<String, Object> searchReservation(
+			HttpSession session,
 			@RequestParam(value="useDate") String useDate,
 			@RequestParam(value="gubunCode") int gubunCode) throws Exception{
 

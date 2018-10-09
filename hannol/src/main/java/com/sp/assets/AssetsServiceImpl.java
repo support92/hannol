@@ -98,6 +98,29 @@ public class AssetsServiceImpl implements AssetsService{
 	}
 
 	@Override
+	public int searchTicket(long num) throws Exception {
+		int result = 0;
+		try {
+			result = dao.selectOne("assets.searchTicket", num);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> ticketList(long num) {
+		List<Map<String, Object>> list = null;
+		
+		try {
+			list = dao.selectList("assets.ticketList", num);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		return list;
+	}
+
+	@Override
 	public List<Assets> listCube(Map<String, Object> map) {
 		List<Assets> list = null;
 		try {

@@ -16,6 +16,11 @@ public interface AssetsService {
 	/*지영*/
 	public int checkTicketCount(Map<String, Object> map) throws Exception;
 	
+	public int searchTicket(long usersCode) throws Exception;
+	public List<Map<String, Object>> ticketList(long usersCode) throws Exception;
+	
+	
+	/*보관함*/
 	public List<Assets> listCube(Map<String, Object> map);
 	public int checkUserDate(Map<String, Object> map);
 	public int insertCube(Map<String, Object> map);
