@@ -61,7 +61,7 @@
 
  function info(code){
 		//var code = $("#info").attr("value");
-		alert(code);
+		//alert(code);
 		var url = "<%=cp%>/enjoy/dialog";
 		var data = "code="+code;
 		ajaxHTML2(data,"get",url);
@@ -69,7 +69,7 @@
  
  /*다이얼 로그*/
 		function ajaxHTML2(data,type,url) {
-			alert("?");
+			//alert("?");
 			 $.ajax({
 				type:type,
 				url:url,
