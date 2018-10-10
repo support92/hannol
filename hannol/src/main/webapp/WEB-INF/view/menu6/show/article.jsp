@@ -35,8 +35,8 @@
     
     <div align="center" >
     	<h4>${dto.memo}</h4><br><br>
-    	<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
-    	<c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/resource/uploads/show/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
+    	<c:if test="${empty dto.saveFilename}"><img src="hannolAdmin/resource/images/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
+    	<c:if test="${not empty dto.saveFilename}"><img src="hannolAdmin/resource/uploads/show/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
     </div>
     <br><br>
     <div class="articleBox"> 
