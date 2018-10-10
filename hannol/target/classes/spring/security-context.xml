@@ -96,7 +96,6 @@
 		</session-management>
 	</http>
 	
-	
 	<!-- 객체생성 -->
 	<beans:bean id="authenticationSuccessHandler" class="com.sp.member.MyAuthenticationSuccessHandler">
 		<beans:property name="defaultTargetUrl" value="/main"/>
