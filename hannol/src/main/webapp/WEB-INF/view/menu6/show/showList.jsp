@@ -12,7 +12,7 @@
 			<tr align="center" height="100em" style="border-bottom: 1px solid #cccccc;">
 				<td rowspan="2" width="30%">
 				    <c:if test="${empty dto.saveFilename}"><img src="<%=cp %>/resource/images/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
-			 		<c:if test="${not empty dto.saveFilename}"><img src="hannolAdmin/uploads/show/${dto.saveFilename}" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
+			 		<c:if test="${not empty dto.saveFilename}"><img src="/hannolAdmin/uploads/show/${dto.saveFilename}" style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
 				</td>
 				<td colspan="2" width="70%" height="30%" align="left" style="padding-left: 1em; padding-right: 1em;">
 					<h3 style="font-weight: bold;">${dto.showName}</h3>
