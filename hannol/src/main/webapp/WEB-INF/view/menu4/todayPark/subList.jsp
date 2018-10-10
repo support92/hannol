@@ -12,7 +12,6 @@
 		<div style="width: 100%;">
 			<div class="col-lg-4">
 				<div class="thumbnail">
-					<a href="${articleUrl}&facilityCode=${dto.facilityCode}"> 
 					<c:if test="${not empty dto.saveMainFilename}">
 						<img src="/hannolAdmin/uploads/facility/${dto.saveMainFilename}" onerror="this.src='<%=cp%>/resource/images/noimage.png'" style="height:250px;">
 					</c:if>
@@ -20,7 +19,6 @@
 						<img src="<%=cp%>/resource/images/noimage.png" style="height:250px; width: 300px;">
 					</c:if>
 					 <span class="itemTitle">${dto.name}</span>
-					</a>
 					
 					<c:if test="${dto.waiting!=-1}">			
 						<div class="ridesState"><fmt:formatNumber value="" type="number"/>상태 : 

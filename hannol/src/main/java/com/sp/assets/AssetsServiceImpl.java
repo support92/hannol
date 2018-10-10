@@ -228,7 +228,7 @@ public class AssetsServiceImpl implements AssetsService{
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
-		
+			System.out.println(res+":::::::::::::");
 		return res;
 	}
 
