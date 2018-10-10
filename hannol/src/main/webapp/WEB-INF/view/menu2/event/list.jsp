@@ -20,7 +20,6 @@ function deleteCard(cardCode) {
 		location.href=url;
 	}
 }
-
 </script>
 
 <style type="text/css">
