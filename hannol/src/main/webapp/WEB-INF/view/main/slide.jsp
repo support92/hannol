@@ -116,15 +116,6 @@
 	border: 1px solid #d9d9d9;
 }
 
-.panel{
-	margin-top: 60px;
-    width: 49.5%;
-}
-
-.panel-body ul{
-	margin-top: 15px;
-}
-
 .mainCont4Tit{
 	font-size: 22px;
 	font-weight: bold;
@@ -151,7 +142,6 @@
 	dl.assets_box{display:inline-block; width:35%; margin:0 2% 5% 2%;}
 	.running_time{display:inline-block; width:35%; margin:0 2% 5% 2%;}
 	.assets_box:first-child{margin-left: 1.5%;}
-	.panel{width: 75%; margin: 0 5% 10% 13%}
 } 
 
 @media (max-width: 767px){
@@ -159,7 +149,6 @@
 	.assets_box:first-child{margin-left:5%;}
 	.running_time{display:block; width:90%; margin:0 5% 10% 5%;}
 	.running_time:first-child{margin-left:5%;}
-	.panel{width: 90%; margin: 0 5% 10% 5%}
 } 
 </style>
 
@@ -243,29 +232,6 @@
 					<p class="as_title">오늘의파크</p>
 				</dd>
 			</dl>
-		</div>
-
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<p class="mainCont4Tit">HANNOL 소식</p>
-				<ul>
-					<li><a href="#"> <span class="tit">개인정보처리 방침 변경안내</span> <span
-							class="date">2018.10.08</span>
-					</a></li>
-					<li><a href="#"> <span class="tit">개인정보처리 방침 변경안내</span> <span
-							class="date">2018.10.08</span>
-					</a></li>
-					<li><a href="#"> <span class="tit">개인정보처리 방침 변경안내</span> <span
-							class="date">2018.10.08</span>
-					</a></li>
-					<li><a href="#"> <span class="tit">개인정보처리 방침 변경안내</span> <span
-							class="date">2018.10.08</span>
-					</a></li>
-					<li><a href="#"> <span class="tit">개인정보처리 방침 변경안내</span> <span
-							class="date">2018.10.08</span>
-					</a></li>
-				</ul>
-			</div>
 		</div>
 	</div>
 </div>
