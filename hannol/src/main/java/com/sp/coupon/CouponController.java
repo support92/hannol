@@ -34,14 +34,10 @@ public class CouponController {
 	public String couponList(@RequestParam(value = "page", defaultValue = "1") String page,
 			@RequestParam(value = "thema", defaultValue = "0") String thema, Model model) throws Exception {
 
-		SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd");
-		Date currentTime = new Date();
-		String now = fm.format(currentTime);
-		
 
 		model.addAttribute("page", page);
 		model.addAttribute("thema", thema);
-		model.addAttribute("now", now);
+		
 
 		return ".four.menu3.mypage.couponList";
 	}
@@ -49,7 +45,7 @@ public class CouponController {
 	@RequestMapping(value = "/mypage/ajaxCouponList")
 	public String aJaxListForm(@RequestParam(value = "page", defaultValue = "1") int current_page, int couponType,
 			HttpSession session, HttpServletRequest req, Model model) throws Exception {
-
+		
 		int rows = 10;
 		int total_page = 0;
 		int dataCount = 0;
@@ -116,6 +112,7 @@ public class CouponController {
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("paging", paging);
 		model.addAttribute("couponType", couponType);
+		model.addAttribute("now", now);
 
 		return "/menu3/mypage/couponList-body";
 
