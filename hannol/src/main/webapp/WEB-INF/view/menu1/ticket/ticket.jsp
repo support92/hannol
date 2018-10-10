@@ -73,7 +73,7 @@
 	    				<c:forEach var="item" items="${oneDay}">
 							<li>
 								<p>${item.goodsName}</p>
-								<p>${item.goodsPrice}원</p>
+								<p><fmt:formatNumber value="${item.goodsPrice}" type="number"/>원</p>
 							</li>
 			   			</c:forEach>
 	    			</ul>
@@ -95,7 +95,7 @@
 	    				<c:forEach var="item" items="${after}">
 							<li>
 								<p>${item.goodsName}</p>
-								<p>${item.goodsPrice}원</p>
+								<p><fmt:formatNumber value="${item.goodsPrice}" type="number"/>원</p>
 							</li>
 			   			</c:forEach>
 	    			</ul>
@@ -119,7 +119,7 @@
 	    				<c:forEach var="item" items="${big}">
 							<li>
 								<p>${item.goodsName}</p>
-								<p>${item.goodsPrice}원</p>
+								<p><fmt:formatNumber value="${item.goodsPrice}" type="number"/>원</p>
 							</li>
 			   			</c:forEach>
 	    			</ul>
@@ -141,7 +141,7 @@
 	    				<c:forEach var="item" items="${years}">
 							<li>
 								<p>${item.goodsName}</p>
-								<p>${item.goodsPrice}원</p>
+								<p><fmt:formatNumber value="${item.goodsPrice}" type="number"/>원</p>
 							</li>
 			   			</c:forEach>
 	    			</ul>
@@ -164,7 +164,7 @@
    				<ul class="priceUi">
 					<li>
 						<p>매직패스</p>
-						<p>100,000원</p>
+						<p>30,000원</p>
 					</li>
     			</ul>
    			</div>
