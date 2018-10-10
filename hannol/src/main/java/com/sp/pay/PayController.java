@@ -90,6 +90,8 @@ public class PayController {
 			pay.setQuantity(dto.getQuantity().get(i));
 			pay.setGubunName(dto.getGubunName().get(i));
 			pay.setParentCode(dto.getParentCode().get(i));
+			
+			if (dto.getStartDate() != null)
 			pay.setStartDate(dto.getStartDate().get(i));
 
 			if (dto.getEndDate() != null)

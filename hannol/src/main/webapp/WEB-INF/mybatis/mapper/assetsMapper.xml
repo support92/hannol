@@ -85,9 +85,6 @@
 		AND usersCode=#{usersCode}
 	</select>
 	
-	
-	
-	
 	<!-- 보관함 -->
 	<select id="listCube" parameterType="map" resultType="com.sp.assets.Assets">
 		select a.bookCode, bookDate, useDate, bookTime, a.state, tel, usersCode, a.assetsCode, a.name ,lockernum
@@ -147,11 +144,21 @@
 			join goods g on g.goodsCode = i.goodsCode
 			where a.usersCode = #{usersCode} and useDate = #{pickDate}  -->
 			
-			select distinct g.gubunCode from member1 m
+<!-- 			select distinct g.gubunCode from member1 m
 				join payment p on m.usersCode = p.usersCode
 				join paymentInfo i on i.payCode = p.payCode
 				join goods g on g.goodsCode = i.goodsCode
-				where m.usersCode = #{usersCode}
+				where m.usersCode = #{usersCode} -->
+			
+			select gubunCode from
+			(select rownum rnum, tb.*from
+			    (select distinct g.gubunCode from member1 m
+			        join payment p on m.usersCode = p.usersCode
+			    	join paymentInfo i on i.payCode = p.payCode
+			        join goods g on g.goodsCode = i.goodsCode
+			    where m.usersCode = #{usersCode})
+			    tb)
+			where rnum=1
 			
 	</select>
 	

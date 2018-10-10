@@ -130,7 +130,6 @@ var idnum;
 function clickTrEvent(trObj) {
 	//alert(trObj.id);
 	idnum = trObj.id;
-	alert(idnum+"선택합니다.");
 	reservation(idnum);
 }
 
@@ -164,6 +163,7 @@ function reservation(idnum){
 	}
 	
 	var url="<%=cp%>/amenities/reservationCube";
+	
 	ajaxHTML2(url, "post", idnum, pickDate, day, name, tel)
 	
 }
@@ -182,6 +182,7 @@ function ajaxHTML2(url, type, idnum, pickDate, day, name, tel){
 			$("#showlayout").html(data);
 		},
 		beforeSend:function(jqXHR){
+			alert('ajaxHtml2 보내기 전 ++++++++++++++++++++++++++++++++++++++++');
 			jqXHR.setRequestHeader("AJAX", true);
 		},
 		error:function(jqXHR){
@@ -268,7 +269,7 @@ function ajaxCancel(url, day, type, pickDate){
 </div>
 
 
-
+ 
 
 
 

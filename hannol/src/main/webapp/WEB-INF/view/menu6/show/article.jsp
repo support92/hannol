@@ -35,8 +35,8 @@
     
     <div align="center" >
     	<h4>${dto.memo}</h4><br><br>
-    	<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
-    	<c:if test="${not empty dto.saveFilename}"><img src="<%=cp%>/resource/uploads/show/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
+    	<c:if test="${empty dto.saveFilename}"><img src="<%=cp %>/resource/images/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
+    	<c:if test="${not empty dto.saveFilename}"><img src="hannolAdmin/resource/uploads/show/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
     </div>
     <br><br>
     <div class="articleBox"> 
@@ -69,7 +69,7 @@
     	<h4 class="boldH">공연 장소</h4><br><br>
     	<small>${dto.name}</small><br><br>
     	<c:if test="${empty dto.saveFilename}"><img src="<%=cp%>/resource/images/noimage.png"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
-    	<c:if test="${not empty dto.saveLocFilename}"><img src="<%=cp%>/resource/uploads/facility/${dto.saveLocFilename}"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
+    	<c:if test="${not empty dto.saveLocFilename}"><img src="hannolAdmin/resource/uploads/facility/${dto.saveLocFilename}"  style="padding: 5px;" onerror="this.src='<%=cp%>/resource/images/noimage.png'"></c:if>
     </div>
     <br><br><br>
     

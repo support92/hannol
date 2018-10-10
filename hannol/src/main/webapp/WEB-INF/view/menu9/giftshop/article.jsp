@@ -106,6 +106,7 @@
 /*상품명*/
 .goodsName{
 	font-size: 30px;
+	line-height : 30px;
 	font-weight: bold;
 	margin-bottom: 20px;
 }
