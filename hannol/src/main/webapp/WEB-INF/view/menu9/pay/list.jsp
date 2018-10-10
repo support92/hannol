@@ -245,7 +245,6 @@ function priceCheck(){
 		couponCode = $coupon.attr("data-couponCode");
 		couponName = $coupon.attr("data-couponName");
 	
-
 	
 		var html ="<li data-couponCode="+couponCode+">";
 			html+="<span class='input-count'></span>";
@@ -277,7 +276,7 @@ function priceCheck(){
 	
 	
 	<c:forEach items="${dto}" var="dto">
-		<c:if test="${dto.gubunCode == 4 || dto.gubunCode == 6}">
+		<c:if test="${dto.gubunCode == 4 || dto.gubunCode == 5 || dto.gubunCode == 6 || dto.gubunCode == 3}">
 			<c:set var= "sum" value="${sum + (dto.goodsPrice * dto.quantity)}"/>
 		</c:if>
 	</c:forEach>
