@@ -44,6 +44,8 @@ public class TicketController {
 				after.add(dto);
 			}else if(dto.getGubunCode()==7) {
 				big.add(dto);
+			}else if(dto.getGubunCode()==8) {
+				years.add(dto);
 			}
 		}
 		
