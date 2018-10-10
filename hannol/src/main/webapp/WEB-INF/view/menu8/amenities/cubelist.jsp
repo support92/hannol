@@ -42,29 +42,21 @@
 $(function(){
 	var check='${check}';
 	//if(check=='날짜중복' || check=='예약 완료!' || check=='회원님은 예약된 보관함이 있습니다.' ||check=='현재 가능한 이용권이 없습니다.' || check =='해당 날짜의 가능한 이용권이 없습니다.' ||check =='취소완료'){
+		if(!check)
+			return false;
 		alert(check);
-		//return false;	
 });
 
 var day;
 $(function(){
 	var day='${day}';
 	var date='${date}';
-	//alert(date);
 	
-/* 	var usersCode=${usersCode};
-	
-	if(usersCode==0){
-		alert("회원만 예약가능합니다.");
-		return false;
-	} */
-	 
 	listPage(day,date);
 });
 
 function listPage(day, pickDate){
 	var url="<%=cp%>/amenities/cube";
-	//alert("listPage+:::"+day+":::"+pickDate);
 	ajaxHTML(url, "post", day, pickDate);
 };
 
@@ -108,7 +100,7 @@ function check(){
 	
 	day = document.getElementById('day');
 	day = day.value;
-	alert(day);
+	//alert(day);
 	
 	listPage(day, pickDate);
 }
@@ -127,7 +119,7 @@ $(function(){
         maxDate:6,
         minDate:0,
         onSelect:function(selected){
-      		alert($("input[name=useDate]").val());
+      		//alert($("input[name=useDate]").val());
         	userDate = $("input[name=useDate]").val();
         }
 	});
@@ -204,7 +196,7 @@ function ajaxHTML2(url, type, idnum, pickDate, day, name, tel){
 }
 
 function cancel(){
-	alert("예약취소~~~~~~~~~~~~~~~");
+	alert("예약취소을 취소합니다.");
 	
 	location.href="<%=cp%>/amenities/cancel?pickDate="+pickDate+"&day="+day; 
 }

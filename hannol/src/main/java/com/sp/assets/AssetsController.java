@@ -589,8 +589,6 @@ public class AssetsController {
 		model.addAttribute("day",day);
 		model.addAttribute("date",pickDate);
 		
-		return "menu8/amenities/cubelist"; 
+		return ".four.menu8.amenities.cubelist"; 
 	}
-	
-	
 } 
