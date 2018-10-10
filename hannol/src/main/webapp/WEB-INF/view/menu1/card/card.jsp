@@ -113,7 +113,7 @@ function searchList() {
 		  	  <td width="55%" align="left" style="padding-left: 1em; padding-right: 1em; height: 7em;"><span style="font-weight: bold;">카드사</span><br>
 					- ${dto.cardCo}
 				<span style="display:block; font-weight:bold;">이용혜택</span>
-					- 자유이용권 ${dto.discount}% (본인에 한함. 전 놀이공원 1일, 1회)
+					- 자유이용권 ${dto.discount}%
 		      </td>
 		      
 		      <td width="15%">
@@ -142,7 +142,6 @@ function searchList() {
 								<br>
 								<span style="font-weight: bold; display: block;">이용혜택</span>
 								<span style="display: block;">- 자유이용권 ${dto.discount}%</span>
-								<span style="display: block;">(본인에 한함. 전 놀이공원 1일, 1회)</span>
 								<span style="display: block;">${dto.startDate} ~ ${dto.endDate}</span>
 							</div>
 						</div>
