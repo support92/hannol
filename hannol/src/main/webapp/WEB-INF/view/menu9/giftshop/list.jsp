@@ -223,7 +223,7 @@ function listPage(page, query){
 	<div style="margin: 10px 0px;">
 		<div class="col-xs-8 col-xs-offset-2">
 			<div class="input-group">
-				<input type="text" style="height:30px;" class="form-control" name="searchValue" id="searchValue" placeholder="검색할 키워드를 입력해 주세요..." value="${searchValue}">
+				<input type="text" class="form-control" name="searchValue" id="searchValue" placeholder="검색할 키워드를 입력해 주세요..." value="${searchValue}">
 	            <span class="input-group-btn">
 	                <button class="btn btn-default btn-info" type="button" onclick="searchList()"><span class="glyphicon glyphicon-search"></span></button>
 	            </span>
