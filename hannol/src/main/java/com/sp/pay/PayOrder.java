@@ -11,15 +11,8 @@ public class PayOrder {
 	private List<String> gubunName;
 	private List<Integer> parentCode;
 	private List<Integer> cartCode;
+	private List<String> startDate;
 	private List<String> endDate;
-
-	public List<String> getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(List<String> endDate) {
-		this.endDate = endDate;
-	}
 
 	public List<Integer> getGubunCode() {
 		return gubunCode;
@@ -83,6 +76,22 @@ public class PayOrder {
 
 	public void setCartCode(List<Integer> cartCode) {
 		this.cartCode = cartCode;
+	}
+
+	public List<String> getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(List<String> startDate) {
+		this.startDate = startDate;
+	}
+
+	public List<String> getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(List<String> endDate) {
+		this.endDate = endDate;
 	}
 
 }

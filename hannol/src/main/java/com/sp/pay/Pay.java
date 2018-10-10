@@ -31,6 +31,7 @@ public class Pay {
 	private List<Pay> plist2;
 	private String curDate;
 	private String endDate;
+	private String startDate;
 	private String payDate;
 
 	private int dcPay;
@@ -237,6 +238,14 @@ public class Pay {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 
 	public String getPayDate() {

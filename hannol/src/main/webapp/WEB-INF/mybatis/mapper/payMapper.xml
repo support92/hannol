@@ -48,7 +48,7 @@
 		SELECT ticket_seq.NEXTVAL, a.*
 		FROM(
 		<foreach collection="plist" item="plist" index="index" separator=" UNION ALL " close=")a">
-			SELECT #{plist.endDate}, #{plist.endDate}, #{plist.gubunCode}, #{payCode}, #{plist.goodsCode}
+			SELECT #{plist.startDate}, #{plist.endDate}, #{plist.gubunCode}, #{payCode}, #{plist.goodsCode}
 			FROM dual
 		</foreach>
 	</update>
