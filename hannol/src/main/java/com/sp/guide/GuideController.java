@@ -209,25 +209,27 @@ public class GuideController {
 	}
 
 	@RequestMapping(value = "/guide/createBook")
-	public String bookSubmit(Guide dto, int schCode) throws Exception {
-
+	public String bookSubmit(Guide dto, int schCode, RedirectAttributes redirectAttributes) throws Exception {
+		
 		dto.setSchCode(schCode);
 		// 예약하기 연결
 		service.insertBook(dto);
 
-		return "redirect:/guide/info?schCode=" + dto.getSchCode();
+		redirectAttributes.addFlashAttribute("msg", "예약 완료되었습니다. 마이페이지에서 예약을 확인하실 수 있습니다");
+		return "redirect:/guide/list";
 	}
 
 	@RequestMapping(value = "/guide/delete")
 	public String delete(@RequestParam(value = "schCode") int schCode,
 			@RequestParam(value = "usersCodeM") Integer usersCodeM) throws Exception {
+		
 		// 예약한 회원이 있는 경우 예약한 일정 코드를 0으로 바꿔주고 일정은 삭제
 		boolean isBooked = false;
 		if (usersCodeM != null) {
 			isBooked = true;
 		}
 		service.deleteGuide(schCode, isBooked);
-
+		
 		return "redirect:/guide/list";
 	}
 
