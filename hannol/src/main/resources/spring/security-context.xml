@@ -28,6 +28,7 @@
 		<intercept-url pattern="/member/userEmailCheck" access="permitAll"/>
 		<intercept-url pattern="/member/logout" access="permitAll"/>
 		<intercept-url pattern="/resource/**" access="permitAll"/> <!-- img,css,javascript -->
+		<intercept-url pattern="/uploads/**" access="permitAll" /> <!-- 게시글 관련 이미지 -->
 		
 		<!-- 회사소개 -->
 		<intercept-url pattern="/company/**" access="permitAll"/>
