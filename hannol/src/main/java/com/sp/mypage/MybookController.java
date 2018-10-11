@@ -231,9 +231,8 @@ public class MybookController {
 					dto.setState(1); //대기중
 				}
 			}
-			String listUrl = cp + "/mybook/"+gubunCode+"/list";
 			
-			String paging = myUtil.paging(current_page, total_page, listUrl);
+			String paging = myUtil.paging(current_page, total_page);
 			
 			model.addAttribute("list", list);
 			model.addAttribute("dataCount", dataCount);
