@@ -8,10 +8,10 @@
 
 <footer class="bs-docs-footer" role="contentinfo">
 	<div class="footer_top nounderline">
-		<a href="#">테마파크 소개</a>&nbsp;&nbsp;&nbsp; <a href="#">제휴 및 입점 문의</a>&nbsp;&nbsp;&nbsp;
+		<a href="<%=cp%>/company/info">테마파크 소개</a>&nbsp;&nbsp;&nbsp; <a href="<%=cp%>/company/way">오시는길</a>&nbsp;&nbsp;&nbsp;<a href="#">제휴 및 입점 문의</a>&nbsp;&nbsp;&nbsp;
 		<a href="#">이용약관</a>&nbsp;&nbsp;&nbsp; <a href="#"
-			style="color: tomato;">개인정보취급방침</a>&nbsp;&nbsp;&nbsp; <a href="#">고객센터</a>&nbsp;&nbsp;&nbsp;
-		<a href="#">채용</a>&nbsp;&nbsp;&nbsp; <a href="#">사이트맵</a>&nbsp;&nbsp;&nbsp;
+			style="color: tomato;">개인정보취급방침</a>&nbsp;&nbsp;&nbsp; <a href="<%=cp%>/faq/list">고객센터</a>&nbsp;&nbsp;&nbsp;
+		<a href="<%=cp%>/notice/list">채용 및 공지</a>&nbsp;&nbsp;&nbsp; <a href="#">사이트맵</a>&nbsp;&nbsp;&nbsp;
 	</div>
 
 	<div align="center" style="clear: both; display: block;">
