@@ -448,7 +448,7 @@ function validOk() {
 						<input type="hidden" name="plist[<%=n%>].gubunCode" value="${dto.gubunCode}">
 						<input type="hidden" name="plist[<%=n%>].endDate" value="${dto.endDate}">
 						<input type="hidden" name="plist[<%=n%>].startDate" value="${dto.startDate}">
-						<input type="hidden" name="parentCode" value="${dto.parentCode}">
+						<input type="hidden" name="plist[<%=n%>].parentCode" value="${dto.parentCode}">
 						${dto.goodsName}
 					</td>
 					<td class="customer_col2">
