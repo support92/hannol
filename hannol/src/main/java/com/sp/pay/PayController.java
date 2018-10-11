@@ -98,7 +98,7 @@ public class PayController {
 				pay.setEndDate(dto.getEndDate().get(i));
 
 			if (dto.getGubunCode().get(i) == 4 || dto.getGubunCode().get(i) == 6)
-				usableCount++;
+				usableCount += dto.getQuantity().get(i);
 
 			if (dto.getCartCode() != null)
 				pay.setCartCode(dto.getCartCode().get(i));

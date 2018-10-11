@@ -242,6 +242,7 @@ function priceCheck(){
 	var $coupon = $("#couponSelect option:selected");
 	couponPrice = $coupon.val();
 	
+	var gubunCode = ${gubunCode};	
 	var total = totalCount();
 	if(total < ${usableCount}){
 		if(couponPrice != 0){
@@ -264,7 +265,7 @@ function priceCheck(){
 			$("#couponSelect > option[value='0']").attr("selected","selected");
 			
 		}
-	}else{
+	}else if(gubunCode == 1){
 		alert("티켓 사용 가능 개수는 "+${usableCount}+"매입니다.");	
 		$("#couponSelect").val("0");
 		return;
