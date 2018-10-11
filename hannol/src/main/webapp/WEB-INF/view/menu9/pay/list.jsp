@@ -241,31 +241,33 @@ function priceCheck(){
 	
 	var $coupon = $("#couponSelect option:selected");
 	couponPrice = $coupon.val();
-	if(couponPrice != 0){
-		couponCode = $coupon.attr("data-couponCode");
-		couponName = $coupon.attr("data-couponName");
 	
-	
-		var html ="<li data-couponCode="+couponCode+">";
-			html+="<span class='input-count'></span>";
-			html+="<span style='float:left; margin-right:10px;'>"+couponName+"</span>";
-			html+="<span><button type='button' class='btn_delete'></button></span>";
-				html+="<input type='hidden' name='couponPrice' value="+couponPrice+">";
-				html+="<input type='hidden' name='couponCode' value="+couponCode+">";
-				html+="<input type='hidden' name='couponName' value="+couponName+">";
-				html+="</li>";
-	
-			$("#coupon_result").find("ul").append(html);
+	var total = totalCount();
+	if(total < ${usableCount}){
+		if(couponPrice != 0){
+			couponCode = $coupon.attr("data-couponCode"); 
+			couponName = $coupon.attr("data-couponName");
+		
+		
+			var html ="<li data-couponCode="+couponCode+">";
+				html+="<span class='input-count'></span>";
+				html+="<span style='float:left; margin-right:10px;'>"+couponName+"</span>";
+				html+="<span><button type='button' class='btn_delete'></button></span>";
+					html+="<input type='hidden' name='couponPrice' value="+couponPrice+">";
+					html+="<input type='hidden' name='couponCode' value="+couponCode+">";
+					html+="<input type='hidden' name='couponName' value="+couponName+">";
+					html+="</li>";
+		
+				$("#coupon_result").find("ul").append(html);
+				
+			$("#couponSelect option:selected").remove();
+			$("#couponSelect > option[value='0']").attr("selected","selected");
 			
-		$("#couponSelect option:selected").remove();
-		$("#couponSelect > option[value='0']").attr("selected","selected");
-		
-		var total = totalCount();
-		if(total > ${usableCount}){
-			alert("티켓 사용 가능 개수는 "+${usableCount}+"매입니다.");
-			return;
 		}
-		
+	}else{
+		alert("티켓 사용 가능 개수는 "+${usableCount}+"매입니다.");	
+		$("#couponSelect").val("0");
+		return;
 	}
 	
 	
