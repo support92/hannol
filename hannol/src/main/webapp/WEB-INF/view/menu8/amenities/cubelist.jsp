@@ -183,7 +183,6 @@ function ajaxHTML2(url, type, idnum, pickDate, day, name, tel){
 			$("#showlayout").html(data);
 		},
 		beforeSend:function(jqXHR){
-			alert('ajaxHtml2 보내기 전 ++++++++++++++++++++++++++++++++++++++++');
 			jqXHR.setRequestHeader("AJAX", true);
 		},
 		error:function(jqXHR){
@@ -202,39 +201,6 @@ function cancel(){
 	
 	location.href="<%=cp%>/amenities/cancel?pickDate="+pickDate+"&day="+day; 
 }
-<%-- 
-
-
-function cancel(){
-	alert("예약취소~~~~~~~~~~~~~~~");
-	var url="<%=cp%>/amenities/cancel";
-	ajaxCancel(url, day,"post", pickDate);
-}
-
-function ajaxCancel(url, day, type, pickDate){
-	$.ajax({
-		type:type,
-		url:url,
-		data:{day:day, pickDate:pickDate},
-		success:function(data){
-			if($.trim(data)=="error"){
-				listPage("프린세스빌리지","에러");
-				alert("에러남");
-				return;
-			}
-		},
-		beforeSend:function(jqXHR){
-			jqXHR.setRequestHeader("AJAX", true);
-		},
-		error:function(jqXHR){
-			if(jqXHR.status==403){
-				location.href="<%=cp%>/member/login";
-				return;
-			}
-			console.log(jqXHR.responseText);
-		}
-	});
-} --%>
 
 </script>
 
