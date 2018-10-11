@@ -113,7 +113,7 @@
 	</select>
 	
 	<select id="readGift" parameterType="Integer" resultType="com.sp.giftshop.GiftShop">
-		SELECT g.goodsCode, goodsName, price, state, g.gubuncode, gubunName, memo as content, NVL(likeGoods,0) likeCount, NVL(quantity,0) quantity
+		SELECT g.goodsCode, goodsName, price, state, g.gubuncode, gubunName, memo as content, NVL(likeGoods,0) likeCount, NVL(quantity,0) quantity, parentCode
 		FROM goods g 
 		LEFT JOIN (
 		    select SUM(quantity) likeGoods, goodsCode from paymentInfo
