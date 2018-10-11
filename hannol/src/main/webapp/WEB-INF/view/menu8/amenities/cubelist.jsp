@@ -8,7 +8,8 @@
 
 <style>
 	.cube_box{margin:20px 0; padding:15px; text-align:center; background-color:#fafafa; border:1px solid #efefef;}
-	.cube_box{margin:50px auto;}
+	.cube_box{margin:auto;}
+	.cube_box_subject{padding:10px; font-weight: bold;}
 	/* .cube_box1 td{position:relative; width:120px; height:70px; text-align:center; color:#757575; background-color:##9999cc; border:1px solid #ccc; cursor:pointer;}
 	.cube_box1 td:hover{background-color:#f8f8f8; z-index:1;}  */
 	#cube1{background-color: #ffccff;}

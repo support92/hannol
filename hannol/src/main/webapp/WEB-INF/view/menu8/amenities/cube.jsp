@@ -14,6 +14,9 @@
 </script>
 
 <div class="assetsContents">
+	<div class="cube_box_subject">
+	프린세스 빌리지
+	</div>
 		<div class="princess cube">
 			<table class="cube_box" id="cube1"> 
 				<tr>
@@ -172,6 +175,9 @@
 			</table>
 		</div>
 	
+	<div class="cube_box_subject">
+	토이스토리
+	</div>
 		<div class="toystory cube">
 			<table class="cube_box" id="cube2"> 
 				<tr>
@@ -330,7 +336,9 @@
 				
 			</table>
 		</div>		
-		
+	<div class="cube_box_subject">
+	미니언즈
+	</div>
 		<div class="minians cube">
 			<table class="cube_box" id=cube3> 
 				<tr>
@@ -488,7 +496,11 @@
 				</tr>
 			</table>
 		</div>		
-		
+	
+	
+	<div class="cube_box_subject">
+	라이언킹
+	</div>	
 		<div class="princess cube">
 			<table class="cube_box" id=cube4> 
 				<tr>
@@ -647,6 +659,9 @@
 			</table>
 		</div>		
 		
+	<div class="cube_box_subject">
+	니모
+	</div>
 		<div class="princess cube">
 			<table class="cube_box" id=cube5> 
 				<tr>
