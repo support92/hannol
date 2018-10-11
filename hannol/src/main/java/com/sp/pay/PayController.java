@@ -313,6 +313,7 @@ public class PayController {
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("curDate", curDate);
 		model.addAttribute("year", year);
+		model.addAttribute("subMenu", "2");
 
 		return ".four.menu3.mypage.paylist";
 	}

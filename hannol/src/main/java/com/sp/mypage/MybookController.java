@@ -46,7 +46,7 @@ public class MybookController {
 		// model - tab
 		model.addAttribute("tab", tab);
 		model.addAttribute("pageNo", page);
-		model.addAttribute("subMenu", "1");
+		model.addAttribute("subMenu", "3");
 
 		return ".four.menu3.mypage.myBook";
 	}

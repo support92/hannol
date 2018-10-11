@@ -37,6 +37,7 @@ public class CouponController {
 
 		model.addAttribute("page", page);
 		model.addAttribute("thema", thema);
+		model.addAttribute("subMenu", "1");
 		
 
 		return ".four.menu3.mypage.couponList";
@@ -170,6 +171,7 @@ public class CouponController {
 
 		List<Grade> glist = service.gradelist();
 		model.addAttribute("glist", glist);
+		model.addAttribute("subMenu", "4");
 		
 		return ".four.menu3.mypage.rankCouponList";
 	}

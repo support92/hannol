@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sp.card.Card;
 import com.sp.common.MyUtilGeneral;
 import com.sp.member.SessionInfo;
 
@@ -30,7 +29,6 @@ public class QuestionController {
 	@RequestMapping(value = "/question/question")
 	public String question(Model model) throws Exception {
 
-		model.addAttribute("subMenu", "4");
 
 		return ".four.menu2.question.question";
 	}
@@ -100,7 +98,7 @@ public class QuestionController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("articleUrl", articleUrl);
 		model.addAttribute("dataCount", dataCount);
-		model.addAttribute("subMenu", "7");
+		model.addAttribute("subMenu", "5");
 
 		return ".four.menu3.mypage.question";
 	}
