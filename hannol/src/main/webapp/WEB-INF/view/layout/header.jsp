@@ -20,7 +20,7 @@
                 <c:if test="${sessionScope.member.memberId=='admin'}">
                     <a href="#">관리자</a> <i></i>
                 </c:if>
-            	<a href="<%=cp%>/mypage/myBook">마이페이지</a><i></i>
+            	<a href="<%=cp%>/mypage/couponList">마이페이지</a><i></i>
             	<a href="<%=cp%>/giftshop/cart"><span class="glyphicon glyphicon-shopping-cart"></span> 장바구니</a><i></i>
             	<a href="<%=cp%>/member/logout"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
             </c:if>
