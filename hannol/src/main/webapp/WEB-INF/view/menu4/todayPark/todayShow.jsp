@@ -48,7 +48,7 @@ function ajaxHTML(url, type, query) {
 
 
 function detailShow(showInfoCode) {
-	var screenDate = $("span[class=activeDate]").attr('screenDate');
+	var screenDate = dateToString(new Date());
 	
 	var url = "<%=cp%>/show/article";
 	var query = "subMenu=3&showInfoCode=" + showInfoCode + "&screenDate=" + screenDate;
