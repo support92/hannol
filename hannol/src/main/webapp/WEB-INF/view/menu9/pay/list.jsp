@@ -267,9 +267,7 @@ function priceCheck(){
 			
 		}
 	}else if(gubunCode == 1 && realGubunCode != 8){
-		alert("티켓 사용 가능 개수는 "+${usableCount}+"매입니다.");	
 		$("#couponSelect").val("0");
-		return;
 	}
 	
 	
@@ -311,7 +309,6 @@ function priceCheck(){
 				html += "<input type='hidden' name='useCoupon' value='"+data.useCoupon+"'>";
 				html += "<input type='hidden' name='couponPriced' value='"+data.couponPrice+"'>";
 				html += "<input type='hidden' name='cardPriced' value='"+data.cardPrice+"'>";
-				
 			$("#hiddenPay").html(html);	
 			
 			if(data.payPrice2 < 50000){
