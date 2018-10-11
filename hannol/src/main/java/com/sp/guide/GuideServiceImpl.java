@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -148,10 +149,10 @@ public class GuideServiceImpl implements GuideService {
 	}
 
 	@Override
-	public int checkDoublebook(String workDate) throws Exception {
+	public int checkDoublebook(Map<String, Object> map) throws Exception {
 		int result = 0;
 		try {
-			result = dao.selectOne("guide.checkDoublebook", workDate);
+			result = dao.selectOne("guide.checkDoublebook", map);
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

@@ -1,6 +1,7 @@
 package com.sp.guide;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GuideService {
 	public List<Guide> staffList() throws Exception;
@@ -13,7 +14,7 @@ public interface GuideService {
 	
 	public List<Guide> checkTicket1(int usersCodeM) throws Exception;
 	public List<Guide> checkTicket2(int usersCodeM) throws Exception;
-	public int checkDoublebook(String workDate) throws Exception;
+	public int checkDoublebook(Map<String, Object> map) throws Exception;
 	
 	public Guide getGuideBookCancleDay(int payCode)throws Exception;
 	public int okTicketIfPayCancled(int payCode)throws Exception;

@@ -66,11 +66,11 @@
 		WHERE M1.USERSCODE = #{usersCode} 
 	</select>
 	
-	<select id="checkDoublebook" parameterType="String" resultType="Integer">
+	<select id="checkDoublebook" parameterType="map" resultType="Integer">
 		SELECT NVL(COUNT(*),0) 
 		FROM GUIDEBOOK GB
 		JOIN GUIDE G ON G.SCHCODE = GB.SCHCODE
-		WHERE WORKDATE = #{workDate}
+		WHERE WORKDATE = #{workDate} AND GB.USERSCODE = #{usersCodeM}
 	</select> 
 	
 	<select id="okTicketIfPayCancled" parameterType="Integer" resultType="Integer">

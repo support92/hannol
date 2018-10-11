@@ -162,8 +162,11 @@ public class GuideController {
 			redirectAttributes.addFlashAttribute("msg", "선택하신 날에 대한 입장권이 있어야 예약가능합니다");
 			return "redirect:/guide/list";
 		}
-
-		int checkDoublebook = service.checkDoublebook(workDate);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("workDate", workDate);
+		map.put("usersCodeM", usersCodeM);
+		int checkDoublebook = service.checkDoublebook(map);
 		if (checkDoublebook > 0) {
 			// 하루에 가이드서비스는 한번만 예약가능
 			redirectAttributes.addFlashAttribute("msg", "가이드서비스는 하루에 한번만 예약가능합니다");
