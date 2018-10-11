@@ -96,7 +96,7 @@
 		
 		$("#ridesInfoModel").dialog({
 			title : "놀이기구 정보",
-			width : 480,
+			width : 580,
 			height : 700,
 			modal : true,
 			open : function() {
