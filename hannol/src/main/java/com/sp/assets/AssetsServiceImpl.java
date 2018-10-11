@@ -327,4 +327,16 @@ public class AssetsServiceImpl implements AssetsService{
 		return res;
 	}
 
+	@Override
+	public int assetsCode(Map<String, Object> map) {
+		int code = 0;
+		try {
+			code=dao.selectOne("assets.assetsCode", map);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+		
+		return code;
+	}
+
 }

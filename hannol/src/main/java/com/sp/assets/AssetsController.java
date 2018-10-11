@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.set.SynchronizedSortedSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -486,6 +487,8 @@ public class AssetsController {
 				}
 			}
 	
+			int themeCode=(idnum/10)+1;
+			
 			map.put("date", date);
 			map.put("daynum", daynum);
 			map.put("usersCode", usersCode);
@@ -494,6 +497,12 @@ public class AssetsController {
 			map.put("tel", tel);
 			map.put("name", name);
 			map.put("lockerNum", lockerNum);
+			map.put("themeCode", themeCode);
+			
+			
+			int assetsCode=service.assetsCode(map);
+			
+			map.put("assetsCode",assetsCode);
 			
 			//이용권 있는 회원만 보관함 예약 가능
 			int goods = service.checkGoods(map);
@@ -580,7 +589,7 @@ public class AssetsController {
 			model.addAttribute("check","취소실패");
 			model.addAttribute("day",day);
 			model.addAttribute("date",pickDate);
-			return "/menu8/amenities/cubelist"; 
+			return ".four.menu8.amenities.cubelist"; 
 
 		}
 		System.out.println(day+"::::::::::"+pickDate+":::::::::::");

@@ -38,4 +38,5 @@ public interface AssetsService {
 	public int payBookCode(int payCode);
 	public int paydeleteLocker(int cubepayCode);
 	public int paydeleteBook(int cubepayCode);
+	public int assetsCode(Map<String, Object> map);
 }

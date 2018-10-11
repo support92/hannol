@@ -106,7 +106,7 @@
 	
 	<insert id="insertCube" parameterType="map" >
 		insert into assetsBook(bookCode, bookDate, useDate, bookTime, state, tel, usersCode, assetsCode, name) 
-		values(assetsBook_seq.Nextval, to_date(#{date},'yyyymmdd'), to_date(#{pickDate},'yyyy-mm-dd'), #{daynum}, 0, #{tel}, #{usersCode}, 3, #{name})
+		values(assetsBook_seq.Nextval, to_date(#{date},'yyyymmdd'), to_date(#{pickDate},'yyyy-mm-dd'), #{daynum}, 0, #{tel}, #{usersCode}, #{assetsCode}, #{name})
 	</insert>
 	
 <!-- 	<insert id="insertCube1" parameterType="map" >
@@ -122,6 +122,16 @@
 				where useDate =#{pickDate} and bookTime=#{daynum} and userscode=#{usersCode}
 		        order by a.bookCode desc)tb)
 		where rnum=1
+		
+	</select>
+	
+	<select id="assetsCode" parameterType="map" resultType="Integer">
+		select assetsCode from
+			(select rownum rnum, tb.* from
+			(select *from assets a 
+			join facility f on f.facilityCode=a.facilityCode
+			where a.gubunCode=3 and themeCode=#{themeCode})tb)
+					where rnum=1
 	</select>
 	
 	<insert id="insertCube2" parameterType="map">
@@ -173,8 +183,14 @@
 	</select>
 	
 	<delete id="cancel" parameterType="map">
-		delete from assetsBook
-		where usersCode = #{usersCode} and assetsCode =3
+		
+		delete from assetsBook where assetsCode =(
+		select assetsCode from
+		(select rownum rnum, tb.* from
+		(select * from assetsBook
+				where usersCode = #{usersCode} order by bookcode desc
+		        )tb)
+				where rnum=1)
 	</delete>
 	
 	<delete id="cancelLocknum" parameterType="Integer">
