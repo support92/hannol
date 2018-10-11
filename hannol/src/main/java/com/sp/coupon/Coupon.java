@@ -13,6 +13,7 @@ public class Coupon {
 	private int payCode;
 	private int goodsCode;
 	private int quantity;
+	private int parentCode;
 
 	public int getListNum() {
 		return listNum;
@@ -108,6 +109,14 @@ public class Coupon {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	public int getParentCode() {
+		return parentCode;
+	}
+
+	public void setParentCode(int parentCode) {
+		this.parentCode = parentCode;
 	}
 
 }
