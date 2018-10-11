@@ -169,7 +169,7 @@ public class MybookController {
 				String useDate = dto.getUseDate(); //사용예정일
 				int Compare = useDate.compareTo(today);  
 				 
-				if(Compare<0 && (dto.getState()==0 || dto.getState()==2)) { //기간이 지나고 아직 예약(0)이거나 대여중(2)이면 기간만료 처리
+				if((dto.getState()==0 || dto.getState()==2) && Compare<0 ) { //기간이 지나고 아직 예약(0)이거나 대여중(2)이면 기간만료 처리
 					service.expireAssetsBook(dto.getBookCode()); //기간만료
 				}
 			}   
