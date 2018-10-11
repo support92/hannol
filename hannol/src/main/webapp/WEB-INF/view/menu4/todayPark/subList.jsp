@@ -30,7 +30,7 @@
 									보통
 								</c:when>
 								<c:when test="${dto.waiting < 69}">
-									대기
+									조금많음
 								</c:when>
 								<c:when test="${dto.waiting < 99}">
 									많음
@@ -43,7 +43,7 @@
 					</c:if>
 					<c:if test="${dto.waiting==-1}">
 						<div>
-							&nbsp;
+							혼잡
 						</div>
 					</c:if>
 				</div>

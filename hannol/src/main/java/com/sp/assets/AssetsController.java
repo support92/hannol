@@ -500,7 +500,7 @@ public class AssetsController {
 			
 			System.out.println(goods+"===============================");
 			
-			if(goods!=1 && goods!=3 && goods!=4 && goods!=5 && goods!=6 && goods!=7 && goods!=8 && goods!=9 && goods!=15) {
+			if(goods>15) {
 				System.out.println("왓?!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 				model.addAttribute("check","해당 날짜의 가능한 이용권이 없습니다.");
 				model.addAttribute("day",day);
