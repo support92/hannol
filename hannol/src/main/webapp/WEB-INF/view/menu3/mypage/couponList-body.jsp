@@ -80,7 +80,7 @@
 										<h5>${dto.gubunName} - ${dto.goodsName}</h5>
 									</div>
 									<div align="center" style="width: 100%; margin: 30px auto; border-spacing: 0px;">
-										<c:if test="${dto.gubunCode == 8 || now eq dto.endDate}">
+										<c:if test="${dto.gubunCode != 2 && (dto.gubunCode == 8 || now eq dto.endDate)}">
 		   								<button id="useCouponButton" type="button" class="btn btn-info" style="font-weight: bold;" data-couponCode='${code}' data-gubunCode='${dto.gubunCode}'>${couponType == 0?"사용" : "입장"}</button>
 		     	 						</c:if>
 		     	 						<button type="button" class="btn btn-default" data-dismiss="modal" style="font-weight: bold;">취소</button>
