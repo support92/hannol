@@ -21,14 +21,14 @@
 					<img width="100px;" src="<%=cp%>/resource/images/footericon.png" style="margin-top: 20px; margin-right: 30px;">
 				</p>
 			</div>
-			<div style="float: left; margin-top: 20px;" align="left" class="subfooter">
+			<div style="margin-top: 20px;" align="left" class="subfooter">
 				<p>
 					<span>서울특별시 송파구 올림픽로 240 호텔롯데 롯데월드</span> 
 					<span>발표자   : 이지영</span>
 				</p>
 				<p>
 					<span>사업자등록번호 : 219-85-00014</span> 
-					<span>통신판매업신고번호   : 송파 제5513호</span> 
+					<span>통신판매업신고번호   : 송파 제5513호</span><br> 
 					<span>전화 : 1661-2000</span>
 				</p>
 				<p style="float: left; margin-top: 15px;" align="left">
