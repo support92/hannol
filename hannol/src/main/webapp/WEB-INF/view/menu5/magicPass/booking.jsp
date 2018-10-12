@@ -106,6 +106,13 @@ $(function(){
 		alert(msg);
 	}
 	
+	var thema = "${thema}";
+	$(".form-control option").each(function(){
+		if($(this).val()==thema){
+			$(this).attr('selected',true);
+		}
+	})
+	
 	//예약하기 모달창 띄우기
 	$(".btn-magicPass").click(function(){
 		var facilityCode = $(this).attr("data-facilityCode");
@@ -145,7 +152,7 @@ $(function(){
 				//이용권 추가
 				var html = "";
 				for(var i=0; i < data.ticketList.length; i++){
-					html+="<span class='check-ticket'><input type='checkbox' name='ticketCode' data-gubun="+data.ticketList[i].ticketGubun+" value="+data.ticketList[i].ticketsCode+">"+data.ticketList[i].goodsName+"</span>";
+					html+="<span class='check-ticket'><input type='checkbox' name='ticketCode' data-gubun="+data.ticketList[i].ticketGubun+" value="+data.ticketList[i].ticketsCode+">"+"["+data.ticketList[i].gubunName+"]"+data.ticketList[i].goodsName+"</span>";
 				}
 				
 				$(".p-ticket").html(html);

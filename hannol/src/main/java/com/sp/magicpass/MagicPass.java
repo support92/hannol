@@ -19,6 +19,15 @@ public class MagicPass {
 	private long usersCode;
 	private int cnt;
 	private int ticketGubun;
+	private String gubunName;
+
+	public String getGubunName() {
+		return gubunName;
+	}
+
+	public void setGubunName(String gubunName) {
+		this.gubunName = gubunName;
+	}
 
 	public int getTicketGubun() {
 		return ticketGubun;
