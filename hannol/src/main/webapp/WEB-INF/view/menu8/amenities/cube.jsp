@@ -6,12 +6,6 @@
    String cp = request.getContextPath();
 %>
 <script type="text/javascript">
-/* $(function(){
-	var check='${alarm}';
-		if(check=='취소완료')
-			alert(check);
-}); */
-</script>
 
 <div class="assetsContents">
 	<div class="cube_box_subject">
