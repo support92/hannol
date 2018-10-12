@@ -7,7 +7,7 @@
 %>
 
 <div class="body-container">
-    <div style="margin: 0px auto; padding-top:90px; width:420px;">
+    <div align="center" style="margin: 0px auto; padding-top:90px; width:420px;">
     	<div style="text-align: center;">
         	<span style="font-weight: bold; font-size:27px; color: #424951;">${title}</span>
         </div>
