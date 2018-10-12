@@ -7,8 +7,8 @@
 %>
 
 <script type="text/javascript">
-function cardDetail(){	
-	$("#cardModal").modal();
+function cardDetail(cardCode){	
+	$("#cardModal"+cardCode).modal();
 }
 
 function searchList() {
@@ -117,9 +117,9 @@ function searchList() {
 		      </td>
 		      
 		      <td width="15%">
-		      	 <button type="button" class="btn btn-default btn-info" onclick="cardDetail()">상세정보</button>
+		      	 <button type="button" class="btn btn-default btn-info" onclick="cardDetail(${dto.cardCode})">상세정보</button>
 		      	 
-		      	 <div style="display: none;" id="cardModal" role="dialog" class="modal" tabindex="-1">
+		      	 <div style="display: none;" id="cardModal${dto.cardCode}" role="dialog" class="modal" tabindex="-1">
 		      	 <div class="modal-dialog">
 		      	 <div class="modal-content">
 		      	 	<div class="modal-header">
