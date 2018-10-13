@@ -16,8 +16,12 @@
 <script>
 	//편의시설 예약 삭제
 	$(function(){
-		$(document).off("click").on("click", "button[name=assetsDelete]", function(){  
-			var data = "";
+		$("button[name=assetsDelete]").off().on("click", function(){ 
+			if(!confirm("예약을 취소하시겠습니까?")){
+				return;
+			}  
+			
+			var data = ""; 
 			
 			//체크된것들 리스트에 넣음
 			$("input[name=chk]:checked").each(function(){
