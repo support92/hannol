@@ -77,9 +77,10 @@
 	
 	<!-- 이용권 리스트 -->
 	<select id="ticketList" resultType="map" parameterType="Long">
-		SELECT DISTINCT ticketCode AS ticketsCode, goodsName, usersCode, gubun AS ticketGubun 
+		SELECT DISTINCT ticketCode AS ticketsCode, goodsName, gubunName, usersCode, gubun AS ticketGubun 
 		FROM ticket t
 		JOIN goods g ON t.goodsCode=g.goodsCode
+		JOIN goodsGubun gg ON g.gubunCode=gg.gubunCode
 		JOIN payment p ON p.payCode = t.payCode
 		WHERE TO_CHAR(SYSDATE, 'YYYY-MM-DD') BETWEEN TO_CHAR(startDate, 'YYYY-MM-DD') AND TO_CHAR(endDate, 'YYYY-MM-DD')   
 		AND usersCode=#{usersCode}

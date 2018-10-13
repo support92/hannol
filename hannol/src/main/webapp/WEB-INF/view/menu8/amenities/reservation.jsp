@@ -250,8 +250,8 @@
 							<select name="ticketsCode" class="TFbox" data-name="이용권을">
 								<option value="0">선택</option>  
 								<c:forEach var="list" items="${ticketList}">
-									<option value="${list.TICKETSCODE}" data-gubun="${list.TICKETGUBUN}">${list.GOODSNAME}</option>
-								</c:forEach>
+									<option value="${list.TICKETSCODE}" data-gubun="${list.TICKETGUBUN}">[${list.GOODSNAME}] ${list.GUBUNNAME}</option>
+								</c:forEach>  
 							</select>
 						</td>
 					</tr> 
